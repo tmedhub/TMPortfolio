@@ -1,960 +1,1267 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Museum of Me</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Thanima Portfolio</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <style>
+    :root{
+      --bg:#050505;
+      --gold:#f5d9a6;
+      --gold-soft:rgba(245,217,166,.16);
+      --panel:rgba(12,10,9,.62);
+      --text:#f7ecd8;
+      --muted:rgba(247,236,216,.72);
+      --shadow:0 20px 60px rgba(0,0,0,.45);
+      --radius:28px;
+      --x:50%;
+      --y:50%;
+      --torchW:420px;
+      --torchH:620px;
+    }
 
-<style>
-:root{
-  --x:50%;
-  --y:50%;
-  --torchW:420px;
-  --torchH:620px;
-}
-*{margin:0;padding:0;box-sizing:border-box;}
+    *{margin:0;padding:0;box-sizing:border-box;}
+    html,body{background:#000;color:var(--text);font-family:Georgia,serif;scroll-behavior:smooth;overflow-x:hidden;}
+    body{min-height:100vh;}
+    a{text-decoration:none;color:inherit;}
+    button{font:inherit;color:inherit;background:none;border:none;}
+    img{max-width:100%;display:block;}
 
-body{
-  font-family:"Georgia",serif;
-  background:black;
-  overflow:hidden;
-  cursor:none;
-  color:#f5d9a6;
-}
+    /* ---------- FIXED UI ---------- */
+    .ui-btn{
+      position:fixed;
+      top:22px;
+      z-index:300;
+      padding:.9rem 1.15rem;
+      border-radius:999px;
+      border:1px solid rgba(245,217,166,.38);
+      background:rgba(8,8,8,.36);
+      backdrop-filter:blur(14px);
+      -webkit-backdrop-filter:blur(14px);
+      box-shadow:0 12px 32px rgba(0,0,0,.24);
+      color:var(--gold);
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      font-size:.76rem;
+      cursor:pointer;
+      transition:transform .3s ease, background .3s ease, border-color .3s ease, opacity .3s ease;
+    }
+    .ui-btn:hover{
+      transform:translateY(-2px);
+      background:rgba(20,16,13,.62);
+      border-color:rgba(245,217,166,.62);
+    }
+    .menu-btn{left:22px;}
+    .work-btn{right:22px;}
 
-/* ───────── TORCH SCENE ───────── */
-#scene{
-  position:fixed;
-  inset:0;
-  background:url("museumofmee.png") center bottom/cover no-repeat;
-  z-index:1;
-}
-#darkness{
-  position:fixed;
-  inset:0;
-  background:black;
-  pointer-events:none;
-  mask-image:radial-gradient(
-    var(--torchW) var(--torchH) at var(--x) var(--y),
-    transparent 0%,
-    rgba(0,0,0,.25) 35%,
-    black 65%
-  );
-  -webkit-mask-image:radial-gradient(
-    var(--torchW) var(--torchH) at var(--x) var(--y),
-    transparent 0%,
-    rgba(0,0,0,.25) 35%,
-    black 65%
-  );
-  transition:opacity 2.2s ease;
-  z-index:10;
-}
-#torch{
-  position:fixed;
-  width:70px;
-  pointer-events:none;
-  transform:translate(-50%,-15%) rotate(-20deg);
-  z-index:20;
-}
-#enter{
-  position:fixed;
-  left:50%;
-  bottom:10%;
-  transform:translateX(-50%);
-  padding:.9rem 2.6rem;
-  font-size:1.2rem;
-  letter-spacing:.12em;
-  border:2px solid #f5d9a6;
-  background:rgba(0,0,0,.6);
-  color:#f5d9a6;
-  cursor:pointer;
-  opacity:0;
-  transition:.4s;
-  z-index:30;
-}
+    .menu-panel{
+      position:fixed;
+      top:74px;
+      left:22px;
+      z-index:320;
+      width:min(320px, calc(100vw - 44px));
+      border-radius:26px;
+      border:1px solid rgba(245,217,166,.18);
+      background:rgba(11,10,9,.82);
+      backdrop-filter:blur(18px);
+      -webkit-backdrop-filter:blur(18px);
+      box-shadow:0 20px 70px rgba(0,0,0,.45);
+      padding:1rem;
+      opacity:0;
+      pointer-events:none;
+      transform:translateY(-10px) scale(.98);
+      transition:opacity .28s ease, transform .28s ease;
+    }
+    .menu-panel.open{
+      opacity:1;
+      pointer-events:auto;
+      transform:translateY(0) scale(1);
+    }
+    .menu-head{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:1rem;
+      padding:.3rem .3rem .8rem;
+      border-bottom:1px solid rgba(245,217,166,.12);
+      margin-bottom:.6rem;
+    }
+    .menu-head span{
+      font-size:.72rem;
+      letter-spacing:.22em;
+      text-transform:uppercase;
+      color:rgba(245,217,166,.72);
+    }
+    .menu-close{
+      width:34px;height:34px;border-radius:50%;cursor:pointer;
+      display:grid;place-items:center;
+      border:1px solid rgba(245,217,166,.16);
+      color:var(--gold);
+    }
+    .menu-list{
+      display:grid;
+      gap:.45rem;
+    }
+    .menu-link{
+      width:100%;
+      text-align:left;
+      padding:1rem 1rem;
+      border-radius:18px;
+      cursor:pointer;
+      transition:background .25s ease, transform .25s ease;
+      border:1px solid transparent;
+    }
+    .menu-link:hover{
+      background:rgba(245,217,166,.06);
+      border-color:rgba(245,217,166,.14);
+      transform:translateX(3px);
+    }
+    .menu-link strong{
+      display:block;
+      font-weight:400;
+      font-size:1rem;
+      letter-spacing:.06em;
+      color:var(--text);
+    }
+    .menu-link span{
+      display:block;
+      margin-top:.28rem;
+      font-size:.72rem;
+      letter-spacing:.16em;
+      text-transform:uppercase;
+      color:rgba(245,217,166,.62);
+    }
 
-/* ───────── CARD HALL ───────── */
-#hall{
-  position:fixed;
-  inset:0;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
-  opacity:0;
-  pointer-events:none;
-  z-index:5;
-}
-#hall h1{
-  font-size:2.5rem;
-  letter-spacing:.3em;
-  margin-bottom:60px;
-  text-transform:uppercase;
-}
-.stack{
-  position:relative;
-  width:900px;
-  height:360px;
-  transform: scale(1.1);
-}
-.card{
-  position:absolute;
-  width:190px;
-  height:280px;
-  border-radius:18px;
-  overflow:hidden;
-  cursor:pointer;
-  transition:.4s ease;
-  box-shadow:0 25px 60px rgba(0,0,0,.85);
-  filter:none; /* always sharp */
-}
-.card img{width:100%;height:100%;object-fit:cover;}
-.card:nth-child(1){left:0;top:70px;transform:rotate(-18deg) scale(.9);}
-.card:nth-child(2){left:160px;top:30px;transform:rotate(-8deg) scale(.95);}
-.card:nth-child(3){left:355px;top:0;transform:scale(1.08);}
-.card:nth-child(4){left:550px;top:30px;transform:rotate(8deg) scale(.95);}
-.card:nth-child(5){left:710px;top:70px;transform:rotate(18deg) scale(.9);}
-.stack:hover .card:not(:hover){filter:blur(2px) brightness(.55);}
-.card:hover{transform:scale(1.28)!important;z-index:10;}
+    /* ---------- GENERAL ---------- */
+    .section{position:relative;width:100%;background:#050505;}
+    .section-title{
+      position:absolute;
+      left:50%;
+      transform:translateX(-50%);
+      bottom:4.5vh;
+      z-index:9;
+      font-size:.78rem;
+      letter-spacing:.28em;
+      text-transform:uppercase;
+      color:rgba(247,236,216,.72);
+      padding:.8rem 1rem;
+      border-radius:999px;
+      background:rgba(0,0,0,.2);
+      backdrop-filter:blur(8px);
+      border:1px solid rgba(245,217,166,.12);
+      white-space:nowrap;
+    }
 
-.label{
-  position:absolute;
-  inset:0;
-  display:flex;
-  align-items:flex-end;
-  padding:18px;
-  background:linear-gradient(to top,rgba(0,0,0,.85),transparent);
-  opacity:0;
-  transition:.3s;
-}
-.card:hover .label{opacity:1;}
+    /* ---------- HERO ---------- */
+    #hero{
+      height:160vh;
+      position:relative;
+      background:#000;
+    }
+    .hero-pin{
+      position:sticky;
+      top:0;
+      height:100vh;
+      overflow:hidden;
+    }
+    #scene{
+      position:absolute;
+      inset:0;
+      background:url('bg1.png') center center/cover no-repeat;
+      transform-origin:center center;
+      will-change:transform, filter;
+      z-index:1;
+    }
+    #darkness{
+      position:absolute;
+      inset:0;
+      background:black;
+      pointer-events:none;
+      mask-image:radial-gradient(
+        var(--torchW) var(--torchH) at var(--x) var(--y),
+        transparent 0%,
+        rgba(0,0,0,.25) 35%,
+        black 65%
+      );
+      -webkit-mask-image:radial-gradient(
+        var(--torchW) var(--torchH) at var(--x) var(--y),
+        transparent 0%,
+        rgba(0,0,0,.25) 35%,
+        black 65%
+      );
+      transition:opacity 2.2s ease;
+      z-index:10;
+    }
+    #torch{
+      position:absolute;
+      width:70px;
+      pointer-events:none;
+      transform:translate(-50%,-15%) rotate(-20deg);
+      z-index:20;
+      will-change:left,top,opacity;
+    }
+    .hero-overlay{
+      position:absolute;
+      inset:0;
+      z-index:16;
+      background:linear-gradient(180deg, rgba(0,0,0,.14), rgba(0,0,0,.06) 42%, rgba(0,0,0,.2));
+      pointer-events:none;
+    }
 
-.custom {
-  font-size: 1.09rem;
-}
+    /* ---------- CANVAS STUDIO ---------- */
+    #canvasStudio{
+      min-height:180vh;
+      background:radial-gradient(circle at center, rgba(255,180,104,.04), transparent 30%), #020202;
+      padding:10vh 0 12vh;
+    }
+    .canvas-wrap{
+      width:min(94vw, 1400px);
+      margin:0 auto;
+      position:relative;
+    }
+    .freeform-shell{
+      position:relative;
+      height:120vh;
+      border-radius:34px;
+      overflow:hidden;
+      background:#000;
+      border:1px solid rgba(245,217,166,.1);
+      box-shadow:var(--shadow);
+      cursor:grab;
+    }
+    .freeform-shell:active{cursor:grabbing;}
+    .freeform-title{
+      position:absolute;
+      inset:0;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      pointer-events:none;
+      z-index:3;
+    }
+    .freeform-title h2{
+      font-size:clamp(2rem,5vw,4.2rem);
+      letter-spacing:.34em;
+      text-transform:uppercase;
+      font-weight:400;
+      opacity:.42;
+    }
+    .freeform-inner{
+      position:absolute;
+      left:50%;
+      top:50%;
+      transform:translate(-50%,-50%);
+      width:2600px;
+      height:1900px;
+      will-change:transform;
+    }
+    .freeform-inner img{
+      position:absolute;
+      width:280px;
+      box-shadow:0 30px 80px rgba(0,0,0,.9);
+      user-select:none;
+      -webkit-user-drag:none;
+    }
 
-/* ───────── FREEFORM ───────── */
-#freeform{
-  position:fixed;
-  inset:0;
-  display:none;
-  background:black;
-  overflow:hidden;
-  cursor:grab;
-  z-index:100;
-}
-#freeform:active{cursor:grabbing;}
+    /* ---------- PATHWAY ---------- */
+    #pathway{
+      height:220vh;
+      background:#050505;
+      position:relative;
+    }
+    .pathway-pin{
+      position:sticky;
+      top:0;
+      height:100vh;
+      overflow:hidden;
+    }
+    .pathway-bg,
+    .pathway-bg-2{
+      position:absolute;
+      inset:0;
+      background-position:center center;
+      background-size:cover;
+      background-repeat:no-repeat;
+      will-change:transform, opacity, filter;
+    }
+    .pathway-bg{background-image:url('bg2.png'); z-index:1;}
+    .pathway-bg-2{background-image:url('bg3.png'); z-index:2; opacity:0;}
+    .pathway-overlay{
+      position:absolute;
+      inset:0;
+      z-index:3;
+      background:linear-gradient(180deg, rgba(0,0,0,.12), rgba(0,0,0,.18) 55%, rgba(0,0,0,.26));
+    }
 
-.freeform-inner{
-  position:absolute;
-  left:0;
-  top:0;
-}
+    /* ---------- ARCade PORTAL ---------- */
+    #arcadePortal{
+      height:260vh;
+      position:relative;
+      background:#030303;
+    }
+    .arcade-pin{
+      position:sticky;
+      top:0;
+      height:100vh;
+      overflow:hidden;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      perspective:1800px;
+      background:#030303;
+    }
+    .arcade-room,
+    .arcade-room-next{
+      position:absolute;
+      inset:0;
+      background-position:center center;
+      background-size:cover;
+      background-repeat:no-repeat;
+      will-change:transform, opacity, filter;
+    }
+    .arcade-room{background-image:url('bg4.png'); z-index:1;}
+    .arcade-room-next{background-image:url('bg5.png'); z-index:2; opacity:0;}
+    .arcade-room-overlay{
+      position:absolute;
+      inset:0;
+      z-index:3;
+      background:linear-gradient(180deg, rgba(0,0,0,.16), rgba(0,0,0,.26));
+    }
+    .machine-focus{
+      position:relative;
+      z-index:5;
+      width:min(42vw,520px);
+      aspect-ratio:.78;
+      border-radius:26px;
+      background:linear-gradient(180deg, #2f2217, #120d09);
+      box-shadow:0 35px 100px rgba(0,0,0,.52);
+      border:1px solid rgba(245,217,166,.14);
+      transform-style:preserve-3d;
+      will-change:transform, opacity;
+    }
+    .machine-screen{
+      position:absolute;
+      left:8%;
+      top:12.5%;
+      width:84%;
+      height:49.5%;
+      border-radius:18px;
+      overflow:hidden;
+      border:1px solid rgba(245,217,166,.12);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.01)),
+        radial-gradient(circle at center, rgba(255,170,92,.16), rgba(18,12,10,.94));
+      box-shadow:inset 0 0 54px rgba(0,0,0,.58), 0 0 90px rgba(255,148,68,.08);
+      transform-origin:center center;
+      will-change:transform, opacity, filter;
+    }
+    .machine-screen::before{
+      content:'';
+      position:absolute;
+      inset:0;
+      background:repeating-linear-gradient(180deg, rgba(255,255,255,.04) 0px, rgba(255,255,255,.04) 2px, transparent 2px, transparent 6px);
+      opacity:.18;
+      z-index:2;
+      pointer-events:none;
+    }
+    .machine-screen-glow{
+      position:absolute;
+      inset:-4%;
+      border-radius:22px;
+      border:1px solid rgba(245,217,166,.06);
+      box-shadow:0 0 80px rgba(255,164,90,.1);
+      z-index:1;
+    }
+    .machine-controls{
+      position:absolute;
+      left:50%;
+      bottom:16%;
+      width:72%;
+      transform:translateX(-50%);
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+    }
+    .stick{
+      width:62px;height:62px;border-radius:50%;
+      background:radial-gradient(circle at 35% 35%, #dc8d47, #5f3417 72%);
+      box-shadow:inset 0 -8px 18px rgba(0,0,0,.28), 0 10px 20px rgba(0,0,0,.28);
+    }
+    .buttons{display:flex;gap:12px;}
+    .buttons span{
+      width:18px;height:18px;border-radius:50%;
+      background:radial-gradient(circle at 35% 35%, #ffc98d, #8f4b17 76%);
+      box-shadow:0 6px 12px rgba(0,0,0,.24);
+    }
 
-.freeform-inner img{
-  position:absolute;
-  width:280px;
-  opacity:1;
-  box-shadow:0 30px 80px rgba(0,0,0,.95);
-  z-index:20;
-}
+    /* ---------- PROJECT WORLD ---------- */
+    #projectWorld{
+      height:500vh;
+      position:relative;
+      background:#030303;
+    }
+    .project-pin{
+      position:sticky;
+      top:0;
+      height:100vh;
+      overflow:hidden;
+      background:linear-gradient(180deg, #030303, #090909);
+    }
+    .project-world-bg{
+      position:absolute;
+      inset:0;
+      background:url('bg6.png') center center/cover no-repeat;
+      opacity:.24;
+      transform:scale(1.08);
+      will-change:transform;
+    }
+    .project-track{
+      position:absolute;
+      left:0;
+      top:0;
+      height:100%;
+      display:flex;
+      align-items:center;
+      gap:4vw;
+      padding:0 18vw 0 10vw;
+      will-change:transform;
+      z-index:2;
+    }
+    .project-panel{
+      flex:0 0 74vw;
+      max-width:980px;
+      min-height:74vh;
+      border-radius:34px;
+      overflow:hidden;
+      position:relative;
+      background:linear-gradient(145deg, rgba(36,26,19,.94), rgba(10,10,10,.96));
+      border:1px solid rgba(245,217,166,.1);
+      box-shadow:var(--shadow);
+      display:grid;
+      grid-template-columns:1.08fr .92fr;
+    }
+    .project-image{
+      position:relative;
+      min-height:74vh;
+      background-position:center center;
+      background-size:cover;
+      background-repeat:no-repeat;
+    }
+    .project-image::after{
+      content:'';
+      position:absolute;
+      inset:0;
+      background:linear-gradient(90deg, rgba(0,0,0,.08), rgba(0,0,0,.34));
+    }
+    .project-copy{
+      display:flex;
+      flex-direction:column;
+      justify-content:flex-end;
+      gap:1.1rem;
+      padding:2rem 2rem 2.2rem;
+      position:relative;
+      z-index:2;
+    }
+    .project-index{
+      font-size:.7rem;
+      letter-spacing:.22em;
+      text-transform:uppercase;
+      color:rgba(245,217,166,.68);
+    }
+    .project-copy h3{
+      font-size:clamp(1.6rem,3vw,2.8rem);
+      line-height:1.02;
+      font-weight:400;
+    }
+    .project-copy p{
+      color:var(--muted);
+      line-height:1.7;
+      font-size:.98rem;
+      max-width:34ch;
+    }
+    .meta{
+      display:flex;
+      flex-wrap:wrap;
+      gap:.55rem;
+    }
+    .meta span{
+      padding:.52rem .78rem;
+      border-radius:999px;
+      border:1px solid rgba(245,217,166,.16);
+      color:rgba(245,217,166,.82);
+      font-size:.7rem;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      background:rgba(255,255,255,.02);
+    }
+    .project-actions{display:flex;gap:.8rem;}
+    .project-actions a{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      min-width:130px;
+      padding:.88rem 1rem;
+      border-radius:999px;
+      border:1px solid rgba(245,217,166,.24);
+      transition:transform .26s ease, background .26s ease;
+      font-size:.78rem;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+    }
+    .project-actions a:hover{
+      transform:translateY(-2px);
+      background:rgba(245,217,166,.06);
+    }
+    .project-progress{
+      position:absolute;
+      left:50%;
+      bottom:4vh;
+      transform:translateX(-50%);
+      z-index:5;
+      width:min(320px, 70vw);
+    }
+    .project-progress-line{
+      height:2px;
+      width:100%;
+      background:rgba(245,217,166,.14);
+      border-radius:999px;
+      overflow:hidden;
+    }
+    .project-progress-line span{
+      display:block;
+      width:0%;
+      height:100%;
+      background:linear-gradient(90deg, rgba(245,217,166,.45), rgba(255,186,100,.96));
+    }
 
-/* CENTER TEXT */
-.freeform-title{
-  position:fixed;
-  inset:0;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
-  pointer-events:none;
-  z-index:5;
-}
-.freeform-title h1{
-  font-size:3.4rem;
-  letter-spacing:.35em;
-  opacity:.45;
-}
-.freeform-title p{
-  margin-top:14px;
-  opacity:.35;
-  letter-spacing:.18em;
-}
+    /* ---------- CO-OP ---------- */
+    #coop{
+      min-height:130vh;
+      padding:14vh 4vw;
+      background:#080707;
+      display:grid;
+      place-items:center;
+    }
+    .shelf-room{
+      width:min(1200px, 92vw);
+      min-height:86vh;
+      border-radius:36px;
+      overflow:hidden;
+      position:relative;
+      background:url('bg7.png') center center/cover no-repeat;
+      box-shadow:var(--shadow);
+      border:1px solid rgba(245,217,166,.12);
+    }
+    .shelf-room::after{
+      content:'';
+      position:absolute;
+      inset:0;
+      background:linear-gradient(180deg, rgba(0,0,0,.08), rgba(0,0,0,.2));
+      pointer-events:none;
+      z-index:1;
+    }
+    .draggable-item{
+      position:absolute;
+      z-index:4;
+      min-width:104px;
+      min-height:56px;
+      padding:.8rem 1rem;
+      border-radius:18px;
+      display:grid;
+      place-items:center;
+      text-align:center;
+      cursor:grab;
+      user-select:none;
+      background:rgba(24,19,15,.82);
+      border:1px solid rgba(245,217,166,.22);
+      color:var(--gold);
+      box-shadow:0 18px 38px rgba(0,0,0,.28);
+      font-size:.74rem;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+    }
+    .draggable-item:active{cursor:grabbing;}
 
-#navBack{
-  position:fixed;
-  top:20px;
-  left:20px;
-  cursor:pointer;
-  opacity:.6;
-  z-index:120;
-}
-#navBack:hover{opacity:1;}
+    /* ---------- THEATER ---------- */
+    #theater{
+      min-height:160vh;
+      background:#090808;
+      padding:14vh 4vw 16vh;
+    }
+    .theater-grid{
+      width:min(1320px, 94vw);
+      margin:0 auto;
+      display:grid;
+      grid-template-columns:1.12fr .88fr;
+      gap:2rem;
+      align-items:start;
+    }
+    .screen-stage{
+      min-height:78vh;
+      border-radius:36px;
+      overflow:hidden;
+      position:relative;
+      background:url('bg8.png') center center/cover no-repeat;
+      border:1px solid rgba(245,217,166,.12);
+      box-shadow:var(--shadow);
+    }
+    .screen-stage::after{
+      content:'';
+      position:absolute;
+      inset:0;
+      background:linear-gradient(180deg, rgba(0,0,0,.12), rgba(0,0,0,.36));
+    }
+    .screen-film{
+      position:absolute;
+      inset:16% 13% 20% 13%;
+      border-radius:10px;
+      overflow:hidden;
+      z-index:2;
+      background:url('bg9.png') center center/cover no-repeat;
+      box-shadow:0 18px 40px rgba(0,0,0,.36);
+      will-change:transform;
+    }
+    .screen-film::after{
+      content:'';
+      position:absolute;
+      inset:0;
+      background:linear-gradient(180deg, rgba(255,255,255,.02), rgba(0,0,0,.12));
+    }
+    .book-panel{
+      min-height:78vh;
+      border-radius:36px;
+      position:relative;
+      overflow:hidden;
+      background:url('bg10.png') center center/cover no-repeat;
+      border:1px solid rgba(245,217,166,.12);
+      box-shadow:var(--shadow);
+      display:flex;
+      align-items:flex-end;
+      justify-content:center;
+      padding:2rem;
+    }
+    .book-panel::after{
+      content:'';
+      position:absolute;
+      inset:0;
+      background:linear-gradient(180deg, rgba(0,0,0,.06), rgba(0,0,0,.24));
+      z-index:1;
+    }
+    .book-wrap{
+      position:relative;
+      z-index:2;
+      width:min(100%, 420px);
+      perspective:2200px;
+    }
+    .book{
+      position:relative;
+      width:100%;
+      aspect-ratio:1/.72;
+      transform-style:preserve-3d;
+    }
+    .book-cover,.book-page{
+      position:absolute;
+      inset:0;
+      border-radius:18px;
+      overflow:hidden;
+      transform-origin:left center;
+      backface-visibility:hidden;
+      border:1px solid rgba(245,217,166,.12);
+      box-shadow:0 18px 40px rgba(0,0,0,.28);
+      background:#18120d;
+    }
+    .book-cover{
+      z-index:10;
+      background:url('bg11.png') center center/cover no-repeat;
+    }
+    .book-cover::after{
+      content:'';
+      position:absolute;
+      inset:0;
+      background:linear-gradient(180deg, rgba(0,0,0,.04), rgba(0,0,0,.22));
+    }
+    .book-page img{width:100%;height:100%;object-fit:cover;}
+    .book-nav{
+      position:absolute;
+      left:50%;
+      bottom:20px;
+      transform:translateX(-50%);
+      z-index:5;
+      display:flex;
+      gap:.7rem;
+    }
+    .book-nav button{
+      padding:.82rem 1rem;
+      border-radius:999px;
+      border:1px solid rgba(245,217,166,.18);
+      background:rgba(12,10,9,.55);
+      color:var(--gold);
+      cursor:pointer;
+      backdrop-filter:blur(10px);
+    }
 
-#navMuseum{
-  position:fixed;
-  top:20px;
-  left:20px;
-  cursor:pointer;
-  opacity:.6;
-  z-index:120;
-}
-#navMuseum:hover{opacity:1;}
+    /* ---------- SKY ---------- */
+    #skyLimit{
+      height:220vh;
+      position:relative;
+      background:#090808;
+    }
+    .sky-pin{
+      position:sticky;
+      top:0;
+      height:100vh;
+      overflow:hidden;
+    }
+    .sky-room,
+    .sky-room-next{
+      position:absolute;
+      inset:0;
+      background-position:center center;
+      background-size:cover;
+      background-repeat:no-repeat;
+      will-change:transform, opacity;
+    }
+    .sky-room{background-image:url('bg12.png'); z-index:1;}
+    .sky-room-next{background-image:url('bg13.png'); z-index:2; opacity:0;}
+    .sky-overlay{
+      position:absolute;
+      inset:0;
+      z-index:3;
+      background:linear-gradient(180deg, rgba(0,0,0,.08), rgba(0,0,0,.22));
+    }
 
-/* ───────── ARCADE ───────── */
-#arcade{
-  position:fixed;
-  inset:0;
-  display:none;
-  background:url("project.png") center/cover no-repeat;
-  overflow:hidden;
-  z-index:100;
-}
-
-#navBackArcade{
-  position:fixed;
-  top:20px;
-  left:20px;
-  cursor:pointer;
-  opacity:.6;
-  z-index:120;
-}
-#navBackArcade:hover{opacity:1;}
-
-#hoverCounter {
-  position: fixed;
-  top: 20px;
-  right: 30px;
-  font-family: 'Courier New', monospace;
-  font-size: 1rem;
-  letter-spacing: 0.12em;
-  color: #f5d9a6;
-  background: rgba(0,0,0,0.55);
-  border: 2px solid #f5d9a6;
-  padding: 8px 14px;
-  border-radius: 10px;
-  z-index: 160;
-  pointer-events: none;
-}
-
-/* Hover Zones */
-.arcade-zone, .board-zone, .plant-zone, .lamp-zone {
-  position: absolute;
-  opacity: 0;
-  pointer-events: auto;
-  z-index: 150;
-}
-.arcade-zone {
-  left: 7vw;
-  top: 58vh;
-  width: 18vw;
-  height: 16vh;
-}
-.board-zone {
-  left: 46vw;
-  top: 56vh;
-  width: 30vw;
-  height: 22vh;
-}
-.plant-zone {
-  left: 22vw;
-  top: 38vh;
-  width: 22vw;
-  height: 34vh;
-}
-.lamp-zone {
-  left: 78vw;
-  top: 44vh;
-  width: 18vw;
-  height: 28vh;
-}
-
-/* Arcade Sub-Zones */
-.arcade-button1, .arcade-button2 {
-  position: absolute;
-  top: 58vh; /* same as arcade-zone */
-  height: 16vh;
-  width: 50vw; /* split screen */
-  pointer-events: auto;
-  z-index: 200;
-  background:transparent
-}
-
-.arcade-button1 { top: 58vh; left: 0; width: 25vw; height: 16vh; }
-.arcade-button2 { top: 58vh; left: 25vw; width: 25vw; height: 16vh; }
-
-
-
-/* Ensure popups are above everything */
-.popup {
-  z-index: 300;
-}
-
-/* Popups */
-#popupLayer {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 115;
-}
-
-#popupLayer .popup.visible {
-  pointer-events: auto;
-}
-
-.arcade-popup, .board-popup, .plant-popup, .lamp-popup {
-  position: absolute;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0s ease;
-  z-index: 300;
-  background: rgba(0,0,0,0.65);
-  border: 3px solid #f5d9a6;
-  border-radius: 15px;
-  padding: 15px;
-  box-shadow: 0 0 30px rgba(245, 217, 166, 0.8), inset 0 0 20px rgba(245, 217, 166, 0.2);
-  font-family: 'Courier New', monospace;
-  color: #f5d9a6;
-}
-.arcade-popup.visible,
-.board-popup.visible,
-.plant-popup.visible,
-.lamp-popup.visible {
-  opacity: 1;
-  pointer-events: auto;
-}
-.board-popup * {
-  pointer-events: auto;
-}
-.arcade-popup {
-  left: 23.125vw;
-  top: 32.5vh;
-  width: 24.75vw;
-  height: 27vh;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-
-.board-popup {
-  left: 49.05vw;
-  top: 33.45vh;
-  width: 22.5vw;
-  height: 28.8vh;
-  min-height: 432px;
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  justify-content: flex-start;
-  gap: 6px;
-}
-
-.board-popup h3 {
-  margin: 0;
-  padding: 4px 0;
-  text-align: center;
-  font-size: 1.1rem;
-  flex-shrink: 0;
-}
-.plant-popup {
-  left: 39.2vw;
-  top: 35.95vh;
-  width: 21.6vw;
-  height: 33.93vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-.lamp-popup {
-  left: 66.1vw;
-  top: 37.95vh;
-  width: 19.8vw;
-  height: 33.93vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
-/* Popup Content */
-.popup-content {
-  text-align: center;
-  color: #f5d9a6;
-}
-.popup-content p {
-  font-size: 0.9rem;
-}
-
-/* Layered Content */
-.layered-content {
-  position: absolute;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  color: #f5d9a6;
-  font-family: 'Courier New', monospace;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.5s ease;
-  z-index: 116;
-}
-
-.layered-content p {
-  font-size: 0.9rem;
-}
-
-.popup {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-}
-
-.popup.visible {
-  pointer-events: auto; /* ⬅️ allow interaction ONLY when visible */
-}
-
-
-.popup * {
-  pointer-events: auto;
-}
-
-.popup-inner {
-  width: 90%;
-  height: 90%;
-  padding: 1rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-  box-sizing: border-box;
-  position: relative;
-}
-
-#plantPopup .popup-inner {
-  padding-top: 0.5rem;
-}
-
-#lampPopup .popup-inner {
-  padding-top: 0.5rem;
-}
-
-.popup-title {
-  font-size: 1.05rem;
-  letter-spacing: 0.1em;
-  text-align: center;
-  flex-shrink: 0;
-}
-
-.popup-content {
-  flex: 1;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;     /* horizontal center */
-  justify-content: center; /* vertical center */
-  text-align: center;
-}
-
-.popup-content img {
-  width: 120%;              /* ⬅️ 40% bigger */
-  height: auto;
-  max-width: none;
-  max-height: none;
-
-  display: block;
-  margin: auto;
-
-  object-fit: contain;
-}
-
-#arcadeImg, #plantImg, #lampImg {
-  width: 50%;
-}
-
-.popup-text, .popup-subline {
-  text-align: center;
-  font-size: 0.9rem;
-  margin-top: 0.5rem;        /* small space below image */
-}
-
-.popup {
-  opacity: 0;
-  transition: opacity 0s ease;
-}
-
-.popup.visible {
-  opacity: 1;
-  pointer-events: auto;
-}
-
-
-.popup-nav{
-  position:absolute;
-  top:50%;
-  transform:translateY(-50%);
-  background:none;
-  border:none;
-  color:#f5d9a6;
-  font-size:2rem;
-  cursor:pointer;
-  z-index:5;
-}
-
-.popup-nav.left{
-  left:10px;
-}
-
-.popup-nav.right{
-  right:10px;
-}
-
-/* Animations */
-.float {
-  animation: float 2s ease-in-out infinite;
-}
-@keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
-}
-.glow {
-  box-shadow: 0 0 30px rgba(245, 217, 166, 0.5);
-}
-
-.popup {
-  opacity: 0;
-}
-
-.popup.visible {
-  opacity: 1;
-}
-
-body.popup-active .arcade-zone,
-body.popup-active .board-zone,
-body.popup-active .plant-zone,
-body.popup-active .lamp-zone {
-  pointer-events: none;
-}
-
-/* 🎯 Base popup image style */
-.popup-content img {
-  height: auto;
-  max-width: none;
-  max-height: none;
-  display: block;
-  margin: auto;
-  object-fit: contain;
-}
-
-/* 🔹 Small images (80%) */
-.popup-img.small {
-  width: 80%;
-}
-
-/* 🔸 Large images (120%) */
-.popup-img.large {
-  width: 120%;
-}
-
-/* Reduce text size for bouquets and air dry clay */
-#plantPopup .popup-text,
-#lampPopup .popup-text {
-  font-size: 0.75rem;
-}
-
-</style>
-
+    @media (max-width: 1024px){
+      .theater-grid,
+      .project-panel{grid-template-columns:1fr;}
+      .project-panel{flex-basis:88vw;}
+      .project-image{min-height:38vh;}
+      .machine-focus{width:min(62vw,460px);}
+    }
+    @media (max-width: 720px){
+      .ui-btn{top:16px;font-size:.68rem;padding:.8rem 1rem;}
+      .menu-btn{left:14px;}
+      .work-btn{right:14px;}
+      .menu-panel{left:14px;top:64px;width:min(310px, calc(100vw - 28px));}
+      .freeform-inner img{width:220px;}
+      .machine-focus{width:min(76vw,380px);}
+      .project-track{padding:0 30vw 0 8vw;gap:7vw;}
+      .project-panel{flex-basis:92vw;}
+      .project-copy{padding:1.4rem 1.4rem 1.7rem;}
+      .section-title{font-size:.68rem; bottom:3vh;}
+    }
+  </style>
 </head>
-
 <body>
+  <button class="ui-btn menu-btn" id="menuToggle">Museum’s Galleries</button>
+  <button class="ui-btn work-btn" onclick="scrollToSection('theater')">Let’s Work Together</button>
 
-<div id="scene"></div>
-<div id="darkness"></div>
-<img id="torch" src="torchtm.png">
-<button id="enter">ENTER</button>
-
-<div id="hall">
-  <div id="navMuseum" onclick="goToMuseum()">← Museum of Me</div>
-  <h1>Museum’s Galleries</h1>
-  <div class="stack">
-    <div class="card" onclick="openFreeform()">
-      <img src="Canvasstudio.png">
-      <div class="label"><h2>CANVAS STUDIO</h2></div>
+  <div class="menu-panel" id="menuPanel">
+    <div class="menu-head">
+      <span>Index</span>
+      <button class="menu-close" id="menuClose">✕</button>
     </div>
-    <div class="card" onclick="openArcade()"><img src="Arcade.png"><div class="label"><h2>ARCADE PROJECT DEN</h2></div></div>
-    <div class="card"><img src="Customization.png"><div class="label"><h2 class="custom">CUSTOMIZATION CO-OP</h2></div></div>
-    <div class="card"><img src="Director's Dom.png"><div class="label"><h2>DIRECTOR'S DOME</h2></div></div>
-    <div class="card"><img src="Production.png"><div class="label"><h2>ABOUT ME</h2></div></div>
-  </div>
-</div>
-
-<div id="freeform">
-  <div id="navBack" onclick="goBack()">← Galleries</div>
-  <div class="freeform-title">
-    <h1>Canvas Studio</h1>
-    <p>Drag & Explore :)</p>
-  </div>
-  <div class="freeform-inner" id="freeformInner"></div>
-</div>
-
-<div id="arcade">
-  <div id="navBackArcade" onclick="goBack()">← Galleries</div>
-  <div id="hoverCounter">Hover & Find :) — 0/5</div>
-
-  <!-- Hover Zones -->
-  <div class="arcade-zone" id="arcadeZone"></div>
-  <div class="board-zone" id="boardZone"></div>
-  <div class="plant-zone" id="plantZone"></div>
-  <div class="lamp-zone" id="lampZone"></div>
-
-  <!-- Arcade Buttons (move OUTSIDE arcade-zone) -->
-  <div class="arcade-button1" id="arcadeButton1"></div>
-  <div class="arcade-button2" id="arcadeButton2"></div>
-
-  <!-- Popups -->
-  <div id="popupLayer">
-    <div class="arcade-popup popup" id="arcadePopup">
-      <div class="popup-inner">
-        <h3 class="popup-title">Wedding Guestbook</h3>
-        <div class="popup-content">
-          <img id="arcadeImg" src="wed.png" alt="Wedding Guestbook" class="popup-img small">
-          <div class="popup-subline" id="arcadeText">Cards with personalized messages</div>
-        </div>
-      </div>
-    </div>
-    <div class="popup board-popup" id="boardPopup">
-      <div class="popup-inner">
-
-        <!-- TITLE -->
-        <h3 class="popup-title">Games</h3>
-
-        <!-- LEFT NAV (INSIDE POPUP) -->
-        <button class="popup-nav left" id="prevBtn">‹</button>
-
-        <!-- CONTENT -->
-        <div class="popup-content">
-          <img id="boardImg" class="popup-img large">
-          <div class="popup-subline" id="boardCaption"></div>
-        </div>
-
-        <!-- RIGHT NAV (INSIDE POPUP) -->
-        <button class="popup-nav right" id="nextBtn">›</button>
-
-      </div>
-    </div>
-    <div class="plant-popup popup" id="plantPopup">
-      <div class="popup-inner">
-        <h3 class="popup-title">Bouquets</h3>
-        <div class="popup-content">
-          <img id="plantImg" src="vang.png" alt="Van Gogh Bouquet" class="popup-img small">
-          <div class="popup-text">Van Gogh bouquet</div>
-        </div>
-      </div>
-    </div>
-    <div class="lamp-popup popup" id="lampPopup">
-      <div class="popup-inner">
-        <h3 class="popup-title">Air-dry Clay Creations</h3>
-        <div class="popup-content">
-          <img id="lampImg" src="clay.png" alt="" class="popup-img small">
-          <div class="popup-text"></div>
-        </div>
-      </div>
+    <div class="menu-list">
+      <button class="menu-link" data-target="canvasStudio">
+        <strong>Canvas Studio</strong>
+        <span>Gallery 01</span>
+      </button>
+      <button class="menu-link" data-target="projectWorld">
+        <strong>Project Arcade</strong>
+        <span>Gallery 02</span>
+      </button>
+      <button class="menu-link" data-target="coop">
+        <strong>Customization Co-op</strong>
+        <span>Gallery 03</span>
+      </button>
+      <button class="menu-link" data-target="theater">
+        <strong>Theater</strong>
+        <span>Gallery 04</span>
+      </button>
     </div>
   </div>
 
-<script>
-const root=document.documentElement;
-const torch=document.getElementById("torch");
-const dark=document.getElementById("darkness");
-const enter=document.getElementById("enter");
-const scene=document.getElementById("scene");
-const hall=document.getElementById("hall");
-const freeform=document.getElementById("freeform");
-const inner=document.getElementById("freeformInner");
-const arcade=document.getElementById("arcade");
+  <section id="hero" class="section">
+    <div class="hero-pin">
+      <div id="scene"></div>
+      <div class="hero-overlay"></div>
+      <div id="darkness"></div>
+      <img id="torch" src="torchtm.png" alt="Torch" />
+    </div>
+  </section>
 
-/* TORCH FOLLOW */
-document.addEventListener("mousemove",e=>{
-  root.style.setProperty("--x",e.clientX+"px");
-  root.style.setProperty("--y",e.clientY+"px");
-  torch.style.left=e.clientX+"px";
-  torch.style.top=e.clientY+"px";
-});
+  <section id="canvasStudio" class="section">
+    <div class="canvas-wrap">
+      <div class="freeform-shell" id="freeformShell">
+        <div class="freeform-title"><h2>Canvas Studio</h2></div>
+        <div class="freeform-inner" id="freeformInner"></div>
+      </div>
+      <div class="section-title">Canvas Studio</div>
+    </div>
+  </section>
 
-/* TORCH END */
-setTimeout(()=>{
-  dark.style.opacity=0;
-  torch.style.opacity=0;
-  document.body.style.cursor="default";
-  enter.style.opacity=1;
-},8000);
+  <section id="pathway" class="section">
+    <div class="pathway-pin">
+      <div class="pathway-bg" id="pathwayBg"></div>
+      <div class="pathway-bg-2" id="pathwayBg2"></div>
+      <div class="pathway-overlay"></div>
+      <div class="section-title">Project Arcade</div>
+    </div>
+  </section>
 
-enter.onclick=()=>{
-  scene.style.display="none";
-  dark.style.display="none";
-  torch.style.display="none";
-  enter.style.display="none";
-  hall.style.opacity=1;
-  hall.style.pointerEvents="auto";
-};
+  <section id="arcadePortal" class="section">
+    <div class="arcade-pin">
+      <div class="arcade-room" id="arcadeRoom"></div>
+      <div class="arcade-room-next" id="arcadeRoomNext"></div>
+      <div class="arcade-room-overlay"></div>
+      <div class="machine-focus" id="machineFocus">
+        <div class="machine-screen-glow"></div>
+        <div class="machine-screen" id="machineScreen"></div>
+        <div class="machine-controls">
+          <div class="stick"></div>
+          <div class="buttons"><span></span><span></span><span></span><span></span></div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-/* FREEFORM */
-function openFreeform(){
-  hall.style.opacity=0;
-  freeform.style.display="block";
-  buildFreeform();
-}
+  <section id="projectWorld" class="section">
+    <div class="project-pin">
+      <div class="project-world-bg" id="projectWorldBg"></div>
+      <div class="project-track" id="projectTrack">
+        <article class="project-panel">
+          <div class="project-image" style="background-image:url('bg14.png')"></div>
+          <div class="project-copy">
+            <div class="project-index">Project 01</div>
+            <h3>Project Title</h3>
+            <p>Replace this with your case study hook.</p>
+            <div class="meta"><span>Branding</span><span>UI UX</span><span>Motion</span></div>
+            <div class="project-actions"><a href="#">View</a><a href="#">Case</a></div>
+          </div>
+        </article>
 
-/* ARCADE */
-function openArcade(){
-  hall.style.opacity = 0;
-  arcade.style.display = "block";
-  arcade.style.opacity = 1; /* ⬅️ ensure visibility */
-}
+        <article class="project-panel">
+          <div class="project-image" style="background-image:url('bg15.png')"></div>
+          <div class="project-copy">
+            <div class="project-index">Project 02</div>
+            <h3>Project Title</h3>
+            <p>Replace this with your case study hook.</p>
+            <div class="meta"><span>Creative Dev</span><span>Frontend</span><span>Story</span></div>
+            <div class="project-actions"><a href="#">View</a><a href="#">Case</a></div>
+          </div>
+        </article>
 
-/* RANDOM INFINITE CANVAS */
-function buildFreeform(){
-  inner.innerHTML='';
-  const COUNT=8;
-  const RANGE=2400;
-  const MIN_DIST=360;
-  const imgs=[...Array(8)].map((_,i)=>`art${i+1}.png`);
+        <article class="project-panel">
+          <div class="project-image" style="background-image:url('bg16.png')"></div>
+          <div class="project-copy">
+            <div class="project-index">Project 03</div>
+            <h3>Project Title</h3>
+            <p>Replace this with your case study hook.</p>
+            <div class="meta"><span>Design</span><span>Research</span><span>Visuals</span></div>
+            <div class="project-actions"><a href="#">View</a><a href="#">Case</a></div>
+          </div>
+        </article>
 
-  let frames=[];
-  let posX=0,posY=0,velX=0,velY=0;
-  let dragging=false;
+        <article class="project-panel">
+          <div class="project-image" style="background-image:url('bg17.png')"></div>
+          <div class="project-copy">
+            <div class="project-index">Project 04</div>
+            <h3>Project Title</h3>
+            <p>Replace this with your case study hook.</p>
+            <div class="meta"><span>Film</span><span>Direction</span><span>Editing</span></div>
+            <div class="project-actions"><a href="#">View</a><a href="#">Case</a></div>
+          </div>
+        </article>
+      </div>
+      <div class="project-progress">
+        <div class="project-progress-line"><span id="projectProgressBar"></span></div>
+      </div>
+    </div>
+  </section>
 
-  function place(frame){
-    let x,y,ok=false;
-    while(!ok){
-      x=Math.random()*RANGE-RANGE/2;
-      y=Math.random()*RANGE-RANGE/2;
-      ok=frames.every(f=>Math.hypot(f.x-x,f.y-y)>MIN_DIST);
-    }
-    frame.x=x; frame.y=y;
-  }
+  <section id="coop" class="section">
+    <div class="shelf-room" id="shelfRoom">
+      <div class="draggable-item" style="left:10%;top:18%;">Figma</div>
+      <div class="draggable-item" style="left:42%;top:14%;">Cinema</div>
+      <div class="draggable-item" style="left:66%;top:22%;">Motion</div>
+      <div class="draggable-item" style="left:18%;top:52%;">Brand</div>
+      <div class="draggable-item" style="left:56%;top:56%;">Story</div>
+      <div class="section-title">Customization Co-op</div>
+    </div>
+  </section>
 
-  for(let i=0;i<COUNT;i++){
-    const img=document.createElement("img");
-    img.src=imgs[i];
-    inner.appendChild(img);
-    const frame={img,x:0,y:0};
-    place(frame);
-    frames.push(frame);
-  }
+  <section id="theater" class="section">
+    <div class="theater-grid">
+      <div class="screen-stage">
+        <div class="screen-film" id="screenFilm"></div>
+        <div class="section-title">Theater</div>
+      </div>
 
-  freeform.onmousedown=()=>dragging=true;
-  window.onmouseup=()=>dragging=false;
-  window.onmousemove=e=>{
-    if(dragging){
-      velX+=e.movementX*0.12;
-      velY+=e.movementY*0.12;
-    }
-  };
+      <div class="book-panel">
+        <div class="book-wrap">
+          <div class="book" id="photoBook">
+            <div class="book-cover" id="bookCover"></div>
+            <div class="book-page" id="bookPage1"><img src="bg18.png" alt="Photo 1"></div>
+            <div class="book-page" id="bookPage2"><img src="bg19.png" alt="Photo 2"></div>
+            <div class="book-page" id="bookPage3"><img src="bg20.png" alt="Photo 3"></div>
+            <div class="book-page" id="bookPage4"><img src="bg21.png" alt="Photo 4"></div>
+          </div>
+        </div>
+        <div class="book-nav">
+          <button id="prevPage">Prev</button>
+          <button id="nextPage">Next</button>
+        </div>
+      </div>
+    </div>
+  </section>
 
-  (function loop(){
-    if(!dragging) velX+=0.02;
-    posX+=velX; posY+=velY;
-    velX*=0.92; velY*=0.92;
+  <section id="skyLimit" class="section">
+    <div class="sky-pin">
+      <div class="sky-room" id="skyRoom"></div>
+      <div class="sky-room-next" id="skyRoomNext"></div>
+      <div class="sky-overlay"></div>
+    </div>
+  </section>
 
-    frames.forEach(f=>{
-      if(f.x+posX>1400||f.x+posX<-1400||
-         f.y+posY>1400||f.y+posY<-1400){
-        place(f);
+  <script>
+    gsap.registerPlugin(ScrollTrigger);
+
+    const root = document.documentElement;
+    const torch = document.getElementById('torch');
+    const dark = document.getElementById('darkness');
+    const menuToggle = document.getElementById('menuToggle');
+    const menuPanel = document.getElementById('menuPanel');
+    const menuClose = document.getElementById('menuClose');
+    const freeformShell = document.getElementById('freeformShell');
+    const freeformInner = document.getElementById('freeformInner');
+    const projectTrack = document.getElementById('projectTrack');
+    const projectProgressBar = document.getElementById('projectProgressBar');
+
+    /* ---------- MENU ---------- */
+    menuToggle.addEventListener('click', () => menuPanel.classList.toggle('open'));
+    menuClose.addEventListener('click', () => menuPanel.classList.remove('open'));
+    document.querySelectorAll('.menu-link').forEach(link => {
+      link.addEventListener('click', () => {
+        scrollToSection(link.dataset.target);
+        menuPanel.classList.remove('open');
+      });
+    });
+    document.addEventListener('click', e => {
+      if(!menuPanel.contains(e.target) && !menuToggle.contains(e.target)) {
+        menuPanel.classList.remove('open');
       }
-      f.img.style.left=(f.x+posX)+"px";
-      f.img.style.top=(f.y+posY)+"px";
     });
 
-    requestAnimationFrame(loop);
-  })();
-}
+    /* ---------- TORCH ---------- */
+    document.addEventListener('mousemove', e => {
+      root.style.setProperty('--x', e.clientX + 'px');
+      root.style.setProperty('--y', e.clientY + 'px');
+      torch.style.left = e.clientX + 'px';
+      torch.style.top = e.clientY + 'px';
+    });
 
+    setTimeout(() => {
+      dark.style.opacity = 0;
+      torch.style.opacity = 0;
+    }, 8000);
 
+    /* ---------- HERO ZOOM ---------- */
+    gsap.timeline({
+      scrollTrigger:{
+        trigger:'#hero',
+        start:'top top',
+        end:'bottom bottom',
+        scrub:1.2
+      }
+    })
+    .to('#scene', {scale:1.24, yPercent:8, filter:'brightness(.9)'}, 0)
+    .to('.hero-overlay', {opacity:.7}, 0);
 
-function goBack(){
-  freeform.style.display="none";
-  arcade.style.display="none";
-  hall.style.opacity=1;
-}
+    /* ---------- CANVAS FREEFLOW ---------- */
+    function buildFreeform(){
+      freeformInner.innerHTML = '';
+      const images = ['bg3.png','bg4.png','bg5.png','bg6.png','bg7.png','bg8.png','bg9.png','bg10.png'];
+      const frames = [];
+      const COUNT = images.length;
+      const RANGE_X = 2200;
+      const RANGE_Y = 1600;
+      const MIN_DIST = 320;
 
-function goToMuseum(){
-  hall.style.opacity=0;
-  hall.style.pointerEvents="none";
-  scene.style.display="block";
-  dark.style.display="block";
-  torch.style.display="block";
-  enter.style.display="block";
-}
+      function place(frame){
+        let x, y, ok = false;
+        while(!ok){
+          x = Math.random() * RANGE_X - RANGE_X / 2;
+          y = Math.random() * RANGE_Y - RANGE_Y / 2;
+          ok = frames.every(f => Math.hypot(f.x - x, f.y - y) > MIN_DIST);
+        }
+        frame.x = x;
+        frame.y = y;
+      }
 
-/* INTERACTIVE SCENE */
-const arcadeZone = document.getElementById('arcadeZone');
-const arcadeButton1 = document.getElementById('arcadeButton1');
-const arcadeButton2 = document.getElementById('arcadeButton2');
-const boardZone = document.getElementById('boardZone');
-const plantZone = document.getElementById('plantZone');
-const lampZone = document.getElementById('lampZone');
+      for(let i = 0; i < COUNT; i++){
+        const img = document.createElement('img');
+        img.src = images[i];
+        const frame = { img, x: 0, y: 0 };
+        place(frame);
+        frames.push(frame);
+        freeformInner.appendChild(img);
+      }
 
-const arcadePopup = document.getElementById('arcadePopup');
-const boardPopup = document.getElementById('boardPopup');
-const plantPopup = document.getElementById('plantPopup');
-const lampPopup = document.getElementById('lampPopup');
+      let dragging = false;
+      let startX = 0;
+      let startY = 0;
+      let targetX = 0;
+      let targetY = 0;
+      let currentX = 0;
+      let currentY = 0;
 
-const arcadeImg = document.getElementById('arcadeImg');
-const arcadeText = document.getElementById('arcadeText');
-const arcadeTitle = arcadePopup.querySelector('.popup-title');
-const boardImg = document.getElementById('boardImg');
-const boardCaption = document.getElementById('boardCaption');
-const prevBtn = document.getElementById('prevBtn');
-const nextBtn = document.getElementById('nextBtn');
+      freeformShell.onpointerdown = e => {
+        dragging = true;
+        freeformShell.setPointerCapture(e.pointerId);
+        startX = e.clientX - targetX;
+        startY = e.clientY - targetY;
+      };
+      freeformShell.onpointermove = e => {
+        if(!dragging) return;
+        targetX = e.clientX - startX;
+        targetY = e.clientY - startY;
+      };
+      freeformShell.onpointerup = () => dragging = false;
+      freeformShell.onpointercancel = () => dragging = false;
+      freeformShell.onpointerleave = () => dragging = false;
 
-let activePopup = null;
+      function loop(){
+        currentX += (targetX - currentX) * 0.08;
+        currentY += (targetY - currentY) * 0.08;
+        frames.forEach(f => {
+          f.img.style.left = (f.x + currentX + RANGE_X/2) + 'px';
+          f.img.style.top = (f.y + currentY + RANGE_Y/2) + 'px';
+        });
+        requestAnimationFrame(loop);
+      }
+      loop();
+    }
+    buildFreeform();
 
-const boardGames = [
-  { img: 'nunnu.png', caption: 'Customized Uno' },
-  { img: 'jenga.png', caption: 'Memories Jenga' },
-  { img: 'f1.png', caption: 'F1 Board Game' }
-];
-let currentGameIndex = 0;
+    gsap.timeline({
+      scrollTrigger:{
+        trigger:'#canvasStudio',
+        start:'top bottom',
+        end:'bottom top',
+        scrub:1
+      }
+    })
+    .fromTo('#canvasStudio .freeform-shell', {y:80, scale:.96}, {y:-60, scale:1.02}, 0)
+    .fromTo('#canvasStudio .freeform-title', {opacity:.55}, {opacity:.22}, 0);
 
-const hoverCounter = document.getElementById('hoverCounter');
-const TOTAL_ZONES = 5;
-let openedZones = new Set();
+    /* ---------- PATHWAY PARALLAX ---------- */
+    gsap.timeline({
+      scrollTrigger:{
+        trigger:'#pathway',
+        start:'top top',
+        end:'bottom bottom',
+        scrub:1.15
+      }
+    })
+    .fromTo('#pathwayBg', {scale:1, yPercent:0}, {scale:1.18, yPercent:6}, 0)
+    .fromTo('#pathwayBg2', {opacity:0, scale:1.06, yPercent:10}, {opacity:1, scale:1.2, yPercent:-2}, .15);
 
-const arcadeInner = {
-  guestbook: {
-    title: "Wedding Guestbook",
-    img: "wed.png",
-    text: "Cards with personalized messages"
-  },
-  treasure: {
-    title: "Treasure Hunt Across Church Street",
-    img: "",
-    text: ""
-  }
-};
+    /* ---------- ARCade SCREEN ENTRY ---------- */
+    gsap.timeline({
+      scrollTrigger:{
+        trigger:'#arcadePortal',
+        start:'top top',
+        end:'bottom bottom',
+        scrub:1.1
+      }
+    })
+    .fromTo('#arcadeRoom', {scale:1, opacity:1, filter:'brightness(.86)'}, {scale:1.12, opacity:.28, filter:'brightness(.56) blur(1px)'}, 0)
+    .fromTo('#arcadeRoomNext', {opacity:0, scale:1.04, filter:'brightness(.86)'}, {opacity:1, scale:1.12, filter:'brightness(.76)'}, .08)
+    .fromTo('#machineFocus', {scale:.9, y:90, rotateX:12, opacity:.72}, {scale:7.2, y:0, rotateX:0, opacity:1, transformOrigin:'center center'}, .12)
+    .fromTo('#machineScreen', {scale:1, opacity:1}, {scale:3.15, opacity:1}, .24);
 
+    /* ---------- HORIZONTAL PROJECT WORLD ---------- */
+    function initHorizontalProjects(){
+      const totalScroll = Math.max(0, projectTrack.scrollWidth - window.innerWidth + window.innerWidth * 0.1);
+      gsap.to(projectTrack, {
+        x: () => -totalScroll,
+        ease:'none',
+        scrollTrigger:{
+          trigger:'#projectWorld',
+          start:'top top',
+          end:() => '+=' + totalScroll,
+          pin:'.project-pin',
+          scrub:1,
+          anticipatePin:1,
+          invalidateOnRefresh:true,
+          onUpdate:self => {
+            projectProgressBar.style.width = (self.progress * 100) + '%';
+          }
+        }
+      });
 
+      gsap.to('#projectWorldBg', {
+        xPercent:-12,
+        ease:'none',
+        scrollTrigger:{
+          trigger:'#projectWorld',
+          start:'top top',
+          end:() => '+=' + totalScroll,
+          scrub:1,
+          invalidateOnRefresh:true
+        }
+      });
+    }
+    initHorizontalProjects();
 
-function activatePopup(popup) {
-  // Determine the type based on the popup
-  let type;
-  if (popup === boardPopup) type = 'board';
-  else if (popup === plantPopup) type = 'plant';
-  else if (popup === lampPopup) type = 'lamp';
+    /* ---------- CO-OP DRAG ---------- */
+    document.querySelectorAll('.draggable-item').forEach(item => {
+      let active = false;
+      let startX = 0;
+      let startY = 0;
+      let originX = 0;
+      let originY = 0;
 
-  // Track unique hovers
-  if (type && !openedZones.has(type)) {
-    openedZones.add(type);
-    hoverCounter.textContent = `Hover & Find :) — ${openedZones.size}/${TOTAL_ZONES}`;
-  }
+      item.addEventListener('pointerdown', e => {
+        active = true;
+        item.setPointerCapture(e.pointerId);
+        startX = e.clientX;
+        startY = e.clientY;
+        originX = item.offsetLeft;
+        originY = item.offsetTop;
+      });
 
-  if (activePopup === popup) return;
+      item.addEventListener('pointermove', e => {
+        if(!active) return;
+        const dx = e.clientX - startX;
+        const dy = e.clientY - startY;
+        item.style.left = originX + dx + 'px';
+        item.style.top = originY + dy + 'px';
+      });
 
-  document.querySelectorAll('.popup').forEach(p => {
-    p.classList.remove('visible');
-    p.removeEventListener('mouseleave', closePopups); // remove previous listeners
-  });
+      item.addEventListener('pointerup', () => active = false);
+      item.addEventListener('pointercancel', () => active = false);
+    });
 
-  popup.classList.add('visible');
-  activePopup = popup;
+    gsap.timeline({
+      scrollTrigger:{
+        trigger:'#coop',
+        start:'top bottom',
+        end:'bottom top',
+        scrub:1
+      }
+    })
+    .fromTo('#coop .shelf-room', {scale:.96, y:60}, {scale:1.02, y:-40}, 0);
 
-  document.body.classList.add('popup-active');
+    /* ---------- THEATER ---------- */
+    gsap.timeline({
+      scrollTrigger:{
+        trigger:'#theater',
+        start:'top bottom',
+        end:'bottom top',
+        scrub:1
+      }
+    })
+    .fromTo('#screenFilm', {scale:1.08, y:30}, {scale:1, y:-30}, 0)
+    .fromTo('#theater .book-panel', {y:70, scale:.96}, {y:-20, scale:1.01}, .05);
 
-  // Close popup instantly when mouse leaves the popup
-  popup.addEventListener('mouseleave', closePopups);
-}
+    /* ---------- BOOK ---------- */
+    const pages = [
+      document.getElementById('bookCover'),
+      document.getElementById('bookPage1'),
+      document.getElementById('bookPage2'),
+      document.getElementById('bookPage3'),
+      document.getElementById('bookPage4')
+    ];
+    let currentPage = 0;
 
-function closePopups() {
-  if (activePopup) {
-    activePopup.classList.remove('visible');
-    activePopup.removeEventListener('mouseleave', closePopups);
-    activePopup = null;
-  }
-  document.body.classList.remove('popup-active');
-}
+    function renderBook(){
+      pages.forEach((page, index) => {
+        if(index < currentPage){
+          page.style.transform = 'rotateY(-165deg)';
+          page.style.zIndex = index;
+        } else {
+          page.style.transform = 'rotateY(0deg)';
+          page.style.zIndex = pages.length - index;
+        }
+      });
+    }
+    renderBook();
 
-function showArcadePopup(type) {
-  // Track unique hovers
-  if (!openedZones.has(type)) {
-    openedZones.add(type);
-    hoverCounter.textContent = `Hover & Find :) — ${openedZones.size}/${TOTAL_ZONES}`;
-  }
+    document.getElementById('nextPage').addEventListener('click', () => {
+      if(currentPage < pages.length) currentPage++;
+      renderBook();
+    });
+    document.getElementById('prevPage').addEventListener('click', () => {
+      if(currentPage > 0) currentPage--;
+      renderBook();
+    });
 
-  // Close any currently visible popup first
-  closePopups();
+    /* ---------- SKY PAN ---------- */
+    gsap.timeline({
+      scrollTrigger:{
+        trigger:'#skyLimit',
+        start:'top top',
+        end:'bottom bottom',
+        scrub:1.15
+      }
+    })
+    .fromTo('#skyRoom', {scale:1, yPercent:14}, {scale:1.14, yPercent:-10}, 0)
+    .fromTo('#skyRoomNext', {opacity:0, scale:1.04, yPercent:18}, {opacity:1, scale:1.12, yPercent:-14}, .12);
 
-  switch(type) {
-    case 'guestbook':
-      activatePopup(arcadePopup);
-      arcadeTitle.textContent = "Wedding Guestbook";
-      arcadeImg.src = "wed.png";
-      arcadeImg.style.display = "block";
-      arcadeText.textContent = "Cards with personalized messages";
-      break;
+    /* ---------- HELPERS ---------- */
+    function scrollToSection(id){
+      const el = document.getElementById(id);
+      if(el) el.scrollIntoView({behavior:'smooth', block:'start'});
+    }
 
-    case 'treasure':
-      activatePopup(arcadePopup);
-      arcadeTitle.textContent = "Treasure Hunt";
-      arcadeImg.style.display = "none";
-      arcadeText.textContent = "Find hidden treasures around the museum";
-      break;
+    window.addEventListener('resize', () => {
+      ScrollTrigger.getAll().forEach(st => st.kill());
+      gsap.set(projectTrack, {clearProps:'transform'});
+      gsap.set('#projectWorldBg', {clearProps:'transform'});
 
-    case 'board':
-      activatePopup(boardPopup);
-      currentGameIndex = 0;
-      boardImg.src = boardGames[currentGameIndex].img;
-      boardCaption.textContent = boardGames[currentGameIndex].caption;
-      break;
+      /* rebuild scroll triggers */
+      gsap.timeline({
+        scrollTrigger:{trigger:'#hero', start:'top top', end:'bottom bottom', scrub:1.2}
+      }).to('#scene', {scale:1.24, yPercent:8, filter:'brightness(.9)'}, 0).to('.hero-overlay', {opacity:.7}, 0);
 
-    case 'plant':
-      activatePopup(plantPopup);
-      // Example: plant popup content
-      plantPopup.querySelector('.popup-title').textContent = "Bouquets";
-      plantPopup.querySelector('img').src = "vang.png";
-      plantPopup.querySelector('.popup-text').textContent = "Van Gogh bouquet";
-      break;
+      gsap.timeline({
+        scrollTrigger:{trigger:'#canvasStudio', start:'top bottom', end:'bottom top', scrub:1}
+      }).fromTo('#canvasStudio .freeform-shell', {y:80, scale:.96}, {y:-60, scale:1.02}, 0)
+        .fromTo('#canvasStudio .freeform-title', {opacity:.55}, {opacity:.22}, 0);
 
-    case 'lamp':
-      activatePopup(lampPopup);
-      // Example: lamp popup content
-      lampPopup.querySelector('.popup-title').textContent = "Air-dry Clay Creations";
-      lampPopup.querySelector('img').src = "clay.png";
-      lampPopup.querySelector('.popup-text').textContent = "";
-      break;
-  }
-}
+      gsap.timeline({
+        scrollTrigger:{trigger:'#pathway', start:'top top', end:'bottom bottom', scrub:1.15}
+      }).fromTo('#pathwayBg', {scale:1, yPercent:0}, {scale:1.18, yPercent:6}, 0)
+        .fromTo('#pathwayBg2', {opacity:0, scale:1.06, yPercent:10}, {opacity:1, scale:1.2, yPercent:-2}, .15);
 
-// 5 zones
-arcadeButton1.addEventListener('mouseenter', () => showArcadePopup('guestbook'));
-arcadeButton2.addEventListener('mouseenter', () => showArcadePopup('treasure'));
+      gsap.timeline({
+        scrollTrigger:{trigger:'#arcadePortal', start:'top top', end:'bottom bottom', scrub:1.1}
+      }).fromTo('#arcadeRoom', {scale:1, opacity:1, filter:'brightness(.86)'}, {scale:1.12, opacity:.28, filter:'brightness(.56) blur(1px)'}, 0)
+        .fromTo('#arcadeRoomNext', {opacity:0, scale:1.04, filter:'brightness(.86)'}, {opacity:1, scale:1.12, filter:'brightness(.76)'}, .08)
+        .fromTo('#machineFocus', {scale:.9, y:90, rotateX:12, opacity:.72}, {scale:7.2, y:0, rotateX:0, opacity:1, transformOrigin:'center center'}, .12)
+        .fromTo('#machineScreen', {scale:1, opacity:1}, {scale:3.15, opacity:1}, .24);
 
-boardZone.addEventListener('mouseenter', () => activatePopup(boardPopup));
-plantZone.addEventListener('mouseenter', () => activatePopup(plantPopup));
-lampZone.addEventListener('mouseenter', () => activatePopup(lampPopup));
+      initHorizontalProjects();
 
+      gsap.timeline({
+        scrollTrigger:{trigger:'#coop', start:'top bottom', end:'bottom top', scrub:1}
+      }).fromTo('#coop .shelf-room', {scale:.96, y:60}, {scale:1.02, y:-40}, 0);
 
-arcadeButton1.addEventListener('mouseenter', () => showArcadePopup('guestbook'));
-arcadeButton2.addEventListener('mouseenter', () => showArcadePopup('treasure'));
-boardZone.addEventListener('mouseenter', () => showArcadePopup('board'));
-plantZone.addEventListener('mouseenter', () => showArcadePopup('plant'));
-lampZone.addEventListener('mouseenter', () => showArcadePopup('lamp'));
+      gsap.timeline({
+        scrollTrigger:{trigger:'#theater', start:'top bottom', end:'bottom top', scrub:1}
+      }).fromTo('#screenFilm', {scale:1.08, y:30}, {scale:1, y:-30}, 0)
+        .fromTo('#theater .book-panel', {y:70, scale:.96}, {y:-20, scale:1.01}, .05);
 
-prevBtn.addEventListener('click', () => {
-  currentGameIndex = (currentGameIndex - 1 + boardGames.length) % boardGames.length;
-  boardImg.src = boardGames[currentGameIndex].img;
-  boardCaption.textContent = boardGames[currentGameIndex].caption;
-});
-nextBtn.addEventListener('click', () => {
-  currentGameIndex = (currentGameIndex + 1) % boardGames.length;
-  boardImg.src = boardGames[currentGameIndex].img;
-  boardCaption.textContent = boardGames[currentGameIndex].caption;
-});
+      gsap.timeline({
+        scrollTrigger:{trigger:'#skyLimit', start:'top top', end:'bottom bottom', scrub:1.15}
+      }).fromTo('#skyRoom', {scale:1, yPercent:14}, {scale:1.14, yPercent:-10}, 0)
+        .fromTo('#skyRoomNext', {opacity:0, scale:1.04, yPercent:18}, {opacity:1, scale:1.12, yPercent:-14}, .12);
 
-</script>
+      ScrollTrigger.refresh();
+    });
+  </script>
 </body>
 </html>
