@@ -1,0 +1,960 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Museum of Me</title>
+
+<style>
+:root{
+  --x:50%;
+  --y:50%;
+  --torchW:420px;
+  --torchH:620px;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+
+body{
+  font-family:"Georgia",serif;
+  background:black;
+  overflow:hidden;
+  cursor:none;
+  color:#f5d9a6;
+}
+
+/* ───────── TORCH SCENE ───────── */
+#scene{
+  position:fixed;
+  inset:0;
+  background:url("museumofmee.png") center bottom/cover no-repeat;
+  z-index:1;
+}
+#darkness{
+  position:fixed;
+  inset:0;
+  background:black;
+  pointer-events:none;
+  mask-image:radial-gradient(
+    var(--torchW) var(--torchH) at var(--x) var(--y),
+    transparent 0%,
+    rgba(0,0,0,.25) 35%,
+    black 65%
+  );
+  -webkit-mask-image:radial-gradient(
+    var(--torchW) var(--torchH) at var(--x) var(--y),
+    transparent 0%,
+    rgba(0,0,0,.25) 35%,
+    black 65%
+  );
+  transition:opacity 2.2s ease;
+  z-index:10;
+}
+#torch{
+  position:fixed;
+  width:70px;
+  pointer-events:none;
+  transform:translate(-50%,-15%) rotate(-20deg);
+  z-index:20;
+}
+#enter{
+  position:fixed;
+  left:50%;
+  bottom:10%;
+  transform:translateX(-50%);
+  padding:.9rem 2.6rem;
+  font-size:1.2rem;
+  letter-spacing:.12em;
+  border:2px solid #f5d9a6;
+  background:rgba(0,0,0,.6);
+  color:#f5d9a6;
+  cursor:pointer;
+  opacity:0;
+  transition:.4s;
+  z-index:30;
+}
+
+/* ───────── CARD HALL ───────── */
+#hall{
+  position:fixed;
+  inset:0;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  opacity:0;
+  pointer-events:none;
+  z-index:5;
+}
+#hall h1{
+  font-size:2.5rem;
+  letter-spacing:.3em;
+  margin-bottom:60px;
+  text-transform:uppercase;
+}
+.stack{
+  position:relative;
+  width:900px;
+  height:360px;
+  transform: scale(1.1);
+}
+.card{
+  position:absolute;
+  width:190px;
+  height:280px;
+  border-radius:18px;
+  overflow:hidden;
+  cursor:pointer;
+  transition:.4s ease;
+  box-shadow:0 25px 60px rgba(0,0,0,.85);
+  filter:none; /* always sharp */
+}
+.card img{width:100%;height:100%;object-fit:cover;}
+.card:nth-child(1){left:0;top:70px;transform:rotate(-18deg) scale(.9);}
+.card:nth-child(2){left:160px;top:30px;transform:rotate(-8deg) scale(.95);}
+.card:nth-child(3){left:355px;top:0;transform:scale(1.08);}
+.card:nth-child(4){left:550px;top:30px;transform:rotate(8deg) scale(.95);}
+.card:nth-child(5){left:710px;top:70px;transform:rotate(18deg) scale(.9);}
+.stack:hover .card:not(:hover){filter:blur(2px) brightness(.55);}
+.card:hover{transform:scale(1.28)!important;z-index:10;}
+
+.label{
+  position:absolute;
+  inset:0;
+  display:flex;
+  align-items:flex-end;
+  padding:18px;
+  background:linear-gradient(to top,rgba(0,0,0,.85),transparent);
+  opacity:0;
+  transition:.3s;
+}
+.card:hover .label{opacity:1;}
+
+.custom {
+  font-size: 1.09rem;
+}
+
+/* ───────── FREEFORM ───────── */
+#freeform{
+  position:fixed;
+  inset:0;
+  display:none;
+  background:black;
+  overflow:hidden;
+  cursor:grab;
+  z-index:100;
+}
+#freeform:active{cursor:grabbing;}
+
+.freeform-inner{
+  position:absolute;
+  left:0;
+  top:0;
+}
+
+.freeform-inner img{
+  position:absolute;
+  width:280px;
+  opacity:1;
+  box-shadow:0 30px 80px rgba(0,0,0,.95);
+  z-index:20;
+}
+
+/* CENTER TEXT */
+.freeform-title{
+  position:fixed;
+  inset:0;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  pointer-events:none;
+  z-index:5;
+}
+.freeform-title h1{
+  font-size:3.4rem;
+  letter-spacing:.35em;
+  opacity:.45;
+}
+.freeform-title p{
+  margin-top:14px;
+  opacity:.35;
+  letter-spacing:.18em;
+}
+
+#navBack{
+  position:fixed;
+  top:20px;
+  left:20px;
+  cursor:pointer;
+  opacity:.6;
+  z-index:120;
+}
+#navBack:hover{opacity:1;}
+
+#navMuseum{
+  position:fixed;
+  top:20px;
+  left:20px;
+  cursor:pointer;
+  opacity:.6;
+  z-index:120;
+}
+#navMuseum:hover{opacity:1;}
+
+/* ───────── ARCADE ───────── */
+#arcade{
+  position:fixed;
+  inset:0;
+  display:none;
+  background:url("project.png") center/cover no-repeat;
+  overflow:hidden;
+  z-index:100;
+}
+
+#navBackArcade{
+  position:fixed;
+  top:20px;
+  left:20px;
+  cursor:pointer;
+  opacity:.6;
+  z-index:120;
+}
+#navBackArcade:hover{opacity:1;}
+
+#hoverCounter {
+  position: fixed;
+  top: 20px;
+  right: 30px;
+  font-family: 'Courier New', monospace;
+  font-size: 1rem;
+  letter-spacing: 0.12em;
+  color: #f5d9a6;
+  background: rgba(0,0,0,0.55);
+  border: 2px solid #f5d9a6;
+  padding: 8px 14px;
+  border-radius: 10px;
+  z-index: 160;
+  pointer-events: none;
+}
+
+/* Hover Zones */
+.arcade-zone, .board-zone, .plant-zone, .lamp-zone {
+  position: absolute;
+  opacity: 0;
+  pointer-events: auto;
+  z-index: 150;
+}
+.arcade-zone {
+  left: 7vw;
+  top: 58vh;
+  width: 18vw;
+  height: 16vh;
+}
+.board-zone {
+  left: 46vw;
+  top: 56vh;
+  width: 30vw;
+  height: 22vh;
+}
+.plant-zone {
+  left: 22vw;
+  top: 38vh;
+  width: 22vw;
+  height: 34vh;
+}
+.lamp-zone {
+  left: 78vw;
+  top: 44vh;
+  width: 18vw;
+  height: 28vh;
+}
+
+/* Arcade Sub-Zones */
+.arcade-button1, .arcade-button2 {
+  position: absolute;
+  top: 58vh; /* same as arcade-zone */
+  height: 16vh;
+  width: 50vw; /* split screen */
+  pointer-events: auto;
+  z-index: 200;
+  background:transparent
+}
+
+.arcade-button1 { top: 58vh; left: 0; width: 25vw; height: 16vh; }
+.arcade-button2 { top: 58vh; left: 25vw; width: 25vw; height: 16vh; }
+
+
+
+/* Ensure popups are above everything */
+.popup {
+  z-index: 300;
+}
+
+/* Popups */
+#popupLayer {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 115;
+}
+
+#popupLayer .popup.visible {
+  pointer-events: auto;
+}
+
+.arcade-popup, .board-popup, .plant-popup, .lamp-popup {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0s ease;
+  z-index: 300;
+  background: rgba(0,0,0,0.65);
+  border: 3px solid #f5d9a6;
+  border-radius: 15px;
+  padding: 15px;
+  box-shadow: 0 0 30px rgba(245, 217, 166, 0.8), inset 0 0 20px rgba(245, 217, 166, 0.2);
+  font-family: 'Courier New', monospace;
+  color: #f5d9a6;
+}
+.arcade-popup.visible,
+.board-popup.visible,
+.plant-popup.visible,
+.lamp-popup.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+.board-popup * {
+  pointer-events: auto;
+}
+.arcade-popup {
+  left: 23.125vw;
+  top: 32.5vh;
+  width: 24.75vw;
+  height: 27vh;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.board-popup {
+  left: 49.05vw;
+  top: 33.45vh;
+  width: 22.5vw;
+  height: 28.8vh;
+  min-height: 432px;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+  gap: 6px;
+}
+
+.board-popup h3 {
+  margin: 0;
+  padding: 4px 0;
+  text-align: center;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+.plant-popup {
+  left: 39.2vw;
+  top: 35.95vh;
+  width: 21.6vw;
+  height: 33.93vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.lamp-popup {
+  left: 66.1vw;
+  top: 37.95vh;
+  width: 19.8vw;
+  height: 33.93vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Popup Content */
+.popup-content {
+  text-align: center;
+  color: #f5d9a6;
+}
+.popup-content p {
+  font-size: 0.9rem;
+}
+
+/* Layered Content */
+.layered-content {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: #f5d9a6;
+  font-family: 'Courier New', monospace;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.5s ease;
+  z-index: 116;
+}
+
+.layered-content p {
+  font-size: 0.9rem;
+}
+
+.popup {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.popup.visible {
+  pointer-events: auto; /* ⬅️ allow interaction ONLY when visible */
+}
+
+
+.popup * {
+  pointer-events: auto;
+}
+
+.popup-inner {
+  width: 90%;
+  height: 90%;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+  position: relative;
+}
+
+#plantPopup .popup-inner {
+  padding-top: 0.5rem;
+}
+
+#lampPopup .popup-inner {
+  padding-top: 0.5rem;
+}
+
+.popup-title {
+  font-size: 1.05rem;
+  letter-spacing: 0.1em;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.popup-content {
+  flex: 1;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;     /* horizontal center */
+  justify-content: center; /* vertical center */
+  text-align: center;
+}
+
+.popup-content img {
+  width: 120%;              /* ⬅️ 40% bigger */
+  height: auto;
+  max-width: none;
+  max-height: none;
+
+  display: block;
+  margin: auto;
+
+  object-fit: contain;
+}
+
+#arcadeImg, #plantImg, #lampImg {
+  width: 50%;
+}
+
+.popup-text, .popup-subline {
+  text-align: center;
+  font-size: 0.9rem;
+  margin-top: 0.5rem;        /* small space below image */
+}
+
+.popup {
+  opacity: 0;
+  transition: opacity 0s ease;
+}
+
+.popup.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+
+.popup-nav{
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+  background:none;
+  border:none;
+  color:#f5d9a6;
+  font-size:2rem;
+  cursor:pointer;
+  z-index:5;
+}
+
+.popup-nav.left{
+  left:10px;
+}
+
+.popup-nav.right{
+  right:10px;
+}
+
+/* Animations */
+.float {
+  animation: float 2s ease-in-out infinite;
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+.glow {
+  box-shadow: 0 0 30px rgba(245, 217, 166, 0.5);
+}
+
+.popup {
+  opacity: 0;
+}
+
+.popup.visible {
+  opacity: 1;
+}
+
+body.popup-active .arcade-zone,
+body.popup-active .board-zone,
+body.popup-active .plant-zone,
+body.popup-active .lamp-zone {
+  pointer-events: none;
+}
+
+/* 🎯 Base popup image style */
+.popup-content img {
+  height: auto;
+  max-width: none;
+  max-height: none;
+  display: block;
+  margin: auto;
+  object-fit: contain;
+}
+
+/* 🔹 Small images (80%) */
+.popup-img.small {
+  width: 80%;
+}
+
+/* 🔸 Large images (120%) */
+.popup-img.large {
+  width: 120%;
+}
+
+/* Reduce text size for bouquets and air dry clay */
+#plantPopup .popup-text,
+#lampPopup .popup-text {
+  font-size: 0.75rem;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div id="scene"></div>
+<div id="darkness"></div>
+<img id="torch" src="torchtm.png">
+<button id="enter">ENTER</button>
+
+<div id="hall">
+  <div id="navMuseum" onclick="goToMuseum()">← Museum of Me</div>
+  <h1>Museum’s Galleries</h1>
+  <div class="stack">
+    <div class="card" onclick="openFreeform()">
+      <img src="Canvasstudio.png">
+      <div class="label"><h2>CANVAS STUDIO</h2></div>
+    </div>
+    <div class="card" onclick="openArcade()"><img src="Arcade.png"><div class="label"><h2>ARCADE PROJECT DEN</h2></div></div>
+    <div class="card"><img src="Customization.png"><div class="label"><h2 class="custom">CUSTOMIZATION CO-OP</h2></div></div>
+    <div class="card"><img src="Director's Dom.png"><div class="label"><h2>DIRECTOR'S DOME</h2></div></div>
+    <div class="card"><img src="Production.png"><div class="label"><h2>ABOUT ME</h2></div></div>
+  </div>
+</div>
+
+<div id="freeform">
+  <div id="navBack" onclick="goBack()">← Galleries</div>
+  <div class="freeform-title">
+    <h1>Canvas Studio</h1>
+    <p>Drag & Explore :)</p>
+  </div>
+  <div class="freeform-inner" id="freeformInner"></div>
+</div>
+
+<div id="arcade">
+  <div id="navBackArcade" onclick="goBack()">← Galleries</div>
+  <div id="hoverCounter">Hover & Find :) — 0/5</div>
+
+  <!-- Hover Zones -->
+  <div class="arcade-zone" id="arcadeZone"></div>
+  <div class="board-zone" id="boardZone"></div>
+  <div class="plant-zone" id="plantZone"></div>
+  <div class="lamp-zone" id="lampZone"></div>
+
+  <!-- Arcade Buttons (move OUTSIDE arcade-zone) -->
+  <div class="arcade-button1" id="arcadeButton1"></div>
+  <div class="arcade-button2" id="arcadeButton2"></div>
+
+  <!-- Popups -->
+  <div id="popupLayer">
+    <div class="arcade-popup popup" id="arcadePopup">
+      <div class="popup-inner">
+        <h3 class="popup-title">Wedding Guestbook</h3>
+        <div class="popup-content">
+          <img id="arcadeImg" src="wed.png" alt="Wedding Guestbook" class="popup-img small">
+          <div class="popup-subline" id="arcadeText">Cards with personalized messages</div>
+        </div>
+      </div>
+    </div>
+    <div class="popup board-popup" id="boardPopup">
+      <div class="popup-inner">
+
+        <!-- TITLE -->
+        <h3 class="popup-title">Games</h3>
+
+        <!-- LEFT NAV (INSIDE POPUP) -->
+        <button class="popup-nav left" id="prevBtn">‹</button>
+
+        <!-- CONTENT -->
+        <div class="popup-content">
+          <img id="boardImg" class="popup-img large">
+          <div class="popup-subline" id="boardCaption"></div>
+        </div>
+
+        <!-- RIGHT NAV (INSIDE POPUP) -->
+        <button class="popup-nav right" id="nextBtn">›</button>
+
+      </div>
+    </div>
+    <div class="plant-popup popup" id="plantPopup">
+      <div class="popup-inner">
+        <h3 class="popup-title">Bouquets</h3>
+        <div class="popup-content">
+          <img id="plantImg" src="vang.png" alt="Van Gogh Bouquet" class="popup-img small">
+          <div class="popup-text">Van Gogh bouquet</div>
+        </div>
+      </div>
+    </div>
+    <div class="lamp-popup popup" id="lampPopup">
+      <div class="popup-inner">
+        <h3 class="popup-title">Air-dry Clay Creations</h3>
+        <div class="popup-content">
+          <img id="lampImg" src="clay.png" alt="" class="popup-img small">
+          <div class="popup-text"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script>
+const root=document.documentElement;
+const torch=document.getElementById("torch");
+const dark=document.getElementById("darkness");
+const enter=document.getElementById("enter");
+const scene=document.getElementById("scene");
+const hall=document.getElementById("hall");
+const freeform=document.getElementById("freeform");
+const inner=document.getElementById("freeformInner");
+const arcade=document.getElementById("arcade");
+
+/* TORCH FOLLOW */
+document.addEventListener("mousemove",e=>{
+  root.style.setProperty("--x",e.clientX+"px");
+  root.style.setProperty("--y",e.clientY+"px");
+  torch.style.left=e.clientX+"px";
+  torch.style.top=e.clientY+"px";
+});
+
+/* TORCH END */
+setTimeout(()=>{
+  dark.style.opacity=0;
+  torch.style.opacity=0;
+  document.body.style.cursor="default";
+  enter.style.opacity=1;
+},8000);
+
+enter.onclick=()=>{
+  scene.style.display="none";
+  dark.style.display="none";
+  torch.style.display="none";
+  enter.style.display="none";
+  hall.style.opacity=1;
+  hall.style.pointerEvents="auto";
+};
+
+/* FREEFORM */
+function openFreeform(){
+  hall.style.opacity=0;
+  freeform.style.display="block";
+  buildFreeform();
+}
+
+/* ARCADE */
+function openArcade(){
+  hall.style.opacity = 0;
+  arcade.style.display = "block";
+  arcade.style.opacity = 1; /* ⬅️ ensure visibility */
+}
+
+/* RANDOM INFINITE CANVAS */
+function buildFreeform(){
+  inner.innerHTML='';
+  const COUNT=8;
+  const RANGE=2400;
+  const MIN_DIST=360;
+  const imgs=[...Array(8)].map((_,i)=>`art${i+1}.png`);
+
+  let frames=[];
+  let posX=0,posY=0,velX=0,velY=0;
+  let dragging=false;
+
+  function place(frame){
+    let x,y,ok=false;
+    while(!ok){
+      x=Math.random()*RANGE-RANGE/2;
+      y=Math.random()*RANGE-RANGE/2;
+      ok=frames.every(f=>Math.hypot(f.x-x,f.y-y)>MIN_DIST);
+    }
+    frame.x=x; frame.y=y;
+  }
+
+  for(let i=0;i<COUNT;i++){
+    const img=document.createElement("img");
+    img.src=imgs[i];
+    inner.appendChild(img);
+    const frame={img,x:0,y:0};
+    place(frame);
+    frames.push(frame);
+  }
+
+  freeform.onmousedown=()=>dragging=true;
+  window.onmouseup=()=>dragging=false;
+  window.onmousemove=e=>{
+    if(dragging){
+      velX+=e.movementX*0.12;
+      velY+=e.movementY*0.12;
+    }
+  };
+
+  (function loop(){
+    if(!dragging) velX+=0.02;
+    posX+=velX; posY+=velY;
+    velX*=0.92; velY*=0.92;
+
+    frames.forEach(f=>{
+      if(f.x+posX>1400||f.x+posX<-1400||
+         f.y+posY>1400||f.y+posY<-1400){
+        place(f);
+      }
+      f.img.style.left=(f.x+posX)+"px";
+      f.img.style.top=(f.y+posY)+"px";
+    });
+
+    requestAnimationFrame(loop);
+  })();
+}
+
+
+
+function goBack(){
+  freeform.style.display="none";
+  arcade.style.display="none";
+  hall.style.opacity=1;
+}
+
+function goToMuseum(){
+  hall.style.opacity=0;
+  hall.style.pointerEvents="none";
+  scene.style.display="block";
+  dark.style.display="block";
+  torch.style.display="block";
+  enter.style.display="block";
+}
+
+/* INTERACTIVE SCENE */
+const arcadeZone = document.getElementById('arcadeZone');
+const arcadeButton1 = document.getElementById('arcadeButton1');
+const arcadeButton2 = document.getElementById('arcadeButton2');
+const boardZone = document.getElementById('boardZone');
+const plantZone = document.getElementById('plantZone');
+const lampZone = document.getElementById('lampZone');
+
+const arcadePopup = document.getElementById('arcadePopup');
+const boardPopup = document.getElementById('boardPopup');
+const plantPopup = document.getElementById('plantPopup');
+const lampPopup = document.getElementById('lampPopup');
+
+const arcadeImg = document.getElementById('arcadeImg');
+const arcadeText = document.getElementById('arcadeText');
+const arcadeTitle = arcadePopup.querySelector('.popup-title');
+const boardImg = document.getElementById('boardImg');
+const boardCaption = document.getElementById('boardCaption');
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
+
+let activePopup = null;
+
+const boardGames = [
+  { img: 'nunnu.png', caption: 'Customized Uno' },
+  { img: 'jenga.png', caption: 'Memories Jenga' },
+  { img: 'f1.png', caption: 'F1 Board Game' }
+];
+let currentGameIndex = 0;
+
+const hoverCounter = document.getElementById('hoverCounter');
+const TOTAL_ZONES = 5;
+let openedZones = new Set();
+
+const arcadeInner = {
+  guestbook: {
+    title: "Wedding Guestbook",
+    img: "wed.png",
+    text: "Cards with personalized messages"
+  },
+  treasure: {
+    title: "Treasure Hunt Across Church Street",
+    img: "",
+    text: ""
+  }
+};
+
+
+
+function activatePopup(popup) {
+  // Determine the type based on the popup
+  let type;
+  if (popup === boardPopup) type = 'board';
+  else if (popup === plantPopup) type = 'plant';
+  else if (popup === lampPopup) type = 'lamp';
+
+  // Track unique hovers
+  if (type && !openedZones.has(type)) {
+    openedZones.add(type);
+    hoverCounter.textContent = `Hover & Find :) — ${openedZones.size}/${TOTAL_ZONES}`;
+  }
+
+  if (activePopup === popup) return;
+
+  document.querySelectorAll('.popup').forEach(p => {
+    p.classList.remove('visible');
+    p.removeEventListener('mouseleave', closePopups); // remove previous listeners
+  });
+
+  popup.classList.add('visible');
+  activePopup = popup;
+
+  document.body.classList.add('popup-active');
+
+  // Close popup instantly when mouse leaves the popup
+  popup.addEventListener('mouseleave', closePopups);
+}
+
+function closePopups() {
+  if (activePopup) {
+    activePopup.classList.remove('visible');
+    activePopup.removeEventListener('mouseleave', closePopups);
+    activePopup = null;
+  }
+  document.body.classList.remove('popup-active');
+}
+
+function showArcadePopup(type) {
+  // Track unique hovers
+  if (!openedZones.has(type)) {
+    openedZones.add(type);
+    hoverCounter.textContent = `Hover & Find :) — ${openedZones.size}/${TOTAL_ZONES}`;
+  }
+
+  // Close any currently visible popup first
+  closePopups();
+
+  switch(type) {
+    case 'guestbook':
+      activatePopup(arcadePopup);
+      arcadeTitle.textContent = "Wedding Guestbook";
+      arcadeImg.src = "wed.png";
+      arcadeImg.style.display = "block";
+      arcadeText.textContent = "Cards with personalized messages";
+      break;
+
+    case 'treasure':
+      activatePopup(arcadePopup);
+      arcadeTitle.textContent = "Treasure Hunt";
+      arcadeImg.style.display = "none";
+      arcadeText.textContent = "Find hidden treasures around the museum";
+      break;
+
+    case 'board':
+      activatePopup(boardPopup);
+      currentGameIndex = 0;
+      boardImg.src = boardGames[currentGameIndex].img;
+      boardCaption.textContent = boardGames[currentGameIndex].caption;
+      break;
+
+    case 'plant':
+      activatePopup(plantPopup);
+      // Example: plant popup content
+      plantPopup.querySelector('.popup-title').textContent = "Bouquets";
+      plantPopup.querySelector('img').src = "vang.png";
+      plantPopup.querySelector('.popup-text').textContent = "Van Gogh bouquet";
+      break;
+
+    case 'lamp':
+      activatePopup(lampPopup);
+      // Example: lamp popup content
+      lampPopup.querySelector('.popup-title').textContent = "Air-dry Clay Creations";
+      lampPopup.querySelector('img').src = "clay.png";
+      lampPopup.querySelector('.popup-text').textContent = "";
+      break;
+  }
+}
+
+// 5 zones
+arcadeButton1.addEventListener('mouseenter', () => showArcadePopup('guestbook'));
+arcadeButton2.addEventListener('mouseenter', () => showArcadePopup('treasure'));
+
+boardZone.addEventListener('mouseenter', () => activatePopup(boardPopup));
+plantZone.addEventListener('mouseenter', () => activatePopup(plantPopup));
+lampZone.addEventListener('mouseenter', () => activatePopup(lampPopup));
+
+
+arcadeButton1.addEventListener('mouseenter', () => showArcadePopup('guestbook'));
+arcadeButton2.addEventListener('mouseenter', () => showArcadePopup('treasure'));
+boardZone.addEventListener('mouseenter', () => showArcadePopup('board'));
+plantZone.addEventListener('mouseenter', () => showArcadePopup('plant'));
+lampZone.addEventListener('mouseenter', () => showArcadePopup('lamp'));
+
+prevBtn.addEventListener('click', () => {
+  currentGameIndex = (currentGameIndex - 1 + boardGames.length) % boardGames.length;
+  boardImg.src = boardGames[currentGameIndex].img;
+  boardCaption.textContent = boardGames[currentGameIndex].caption;
+});
+nextBtn.addEventListener('click', () => {
+  currentGameIndex = (currentGameIndex + 1) % boardGames.length;
+  boardImg.src = boardGames[currentGameIndex].img;
+  boardCaption.textContent = boardGames[currentGameIndex].caption;
+});
+
+</script>
+</body>
+</html>
