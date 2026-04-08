@@ -23,7 +23,7 @@
       overflow-x:hidden;
       scroll-behavior:smooth;
     }
-    body.lock-scroll{overflow:hidden;}
+    html.lock-scroll, body.lock-scroll{overflow:hidden;height:100%;touch-action:none;}
     body{min-height:100vh}
     button{font:inherit;color:inherit;border:none;background:none;cursor:pointer}
 
@@ -235,13 +235,43 @@
 
     document.body.classList.add("lock-scroll");
 
+    const unlockScroll = () => {
+      document.body.classList.remove("lock-scroll");
+      document.documentElement.classList.remove("lock-scroll");
+      window.scrollTo(0, 0);
+      document.body.style.cursor = "auto";
+      ScrollTrigger.refresh();
+      window.removeEventListener("wheel", preventScroll, wheelOpts);
+      window.removeEventListener("touchmove", preventScroll, wheelOpts);
+      window.removeEventListener("keydown", preventKeyScroll, true);
+    };
+
+    const preventScroll = (e) => {
+      e.preventDefault();
+      window.scrollTo(0, 0);
+    };
+
+    const preventKeyScroll = (e) => {
+      const keys = ["ArrowUp", "ArrowDown", "PageUp", "PageDown", "Home", "End", " "];
+      if (keys.includes(e.key)) {
+        e.preventDefault();
+        window.scrollTo(0, 0);
+      }
+    };
+
+    const wheelOpts = { passive: false };
+    document.body.classList.add("lock-scroll");
+    document.documentElement.classList.add("lock-scroll");
+    window.scrollTo(0, 0);
+    window.addEventListener("wheel", preventScroll, wheelOpts);
+    window.addEventListener("touchmove", preventScroll, wheelOpts);
+    window.addEventListener("keydown", preventKeyScroll, true);
+
     setTimeout(() => {
       dark.style.opacity = 0;
       torch.style.opacity = 0;
-      document.body.style.cursor = "auto";
-      document.body.classList.remove("lock-scroll");
-      ScrollTrigger.refresh();
-    }, 1500);
+      unlockScroll();
+    }, 2500);
 
     menuToggle.addEventListener("click", () => menuPanel.classList.toggle("open"));
     menuClose.addEventListener("click", () => menuPanel.classList.remove("open"));
