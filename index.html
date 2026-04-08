@@ -81,7 +81,7 @@
 
     #hero{
       position:relative;
-      height:175vh;
+      height:100vh;
       background:#000;
       cursor:none;
     }
@@ -131,7 +131,7 @@
 
     #entrance{
       position:relative;
-      height:120vh;
+      height:100vh;
       background:#000;
     }
     .entrance-pin{
@@ -144,8 +144,9 @@
     #entranceBg{
       position:absolute;
       inset:0;
-      background:url("bg2.jpeg") center center/cover no-repeat;
-      will-change:transform;
+      background:url("bg2.png") center center/cover no-repeat;
+      will-change:transform, opacity;
+      opacity:0;
     }
     .entrance-vignette{
       position:absolute;
@@ -240,7 +241,7 @@
       document.body.style.cursor = "auto";
       document.body.classList.remove("lock-scroll");
       ScrollTrigger.refresh();
-    }, 8000);
+    }, 1500);
 
     menuToggle.addEventListener("click", () => menuPanel.classList.toggle("open"));
     menuClose.addEventListener("click", () => menuPanel.classList.remove("open"));
@@ -250,32 +251,40 @@
       }
     });
 
-    gsap.to("#scene", {
-      scale: 1.24,
-      yPercent: 8,
-      ease: "none",
+    gsap.timeline({
       scrollTrigger: {
         trigger: "#hero",
         start: "top top",
         end: "bottom bottom",
         scrub: 1
       }
-    });
+    })
+    .to("#scene", {
+      scale: 1.32,
+      yPercent: 10,
+      ease: "none"
+    }, 0)
+    .to("#scene", {
+      opacity: 0,
+      ease: "none"
+    }, 0.72)
+    .to("#entranceBg", {
+      opacity: 1,
+      scale: 1.02,
+      ease: "none"
+    }, 0.72);
 
-    gsap.fromTo("#entranceBg",
-      { scale: 1.16, yPercent: 4 },
-      {
-        scale: 1,
-        yPercent: 0,
-        ease: "none",
-        scrollTrigger: {
-          trigger: "#entrance",
-          start: "top bottom",
-          end: "top top",
-          scrub: 1
-        }
+    gsap.to("#entranceBg", {
+      scale: 1,
+      yPercent: 0,
+      ease: "none",
+      scrollTrigger: {
+        trigger: "#entrance",
+        start: "top top",
+        end: "bottom bottom",
+        scrub: 1
       }
-    );
+    });
   </script>
 </body>
 </html>
