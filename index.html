@@ -23,6 +23,7 @@
       overflow-x:hidden;
       scroll-behavior:smooth;
     }
+    body.lock-scroll{overflow:hidden;}
     body{min-height:100vh}
     button{font:inherit;color:inherit;border:none;background:none;cursor:pointer}
 
@@ -211,8 +212,7 @@
     <div class="entrance-pin">
       <div id="entranceBg"></div>
       <div class="entrance-vignette"></div>
-      <div class="pill">Entrance</div>
-    </div>
+          </div>
   </section>
 
   <script>
@@ -232,10 +232,14 @@
       torch.style.top = e.clientY + "px";
     });
 
+    document.body.classList.add("lock-scroll");
+
     setTimeout(() => {
       dark.style.opacity = 0;
       torch.style.opacity = 0;
       document.body.style.cursor = "auto";
+      document.body.classList.remove("lock-scroll");
+      ScrollTrigger.refresh();
     }, 8000);
 
     menuToggle.addEventListener("click", () => menuPanel.classList.toggle("open"));
@@ -259,14 +263,15 @@
     });
 
     gsap.fromTo("#entranceBg",
-      { scale: 1.08 },
+      { scale: 1.16, yPercent: 4 },
       {
         scale: 1,
+        yPercent: 0,
         ease: "none",
         scrollTrigger: {
           trigger: "#entrance",
           start: "top bottom",
-          end: "bottom top",
+          end: "top top",
           scrub: 1
         }
       }
