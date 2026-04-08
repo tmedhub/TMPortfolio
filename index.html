@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Thanima Portfolio</title>
+  <title>Thanima Portfolio — Rebuild</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <style>
@@ -13,86 +13,74 @@
       --torchW:420px;
       --torchH:620px;
       --gold:#f5d9a6;
-      --goldSoft:rgba(245,217,166,.72);
-      --line:rgba(245,217,166,.18);
-      --panel:rgba(0,0,0,.96);
-      --text:#f5e7cf;
-      --muted:rgba(245,231,207,.78);
-      --shadow:0 24px 70px rgba(0,0,0,.38);
+      --text:#f7ecd8;
+      --muted:rgba(247,236,216,.75);
     }
-
     *{margin:0;padding:0;box-sizing:border-box}
     html,body{background:#000;color:var(--text);font-family:Georgia,serif;overflow-x:hidden;scroll-behavior:smooth}
     body{min-height:100vh}
+    button{font:inherit;border:none;background:none;color:inherit}
     a{text-decoration:none;color:inherit}
-    button{font:inherit;color:inherit;border:none;background:none}
     img{display:block;max-width:100%}
 
-    /* ---------- fixed UI ---------- */
     .top-btn{
       position:fixed;
-      top:20px;
+      top:18px;
       z-index:500;
       display:inline-flex;
       align-items:center;
       gap:.8rem;
-      padding:.92rem 1.15rem;
+      padding:.9rem 1.1rem;
       border-radius:999px;
       border:1px solid rgba(245,217,166,.28);
-      background:rgba(0,0,0,.3);
+      background:rgba(0,0,0,.28);
       color:var(--gold);
       backdrop-filter:blur(14px);
       -webkit-backdrop-filter:blur(14px);
-      text-transform:uppercase;
       letter-spacing:.14em;
+      text-transform:uppercase;
       font-size:.72rem;
       cursor:pointer;
-      transition:transform .25s ease, background .25s ease, border-color .25s ease, opacity .25s ease;
-      box-shadow:0 10px 30px rgba(0,0,0,.22);
+      transition:transform .22s ease, background .22s ease, border-color .22s ease;
     }
     .top-btn:hover{
       transform:translateY(-2px);
-      background:rgba(18,14,11,.56);
-      border-color:rgba(245,217,166,.48);
+      background:rgba(18,14,11,.55);
+      border-color:rgba(245,217,166,.45);
     }
-    .menu-toggle{left:20px}
-    .work-toggle{right:20px}
-
+    .menu-toggle{left:18px}
+    .work-toggle{right:18px}
     .burger{display:grid;gap:4px}
-    .burger span{width:18px;height:1.5px;border-radius:999px;background:currentColor;display:block}
+    .burger span{display:block;width:18px;height:1.5px;background:currentColor;border-radius:999px}
 
     .menu-panel{
       position:fixed;
-      left:20px;
-      top:72px;
-      z-index:520;
+      left:18px;
+      top:68px;
       width:310px;
-      padding:1.15rem 1.35rem 1.35rem;
+      padding:1.1rem 1.35rem 1.35rem;
       background:rgba(0,0,0,.98);
+      z-index:520;
       opacity:0;
       pointer-events:none;
       transform:translateY(-8px);
-      transition:opacity .24s ease, transform .24s ease;
+      transition:opacity .22s ease, transform .22s ease;
     }
     .menu-panel.open{opacity:1;pointer-events:auto;transform:translateY(0)}
     .menu-top{display:flex;justify-content:flex-end}
-    .menu-close{
-      width:28px;height:28px;display:grid;place-items:center;cursor:pointer;
-      color:var(--gold);opacity:.85
-    }
-    .menu-list{display:grid;gap:1.95rem;padding:.35rem 0 .15rem}
+    .menu-close{width:28px;height:28px;display:grid;place-items:center;cursor:pointer;color:var(--gold)}
+    .menu-list{display:grid;gap:1.95rem;padding-top:.35rem}
     .menu-link{width:100%;text-align:left;cursor:pointer;transition:transform .2s ease, opacity .2s ease}
     .menu-link:hover{transform:translateX(4px);opacity:.86}
-    .menu-link strong{display:block;font-weight:600;font-size:1.08rem;letter-spacing:.02em}
+    .menu-link strong{display:block;font-size:1.08rem;font-weight:600;letter-spacing:.02em}
     .menu-link span{display:block;margin-top:.36rem;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(245,217,166,.82)}
 
-    /* ---------- generic ---------- */
     section{position:relative;width:100%;background:#000}
-    .section-pill{
+    .pill{
       position:absolute;
       left:50%;
+      bottom:3vh;
       transform:translateX(-50%);
-      bottom:3.5vh;
       z-index:40;
       padding:.68rem 1rem;
       border-radius:999px;
@@ -100,15 +88,14 @@
       background:rgba(0,0,0,.18);
       backdrop-filter:blur(8px);
       -webkit-backdrop-filter:blur(8px);
-      font-size:.68rem;
-      letter-spacing:.24em;
+      color:rgba(247,236,216,.78);
+      letter-spacing:.22em;
       text-transform:uppercase;
-      color:rgba(245,231,207,.78);
+      font-size:.66rem;
       white-space:nowrap;
     }
 
-    /* ---------- 1. torch landing exact core ---------- */
-    #hero{height:170vh;background:black}
+    #hero{height:160vh;cursor:none}
     .hero-pin{position:sticky;top:0;height:100vh;overflow:hidden}
     #scene{
       position:absolute;
@@ -116,7 +103,7 @@
       background:url("bg1.png") center bottom/cover no-repeat;
       z-index:1;
       transform-origin:center center;
-      will-change:transform,filter;
+      will-change:transform;
     }
     #darkness{
       position:absolute;
@@ -146,32 +133,28 @@
       z-index:20;
     }
 
-    /* ---------- 2. entrance bg2 ---------- */
-    #entrance{height:140vh;background:#050505}
+    #entrance{height:120vh}
     .entrance-pin{position:sticky;top:0;height:100vh;overflow:hidden}
     .entrance-bg{
-      position:absolute;inset:0;
+      position:absolute;
+      inset:0;
       background:url("bg2.png") center center/cover no-repeat;
-      will-change:transform,opacity,filter;
+      will-change:transform;
     }
-    .entrance-overlay{position:absolute;inset:0;background:linear-gradient(180deg, rgba(0,0,0,.06), rgba(0,0,0,.14), rgba(0,0,0,.22))}
 
-    /* ---------- 3. canvas studio exact core ---------- */
-    #canvasStudio{min-height:132vh;padding:8vh 0 12vh;background:#000}
-    .canvas-wrap{width:min(95vw, 1440px);margin:0 auto;position:relative}
+    #canvasStudio{min-height:130vh;padding:8vh 0 12vh;background:#000}
+    .canvas-wrap{width:min(95vw,1440px);margin:0 auto;position:relative}
     #freeform{
       position:relative;
-      inset:auto;
+      width:100%;
+      height:112vh;
       display:block;
       background:black;
       overflow:hidden;
       cursor:grab;
       z-index:100;
-      width:100%;
-      height:112vh;
       border-radius:28px;
       border:1px solid rgba(245,217,166,.08);
-      box-shadow:var(--shadow);
     }
     #freeform:active{cursor:grabbing}
     .freeform-inner{position:absolute;left:0;top:0}
@@ -196,8 +179,8 @@
       font-size:3.4rem;
       letter-spacing:.35em;
       opacity:.45;
-      font-weight:400;
       text-transform:uppercase;
+      font-weight:400;
     }
     .freeform-title p{
       margin-top:14px;
@@ -207,33 +190,31 @@
       font-size:.78rem;
     }
 
-    /* ---------- 4. pathway bg3 bg4 bg5 ---------- */
-    #pathway{height:300vh;background:#050505}
-    .pathway-pin{position:sticky;top:0;height:100vh;overflow:hidden}
-    .pathway-bg,.pathway-bg2,.pathway-bg3{
-      position:absolute;inset:0;
-      background-position:center center;
-      background-size:cover;
-      background-repeat:no-repeat;
-      will-change:transform,opacity,filter;
+    .scene-full{height:120vh}
+    .scene-pin{position:sticky;top:0;height:100vh;overflow:hidden}
+    .bg3,.bg4,.bg5,.bg6,.bg7,.bg8,.bg9,.bg10{
+      position:absolute;inset:0;background-position:center center;background-size:cover;background-repeat:no-repeat;will-change:transform;
     }
-    .pathway-bg{background-image:url("bg3.png");z-index:1}
-    .pathway-bg2{background-image:url("bg4.png");z-index:2;opacity:0}
-    .pathway-bg3{background-image:url("bg5.png");z-index:3;opacity:0}
-    .pathway-overlay{position:absolute;inset:0;z-index:4;background:linear-gradient(180deg, rgba(0,0,0,.06), rgba(0,0,0,.12) 55%, rgba(0,0,0,.22))}
+    .bg3{background-image:url("bg3.png")}
+    .bg4{background-image:url("bg4.png")}
+    .bg5{background-image:url("bg5.png")}
+    .bg6{background-image:url("bg6.png")}
+    .bg7{background-image:url("bg7.png")}
+    .bg8{background-image:url("bg8.png")}
+    .bg9{background-image:url("bg9.png")}
+    .bg10{background-image:url("bg10.png")}
+    .scene-overlay{position:absolute;inset:0;background:linear-gradient(180deg, rgba(0,0,0,.04), rgba(0,0,0,.14), rgba(0,0,0,.22))}
 
-    /* ---------- 5. zoom into real screen in bg5 ---------- */
-    #arcadeZoom{height:170vh;background:#020202}
+    #arcadeZoom{height:180vh}
     .arcade-zoom-pin{position:sticky;top:0;height:100vh;overflow:hidden}
     .arcade-zoom-bg{
-      position:absolute;inset:0;
+      position:absolute;
+      inset:0;
       background:url("bg5.png") center center/cover no-repeat;
-      transform-origin:31% 44%;
-      will-change:transform,filter;
+      transform-origin:23% 48%;
+      will-change:transform;
     }
-    .arcade-zoom-overlay{position:absolute;inset:0;background:linear-gradient(180deg, rgba(0,0,0,.04), rgba(0,0,0,.16))}
 
-    /* ---------- 6. horizontal project world ---------- */
     #projectWorld{height:430vh;background:#020202}
     .project-pin{position:sticky;top:0;height:100vh;overflow:hidden}
     .project-base{
@@ -266,81 +247,23 @@
       grid-template-columns:1.05fr .95fr;
       background:linear-gradient(145deg, rgba(36,26,19,.94), rgba(12,10,10,.96));
       border:1px solid rgba(245,217,166,.1);
-      box-shadow:var(--shadow);
+      box-shadow:0 24px 70px rgba(0,0,0,.38);
     }
-    .project-image{
-      position:relative;
-      min-height:68vh;
-      background-position:center center;
-      background-size:cover;
-      background-repeat:no-repeat;
-    }
-    .project-image::after{
-      content:"";
-      position:absolute;inset:0;
-      background:linear-gradient(90deg, rgba(0,0,0,.08), rgba(0,0,0,.3));
-    }
-    .project-copy{
-      position:relative;
-      z-index:2;
-      padding:2rem 2rem 2.2rem;
-      display:flex;
-      flex-direction:column;
-      justify-content:flex-end;
-      gap:1rem;
-    }
+    .project-image{position:relative;min-height:68vh;background-position:center center;background-size:cover;background-repeat:no-repeat}
+    .project-image::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg, rgba(0,0,0,.08), rgba(0,0,0,.3))}
+    .project-copy{position:relative;z-index:2;padding:2rem 2rem 2.2rem;display:flex;flex-direction:column;justify-content:flex-end;gap:1rem}
     .project-index{font-size:.68rem;letter-spacing:.22em;text-transform:uppercase;color:rgba(245,217,166,.68)}
     .project-copy h3{font-size:clamp(1.5rem,3vw,2.5rem);font-weight:400;line-height:1.04}
     .project-copy p{color:var(--muted);line-height:1.65;font-size:.96rem;max-width:32ch}
     .meta{display:flex;flex-wrap:wrap;gap:.55rem}
-    .meta span{
-      padding:.5rem .76rem;
-      border-radius:999px;
-      border:1px solid rgba(245,217,166,.16);
-      color:rgba(245,217,166,.82);
-      font-size:.68rem;
-      letter-spacing:.12em;
-      text-transform:uppercase;
-      background:rgba(255,255,255,.02);
-    }
+    .meta span{padding:.5rem .76rem;border-radius:999px;border:1px solid rgba(245,217,166,.16);color:rgba(245,217,166,.82);font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;background:rgba(255,255,255,.02)}
     .project-actions{display:flex;gap:.75rem}
-    .project-actions a{
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      min-width:118px;
-      padding:.84rem 1rem;
-      border-radius:999px;
-      border:1px solid rgba(245,217,166,.22);
-      font-size:.74rem;
-      letter-spacing:.12em;
-      text-transform:uppercase;
-      transition:transform .25s ease, background .25s ease;
-    }
-    .project-actions a:hover{transform:translateY(-2px);background:rgba(245,217,166,.06)}
-    .project-progress{
-      position:absolute;
-      left:50%;
-      bottom:4vh;
-      transform:translateX(-50%);
-      width:min(320px, 72vw);
-      z-index:5;
-    }
+    .project-actions a{display:inline-flex;align-items:center;justify-content:center;min-width:118px;padding:.84rem 1rem;border-radius:999px;border:1px solid rgba(245,217,166,.22);font-size:.74rem;letter-spacing:.12em;text-transform:uppercase}
+    .project-progress{position:absolute;left:50%;bottom:4vh;transform:translateX(-50%);width:min(320px,72vw);z-index:5}
     .project-progress-line{height:2px;background:rgba(245,217,166,.16);border-radius:999px;overflow:hidden}
     .project-progress-line span{display:block;width:0%;height:100%;background:linear-gradient(90deg, rgba(245,217,166,.45), rgba(255,186,104,.98))}
 
-    /* ---------- transition into bg6 ---------- */
-    #arcadeToCoop{height:140vh;background:#060505}
-    .arcade-to-coop-pin{position:sticky;top:0;height:100vh;overflow:hidden}
-    .arcade-to-coop-bg{
-      position:absolute;inset:0;
-      background:url("bg6.png") center center/cover no-repeat;
-      will-change:transform,opacity,filter;
-    }
-    .arcade-to-coop-overlay{position:absolute;inset:0;background:linear-gradient(180deg, rgba(0,0,0,.06), rgba(0,0,0,.18))}
-
-    /* ---------- 7. customization co-op on bg6 ---------- */
-    #coop{height:180vh;background:#060505}
+    #coop{height:180vh}
     .coop-pin{position:sticky;top:0;height:100vh;overflow:hidden}
     .coop-bg{
       position:absolute;inset:0;
@@ -359,19 +282,15 @@
     .draggable-item img{width:92px;height:auto;display:block;pointer-events:none}
     .draggable-item:active{cursor:grabbing}
 
-    /* ---------- 8. pan left bg7 then zoom to bg8 theater ---------- */
-    #theaterJourney{height:260vh;background:#060505}
-    .theater-pin{position:sticky;top:0;height:100vh;overflow:hidden}
-    .theater-pan,.theater-room{
+    #directorTravel{height:130vh}
+    #directorsDome{height:170vh}
+    .dome-pin{position:sticky;top:0;height:100vh;overflow:hidden}
+    .dome-bg{
       position:absolute;inset:0;
-      background-position:center center;
-      background-size:cover;
-      background-repeat:no-repeat;
-      will-change:transform,opacity,filter;
+      background:url("bg8.png") center center/cover no-repeat;
+      will-change:transform;
     }
-    .theater-pan{background-image:url("bg7.png");z-index:1}
-    .theater-room{background-image:url("bg8.png");z-index:2;opacity:0;transform-origin:50% 48%}
-    .theater-overlay{position:absolute;inset:0;z-index:3;background:linear-gradient(180deg, rgba(0,0,0,.06), rgba(0,0,0,.18))}
+    .dome-overlay{position:absolute;inset:0;background:linear-gradient(180deg, rgba(0,0,0,.04), rgba(0,0,0,.18))}
     .video-stage{
       position:absolute;
       left:25%;
@@ -382,24 +301,18 @@
       border-radius:10px;
       overflow:hidden;
       box-shadow:0 20px 40px rgba(0,0,0,.34);
-      opacity:0;
-      transform:scale(.94);
     }
     .video-stage video{width:100%;height:100%;object-fit:cover;display:block}
 
-    /* ---------- 9. sky ending bg9 bg10 ---------- */
-    #skyLimit{height:240vh;background:#070708}
-    .sky-pin{position:sticky;top:0;height:100vh;overflow:hidden}
-    .sky-room,.sky-room2{
+    #skyUp{height:130vh}
+    #skyFinal{height:160vh}
+    .final-pin{position:sticky;top:0;height:100vh;overflow:hidden}
+    .final-bg{
       position:absolute;inset:0;
-      background-position:center center;
-      background-size:cover;
-      background-repeat:no-repeat;
-      will-change:transform,opacity;
+      background:url("bg10.png") center center/cover no-repeat;
+      will-change:transform;
     }
-    .sky-room{background-image:url("bg9.png");z-index:1}
-    .sky-room2{background-image:url("bg10.png");z-index:2;opacity:0}
-    .sky-overlay{position:absolute;inset:0;z-index:3;background:linear-gradient(180deg, rgba(0,0,0,.06), rgba(0,0,0,.18))}
+    .final-overlay{position:absolute;inset:0;background:linear-gradient(180deg, rgba(0,0,0,.08), rgba(0,0,0,.22))}
     .final-copy{
       position:absolute;
       left:50%;
@@ -408,18 +321,17 @@
       width:min(760px, 88vw);
       z-index:5;
       text-align:center;
-      opacity:0;
     }
     .final-copy h2{font-size:clamp(2.4rem,5vw,5rem);font-weight:400;letter-spacing:.08em;line-height:1.02}
     .final-copy h3{margin-top:1rem;font-size:clamp(1rem,2vw,1.35rem);font-weight:400;letter-spacing:.26em;text-transform:uppercase;color:rgba(247,236,216,.88)}
     .final-copy p{margin:1.3rem auto 0;max-width:38ch;line-height:1.8;color:var(--muted);font-size:1rem}
 
-    @media (max-width: 1024px){
+    @media (max-width:1024px){
       .project-panel{grid-template-columns:1fr;flex-basis:84vw}
       .project-image{min-height:38vh}
       .video-stage{left:19%;width:62%;height:32%}
     }
-    @media (max-width: 720px){
+    @media (max-width:720px){
       .top-btn{top:14px;font-size:.66rem;padding:.8rem .95rem}
       .menu-toggle{left:14px}
       .work-toggle{right:14px}
@@ -431,7 +343,6 @@
       .project-copy{padding:1.4rem 1.4rem 1.6rem}
       .draggable-item img{width:76px}
       .video-stage{left:12%;top:29%;width:76%;height:28%}
-      .section-pill{font-size:.65rem;bottom:3vh}
     }
   </style>
 </head>
@@ -441,33 +352,20 @@
     <span>Museum’s Galleries</span>
   </button>
 
-  <button class="top-btn work-toggle" onclick="scrollToSection('skyLimit')">Let’s Work Together</button>
+  <button class="top-btn work-toggle" onclick="scrollToSection('skyFinal')">Let’s Work Together</button>
 
   <div class="menu-panel" id="menuPanel">
     <div class="menu-top">
       <button class="menu-close" id="menuClose">✕</button>
     </div>
     <div class="menu-list">
-      <button class="menu-link" data-target="canvasStudio">
-        <strong>Canvas Studio</strong>
-        <span>Gallery 01</span>
-      </button>
-      <button class="menu-link" data-target="projectWorld">
-        <strong>Project Arcade</strong>
-        <span>Gallery 02</span>
-      </button>
-      <button class="menu-link" data-target="coop">
-        <strong>Customization Co-op</strong>
-        <span>Gallery 03</span>
-      </button>
-      <button class="menu-link" data-target="theaterJourney">
-        <strong>Director's Dome</strong>
-        <span>Gallery 04</span>
-      </button>
+      <button class="menu-link" data-target="canvasStudio"><strong>Canvas Studio</strong><span>Gallery 01</span></button>
+      <button class="menu-link" data-target="projectWorld"><strong>Project Arcade</strong><span>Gallery 02</span></button>
+      <button class="menu-link" data-target="coop"><strong>Customization Co-op</strong><span>Gallery 03</span></button>
+      <button class="menu-link" data-target="directorsDome"><strong>Director's Dome</strong><span>Gallery 04</span></button>
     </div>
   </div>
 
-  <!-- 1 -->
   <section id="hero">
     <div class="hero-pin">
       <div id="scene"></div>
@@ -476,15 +374,12 @@
     </div>
   </section>
 
-  <!-- 2 -->
   <section id="entrance">
     <div class="entrance-pin">
       <div class="entrance-bg" id="entranceBg"></div>
-      <div class="entrance-overlay"></div>
     </div>
   </section>
 
-  <!-- 3 -->
   <section id="canvasStudio">
     <div class="canvas-wrap">
       <div id="freeform">
@@ -494,30 +389,39 @@
         </div>
         <div class="freeform-inner" id="freeformInner"></div>
       </div>
-      <div class="section-pill">Canvas Studio</div>
+      <div class="pill">Canvas Studio</div>
     </div>
   </section>
 
-  <!-- 4 -->
-  <section id="pathway">
-    <div class="pathway-pin">
-      <div class="pathway-bg" id="pathwayBg"></div>
-      <div class="pathway-bg2" id="pathwayBg2"></div>
-      <div class="pathway-bg3" id="pathwayBg3"></div>
-      <div class="pathway-overlay"></div>
-      <div class="section-pill">Project Arcade</div>
+  <section class="scene-full" id="hallA">
+    <div class="scene-pin">
+      <div class="bg3" id="bg3"></div>
+      <div class="scene-overlay"></div>
     </div>
   </section>
 
-  <!-- 5 -->
+  <section class="scene-full" id="hallB">
+    <div class="scene-pin">
+      <div class="bg4" id="bg4"></div>
+      <div class="scene-overlay"></div>
+    </div>
+  </section>
+
+  <section class="scene-full" id="hallC">
+    <div class="scene-pin">
+      <div class="bg5" id="bg5"></div>
+      <div class="scene-overlay"></div>
+      <div class="pill">Project Arcade</div>
+    </div>
+  </section>
+
   <section id="arcadeZoom">
     <div class="arcade-zoom-pin">
       <div class="arcade-zoom-bg" id="arcadeZoomBg"></div>
-      <div class="arcade-zoom-overlay"></div>
+      <div class="scene-overlay"></div>
     </div>
   </section>
 
-  <!-- 6 -->
   <section id="projectWorld">
     <div class="project-pin">
       <div class="project-base" id="projectBase"></div>
@@ -532,7 +436,6 @@
             <div class="project-actions"><a href="#">View</a><a href="#">Case</a></div>
           </div>
         </article>
-
         <article class="project-panel">
           <div class="project-image" style="background-image:url('project2.png')"></div>
           <div class="project-copy">
@@ -543,7 +446,6 @@
             <div class="project-actions"><a href="#">View</a><a href="#">Case</a></div>
           </div>
         </article>
-
         <article class="project-panel">
           <div class="project-image" style="background-image:url('project3.png')"></div>
           <div class="project-copy">
@@ -554,7 +456,6 @@
             <div class="project-actions"><a href="#">View</a><a href="#">Case</a></div>
           </div>
         </article>
-
         <article class="project-panel">
           <div class="project-image" style="background-image:url('project4.png')"></div>
           <div class="project-copy">
@@ -566,66 +467,60 @@
           </div>
         </article>
       </div>
-      <div class="project-progress">
-        <div class="project-progress-line"><span id="projectProgressBar"></span></div>
-      </div>
+      <div class="project-progress"><div class="project-progress-line"><span id="projectProgressBar"></span></div></div>
     </div>
   </section>
 
-  <!-- transition to bg6 -->
-  <section id="arcadeToCoop">
-    <div class="arcade-to-coop-pin">
-      <div class="arcade-to-coop-bg" id="arcadeToCoopBg"></div>
-      <div class="arcade-to-coop-overlay"></div>
+  <section class="scene-full" id="coopIntro">
+    <div class="scene-pin">
+      <div class="bg6" id="bg6Intro"></div>
+      <div class="scene-overlay"></div>
     </div>
   </section>
 
-  <!-- 7 -->
   <section id="coop">
     <div class="coop-pin">
       <div class="coop-bg" id="coopBg"></div>
       <div class="coop-overlay"></div>
-
-      <div class="draggable-item" style="left:27%;top:30%;">
-        <img src="vang.png" alt="vang">
-      </div>
-      <div class="draggable-item" style="left:41%;top:30%;">
-        <img src="f1.png" alt="f1">
-      </div>
-      <div class="draggable-item" style="left:54%;top:30%;">
-        <img src="item3.png" alt="item3">
-      </div>
-      <div class="draggable-item" style="left:34%;top:51%;">
-        <img src="item4.png" alt="item4">
-      </div>
-      <div class="draggable-item" style="left:49%;top:51%;">
-        <img src="item5.png" alt="item5">
-      </div>
-
-      <div class="section-pill">Customization Co-op</div>
+      <div class="draggable-item" style="left:27%;top:30%;"><img src="vang.png" alt="vang"></div>
+      <div class="draggable-item" style="left:41%;top:30%;"><img src="f1.png" alt="f1"></div>
+      <div class="draggable-item" style="left:54%;top:30%;"><img src="item3.png" alt="item3"></div>
+      <div class="draggable-item" style="left:34%;top:51%;"><img src="item4.png" alt="item4"></div>
+      <div class="draggable-item" style="left:49%;top:51%;"><img src="item5.png" alt="item5"></div>
+      <div class="pill">Customization Co-op</div>
     </div>
   </section>
 
-  <!-- 8 -->
-  <section id="theaterJourney">
-    <div class="theater-pin">
-      <div class="theater-pan" id="theaterPan"></div>
-      <div class="theater-room" id="theaterRoom"></div>
-      <div class="theater-overlay"></div>
-      <div class="video-stage" id="videoStage">
+  <section id="directorTravel" class="scene-full">
+    <div class="scene-pin">
+      <div class="bg7" id="bg7"></div>
+      <div class="scene-overlay"></div>
+    </div>
+  </section>
+
+  <section id="directorsDome">
+    <div class="dome-pin">
+      <div class="dome-bg" id="domeBg"></div>
+      <div class="dome-overlay"></div>
+      <div class="video-stage">
         <video src="showreel.mp4" autoplay muted loop playsinline controls></video>
       </div>
-      <div class="section-pill">Director's Dome</div>
+      <div class="pill">Director's Dome</div>
     </div>
   </section>
 
-  <!-- 9 -->
-  <section id="skyLimit">
-    <div class="sky-pin">
-      <div class="sky-room" id="skyRoom"></div>
-      <div class="sky-room2" id="skyRoom2"></div>
-      <div class="sky-overlay"></div>
-      <div class="final-copy" id="finalCopy">
+  <section id="skyUp" class="scene-full">
+    <div class="scene-pin">
+      <div class="bg9" id="bg9"></div>
+      <div class="scene-overlay"></div>
+    </div>
+  </section>
+
+  <section id="skyFinal">
+    <div class="final-pin">
+      <div class="final-bg" id="finalBg"></div>
+      <div class="final-overlay"></div>
+      <div class="final-copy">
         <h2>Sky is the limit</h2>
         <h3>Let’s work together</h3>
         <p>Built with curiosity, crafted with warmth, and always reaching for the next story worth making.</p>
@@ -662,7 +557,6 @@
       }
     });
 
-    /* ---------- exact torch follow ---------- */
     document.addEventListener("mousemove",e=>{
       root.style.setProperty("--x",e.clientX+"px");
       root.style.setProperty("--y",e.clientY+"px");
@@ -673,10 +567,9 @@
     setTimeout(()=>{
       dark.style.opacity=0;
       torch.style.opacity=0;
-      document.body.style.cursor="default";
+      document.body.style.cursor="auto";
     },8000);
 
-    /* ---------- exact freeform ---------- */
     function buildFreeform(){
       inner.innerHTML='';
       const COUNT=8;
@@ -722,8 +615,7 @@
         velX*=0.92; velY*=0.92;
 
         frames.forEach(f=>{
-          if(f.x+posX>1400||f.x+posX<-1400||
-             f.y+posY>1400||f.y+posY<-1400){
+          if(f.x+posX>1400||f.x+posX<-1400||f.y+posY>1400||f.y+posY<-1400){
             place(f);
           }
           f.img.style.left=(f.x+posX)+"px";
@@ -735,53 +627,12 @@
     }
     buildFreeform();
 
-    /* ---------- scroll film ---------- */
-    gsap.timeline({
-      scrollTrigger:{
-        trigger:"#hero",
-        start:"top top",
-        end:"bottom bottom",
-        scrub:1.1
-      }
-    }).to("#scene",{scale:1.24,yPercent:8,filter:"brightness(.9)"},0);
-
-    gsap.timeline({
-      scrollTrigger:{
-        trigger:"#entrance",
-        start:"top bottom",
-        end:"bottom top",
-        scrub:1.1
-      }
-    }).fromTo("#entranceBg",
-      {scale:1.1,opacity:.18,filter:"brightness(.8)"},
-      {scale:1,opacity:1,filter:"brightness(1)"},
-      0
-    );
-
-    gsap.timeline({
-      scrollTrigger:{
-        trigger:"#pathway",
-        start:"top top",
-        end:"bottom bottom",
-        scrub:1.15
-      }
-    })
-    .fromTo("#pathwayBg",{scale:1,yPercent:0,opacity:1},{scale:1.14,yPercent:4,opacity:.28},0)
-    .fromTo("#pathwayBg2",{scale:1.08,yPercent:10,opacity:0},{scale:1.16,yPercent:-2,opacity:1},.14)
-    .fromTo("#pathwayBg3",{scale:1.1,yPercent:12,opacity:0},{scale:1.06,yPercent:-3,opacity:1},.48);
-
-    gsap.timeline({
-      scrollTrigger:{
-        trigger:"#arcadeZoom",
-        start:"top top",
-        end:"bottom bottom",
-        scrub:1.08
-      }
-    }).fromTo("#arcadeZoomBg",
-      {scale:1,xPercent:0,yPercent:0,filter:"brightness(.92)"},
-      {scale:4.9,xPercent:8,yPercent:4,filter:"brightness(.78)"},
-      0
-    );
+    gsap.to("#scene",{scale:1.24,yPercent:8,ease:"none",scrollTrigger:{trigger:"#hero",start:"top top",end:"bottom bottom",scrub:1}});
+    gsap.fromTo("#entranceBg",{scale:1.08},{scale:1,ease:"none",scrollTrigger:{trigger:"#entrance",start:"top bottom",end:"bottom top",scrub:1}});
+    gsap.fromTo("#bg3",{scale:1.04,yPercent:3},{scale:1.1,yPercent:-3,ease:"none",scrollTrigger:{trigger:"#hallA",start:"top bottom",end:"bottom top",scrub:1}});
+    gsap.fromTo("#bg4",{scale:1.04,xPercent:2},{scale:1.12,xPercent:-2,ease:"none",scrollTrigger:{trigger:"#hallB",start:"top bottom",end:"bottom top",scrub:1}});
+    gsap.fromTo("#bg5",{scale:1.03,yPercent:2},{scale:1.1,yPercent:-2,ease:"none",scrollTrigger:{trigger:"#hallC",start:"top bottom",end:"bottom top",scrub:1}});
+    gsap.fromTo("#arcadeZoomBg",{scale:1,xPercent:0,yPercent:0},{scale:5.5,xPercent:10,yPercent:5,ease:"none",scrollTrigger:{trigger:"#arcadeZoom",start:"top top",end:"bottom bottom",scrub:1.08}});
 
     function initHorizontalProjects(){
       const totalScroll=Math.max(0, projectTrack.scrollWidth-window.innerWidth+window.innerWidth*0.14);
@@ -817,22 +668,11 @@
     }
     initHorizontalProjects();
 
-    gsap.timeline({
-      scrollTrigger:{
-        trigger:"#arcadeToCoop",
-        start:"top bottom",
-        end:"bottom top",
-        scrub:1.08
-      }
-    }).fromTo("#arcadeToCoopBg",
-      {scale:1.08,opacity:.16,filter:"brightness(.78)"},
-      {scale:1,opacity:1,filter:"brightness(1)"},
-      0
-    );
+    gsap.fromTo("#bg6Intro",{scale:1.08},{scale:1,ease:"none",scrollTrigger:{trigger:"#coopIntro",start:"top bottom",end:"bottom top",scrub:1}});
+    gsap.fromTo("#coopBg",{scale:1.02,yPercent:3},{scale:1.08,yPercent:-3,ease:"none",scrollTrigger:{trigger:"#coop",start:"top top",end:"bottom bottom",scrub:1}});
 
     document.querySelectorAll(".draggable-item").forEach(item=>{
-      let active=false;
-      let startX=0,startY=0,originX=0,originY=0;
+      let active=false,startX=0,startY=0,originX=0,originY=0;
 
       item.addEventListener("pointerdown",e=>{
         active=true;
@@ -855,38 +695,10 @@
       item.addEventListener("pointercancel",()=>active=false);
     });
 
-    gsap.timeline({
-      scrollTrigger:{
-        trigger:"#coop",
-        start:"top top",
-        end:"bottom bottom",
-        scrub:1.05
-      }
-    }).fromTo("#coopBg",{scale:1.03,yPercent:4},{scale:1.08,yPercent:-4},0);
-
-    gsap.timeline({
-      scrollTrigger:{
-        trigger:"#theaterJourney",
-        start:"top top",
-        end:"bottom bottom",
-        scrub:1.1
-      }
-    })
-    .fromTo("#theaterPan",{scale:1.05,xPercent:0,opacity:1},{scale:1.12,xPercent:-16,opacity:.18},0)
-    .fromTo("#theaterRoom",{scale:1.12,opacity:0,filter:"brightness(.84)"},{scale:1.04,opacity:1,filter:"brightness(1)"},.28)
-    .fromTo("#videoStage",{opacity:0,scale:.94},{opacity:1,scale:1},.5);
-
-    gsap.timeline({
-      scrollTrigger:{
-        trigger:"#skyLimit",
-        start:"top top",
-        end:"bottom bottom",
-        scrub:1.12
-      }
-    })
-    .fromTo("#skyRoom",{scale:1,yPercent:10,opacity:1},{scale:1.14,yPercent:-14,opacity:.2},0)
-    .fromTo("#skyRoom2",{scale:1.06,yPercent:16,opacity:0},{scale:1.14,yPercent:-8,opacity:1},.18)
-    .fromTo("#finalCopy",{opacity:0,y:40},{opacity:1,y:0},.56);
+    gsap.fromTo("#bg7",{scale:1.05,xPercent:0},{scale:1.12,xPercent:-16,ease:"none",scrollTrigger:{trigger:"#directorTravel",start:"top bottom",end:"bottom top",scrub:1}});
+    gsap.fromTo("#domeBg",{scale:1.1},{scale:1.03,ease:"none",scrollTrigger:{trigger:"#directorsDome",start:"top top",end:"bottom bottom",scrub:1}});
+    gsap.fromTo("#bg9",{scale:1.03,yPercent:5},{scale:1.12,yPercent:-12,ease:"none",scrollTrigger:{trigger:"#skyUp",start:"top bottom",end:"bottom top",scrub:1}});
+    gsap.fromTo("#finalBg",{scale:1.08},{scale:1,ease:"none",scrollTrigger:{trigger:"#skyFinal",start:"top top",end:"bottom bottom",scrub:1}});
 
     function scrollToSection(id){
       const el=document.getElementById(id);
