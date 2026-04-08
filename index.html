@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Thanima Portfolio — Rebuild</title>
+  <title>Beat 1 — Torch to Entrance</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <style>
@@ -13,45 +13,48 @@
       --torchW:420px;
       --torchH:620px;
       --gold:#f5d9a6;
-      --text:#f7ecd8;
-      --muted:rgba(247,236,216,.75);
     }
+
     *{margin:0;padding:0;box-sizing:border-box}
-    html,body{background:#000;color:var(--text);font-family:Georgia,serif;overflow-x:hidden;scroll-behavior:smooth}
+    html,body{
+      background:#000;
+      color:#f5d9a6;
+      font-family:Georgia, serif;
+      overflow-x:hidden;
+      scroll-behavior:smooth;
+    }
     body{min-height:100vh}
-    button{font:inherit;border:none;background:none;color:inherit}
-    a{text-decoration:none;color:inherit}
-    img{display:block;max-width:100%}
+    button{font:inherit;color:inherit;border:none;background:none;cursor:pointer}
 
     .top-btn{
       position:fixed;
       top:18px;
-      z-index:500;
+      z-index:200;
       display:inline-flex;
       align-items:center;
       gap:.8rem;
       padding:.9rem 1.1rem;
       border-radius:999px;
       border:1px solid rgba(245,217,166,.28);
-      background:rgba(0,0,0,.28);
+      background:rgba(0,0,0,.26);
       color:var(--gold);
       backdrop-filter:blur(14px);
       -webkit-backdrop-filter:blur(14px);
       letter-spacing:.14em;
       text-transform:uppercase;
       font-size:.72rem;
-      cursor:pointer;
       transition:transform .22s ease, background .22s ease, border-color .22s ease;
     }
     .top-btn:hover{
       transform:translateY(-2px);
-      background:rgba(18,14,11,.55);
-      border-color:rgba(245,217,166,.45);
+      background:rgba(18,14,11,.54);
+      border-color:rgba(245,217,166,.46);
     }
     .menu-toggle{left:18px}
     .work-toggle{right:18px}
+
     .burger{display:grid;gap:4px}
-    .burger span{display:block;width:18px;height:1.5px;background:currentColor;border-radius:999px}
+    .burger span{display:block;width:18px;height:1.5px;border-radius:999px;background:currentColor}
 
     .menu-panel{
       position:fixed;
@@ -60,7 +63,7 @@
       width:310px;
       padding:1.1rem 1.35rem 1.35rem;
       background:rgba(0,0,0,.98);
-      z-index:520;
+      z-index:220;
       opacity:0;
       pointer-events:none;
       transform:translateY(-8px);
@@ -68,48 +71,40 @@
     }
     .menu-panel.open{opacity:1;pointer-events:auto;transform:translateY(0)}
     .menu-top{display:flex;justify-content:flex-end}
-    .menu-close{width:28px;height:28px;display:grid;place-items:center;cursor:pointer;color:var(--gold)}
+    .menu-close{width:28px;height:28px;display:grid;place-items:center;color:var(--gold)}
     .menu-list{display:grid;gap:1.95rem;padding-top:.35rem}
-    .menu-link{width:100%;text-align:left;cursor:pointer;transition:transform .2s ease, opacity .2s ease}
+    .menu-link{width:100%;text-align:left;transition:transform .2s ease, opacity .2s ease}
     .menu-link:hover{transform:translateX(4px);opacity:.86}
     .menu-link strong{display:block;font-size:1.08rem;font-weight:600;letter-spacing:.02em}
     .menu-link span{display:block;margin-top:.36rem;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(245,217,166,.82)}
 
-    section{position:relative;width:100%;background:#000}
-    .pill{
-      position:absolute;
-      left:50%;
-      bottom:3vh;
-      transform:translateX(-50%);
-      z-index:40;
-      padding:.68rem 1rem;
-      border-radius:999px;
-      border:1px solid rgba(245,217,166,.12);
-      background:rgba(0,0,0,.18);
-      backdrop-filter:blur(8px);
-      -webkit-backdrop-filter:blur(8px);
-      color:rgba(247,236,216,.78);
-      letter-spacing:.22em;
-      text-transform:uppercase;
-      font-size:.66rem;
-      white-space:nowrap;
+    #hero{
+      position:relative;
+      height:175vh;
+      background:#000;
+      cursor:none;
     }
-
-    #hero{height:160vh;cursor:none}
-    .hero-pin{position:sticky;top:0;height:100vh;overflow:hidden}
+    .hero-pin{
+      position:sticky;
+      top:0;
+      height:100vh;
+      overflow:hidden;
+      background:#000;
+    }
     #scene{
       position:absolute;
       inset:0;
       background:url("bg1.png") center bottom/cover no-repeat;
       z-index:1;
       transform-origin:center center;
-      will-change:transform;
+      will-change:transform, filter;
     }
     #darkness{
       position:absolute;
       inset:0;
       background:black;
       pointer-events:none;
+      z-index:10;
       mask-image:radial-gradient(
         var(--torchW) var(--torchH) at var(--x) var(--y),
         transparent 0%,
@@ -123,7 +118,6 @@
         black 65%
       );
       transition:opacity 2.2s ease;
-      z-index:10;
     }
     #torch{
       position:absolute;
@@ -131,218 +125,57 @@
       pointer-events:none;
       transform:translate(-50%,-15%) rotate(-20deg);
       z-index:20;
+      will-change:left, top, opacity;
     }
 
-    #entrance{height:120vh}
-    .entrance-pin{position:sticky;top:0;height:100vh;overflow:hidden}
-    .entrance-bg{
+    #entrance{
+      position:relative;
+      height:120vh;
+      background:#000;
+    }
+    .entrance-pin{
+      position:sticky;
+      top:0;
+      height:100vh;
+      overflow:hidden;
+      background:#000;
+    }
+    #entranceBg{
       position:absolute;
       inset:0;
       background:url("bg2.png") center center/cover no-repeat;
       will-change:transform;
     }
-
-    #canvasStudio{min-height:130vh;padding:8vh 0 12vh;background:#000}
-    .canvas-wrap{width:min(95vw,1440px);margin:0 auto;position:relative}
-    #freeform{
-      position:relative;
-      width:100%;
-      height:112vh;
-      display:block;
-      background:black;
-      overflow:hidden;
-      cursor:grab;
-      z-index:100;
-      border-radius:28px;
-      border:1px solid rgba(245,217,166,.08);
-    }
-    #freeform:active{cursor:grabbing}
-    .freeform-inner{position:absolute;left:0;top:0}
-    .freeform-inner img{
-      position:absolute;
-      width:280px;
-      opacity:1;
-      box-shadow:0 30px 80px rgba(0,0,0,.95);
-      z-index:20;
-    }
-    .freeform-title{
+    .entrance-vignette{
       position:absolute;
       inset:0;
-      display:flex;
-      flex-direction:column;
-      justify-content:center;
-      align-items:center;
+      background:linear-gradient(180deg, rgba(0,0,0,.04), rgba(0,0,0,.12) 55%, rgba(0,0,0,.22));
       pointer-events:none;
-      z-index:5;
     }
-    .freeform-title h1{
-      font-size:3.4rem;
-      letter-spacing:.35em;
-      opacity:.45;
-      text-transform:uppercase;
-      font-weight:400;
-    }
-    .freeform-title p{
-      margin-top:14px;
-      opacity:.35;
-      letter-spacing:.18em;
-      text-transform:uppercase;
-      font-size:.78rem;
-    }
-
-    .scene-full{height:120vh}
-    .scene-pin{position:sticky;top:0;height:100vh;overflow:hidden}
-    .bg3,.bg4,.bg5,.bg6,.bg7,.bg8,.bg9,.bg10{
-      position:absolute;inset:0;background-position:center center;background-size:cover;background-repeat:no-repeat;will-change:transform;
-    }
-    .bg3{background-image:url("bg3.png")}
-    .bg4{background-image:url("bg4.png")}
-    .bg5{background-image:url("bg5.png")}
-    .bg6{background-image:url("bg6.png")}
-    .bg7{background-image:url("bg7.png")}
-    .bg8{background-image:url("bg8.png")}
-    .bg9{background-image:url("bg9.png")}
-    .bg10{background-image:url("bg10.png")}
-    .scene-overlay{position:absolute;inset:0;background:linear-gradient(180deg, rgba(0,0,0,.04), rgba(0,0,0,.14), rgba(0,0,0,.22))}
-
-    #arcadeZoom{height:180vh}
-    .arcade-zoom-pin{position:sticky;top:0;height:100vh;overflow:hidden}
-    .arcade-zoom-bg{
-      position:absolute;
-      inset:0;
-      background:url("bg5.png") center center/cover no-repeat;
-      transform-origin:23% 48%;
-      will-change:transform;
-    }
-
-    #projectWorld{height:430vh;background:#020202}
-    .project-pin{position:sticky;top:0;height:100vh;overflow:hidden}
-    .project-base{
-      position:absolute;inset:0;
-      background:
-        radial-gradient(circle at center, rgba(255,186,104,.05), transparent 34%),
-        linear-gradient(180deg, #030303 0%, #090909 100%);
-      will-change:transform;
-    }
-    .project-track{
-      position:absolute;
-      left:0;
-      top:0;
-      height:100%;
-      display:flex;
-      align-items:center;
-      gap:3vw;
-      padding:0 18vw 0 10vw;
-      will-change:transform;
-      z-index:3;
-    }
-    .project-panel{
-      flex:0 0 70vw;
-      max-width:920px;
-      min-height:68vh;
-      border-radius:32px;
-      overflow:hidden;
-      position:relative;
-      display:grid;
-      grid-template-columns:1.05fr .95fr;
-      background:linear-gradient(145deg, rgba(36,26,19,.94), rgba(12,10,10,.96));
-      border:1px solid rgba(245,217,166,.1);
-      box-shadow:0 24px 70px rgba(0,0,0,.38);
-    }
-    .project-image{position:relative;min-height:68vh;background-position:center center;background-size:cover;background-repeat:no-repeat}
-    .project-image::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg, rgba(0,0,0,.08), rgba(0,0,0,.3))}
-    .project-copy{position:relative;z-index:2;padding:2rem 2rem 2.2rem;display:flex;flex-direction:column;justify-content:flex-end;gap:1rem}
-    .project-index{font-size:.68rem;letter-spacing:.22em;text-transform:uppercase;color:rgba(245,217,166,.68)}
-    .project-copy h3{font-size:clamp(1.5rem,3vw,2.5rem);font-weight:400;line-height:1.04}
-    .project-copy p{color:var(--muted);line-height:1.65;font-size:.96rem;max-width:32ch}
-    .meta{display:flex;flex-wrap:wrap;gap:.55rem}
-    .meta span{padding:.5rem .76rem;border-radius:999px;border:1px solid rgba(245,217,166,.16);color:rgba(245,217,166,.82);font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;background:rgba(255,255,255,.02)}
-    .project-actions{display:flex;gap:.75rem}
-    .project-actions a{display:inline-flex;align-items:center;justify-content:center;min-width:118px;padding:.84rem 1rem;border-radius:999px;border:1px solid rgba(245,217,166,.22);font-size:.74rem;letter-spacing:.12em;text-transform:uppercase}
-    .project-progress{position:absolute;left:50%;bottom:4vh;transform:translateX(-50%);width:min(320px,72vw);z-index:5}
-    .project-progress-line{height:2px;background:rgba(245,217,166,.16);border-radius:999px;overflow:hidden}
-    .project-progress-line span{display:block;width:0%;height:100%;background:linear-gradient(90deg, rgba(245,217,166,.45), rgba(255,186,104,.98))}
-
-    #coop{height:180vh}
-    .coop-pin{position:sticky;top:0;height:100vh;overflow:hidden}
-    .coop-bg{
-      position:absolute;inset:0;
-      background:url("bg6.png") center center/cover no-repeat;
-      will-change:transform;
-    }
-    .coop-overlay{position:absolute;inset:0;background:linear-gradient(180deg, rgba(0,0,0,.04), rgba(0,0,0,.16));pointer-events:none;z-index:2}
-    .draggable-item{
-      position:absolute;
-      z-index:4;
-      cursor:grab;
-      user-select:none;
-      touch-action:none;
-      filter:drop-shadow(0 18px 28px rgba(0,0,0,.28));
-    }
-    .draggable-item img{width:92px;height:auto;display:block;pointer-events:none}
-    .draggable-item:active{cursor:grabbing}
-
-    #directorTravel{height:130vh}
-    #directorsDome{height:170vh}
-    .dome-pin{position:sticky;top:0;height:100vh;overflow:hidden}
-    .dome-bg{
-      position:absolute;inset:0;
-      background:url("bg8.png") center center/cover no-repeat;
-      will-change:transform;
-    }
-    .dome-overlay{position:absolute;inset:0;background:linear-gradient(180deg, rgba(0,0,0,.04), rgba(0,0,0,.18))}
-    .video-stage{
-      position:absolute;
-      left:25%;
-      top:27%;
-      width:50%;
-      height:34%;
-      z-index:5;
-      border-radius:10px;
-      overflow:hidden;
-      box-shadow:0 20px 40px rgba(0,0,0,.34);
-    }
-    .video-stage video{width:100%;height:100%;object-fit:cover;display:block}
-
-    #skyUp{height:130vh}
-    #skyFinal{height:160vh}
-    .final-pin{position:sticky;top:0;height:100vh;overflow:hidden}
-    .final-bg{
-      position:absolute;inset:0;
-      background:url("bg10.png") center center/cover no-repeat;
-      will-change:transform;
-    }
-    .final-overlay{position:absolute;inset:0;background:linear-gradient(180deg, rgba(0,0,0,.08), rgba(0,0,0,.22))}
-    .final-copy{
+    .pill{
       position:absolute;
       left:50%;
-      top:16%;
+      bottom:3vh;
       transform:translateX(-50%);
-      width:min(760px, 88vw);
-      z-index:5;
-      text-align:center;
+      z-index:40;
+      padding:.68rem 1rem;
+      border-radius:999px;
+      border:1px solid rgba(245,217,166,.12);
+      background:rgba(0,0,0,.18);
+      backdrop-filter:blur(8px);
+      -webkit-backdrop-filter:blur(8px);
+      color:rgba(245,231,207,.78);
+      letter-spacing:.22em;
+      text-transform:uppercase;
+      font-size:.66rem;
+      white-space:nowrap;
     }
-    .final-copy h2{font-size:clamp(2.4rem,5vw,5rem);font-weight:400;letter-spacing:.08em;line-height:1.02}
-    .final-copy h3{margin-top:1rem;font-size:clamp(1rem,2vw,1.35rem);font-weight:400;letter-spacing:.26em;text-transform:uppercase;color:rgba(247,236,216,.88)}
-    .final-copy p{margin:1.3rem auto 0;max-width:38ch;line-height:1.8;color:var(--muted);font-size:1rem}
 
-    @media (max-width:1024px){
-      .project-panel{grid-template-columns:1fr;flex-basis:84vw}
-      .project-image{min-height:38vh}
-      .video-stage{left:19%;width:62%;height:32%}
-    }
     @media (max-width:720px){
       .top-btn{top:14px;font-size:.66rem;padding:.8rem .95rem}
       .menu-toggle{left:14px}
       .work-toggle{right:14px}
       .menu-panel{top:62px;left:14px;width:min(310px, calc(100vw - 28px))}
-      .freeform-title h1{font-size:2.3rem}
-      .freeform-inner img{width:220px}
-      .project-track{padding:0 34vw 0 8vw;gap:6vw}
-      .project-panel{flex-basis:90vw}
-      .project-copy{padding:1.4rem 1.4rem 1.6rem}
-      .draggable-item img{width:76px}
-      .video-stage{left:12%;top:29%;width:76%;height:28%}
     }
   </style>
 </head>
@@ -352,17 +185,17 @@
     <span>Museum’s Galleries</span>
   </button>
 
-  <button class="top-btn work-toggle" onclick="scrollToSection('skyFinal')">Let’s Work Together</button>
+  <button class="top-btn work-toggle">Let’s Work Together</button>
 
   <div class="menu-panel" id="menuPanel">
     <div class="menu-top">
       <button class="menu-close" id="menuClose">✕</button>
     </div>
     <div class="menu-list">
-      <button class="menu-link" data-target="canvasStudio"><strong>Canvas Studio</strong><span>Gallery 01</span></button>
-      <button class="menu-link" data-target="projectWorld"><strong>Project Arcade</strong><span>Gallery 02</span></button>
-      <button class="menu-link" data-target="coop"><strong>Customization Co-op</strong><span>Gallery 03</span></button>
-      <button class="menu-link" data-target="directorsDome"><strong>Director's Dome</strong><span>Gallery 04</span></button>
+      <button class="menu-link"><strong>Canvas Studio</strong><span>Gallery 01</span></button>
+      <button class="menu-link"><strong>Project Arcade</strong><span>Gallery 02</span></button>
+      <button class="menu-link"><strong>Customization Co-op</strong><span>Gallery 03</span></button>
+      <button class="menu-link"><strong>Director's Dome</strong><span>Gallery 04</span></button>
     </div>
   </div>
 
@@ -376,334 +209,68 @@
 
   <section id="entrance">
     <div class="entrance-pin">
-      <div class="entrance-bg" id="entranceBg"></div>
-    </div>
-  </section>
-
-  <section id="canvasStudio">
-    <div class="canvas-wrap">
-      <div id="freeform">
-        <div class="freeform-title">
-          <h1>Canvas Studio</h1>
-          <p>Drag & Explore :)</p>
-        </div>
-        <div class="freeform-inner" id="freeformInner"></div>
-      </div>
-      <div class="pill">Canvas Studio</div>
-    </div>
-  </section>
-
-  <section class="scene-full" id="hallA">
-    <div class="scene-pin">
-      <div class="bg3" id="bg3"></div>
-      <div class="scene-overlay"></div>
-    </div>
-  </section>
-
-  <section class="scene-full" id="hallB">
-    <div class="scene-pin">
-      <div class="bg4" id="bg4"></div>
-      <div class="scene-overlay"></div>
-    </div>
-  </section>
-
-  <section class="scene-full" id="hallC">
-    <div class="scene-pin">
-      <div class="bg5" id="bg5"></div>
-      <div class="scene-overlay"></div>
-      <div class="pill">Project Arcade</div>
-    </div>
-  </section>
-
-  <section id="arcadeZoom">
-    <div class="arcade-zoom-pin">
-      <div class="arcade-zoom-bg" id="arcadeZoomBg"></div>
-      <div class="scene-overlay"></div>
-    </div>
-  </section>
-
-  <section id="projectWorld">
-    <div class="project-pin">
-      <div class="project-base" id="projectBase"></div>
-      <div class="project-track" id="projectTrack">
-        <article class="project-panel">
-          <div class="project-image" style="background-image:url('project1.png')"></div>
-          <div class="project-copy">
-            <div class="project-index">Project 01</div>
-            <h3>Project Title</h3>
-            <p>Replace this with your case study hook.</p>
-            <div class="meta"><span>Branding</span><span>UI UX</span><span>Motion</span></div>
-            <div class="project-actions"><a href="#">View</a><a href="#">Case</a></div>
-          </div>
-        </article>
-        <article class="project-panel">
-          <div class="project-image" style="background-image:url('project2.png')"></div>
-          <div class="project-copy">
-            <div class="project-index">Project 02</div>
-            <h3>Project Title</h3>
-            <p>Replace this with your case study hook.</p>
-            <div class="meta"><span>Creative Dev</span><span>Frontend</span><span>Story</span></div>
-            <div class="project-actions"><a href="#">View</a><a href="#">Case</a></div>
-          </div>
-        </article>
-        <article class="project-panel">
-          <div class="project-image" style="background-image:url('project3.png')"></div>
-          <div class="project-copy">
-            <div class="project-index">Project 03</div>
-            <h3>Project Title</h3>
-            <p>Replace this with your case study hook.</p>
-            <div class="meta"><span>Design</span><span>Research</span><span>Visuals</span></div>
-            <div class="project-actions"><a href="#">View</a><a href="#">Case</a></div>
-          </div>
-        </article>
-        <article class="project-panel">
-          <div class="project-image" style="background-image:url('project4.png')"></div>
-          <div class="project-copy">
-            <div class="project-index">Project 04</div>
-            <h3>Project Title</h3>
-            <p>Replace this with your case study hook.</p>
-            <div class="meta"><span>Film</span><span>Direction</span><span>Editing</span></div>
-            <div class="project-actions"><a href="#">View</a><a href="#">Case</a></div>
-          </div>
-        </article>
-      </div>
-      <div class="project-progress"><div class="project-progress-line"><span id="projectProgressBar"></span></div></div>
-    </div>
-  </section>
-
-  <section class="scene-full" id="coopIntro">
-    <div class="scene-pin">
-      <div class="bg6" id="bg6Intro"></div>
-      <div class="scene-overlay"></div>
-    </div>
-  </section>
-
-  <section id="coop">
-    <div class="coop-pin">
-      <div class="coop-bg" id="coopBg"></div>
-      <div class="coop-overlay"></div>
-      <div class="draggable-item" style="left:27%;top:30%;"><img src="vang.png" alt="vang"></div>
-      <div class="draggable-item" style="left:41%;top:30%;"><img src="f1.png" alt="f1"></div>
-      <div class="draggable-item" style="left:54%;top:30%;"><img src="item3.png" alt="item3"></div>
-      <div class="draggable-item" style="left:34%;top:51%;"><img src="item4.png" alt="item4"></div>
-      <div class="draggable-item" style="left:49%;top:51%;"><img src="item5.png" alt="item5"></div>
-      <div class="pill">Customization Co-op</div>
-    </div>
-  </section>
-
-  <section id="directorTravel" class="scene-full">
-    <div class="scene-pin">
-      <div class="bg7" id="bg7"></div>
-      <div class="scene-overlay"></div>
-    </div>
-  </section>
-
-  <section id="directorsDome">
-    <div class="dome-pin">
-      <div class="dome-bg" id="domeBg"></div>
-      <div class="dome-overlay"></div>
-      <div class="video-stage">
-        <video src="showreel.mp4" autoplay muted loop playsinline controls></video>
-      </div>
-      <div class="pill">Director's Dome</div>
-    </div>
-  </section>
-
-  <section id="skyUp" class="scene-full">
-    <div class="scene-pin">
-      <div class="bg9" id="bg9"></div>
-      <div class="scene-overlay"></div>
-    </div>
-  </section>
-
-  <section id="skyFinal">
-    <div class="final-pin">
-      <div class="final-bg" id="finalBg"></div>
-      <div class="final-overlay"></div>
-      <div class="final-copy">
-        <h2>Sky is the limit</h2>
-        <h3>Let’s work together</h3>
-        <p>Built with curiosity, crafted with warmth, and always reaching for the next story worth making.</p>
-      </div>
+      <div id="entranceBg"></div>
+      <div class="entrance-vignette"></div>
+      <div class="pill">Entrance</div>
     </div>
   </section>
 
   <script>
     gsap.registerPlugin(ScrollTrigger);
 
-    const root=document.documentElement;
-    const torch=document.getElementById("torch");
-    const dark=document.getElementById("darkness");
-    const freeform=document.getElementById("freeform");
-    const inner=document.getElementById("freeformInner");
-    const projectTrack=document.getElementById("projectTrack");
-    const projectProgressBar=document.getElementById("projectProgressBar");
+    const root = document.documentElement;
+    const torch = document.getElementById("torch");
+    const dark = document.getElementById("darkness");
+    const menuToggle = document.getElementById("menuToggle");
+    const menuPanel = document.getElementById("menuPanel");
+    const menuClose = document.getElementById("menuClose");
 
-    const menuToggle=document.getElementById("menuToggle");
-    const menuPanel=document.getElementById("menuPanel");
-    const menuClose=document.getElementById("menuClose");
+    document.addEventListener("mousemove", e => {
+      root.style.setProperty("--x", e.clientX + "px");
+      root.style.setProperty("--y", e.clientY + "px");
+      torch.style.left = e.clientX + "px";
+      torch.style.top = e.clientY + "px";
+    });
 
-    menuToggle.addEventListener("click",()=>menuPanel.classList.toggle("open"));
-    menuClose.addEventListener("click",()=>menuPanel.classList.remove("open"));
-    document.querySelectorAll(".menu-link").forEach(link=>{
-      link.addEventListener("click",()=>{
-        scrollToSection(link.dataset.target);
+    setTimeout(() => {
+      dark.style.opacity = 0;
+      torch.style.opacity = 0;
+      document.body.style.cursor = "auto";
+    }, 8000);
+
+    menuToggle.addEventListener("click", () => menuPanel.classList.toggle("open"));
+    menuClose.addEventListener("click", () => menuPanel.classList.remove("open"));
+    document.addEventListener("click", e => {
+      if (!menuPanel.contains(e.target) && !menuToggle.contains(e.target)) {
         menuPanel.classList.remove("open");
-      });
-    });
-    document.addEventListener("click",e=>{
-      if(!menuPanel.contains(e.target) && !menuToggle.contains(e.target)){
-        menuPanel.classList.remove("open");
       }
     });
 
-    document.addEventListener("mousemove",e=>{
-      root.style.setProperty("--x",e.clientX+"px");
-      root.style.setProperty("--y",e.clientY+"px");
-      torch.style.left=e.clientX+"px";
-      torch.style.top=e.clientY+"px";
+    gsap.to("#scene", {
+      scale: 1.24,
+      yPercent: 8,
+      ease: "none",
+      scrollTrigger: {
+        trigger: "#hero",
+        start: "top top",
+        end: "bottom bottom",
+        scrub: 1
+      }
     });
 
-    setTimeout(()=>{
-      dark.style.opacity=0;
-      torch.style.opacity=0;
-      document.body.style.cursor="auto";
-    },8000);
-
-    function buildFreeform(){
-      inner.innerHTML='';
-      const COUNT=8;
-      const RANGE=2400;
-      const MIN_DIST=360;
-      const imgs=[...Array(8)].map((_,i)=>`art${i+1}.png`);
-
-      let frames=[];
-      let posX=0,posY=0,velX=0,velY=0;
-      let dragging=false;
-
-      function place(frame){
-        let x,y,ok=false;
-        while(!ok){
-          x=Math.random()*RANGE-RANGE/2;
-          y=Math.random()*RANGE-RANGE/2;
-          ok=frames.every(f=>Math.hypot(f.x-x,f.y-y)>MIN_DIST);
+    gsap.fromTo("#entranceBg",
+      { scale: 1.08 },
+      {
+        scale: 1,
+        ease: "none",
+        scrollTrigger: {
+          trigger: "#entrance",
+          start: "top bottom",
+          end: "bottom top",
+          scrub: 1
         }
-        frame.x=x; frame.y=y;
       }
-
-      for(let i=0;i<COUNT;i++){
-        const img=document.createElement("img");
-        img.src=imgs[i];
-        inner.appendChild(img);
-        const frame={img,x:0,y:0};
-        place(frame);
-        frames.push(frame);
-      }
-
-      freeform.onmousedown=()=>dragging=true;
-      window.onmouseup=()=>dragging=false;
-      window.onmousemove=e=>{
-        if(dragging){
-          velX+=e.movementX*0.12;
-          velY+=e.movementY*0.12;
-        }
-      };
-
-      (function loop(){
-        if(!dragging) velX+=0.02;
-        posX+=velX; posY+=velY;
-        velX*=0.92; velY*=0.92;
-
-        frames.forEach(f=>{
-          if(f.x+posX>1400||f.x+posX<-1400||f.y+posY>1400||f.y+posY<-1400){
-            place(f);
-          }
-          f.img.style.left=(f.x+posX)+"px";
-          f.img.style.top=(f.y+posY)+"px";
-        });
-
-        requestAnimationFrame(loop);
-      })();
-    }
-    buildFreeform();
-
-    gsap.to("#scene",{scale:1.24,yPercent:8,ease:"none",scrollTrigger:{trigger:"#hero",start:"top top",end:"bottom bottom",scrub:1}});
-    gsap.fromTo("#entranceBg",{scale:1.08},{scale:1,ease:"none",scrollTrigger:{trigger:"#entrance",start:"top bottom",end:"bottom top",scrub:1}});
-    gsap.fromTo("#bg3",{scale:1.04,yPercent:3},{scale:1.1,yPercent:-3,ease:"none",scrollTrigger:{trigger:"#hallA",start:"top bottom",end:"bottom top",scrub:1}});
-    gsap.fromTo("#bg4",{scale:1.04,xPercent:2},{scale:1.12,xPercent:-2,ease:"none",scrollTrigger:{trigger:"#hallB",start:"top bottom",end:"bottom top",scrub:1}});
-    gsap.fromTo("#bg5",{scale:1.03,yPercent:2},{scale:1.1,yPercent:-2,ease:"none",scrollTrigger:{trigger:"#hallC",start:"top bottom",end:"bottom top",scrub:1}});
-    gsap.fromTo("#arcadeZoomBg",{scale:1,xPercent:0,yPercent:0},{scale:5.5,xPercent:10,yPercent:5,ease:"none",scrollTrigger:{trigger:"#arcadeZoom",start:"top top",end:"bottom bottom",scrub:1.08}});
-
-    function initHorizontalProjects(){
-      const totalScroll=Math.max(0, projectTrack.scrollWidth-window.innerWidth+window.innerWidth*0.14);
-
-      gsap.to(projectTrack,{
-        x:()=>-totalScroll,
-        ease:"none",
-        scrollTrigger:{
-          trigger:"#projectWorld",
-          start:"top top",
-          end:()=>"+="+totalScroll,
-          pin:".project-pin",
-          scrub:1,
-          anticipatePin:1,
-          invalidateOnRefresh:true,
-          onUpdate:self=>{
-            projectProgressBar.style.width=(self.progress*100)+"%";
-          }
-        }
-      });
-
-      gsap.to("#projectBase",{
-        xPercent:-10,
-        ease:"none",
-        scrollTrigger:{
-          trigger:"#projectWorld",
-          start:"top top",
-          end:()=>"+="+totalScroll,
-          scrub:1,
-          invalidateOnRefresh:true
-        }
-      });
-    }
-    initHorizontalProjects();
-
-    gsap.fromTo("#bg6Intro",{scale:1.08},{scale:1,ease:"none",scrollTrigger:{trigger:"#coopIntro",start:"top bottom",end:"bottom top",scrub:1}});
-    gsap.fromTo("#coopBg",{scale:1.02,yPercent:3},{scale:1.08,yPercent:-3,ease:"none",scrollTrigger:{trigger:"#coop",start:"top top",end:"bottom bottom",scrub:1}});
-
-    document.querySelectorAll(".draggable-item").forEach(item=>{
-      let active=false,startX=0,startY=0,originX=0,originY=0;
-
-      item.addEventListener("pointerdown",e=>{
-        active=true;
-        item.setPointerCapture(e.pointerId);
-        startX=e.clientX;
-        startY=e.clientY;
-        originX=item.offsetLeft;
-        originY=item.offsetTop;
-      });
-
-      item.addEventListener("pointermove",e=>{
-        if(!active) return;
-        const dx=e.clientX-startX;
-        const dy=e.clientY-startY;
-        item.style.left=originX+dx+"px";
-        item.style.top=originY+dy+"px";
-      });
-
-      item.addEventListener("pointerup",()=>active=false);
-      item.addEventListener("pointercancel",()=>active=false);
-    });
-
-    gsap.fromTo("#bg7",{scale:1.05,xPercent:0},{scale:1.12,xPercent:-16,ease:"none",scrollTrigger:{trigger:"#directorTravel",start:"top bottom",end:"bottom top",scrub:1}});
-    gsap.fromTo("#domeBg",{scale:1.1},{scale:1.03,ease:"none",scrollTrigger:{trigger:"#directorsDome",start:"top top",end:"bottom bottom",scrub:1}});
-    gsap.fromTo("#bg9",{scale:1.03,yPercent:5},{scale:1.12,yPercent:-12,ease:"none",scrollTrigger:{trigger:"#skyUp",start:"top bottom",end:"bottom top",scrub:1}});
-    gsap.fromTo("#finalBg",{scale:1.08},{scale:1,ease:"none",scrollTrigger:{trigger:"#skyFinal",start:"top top",end:"bottom bottom",scrub:1}});
-
-    function scrollToSection(id){
-      const el=document.getElementById(id);
-      if(el) el.scrollIntoView({behavior:"smooth",block:"start"});
-    }
+    );
   </script>
 </body>
 </html>
