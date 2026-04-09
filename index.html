@@ -116,7 +116,7 @@
       color:rgba(245,217,166,.82);
     }
 
-    /* torch scene */
+    /* ── torch / hero ── */
     #hero{
       position:relative;
       height:100vh;
@@ -162,75 +162,79 @@
       transition:opacity .6s ease;
     }
 
-    /* bg2 -> bg3 continuous strip */
-    #entryFilm{
+    /* ── CINEMATIC PARALLAX SECTION ──
+       Key fix: bg3 sits BEHIND bg2 inside a shared stacking context.
+       bg2 scrolls up/out using clip-path, revealing bg3 beneath.
+       No filmstrip translation → no gap → no black screen.
+    ── */
+    #cinematic{
       position:relative;
-      height:200vh;
-      background:#000;
+      /* 2× scroll distance: first 100vh = bg2 visible, second 100vh = bg3 revealed */
+      height:300vh;
     }
 
-    .film-pin{
+    .cin-sticky{
       position:sticky;
       top:0;
       height:100vh;
       overflow:hidden;
-      background:#000;
     }
 
-    .filmstrip{
-      position:absolute;
-      left:0;
-      top:0;
-      width:100%;
-      height:200vh;
-      will-change:transform;
-    }
-
-    .panel{
-      position:relative;
-      width:100%;
-      height:100vh;
-      overflow:hidden;
-      background:#000;
-    }
-
-    .panel-bg{
-      position:absolute;
-      inset:0;
-      background-size:cover;
-      background-repeat:no-repeat;
-      background-position:center center;
-      transform:scale(1.06);
-      will-change:transform;
-    }
-
-    #panel2 .panel-bg{background-image:url("bg2.jpeg")}
-    #panel3 .panel-bg{background-image:url("bg3.jpeg")}
-
-    .panel-overlay{
-      position:absolute;
-      inset:0;
-      background:linear-gradient(
-        180deg,
-        rgba(0,0,0,.03),
-        rgba(0,0,0,.08) 55%,
-        rgba(0,0,0,.15)
-      );
-      pointer-events:none;
-      z-index:2;
-    }
-
-    /* hold bg3 so it never drops to black */
-    #bg3Hold{
-      position:relative;
-      height:100vh;
-      background:#000;
-    }
-
-    .bg3-hold-bg{
+    /* bg3 is the bottom layer — always fully visible inside the sticky */
+    #bg3-layer{
       position:absolute;
       inset:0;
       background:url("bg3.jpeg") center center/cover no-repeat;
+      /* subtle Ken Burns on bg3 */
+      will-change:transform;
+    }
+
+    /* bg2 sits on top, clips away upward as user scrolls */
+    #bg2-layer{
+      position:absolute;
+      inset:0;
+      background:url("bg2.jpeg") center center/cover no-repeat;
+      /* clip starts full-height; GSAP shrinks it from the top */
+      clip-path:inset(0 0 0 0);
+      will-change:clip-path, transform;
+    }
+
+    /* parallax inner images (scale + drift handled by GSAP) */
+    .parallax-bg{
+      position:absolute;
+      inset:-8% -4%;   /* slight overscan so edges never show during scale */
+      background-size:cover;
+      background-repeat:no-repeat;
+      background-position:center center;
+      will-change:transform;
+    }
+
+    #bg3-layer .parallax-bg{ background-image:url("bg3.jpeg"); }
+    #bg2-layer .parallax-bg{ background-image:url("bg2.jpeg"); }
+
+    /* optional cinematic vignette — no hard black, just a soft darkening of corners */
+    .cin-vignette{
+      position:absolute;
+      inset:0;
+      background:radial-gradient(ellipse 90% 80% at 50% 50%,
+        transparent 55%,
+        rgba(0,0,0,.28) 100%);
+      pointer-events:none;
+      z-index:3;
+    }
+
+    /* ── FINAL HOLD (bg3) ── */
+    /* Sits directly after the sticky; bg3 image continues seamlessly */
+    #bg3Hold{
+      position:relative;
+      height:100vh;
+      overflow:hidden;
+    }
+
+    #bg3Hold .parallax-bg{
+      background-image:url("bg3.jpeg");
+      /* start at the same visual position the sticky left off */
+      transform:scale(1.12) translateY(0%);
     }
 
     @media (max-width:720px){
@@ -252,10 +256,10 @@
 <body>
   <button class="top-btn menu-toggle" id="menuToggle">
     <span class="burger"><span></span><span></span><span></span></span>
-    <span>Museum’s Galleries</span>
+    <span>Museum's Galleries</span>
   </button>
 
-  <button class="top-btn work-toggle">Let’s Work Together</button>
+  <button class="top-btn work-toggle">Let's Work Together</button>
 
   <div class="menu-panel" id="menuPanel">
     <div class="menu-top">
@@ -269,139 +273,175 @@
     </div>
   </div>
 
-  <!-- bg1 torch -->
+  <!-- ── bg1 torch scene ── -->
   <section id="hero">
     <div id="scene"></div>
     <div id="darkness"></div>
     <img id="torch" src="torchtm.png" alt="Torch" />
   </section>
 
-  <!-- bg2 -> bg3 -->
-  <section id="entryFilm">
-    <div class="film-pin">
-      <div class="filmstrip" id="filmstrip">
-        <section class="panel" id="panel2">
-          <div class="panel-bg"></div>
-          <div class="panel-overlay"></div>
-        </section>
-
-        <section class="panel" id="panel3">
-          <div class="panel-bg"></div>
-          <div class="panel-overlay"></div>
-        </section>
+  <!-- ── cinematic parallax: bg2 → bg3 ── -->
+  <section id="cinematic">
+    <div class="cin-sticky">
+      <!-- bg3 renders first (bottom of stack) -->
+      <div id="bg3-layer">
+        <div class="parallax-bg"></div>
       </div>
+      <!-- bg2 on top; clips away upward on scroll -->
+      <div id="bg2-layer">
+        <div class="parallax-bg"></div>
+      </div>
+      <div class="cin-vignette"></div>
     </div>
   </section>
 
-  <!-- hold last frame -->
+  <!-- ── bg3 hold / continues after sticky ── -->
   <section id="bg3Hold">
-    <div class="bg3-hold-bg"></div>
+    <div class="parallax-bg"></div>
+    <div class="cin-vignette"></div>
   </section>
 
   <script>
     gsap.registerPlugin(ScrollTrigger);
 
-    const root = document.documentElement;
-    const torch = document.getElementById("torch");
-    const dark = document.getElementById("darkness");
+    const root       = document.documentElement;
+    const torch      = document.getElementById("torch");
+    const dark       = document.getElementById("darkness");
     const menuToggle = document.getElementById("menuToggle");
-    const menuPanel = document.getElementById("menuPanel");
-    const menuClose = document.getElementById("menuClose");
+    const menuPanel  = document.getElementById("menuPanel");
+    const menuClose  = document.getElementById("menuClose");
+    const wheelOpts  = { passive: false };
 
-    const wheelOpts = { passive:false };
-
-    function preventScroll(e){
-      e.preventDefault();
-      window.scrollTo(0, 0);
-    }
-
+    /* ── scroll lock ── */
+    function preventScroll(e){ e.preventDefault(); window.scrollTo(0,0); }
     function preventKeyScroll(e){
-      const keys = ["ArrowUp","ArrowDown","PageUp","PageDown","Home","End"," "];
-      if(keys.includes(e.key)){
-        e.preventDefault();
-        window.scrollTo(0, 0);
+      if(["ArrowUp","ArrowDown","PageUp","PageDown","Home","End"," "].includes(e.key)){
+        e.preventDefault(); window.scrollTo(0,0);
       }
     }
-
     function lockScroll(){
-      document.documentElement.classList.add("lock-scroll");
+      root.classList.add("lock-scroll");
       document.body.classList.add("lock-scroll");
-      window.scrollTo(0, 0);
-      window.addEventListener("wheel", preventScroll, wheelOpts);
-      window.addEventListener("touchmove", preventScroll, wheelOpts);
-      window.addEventListener("keydown", preventKeyScroll, true);
+      window.scrollTo(0,0);
+      window.addEventListener("wheel",        preventScroll,    wheelOpts);
+      window.addEventListener("touchmove",    preventScroll,    wheelOpts);
+      window.addEventListener("keydown",      preventKeyScroll, true);
     }
-
     function unlockScroll(){
-      document.documentElement.classList.remove("lock-scroll");
+      root.classList.remove("lock-scroll");
       document.body.classList.remove("lock-scroll");
-      window.removeEventListener("wheel", preventScroll, wheelOpts);
-      window.removeEventListener("touchmove", preventScroll, wheelOpts);
-      window.removeEventListener("keydown", preventKeyScroll, true);
+      window.removeEventListener("wheel",     preventScroll,    wheelOpts);
+      window.removeEventListener("touchmove", preventScroll,    wheelOpts);
+      window.removeEventListener("keydown",   preventKeyScroll, true);
       document.body.style.cursor = "auto";
       ScrollTrigger.refresh();
     }
 
-    /* menu */
+    /* ── menu ── */
     menuToggle.addEventListener("click", () => menuPanel.classList.toggle("open"));
-    menuClose.addEventListener("click", () => menuPanel.classList.remove("open"));
-    document.addEventListener("click", e => {
-      if (!menuPanel.contains(e.target) && !menuToggle.contains(e.target)) {
+    menuClose .addEventListener("click", () => menuPanel.classList.remove("open"));
+    document  .addEventListener("click", e => {
+      if(!menuPanel.contains(e.target) && !menuToggle.contains(e.target))
         menuPanel.classList.remove("open");
-      }
     });
 
-    /* torch exact */
+    /* ── torch follow ── */
     document.addEventListener("mousemove", e => {
       root.style.setProperty("--x", e.clientX + "px");
       root.style.setProperty("--y", e.clientY + "px");
       torch.style.left = e.clientX + "px";
-      torch.style.top = e.clientY + "px";
+      torch.style.top  = e.clientY + "px";
     });
 
+    /* ── torch reveal ── */
     lockScroll();
-
     setTimeout(() => {
-      dark.style.opacity = 0;
+      dark.style.opacity  = 0;
       torch.style.opacity = 0;
       unlockScroll();
     }, 2500);
 
-    /* bg2 -> bg3 filmstrip */
-    gsap.to("#filmstrip", {
-      y: "-100vh",
+    /* ─────────────────────────────────────────────
+       CINEMATIC PARALLAX — zero black screen approach
+       
+       Instead of translating a filmstrip (which exposes the
+       black container background at the seam), we:
+       
+       1. Keep bg3 always visible as the bottom layer.
+       2. Clip bg2 from the bottom of the sticky frame upward
+          using clip-path:inset(top 0 0 0), animating `top`
+          from 0% → 100%.  bg3 shows through underneath.
+       3. Both bg images get a gentle parallax drift (scale +
+          translateY) so they feel alive while clipping.
+       4. #bg3Hold continues the same bg3 image with the same
+          transform so the cut between sticky end and hold is
+          seamless — both images are positioned identically.
+    ───────────────────────────────────────────── */
+
+    const cinematicEl  = document.getElementById("cinematic");
+    const bg2Layer     = document.getElementById("bg2-layer");
+    const bg2Parallax  = bg2Layer.querySelector(".parallax-bg");
+    const bg3Parallax  = document.querySelector("#bg3-layer .parallax-bg");
+    const holdParallax = document.querySelector("#bg3Hold .parallax-bg");
+
+    /* Phase 1 — first 100vh of cinematic scroll:
+       bg2 clips away from the top, bg3 revealed beneath */
+    gsap.to(bg2Layer, {
+      clipPath: "inset(100% 0 0 0)",
       ease: "none",
       scrollTrigger: {
-        trigger: "#entryFilm",
-        start: "top top",
-        end: "bottom bottom",
-        scrub: 1
+        trigger: cinematicEl,
+        start:   "top top",
+        end:     "33.33% top",   /* first third of 300vh = 100vh */
+        scrub:   1.2,
       }
     });
 
-    gsap.to("#panel2 .panel-bg", {
-      scale: 1.16,
-      yPercent: 4,
-      ease: "none",
-      scrollTrigger: {
-        trigger: "#panel2",
-        start: "top top",
-        end: "bottom top",
-        scrub: 1
+    /* bg2 parallax drift (Ken Burns while it's visible) */
+    gsap.fromTo(bg2Parallax,
+      { scale: 1.04, yPercent: 0 },
+      {
+        scale: 1.14, yPercent: -4,
+        ease: "none",
+        scrollTrigger: {
+          trigger: cinematicEl,
+          start:   "top top",
+          end:     "33.33% top",
+          scrub:   1.5,
+        }
       }
-    });
+    );
 
-    gsap.to("#panel3 .panel-bg", {
-      scale: 1.14,
-      yPercent: 3,
-      ease: "none",
-      scrollTrigger: {
-        trigger: "#panel3",
-        start: "top top",
-        end: "bottom top",
-        scrub: 1
+    /* bg3 parallax drift (continues through both bg3 phases) */
+    gsap.fromTo(bg3Parallax,
+      { scale: 1.04, yPercent: 0 },
+      {
+        scale: 1.16, yPercent: -5,
+        ease: "none",
+        scrollTrigger: {
+          trigger: cinematicEl,
+          start:   "top top",
+          end:     "bottom top",
+          scrub:   1.5,
+        }
       }
-    });
+    );
+
+    /* #bg3Hold — continues bg3 parallax seamlessly.
+       It picks up where the sticky left off so there's no jump. */
+    gsap.fromTo(holdParallax,
+      { scale: 1.16, yPercent: -5 },
+      {
+        scale: 1.22, yPercent: -9,
+        ease: "none",
+        scrollTrigger: {
+          trigger: "#bg3Hold",
+          start:   "top bottom",
+          end:     "bottom top",
+          scrub:   1.5,
+        }
+      }
+    );
   </script>
 </body>
 </html>
