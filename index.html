@@ -1,146 +1,371 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Clean Seamless Scroll</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Torch → Entrance → bg2 → bg3</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <style>
+    :root{
+      --x:50%;
+      --y:50%;
+      --torchW:420px;
+      --torchH:620px;
+      --gold:#f5d9a6;
+    }
 
-<style>
-:root{
-  --x:50%;
-  --y:50%;
-}
+    *{margin:0;padding:0;box-sizing:border-box}
+    html,body{
+      background:#000;
+      color:var(--gold);
+      font-family:Georgia, serif;
+      overflow-x:hidden;
+      scroll-behavior:smooth;
+    }
 
-*{margin:0;padding:0;box-sizing:border-box}
-html,body{background:#000;overflow-x:hidden}
+    body.lock-scroll,
+    html.lock-scroll{
+      overflow:hidden !important;
+      height:100%;
+      touch-action:none;
+    }
 
-body.lock{overflow:hidden}
+    button{
+      font:inherit;
+      color:inherit;
+      border:none;
+      background:none;
+      cursor:pointer;
+    }
 
-#stage{
-  height:200vh;
-  cursor:none;
-}
+    .top-btn{
+      position:fixed;
+      top:18px;
+      z-index:500;
+      display:inline-flex;
+      align-items:center;
+      gap:.8rem;
+      padding:.9rem 1.1rem;
+      border-radius:999px;
+      border:1px solid rgba(245,217,166,.28);
+      background:rgba(0,0,0,.28);
+      color:var(--gold);
+      backdrop-filter:blur(14px);
+      -webkit-backdrop-filter:blur(14px);
+      letter-spacing:.14em;
+      text-transform:uppercase;
+      font-size:.72rem;
+      transition:transform .22s ease, background .22s ease, border-color .22s ease;
+    }
 
-.pin{
-  position:sticky;
-  top:0;
-  height:100vh;
-  overflow:hidden;
-}
+    .top-btn:hover{
+      transform:translateY(-2px);
+      background:rgba(18,14,11,.55);
+      border-color:rgba(245,217,166,.45);
+    }
 
-/* SINGLE IMAGE STACK APPROACH */
-.scene{
-  position:absolute;
-  inset:0;
-  background-size:cover;
-  background-position:center;
-  will-change:transform;
-}
+    .menu-toggle{left:18px}
+    .work-toggle{right:18px}
 
-#bg1{background-image:url("bg1.png"); z-index:2;}
-#bg2{background-image:url("bg2.jpeg"); z-index:1;}
-#bg3{background-image:url("bg3.jpeg"); z-index:0;}
+    .burger{display:grid;gap:4px}
+    .burger span{
+      display:block;
+      width:18px;
+      height:1.5px;
+      background:currentColor;
+      border-radius:999px;
+    }
 
-#dark{
-  position:absolute;
-  inset:0;
-  background:black;
-  pointer-events:none;
-  mask-image:radial-gradient(400px 600px at var(--x) var(--y), transparent 0%, black 70%);
-}
+    .menu-panel{
+      position:fixed;
+      left:18px;
+      top:68px;
+      width:310px;
+      padding:1.1rem 1.35rem 1.35rem;
+      background:rgba(0,0,0,.98);
+      z-index:520;
+      opacity:0;
+      pointer-events:none;
+      transform:translateY(-8px);
+      transition:opacity .22s ease, transform .22s ease;
+    }
 
-#torch{
-  position:absolute;
-  width:70px;
-  transform:translate(-50%,-15%) rotate(-20deg);
-}
+    .menu-panel.open{
+      opacity:1;
+      pointer-events:auto;
+      transform:translateY(0);
+    }
 
-</style>
+    .menu-top{display:flex;justify-content:flex-end}
+    .menu-close{
+      width:28px;
+      height:28px;
+      display:grid;
+      place-items:center;
+      color:var(--gold);
+    }
+
+    .menu-list{display:grid;gap:1.95rem;padding-top:.35rem}
+    .menu-link{width:100%;text-align:left;transition:transform .2s ease, opacity .2s ease}
+    .menu-link:hover{transform:translateX(4px);opacity:.86}
+    .menu-link strong{display:block;font-size:1.08rem;font-weight:600}
+    .menu-link span{
+      display:block;
+      margin-top:.36rem;
+      font-size:.72rem;
+      letter-spacing:.2em;
+      text-transform:uppercase;
+      color:rgba(245,217,166,.82);
+    }
+
+    /* ---------- TORCH SCENE UNCHANGED ---------- */
+    #hero{
+      position:relative;
+      height:100vh;
+      background:black;
+      cursor:none;
+      overflow:hidden;
+    }
+
+    #scene{
+      position:absolute;
+      inset:0;
+      background:url("bg1.png") center bottom/cover no-repeat;
+      z-index:1;
+    }
+
+    #darkness{
+      position:absolute;
+      inset:0;
+      background:black;
+      pointer-events:none;
+      mask-image:radial-gradient(
+        var(--torchW) var(--torchH) at var(--x) var(--y),
+        transparent 0%,
+        rgba(0,0,0,.25) 35%,
+        black 65%
+      );
+      -webkit-mask-image:radial-gradient(
+        var(--torchW) var(--torchH) at var(--x) var(--y),
+        transparent 0%,
+        rgba(0,0,0,.25) 35%,
+        black 65%
+      );
+      transition:opacity 2.2s ease;
+      z-index:10;
+    }
+
+    #torch{
+      position:absolute;
+      width:70px;
+      pointer-events:none;
+      transform:translate(-50%,-15%) rotate(-20deg);
+      z-index:20;
+    }
+
+    /* ---------- NORMAL SCROLL SECTIONS BELOW ---------- */
+    .scroll-scene{
+      position:relative;
+      height:100vh;
+      overflow:hidden;
+      background:#000;
+    }
+
+    .scroll-scene .bg{
+      position:absolute;
+      inset:0;
+      background-position:center center;
+      background-size:cover;
+      background-repeat:no-repeat;
+      transform:scale(1.08);
+      will-change:transform;
+    }
+
+    #entranceScene .bg{background-image:url("bg2.jpeg")}
+    #bg2Scene .bg{background-image:url("bg2.jpeg")}
+    #bg3Scene .bg{background-image:url("bg3.jpeg")}
+
+    .scene-overlay{
+      position:absolute;
+      inset:0;
+      background:linear-gradient(
+        180deg,
+        rgba(0,0,0,.04),
+        rgba(0,0,0,.10) 55%,
+        rgba(0,0,0,.18)
+      );
+      pointer-events:none;
+      z-index:2;
+    }
+
+    @media (max-width:720px){
+      .top-btn{
+        top:14px;
+        font-size:.66rem;
+        padding:.8rem .95rem;
+      }
+      .menu-toggle{left:14px}
+      .work-toggle{right:14px}
+      .menu-panel{
+        top:62px;
+        left:14px;
+        width:min(310px, calc(100vw - 28px));
+      }
+    }
+  </style>
 </head>
 <body>
+  <button class="top-btn menu-toggle" id="menuToggle">
+    <span class="burger"><span></span><span></span><span></span></span>
+    <span>Museum’s Galleries</span>
+  </button>
 
-<section id="stage">
-  <div class="pin">
-    <div id="bg3" class="scene"></div>
-    <div id="bg2" class="scene"></div>
-    <div id="bg1" class="scene"></div>
-    <div id="dark"></div>
-    <img id="torch" src="torchtm.png" />
+  <button class="top-btn work-toggle">Let’s Work Together</button>
+
+  <div class="menu-panel" id="menuPanel">
+    <div class="menu-top">
+      <button class="menu-close" id="menuClose">✕</button>
+    </div>
+    <div class="menu-list">
+      <button class="menu-link"><strong>Canvas Studio</strong><span>Gallery 01</span></button>
+      <button class="menu-link"><strong>Project Arcade</strong><span>Gallery 02</span></button>
+      <button class="menu-link"><strong>Customization Co-op</strong><span>Gallery 03</span></button>
+      <button class="menu-link"><strong>Director's Dome</strong><span>Gallery 04</span></button>
+    </div>
   </div>
-</section>
 
-<script>
-gsap.registerPlugin(ScrollTrigger);
+  <!-- TORCH SCENE -->
+  <section id="hero">
+    <div id="scene"></div>
+    <div id="darkness"></div>
+    <img id="torch" src="torchtm.png" alt="Torch" />
+  </section>
 
-const root=document.documentElement;
-const torch=document.getElementById("torch");
-const dark=document.getElementById("dark");
+  <!-- ENTRANCE BELOW -->
+  <section id="entranceScene" class="scroll-scene">
+    <div class="bg"></div>
+    <div class="scene-overlay"></div>
+  </section>
 
-/* LOCK SCROLL HARD */
-function lock(){
-  document.body.classList.add("lock");
-  window.scrollTo(0,0);
-}
-function unlock(){
-  document.body.classList.remove("lock");
-  document.body.style.cursor="auto";
-  ScrollTrigger.refresh();
-}
-lock();
+  <!-- BG2 BELOW -->
+  <section id="bg2Scene" class="scroll-scene">
+    <div class="bg"></div>
+    <div class="scene-overlay"></div>
+  </section>
 
-/* TORCH */
-document.addEventListener("mousemove",e=>{
-  root.style.setProperty("--x",e.clientX+"px");
-  root.style.setProperty("--y",e.clientY+"px");
-  torch.style.left=e.clientX+"px";
-  torch.style.top=e.clientY+"px";
-});
+  <!-- BG3 BELOW -->
+  <section id="bg3Scene" class="scroll-scene">
+    <div class="bg"></div>
+    <div class="scene-overlay"></div>
+  </section>
 
-setTimeout(()=>{
-  dark.style.opacity=0;
-  torch.style.opacity=0;
-  unlock();
-},2500);
+  <script>
+    gsap.registerPlugin(ScrollTrigger);
 
-/* CLEAN TRANSITION (NO FADE TO BLACK EVER) */
-let tl=gsap.timeline({
-  scrollTrigger:{
-    trigger:"#stage",
-    start:"top top",
-    end:"bottom bottom",
-    scrub:1
-  }
-});
+    const root = document.documentElement;
+    const torch = document.getElementById("torch");
+    const dark = document.getElementById("darkness");
+    const menuToggle = document.getElementById("menuToggle");
+    const menuPanel = document.getElementById("menuPanel");
+    const menuClose = document.getElementById("menuClose");
 
-/* STEP 1: zoom bg1 */
-tl.to("#bg1",{
-  scale:1.25,
-  yPercent:8,
-  ease:"none"
-},0);
+    const wheelOpts = { passive:false };
 
-/* STEP 2: reveal bg2 by pushing bg1 away */
-tl.to("#bg1",{
-  scale:1.5,
-  yPercent:15,
-  ease:"none"
-},0.4);
+    function preventScroll(e){
+      e.preventDefault();
+      window.scrollTo(0, 0);
+    }
 
-/* STEP 3: continue into bg3 */
-tl.to("#bg2",{
-  scale:1.2,
-  yPercent:-5,
-  ease:"none"
-},0.6);
+    function preventKeyScroll(e){
+      const keys = ["ArrowUp","ArrowDown","PageUp","PageDown","Home","End"," "];
+      if(keys.includes(e.key)){
+        e.preventDefault();
+        window.scrollTo(0, 0);
+      }
+    }
 
-tl.to("#bg3",{
-  scale:1,
-  yPercent:0,
-  ease:"none"
-},0.6);
+    function lockScroll(){
+      document.documentElement.classList.add("lock-scroll");
+      document.body.classList.add("lock-scroll");
+      window.scrollTo(0, 0);
+      window.addEventListener("wheel", preventScroll, wheelOpts);
+      window.addEventListener("touchmove", preventScroll, wheelOpts);
+      window.addEventListener("keydown", preventKeyScroll, true);
+    }
 
-</script>
+    function unlockScroll(){
+      document.documentElement.classList.remove("lock-scroll");
+      document.body.classList.remove("lock-scroll");
+      window.removeEventListener("wheel", preventScroll, wheelOpts);
+      window.removeEventListener("touchmove", preventScroll, wheelOpts);
+      window.removeEventListener("keydown", preventKeyScroll, true);
+      document.body.style.cursor = "auto";
+      ScrollTrigger.refresh();
+    }
+
+    /* torch follow unchanged */
+    document.addEventListener("mousemove", e => {
+      root.style.setProperty("--x", e.clientX + "px");
+      root.style.setProperty("--y", e.clientY + "px");
+      torch.style.left = e.clientX + "px";
+      torch.style.top = e.clientY + "px";
+    });
+
+    /* hard lock until torch reveal complete */
+    lockScroll();
+
+    setTimeout(() => {
+      dark.style.opacity = 0;
+      torch.style.opacity = 0;
+      unlockScroll();
+    }, 2500);
+
+    /* menu */
+    menuToggle.addEventListener("click", () => menuPanel.classList.toggle("open"));
+    menuClose.addEventListener("click", () => menuPanel.classList.remove("open"));
+    document.addEventListener("click", e => {
+      if (!menuPanel.contains(e.target) && !menuToggle.contains(e.target)) {
+        menuPanel.classList.remove("open");
+      }
+    });
+
+    /* subtle parallax only — no swapping, no black gaps */
+    gsap.to("#entranceScene .bg", {
+      scale:1,
+      yPercent:-4,
+      ease:"none",
+      scrollTrigger:{
+        trigger:"#entranceScene",
+        start:"top bottom",
+        end:"bottom top",
+        scrub:1
+      }
+    });
+
+    gsap.to("#bg2Scene .bg", {
+      scale:1,
+      yPercent:-4,
+      ease:"none",
+      scrollTrigger:{
+        trigger:"#bg2Scene",
+        start:"top bottom",
+        end:"bottom top",
+        scrub:1
+      }
+    });
+
+    gsap.to("#bg3Scene .bg", {
+      scale:1,
+      yPercent:-4,
+      ease:"none",
+      scrollTrigger:{
+        trigger:"#bg3Scene",
+        start:"top bottom",
+        end:"bottom top",
+        scrub:1
+      }
+    });
+  </script>
 </body>
 </html>
