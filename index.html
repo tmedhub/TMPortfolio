@@ -3,266 +3,115 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>bg1 bg2 bg3 zoom scroll</title>
+  <title>Clean Seamless Scroll</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
   <style>
     :root{
       --x:50%;
       --y:50%;
-      --torchW:420px;
-      --torchH:620px;
       --gold:#f5d9a6;
     }
 
-    *{margin:0;padding:0;box-sizing:border-box}
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+    }
+
     html,body{
       background:#000;
       overflow-x:hidden;
       font-family:Georgia, serif;
       color:var(--gold);
-      scroll-behavior:smooth;
     }
 
-    html.lock-scroll,
-    body.lock-scroll{
-      overflow:hidden !important;
-      height:100%;
-      touch-action:none;
-    }
-
-    body{min-height:100vh}
-
-    button{
-      font:inherit;
-      color:inherit;
-      border:none;
-      background:none;
-      cursor:pointer;
-    }
-
-    .top-btn{
-      position:fixed;
-      top:18px;
-      z-index:500;
-      display:inline-flex;
-      align-items:center;
-      gap:.8rem;
-      padding:.9rem 1.1rem;
-      border-radius:999px;
-      border:1px solid rgba(245,217,166,.28);
-      background:rgba(0,0,0,.28);
-      color:var(--gold);
-      backdrop-filter:blur(14px);
-      -webkit-backdrop-filter:blur(14px);
-      letter-spacing:.14em;
-      text-transform:uppercase;
-      font-size:.72rem;
-    }
-
-    .menu-toggle{left:18px}
-    .work-toggle{right:18px}
-
-    .burger{display:grid;gap:4px}
-    .burger span{
-      display:block;
-      width:18px;
-      height:1.5px;
-      background:currentColor;
-      border-radius:999px;
-    }
-
-    .menu-panel{
-      position:fixed;
-      left:18px;
-      top:68px;
-      width:310px;
-      padding:1.1rem 1.35rem 1.35rem;
-      background:rgba(0,0,0,.98);
-      z-index:520;
-      opacity:0;
-      pointer-events:none;
-      transform:translateY(-8px);
-      transition:opacity .22s ease, transform .22s ease;
-    }
-
-    .menu-panel.open{
-      opacity:1;
-      pointer-events:auto;
-      transform:translateY(0);
-    }
-
-    .menu-top{display:flex;justify-content:flex-end}
-    .menu-close{
-      width:28px;
-      height:28px;
-      display:grid;
-      place-items:center;
-      color:var(--gold);
-    }
-
-    .menu-list{display:grid;gap:1.95rem;padding-top:.35rem}
-    .menu-link{width:100%;text-align:left}
-    .menu-link strong{display:block;font-size:1.08rem;font-weight:600}
-    .menu-link span{
-      display:block;
-      margin-top:.36rem;
-      font-size:.72rem;
-      letter-spacing:.2em;
-      text-transform:uppercase;
-      color:rgba(245,217,166,.82);
-    }
-
-    /* torch scene */
-    #hero{
-      position:relative;
-      height:100vh;
-      background:#000;
-      cursor:none;
+    body.lock{
       overflow:hidden;
+      height:100vh;
     }
 
-    #scene{
+    #stage{
+      position:relative;
+      height:300vh;
+      cursor:none;
+      background:#000;
+    }
+
+    .pin{
+      position:sticky;
+      top:0;
+      height:100vh;
+      overflow:hidden;
+      background:#000;
+    }
+
+    .scene{
       position:absolute;
       inset:0;
-      background:url("bg1.png") center bottom/cover no-repeat;
-      z-index:1;
+      background-size:cover;
+      background-position:center;
+      background-repeat:no-repeat;
+      will-change:transform;
+      transform-origin:center center;
     }
 
-    #darkness{
+    #bg1{
+      background-image:url("bg1.png");
+      z-index:3;
+    }
+
+    #bg2{
+      background-image:url("bg2.jpeg");
+      z-index:2;
+      transform:scale(1.02);
+    }
+
+    #bg3{
+      background-image:url("bg3.jpeg");
+      z-index:1;
+      transform:scale(1.04);
+    }
+
+    #dark{
       position:absolute;
       inset:0;
       background:black;
       pointer-events:none;
+      z-index:4;
       mask-image:radial-gradient(
-        var(--torchW) var(--torchH) at var(--x) var(--y),
+        400px 600px at var(--x) var(--y),
         transparent 0%,
-        rgba(0,0,0,.25) 35%,
-        black 65%
+        black 70%
       );
       -webkit-mask-image:radial-gradient(
-        var(--torchW) var(--torchH) at var(--x) var(--y),
+        400px 600px at var(--x) var(--y),
         transparent 0%,
-        rgba(0,0,0,.25) 35%,
-        black 65%
+        black 70%
       );
-      transition:opacity 2.2s ease;
-      z-index:10;
+      transition:opacity 2s ease;
     }
 
     #torch{
       position:absolute;
       width:70px;
-      pointer-events:none;
       transform:translate(-50%,-15%) rotate(-20deg);
-      z-index:20;
-    }
-
-    /* zoom scenes */
-    .zoom-section{
-      position:relative;
-      height:140vh;
-      background:#000;
-    }
-
-    .zoom-pin{
-      position:sticky;
-      top:0;
-      height:100vh;
-      overflow:hidden;
-    }
-
-    .zoom-bg{
-      position:absolute;
-      inset:0;
-      background-size:cover;
-      background-repeat:no-repeat;
-      background-position:center center;
-      transform:scale(1);
-      will-change:transform;
-    }
-
-    #bg1Zoom .zoom-bg{background-image:url("bg1.png")}
-    #bg2Zoom .zoom-bg{background-image:url("bg2.jpeg")}
-    #bg3Zoom .zoom-bg{background-image:url("bg3.jpeg")}
-
-    .scene-overlay{
-      position:absolute;
-      inset:0;
-      background:linear-gradient(
-        180deg,
-        rgba(0,0,0,.04),
-        rgba(0,0,0,.10) 55%,
-        rgba(0,0,0,.18)
-      );
       pointer-events:none;
-      z-index:2;
-    }
-
-    @media (max-width:720px){
-      .top-btn{
-        top:14px;
-        font-size:.66rem;
-        padding:.8rem .95rem;
-      }
-      .menu-toggle{left:14px}
-      .work-toggle{right:14px}
-      .menu-panel{
-        top:62px;
-        left:14px;
-        width:min(310px, calc(100vw - 28px));
-      }
+      z-index:5;
+      transition:opacity .6s ease;
     }
   </style>
 </head>
 <body>
-  <button class="top-btn menu-toggle" id="menuToggle">
-    <span class="burger"><span></span><span></span><span></span></span>
-    <span>Museum’s Galleries</span>
-  </button>
 
-  <button class="top-btn work-toggle">Let’s Work Together</button>
-
-  <div class="menu-panel" id="menuPanel">
-    <div class="menu-top">
-      <button class="menu-close" id="menuClose">✕</button>
-    </div>
-    <div class="menu-list">
-      <button class="menu-link"><strong>Canvas Studio</strong><span>Gallery 01</span></button>
-      <button class="menu-link"><strong>Project Arcade</strong><span>Gallery 02</span></button>
-      <button class="menu-link"><strong>Customization Co-op</strong><span>Gallery 03</span></button>
-      <button class="menu-link"><strong>Director's Dome</strong><span>Gallery 04</span></button>
-    </div>
-  </div>
-
-  <!-- TORCH SCENE -->
-  <section id="hero">
-    <div id="scene"></div>
-    <div id="darkness"></div>
-    <img id="torch" src="torchtm.png" alt="Torch" />
-  </section>
-
-  <!-- BG1 ZOOM -->
-  <section id="bg1Zoom" class="zoom-section">
-    <div class="zoom-pin">
-      <div class="zoom-bg"></div>
-      <div class="scene-overlay"></div>
-    </div>
-  </section>
-
-  <!-- BG2 ZOOM -->
-  <section id="bg2Zoom" class="zoom-section">
-    <div class="zoom-pin">
-      <div class="zoom-bg"></div>
-      <div class="scene-overlay"></div>
-    </div>
-  </section>
-
-  <!-- BG3 ZOOM -->
-  <section id="bg3Zoom" class="zoom-section">
-    <div class="zoom-pin">
-      <div class="zoom-bg"></div>
-      <div class="scene-overlay"></div>
+  <section id="stage">
+    <div class="pin">
+      <div id="bg3" class="scene"></div>
+      <div id="bg2" class="scene"></div>
+      <div id="bg1" class="scene"></div>
+      <div id="dark"></div>
+      <img id="torch" src="torchtm.png" alt="Torch" />
     </div>
   </section>
 
@@ -271,107 +120,84 @@
 
     const root = document.documentElement;
     const torch = document.getElementById("torch");
-    const dark = document.getElementById("darkness");
-    const menuToggle = document.getElementById("menuToggle");
-    const menuPanel = document.getElementById("menuPanel");
-    const menuClose = document.getElementById("menuClose");
+    const dark = document.getElementById("dark");
 
-    const wheelOpts = { passive:false };
-
-    function preventScroll(e){
-      e.preventDefault();
+    function lock() {
+      document.body.classList.add("lock");
       window.scrollTo(0, 0);
     }
 
-    function preventKeyScroll(e){
-      const keys = ["ArrowUp","ArrowDown","PageUp","PageDown","Home","End"," "];
-      if(keys.includes(e.key)){
-        e.preventDefault();
-        window.scrollTo(0, 0);
-      }
-    }
-
-    function lockScroll(){
-      document.documentElement.classList.add("lock-scroll");
-      document.body.classList.add("lock-scroll");
-      window.scrollTo(0, 0);
-      window.addEventListener("wheel", preventScroll, wheelOpts);
-      window.addEventListener("touchmove", preventScroll, wheelOpts);
-      window.addEventListener("keydown", preventKeyScroll, true);
-    }
-
-    function unlockScroll(){
-      document.documentElement.classList.remove("lock-scroll");
-      document.body.classList.remove("lock-scroll");
-      window.removeEventListener("wheel", preventScroll, wheelOpts);
-      window.removeEventListener("touchmove", preventScroll, wheelOpts);
-      window.removeEventListener("keydown", preventKeyScroll, true);
+    function unlock() {
+      document.body.classList.remove("lock");
       document.body.style.cursor = "auto";
       ScrollTrigger.refresh();
     }
 
-    /* torch follow */
-    document.addEventListener("mousemove", e => {
+    lock();
+
+    document.addEventListener("mousemove", (e) => {
       root.style.setProperty("--x", e.clientX + "px");
       root.style.setProperty("--y", e.clientY + "px");
       torch.style.left = e.clientX + "px";
       torch.style.top = e.clientY + "px";
     });
 
-    /* hard lock for 2.5s */
-    lockScroll();
-
     setTimeout(() => {
       dark.style.opacity = 0;
       torch.style.opacity = 0;
-      unlockScroll();
+      unlock();
     }, 2500);
 
-    /* menu */
-    menuToggle.addEventListener("click", () => menuPanel.classList.toggle("open"));
-    menuClose.addEventListener("click", () => menuPanel.classList.remove("open"));
-    document.addEventListener("click", e => {
-      if (!menuPanel.contains(e.target) && !menuToggle.contains(e.target)) {
-        menuPanel.classList.remove("open");
-      }
-    });
-
-    /* simple zooms */
-    gsap.to("#bg1Zoom .zoom-bg", {
-      scale: 1.22,
-      yPercent: 6,
-      ease: "none",
+    const tl = gsap.timeline({
       scrollTrigger: {
-        trigger: "#bg1Zoom",
-        start: "top bottom",
-        end: "bottom top",
+        trigger: "#stage",
+        start: "top top",
+        end: "bottom bottom",
         scrub: 1
       }
     });
 
-    gsap.to("#bg2Zoom .zoom-bg", {
+    /* bg1 zoom */
+    tl.to("#bg1", {
       scale: 1.18,
-      yPercent: 4,
-      ease: "none",
-      scrollTrigger: {
-        trigger: "#bg2Zoom",
-        start: "top bottom",
-        end: "bottom top",
-        scrub: 1
-      }
-    });
+      yPercent: 6,
+      ease: "none"
+    }, 0);
 
-    gsap.to("#bg3Zoom .zoom-bg", {
-      scale: 1.16,
-      yPercent: 3,
-      ease: "none",
-      scrollTrigger: {
-        trigger: "#bg3Zoom",
-        start: "top bottom",
-        end: "bottom top",
-        scrub: 1
-      }
-    });
+    /* bg1 pushes more, revealing bg2 beneath */
+    tl.to("#bg1", {
+      scale: 1.38,
+      yPercent: 12,
+      ease: "none"
+    }, 0.35);
+
+    /* bg2 starts taking over */
+    tl.to("#bg2", {
+      scale: 1.12,
+      yPercent: -2,
+      ease: "none"
+    }, 0.45);
+
+    /* bg2 continues deeper */
+    tl.to("#bg2", {
+      scale: 1.28,
+      yPercent: -6,
+      ease: "none"
+    }, 0.68);
+
+    /* bg3 starts becoming the depth layer */
+    tl.to("#bg3", {
+      scale: 1.12,
+      yPercent: -2,
+      ease: "none"
+    }, 0.68);
+
+    /* bg3 final zoom */
+    tl.to("#bg3", {
+      scale: 1.22,
+      yPercent: -5,
+      ease: "none"
+    }, 0.9);
   </script>
 </body>
 </html>
