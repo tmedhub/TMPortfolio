@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>bg1 → bg2 doorway transition</title>
+  <title>bg1 bg2 bg3 zoom scroll</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <style>
@@ -13,20 +13,14 @@
       --torchW:420px;
       --torchH:620px;
       --gold:#f5d9a6;
-
-      /* tune these 3 values to your actual doorway center/size */
-      --door-x:50%;
-      --door-y:58%;
-      --door-w:8%;
-      --door-h:14%;
     }
 
     *{margin:0;padding:0;box-sizing:border-box}
     html,body{
       background:#000;
-      color:var(--gold);
-      font-family:Georgia, serif;
       overflow-x:hidden;
+      font-family:Georgia, serif;
+      color:var(--gold);
       scroll-behavior:smooth;
     }
 
@@ -38,6 +32,7 @@
     }
 
     body{min-height:100vh}
+
     button{
       font:inherit;
       color:inherit;
@@ -63,13 +58,6 @@
       letter-spacing:.14em;
       text-transform:uppercase;
       font-size:.72rem;
-      transition:transform .22s ease, background .22s ease, border-color .22s ease;
-    }
-
-    .top-btn:hover{
-      transform:translateY(-2px);
-      background:rgba(18,14,11,.55);
-      border-color:rgba(245,217,166,.45);
     }
 
     .menu-toggle{left:18px}
@@ -114,8 +102,7 @@
     }
 
     .menu-list{display:grid;gap:1.95rem;padding-top:.35rem}
-    .menu-link{width:100%;text-align:left;transition:transform .2s ease, opacity .2s ease}
-    .menu-link:hover{transform:translateX(4px);opacity:.86}
+    .menu-link{width:100%;text-align:left}
     .menu-link strong{display:block;font-size:1.08rem;font-weight:600}
     .menu-link span{
       display:block;
@@ -126,11 +113,11 @@
       color:rgba(245,217,166,.82);
     }
 
-    /* ---------------- TORCH SCENE EXACT CORE ---------------- */
+    /* torch scene */
     #hero{
       position:relative;
       height:100vh;
-      background:black;
+      background:#000;
       cursor:none;
       overflow:hidden;
     }
@@ -171,91 +158,45 @@
       z-index:20;
     }
 
-    /* ---------------- PINNED DOORWAY SHOT ---------------- */
-    #entrance-shot{
+    /* zoom scenes */
+    .zoom-section{
       position:relative;
-      height:220vh;
+      height:140vh;
       background:#000;
     }
 
-    #entrance-shot .pin{
+    .zoom-pin{
       position:sticky;
       top:0;
       height:100vh;
       overflow:hidden;
-      background:#000;
     }
 
-    .bg{
+    .zoom-bg{
       position:absolute;
       inset:0;
       background-size:cover;
       background-repeat:no-repeat;
-      background-position:center;
-      will-change:transform, opacity;
+      background-position:center center;
+      transform:scale(1);
+      will-change:transform;
     }
 
-    .bg1{
-      background-image:url("bg1.png");
-      background-position:center bottom;
-      z-index:2;
-      transform-origin:var(--door-x) var(--door-y);
-    }
+    #bg1Zoom .zoom-bg{background-image:url("bg1.png")}
+    #bg2Zoom .zoom-bg{background-image:url("bg2.jpeg")}
+    #bg3Zoom .zoom-bg{background-image:url("bg3.jpeg")}
 
-    .bg2{
-      background-image:url("bg2.jpeg");
-      z-index:1;
-      transform:scale(1.12);
-    }
-
-    .door-reveal{
+    .scene-overlay{
       position:absolute;
       inset:0;
-      z-index:3;
-      pointer-events:none;
-      background:black;
-      mask-image:radial-gradient(
-        ellipse var(--door-w) var(--door-h) at var(--door-x) var(--door-y),
-        transparent 0%,
-        transparent 40%,
-        black 52%
-      );
-      -webkit-mask-image:radial-gradient(
-        ellipse var(--door-w) var(--door-h) at var(--door-x) var(--door-y),
-        transparent 0%,
-        transparent 40%,
-        black 52%
-      );
-      will-change:mask-image, -webkit-mask-image;
-    }
-
-    .vignette{
-      position:absolute;
-      inset:0;
-      pointer-events:none;
       background:linear-gradient(
         180deg,
         rgba(0,0,0,.04),
         rgba(0,0,0,.10) 55%,
         rgba(0,0,0,.18)
       );
-      z-index:4;
-    }
-
-    /* optional next scene starter */
-    #bg3Scene{
-      position:relative;
-      height:100vh;
-      overflow:hidden;
-      background:#000;
-    }
-
-    #bg3Scene .bg3{
-      position:absolute;
-      inset:0;
-      background:url("bg3.jpeg") center center/cover no-repeat;
-      transform:scale(1.08);
-      will-change:transform;
+      pointer-events:none;
+      z-index:2;
     }
 
     @media (max-width:720px){
@@ -294,27 +235,35 @@
     </div>
   </div>
 
-  <!-- TORCH SCENE: unchanged -->
+  <!-- TORCH SCENE -->
   <section id="hero">
     <div id="scene"></div>
     <div id="darkness"></div>
     <img id="torch" src="torchtm.png" alt="Torch" />
   </section>
 
-  <!-- DOORWAY CAMERA SHOT -->
-  <section id="entrance-shot">
-    <div class="pin">
-      <div class="bg bg2"></div>
-      <div class="bg bg1" id="bg1Door"></div>
-      <div class="door-reveal" id="doorReveal"></div>
-      <div class="vignette"></div>
+  <!-- BG1 ZOOM -->
+  <section id="bg1Zoom" class="zoom-section">
+    <div class="zoom-pin">
+      <div class="zoom-bg"></div>
+      <div class="scene-overlay"></div>
     </div>
   </section>
 
-  <!-- OPTIONAL NEXT CONTINUATION -->
-  <section id="bg3Scene">
-    <div class="bg3" id="bg3"></div>
-    <div class="vignette"></div>
+  <!-- BG2 ZOOM -->
+  <section id="bg2Zoom" class="zoom-section">
+    <div class="zoom-pin">
+      <div class="zoom-bg"></div>
+      <div class="scene-overlay"></div>
+    </div>
+  </section>
+
+  <!-- BG3 ZOOM -->
+  <section id="bg3Zoom" class="zoom-section">
+    <div class="zoom-pin">
+      <div class="zoom-bg"></div>
+      <div class="scene-overlay"></div>
+    </div>
   </section>
 
   <script>
@@ -361,7 +310,7 @@
       ScrollTrigger.refresh();
     }
 
-    /* exact torch follow */
+    /* torch follow */
     document.addEventListener("mousemove", e => {
       root.style.setProperty("--x", e.clientX + "px");
       root.style.setProperty("--y", e.clientY + "px");
@@ -369,7 +318,7 @@
       torch.style.top = e.clientY + "px";
     });
 
-    /* hard scroll lock until torch reveal completes */
+    /* hard lock for 2.5s */
     lockScroll();
 
     setTimeout(() => {
@@ -387,49 +336,37 @@
       }
     });
 
-    /* doorway shot */
-    const tl = gsap.timeline({
+    /* simple zooms */
+    gsap.to("#bg1Zoom .zoom-bg", {
+      scale: 1.22,
+      yPercent: 6,
+      ease: "none",
       scrollTrigger: {
-        trigger: "#entrance-shot",
-        start: "top top",
-        end: "bottom bottom",
+        trigger: "#bg1Zoom",
+        start: "top bottom",
+        end: "bottom top",
         scrub: 1
       }
     });
 
-    /* move toward the doorway */
-    tl.to(".bg1", {
-      scale: 1.28,
-      yPercent: 6,
-      ease: "none"
-    }, 0);
-
-    /* bg2 settles in underneath */
-    tl.to(".bg2", {
-      scale: 1,
-      ease: "none"
-    }, 0);
-
-    /* doorway opening expands */
-    tl.to("#doorReveal", {
-      maskImage: "radial-gradient(ellipse 80% 90% at var(--door-x) var(--door-y), transparent 0%, transparent 78%, black 88%)",
-      webkitMaskImage: "radial-gradient(ellipse 80% 90% at var(--door-x) var(--door-y), transparent 0%, transparent 78%, black 88%)",
-      ease: "none"
-    }, 0.12);
-
-    /* fade bg1 very late */
-    tl.to(".bg1", {
-      opacity: 0,
-      ease: "none"
-    }, 0.84);
-
-    /* optional bg3 continuation */
-    gsap.to("#bg3", {
-      scale: 1,
-      yPercent: -4,
+    gsap.to("#bg2Zoom .zoom-bg", {
+      scale: 1.18,
+      yPercent: 4,
       ease: "none",
       scrollTrigger: {
-        trigger: "#bg3Scene",
+        trigger: "#bg2Zoom",
+        start: "top bottom",
+        end: "bottom top",
+        scrub: 1
+      }
+    });
+
+    gsap.to("#bg3Zoom .zoom-bg", {
+      scale: 1.16,
+      yPercent: 3,
+      ease: "none",
+      scrollTrigger: {
+        trigger: "#bg3Zoom",
         start: "top bottom",
         end: "bottom top",
         scrub: 1
