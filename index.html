@@ -36,8 +36,9 @@
 
     /* SINGLE PIN CONTAINER */
     #hero{
-      height:200vh;
+      height:160vh;
       cursor:none;
+      background:url("bg2.jpeg") center center/cover no-repeat;
     }
 
     .hero-pin{
@@ -53,7 +54,7 @@
       inset:0;
       background:url("bg2.jpeg") center center/cover no-repeat;
       z-index:1;
-      transform:scale(1.08);
+      transform:scale(1);
       will-change:transform;
     }
 
@@ -143,10 +144,6 @@
       yPercent:8,
       ease:"none"
     },0)
-    .to("#bg1",{
-      opacity:0,
-      ease:"none"
-    },0.7)
     .to("#bg2",{
       scale:1,
       ease:"none"
