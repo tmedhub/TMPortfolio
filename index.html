@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Torch → Entrance → bg2 → bg3</title>
+  <title>bg1 → bg2 doorway transition</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <style>
@@ -13,6 +13,12 @@
       --torchW:420px;
       --torchH:620px;
       --gold:#f5d9a6;
+
+      /* tune these 3 values to your actual doorway center/size */
+      --door-x:50%;
+      --door-y:58%;
+      --door-w:8%;
+      --door-h:14%;
     }
 
     *{margin:0;padding:0;box-sizing:border-box}
@@ -24,13 +30,14 @@
       scroll-behavior:smooth;
     }
 
-    body.lock-scroll,
-    html.lock-scroll{
+    html.lock-scroll,
+    body.lock-scroll{
       overflow:hidden !important;
       height:100%;
       touch-action:none;
     }
 
+    body{min-height:100vh}
     button{
       font:inherit;
       color:inherit;
@@ -119,7 +126,7 @@
       color:rgba(245,217,166,.82);
     }
 
-    /* ---------- TORCH SCENE UNCHANGED ---------- */
+    /* ---------------- TORCH SCENE EXACT CORE ---------------- */
     #hero{
       position:relative;
       height:100vh;
@@ -164,39 +171,91 @@
       z-index:20;
     }
 
-    /* ---------- NORMAL SCROLL SECTIONS BELOW ---------- */
-    .scroll-scene{
+    /* ---------------- PINNED DOORWAY SHOT ---------------- */
+    #entrance-shot{
       position:relative;
+      height:220vh;
+      background:#000;
+    }
+
+    #entrance-shot .pin{
+      position:sticky;
+      top:0;
       height:100vh;
       overflow:hidden;
       background:#000;
     }
 
-    .scroll-scene .bg{
+    .bg{
       position:absolute;
       inset:0;
-      background-position:center center;
       background-size:cover;
       background-repeat:no-repeat;
-      transform:scale(1.08);
-      will-change:transform;
+      background-position:center;
+      will-change:transform, opacity;
     }
 
-    #entranceScene .bg{background-image:url("bg2.jpeg")}
-    #bg2Scene .bg{background-image:url("bg2.jpeg")}
-    #bg3Scene .bg{background-image:url("bg3.jpeg")}
+    .bg1{
+      background-image:url("bg1.png");
+      background-position:center bottom;
+      z-index:2;
+      transform-origin:var(--door-x) var(--door-y);
+    }
 
-    .scene-overlay{
+    .bg2{
+      background-image:url("bg2.jpeg");
+      z-index:1;
+      transform:scale(1.12);
+    }
+
+    .door-reveal{
       position:absolute;
       inset:0;
+      z-index:3;
+      pointer-events:none;
+      background:black;
+      mask-image:radial-gradient(
+        ellipse var(--door-w) var(--door-h) at var(--door-x) var(--door-y),
+        transparent 0%,
+        transparent 40%,
+        black 52%
+      );
+      -webkit-mask-image:radial-gradient(
+        ellipse var(--door-w) var(--door-h) at var(--door-x) var(--door-y),
+        transparent 0%,
+        transparent 40%,
+        black 52%
+      );
+      will-change:mask-image, -webkit-mask-image;
+    }
+
+    .vignette{
+      position:absolute;
+      inset:0;
+      pointer-events:none;
       background:linear-gradient(
         180deg,
         rgba(0,0,0,.04),
         rgba(0,0,0,.10) 55%,
         rgba(0,0,0,.18)
       );
-      pointer-events:none;
-      z-index:2;
+      z-index:4;
+    }
+
+    /* optional next scene starter */
+    #bg3Scene{
+      position:relative;
+      height:100vh;
+      overflow:hidden;
+      background:#000;
+    }
+
+    #bg3Scene .bg3{
+      position:absolute;
+      inset:0;
+      background:url("bg3.jpeg") center center/cover no-repeat;
+      transform:scale(1.08);
+      will-change:transform;
     }
 
     @media (max-width:720px){
@@ -235,29 +294,27 @@
     </div>
   </div>
 
-  <!-- TORCH SCENE -->
+  <!-- TORCH SCENE: unchanged -->
   <section id="hero">
     <div id="scene"></div>
     <div id="darkness"></div>
     <img id="torch" src="torchtm.png" alt="Torch" />
   </section>
 
-  <!-- ENTRANCE BELOW -->
-  <section id="entranceScene" class="scroll-scene">
-    <div class="bg"></div>
-    <div class="scene-overlay"></div>
+  <!-- DOORWAY CAMERA SHOT -->
+  <section id="entrance-shot">
+    <div class="pin">
+      <div class="bg bg2"></div>
+      <div class="bg bg1" id="bg1Door"></div>
+      <div class="door-reveal" id="doorReveal"></div>
+      <div class="vignette"></div>
+    </div>
   </section>
 
-  <!-- BG2 BELOW -->
-  <section id="bg2Scene" class="scroll-scene">
-    <div class="bg"></div>
-    <div class="scene-overlay"></div>
-  </section>
-
-  <!-- BG3 BELOW -->
-  <section id="bg3Scene" class="scroll-scene">
-    <div class="bg"></div>
-    <div class="scene-overlay"></div>
+  <!-- OPTIONAL NEXT CONTINUATION -->
+  <section id="bg3Scene">
+    <div class="bg3" id="bg3"></div>
+    <div class="vignette"></div>
   </section>
 
   <script>
@@ -304,7 +361,7 @@
       ScrollTrigger.refresh();
     }
 
-    /* torch follow unchanged */
+    /* exact torch follow */
     document.addEventListener("mousemove", e => {
       root.style.setProperty("--x", e.clientX + "px");
       root.style.setProperty("--y", e.clientY + "px");
@@ -312,7 +369,7 @@
       torch.style.top = e.clientY + "px";
     });
 
-    /* hard lock until torch reveal complete */
+    /* hard scroll lock until torch reveal completes */
     lockScroll();
 
     setTimeout(() => {
@@ -330,40 +387,52 @@
       }
     });
 
-    /* subtle parallax only — no swapping, no black gaps */
-    gsap.to("#entranceScene .bg", {
-      scale:1,
-      yPercent:-4,
-      ease:"none",
-      scrollTrigger:{
-        trigger:"#entranceScene",
-        start:"top bottom",
-        end:"bottom top",
-        scrub:1
+    /* doorway shot */
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: "#entrance-shot",
+        start: "top top",
+        end: "bottom bottom",
+        scrub: 1
       }
     });
 
-    gsap.to("#bg2Scene .bg", {
-      scale:1,
-      yPercent:-4,
-      ease:"none",
-      scrollTrigger:{
-        trigger:"#bg2Scene",
-        start:"top bottom",
-        end:"bottom top",
-        scrub:1
-      }
-    });
+    /* move toward the doorway */
+    tl.to(".bg1", {
+      scale: 1.28,
+      yPercent: 6,
+      ease: "none"
+    }, 0);
 
-    gsap.to("#bg3Scene .bg", {
-      scale:1,
-      yPercent:-4,
-      ease:"none",
-      scrollTrigger:{
-        trigger:"#bg3Scene",
-        start:"top bottom",
-        end:"bottom top",
-        scrub:1
+    /* bg2 settles in underneath */
+    tl.to(".bg2", {
+      scale: 1,
+      ease: "none"
+    }, 0);
+
+    /* doorway opening expands */
+    tl.to("#doorReveal", {
+      maskImage: "radial-gradient(ellipse 80% 90% at var(--door-x) var(--door-y), transparent 0%, transparent 78%, black 88%)",
+      webkitMaskImage: "radial-gradient(ellipse 80% 90% at var(--door-x) var(--door-y), transparent 0%, transparent 78%, black 88%)",
+      ease: "none"
+    }, 0.12);
+
+    /* fade bg1 very late */
+    tl.to(".bg1", {
+      opacity: 0,
+      ease: "none"
+    }, 0.84);
+
+    /* optional bg3 continuation */
+    gsap.to("#bg3", {
+      scale: 1,
+      yPercent: -4,
+      ease: "none",
+      scrollTrigger: {
+        trigger: "#bg3Scene",
+        start: "top bottom",
+        end: "bottom top",
+        scrub: 1
       }
     });
   </script>
