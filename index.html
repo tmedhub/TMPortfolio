@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Beat 1 — Correct Handoff</title>
+  <title>bg1 → bg2 → bg3 transition</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <style>
@@ -16,50 +16,121 @@
     }
 
     *{margin:0;padding:0;box-sizing:border-box}
-    html,body{background:#000;color:#f5d9a6;font-family:Georgia, serif;overflow-x:hidden}
-    body.lock-scroll, html.lock-scroll{overflow:hidden;height:100%;touch-action:none}
+    html,body{
+      background:#000;
+      color:var(--gold);
+      font-family:Georgia, serif;
+      overflow-x:hidden;
+    }
+
+    body.lock-scroll,
+    html.lock-scroll{
+      overflow:hidden;
+      height:100%;
+      touch-action:none;
+    }
+
+    button{
+      font:inherit;
+      color:inherit;
+      border:none;
+      background:none;
+      cursor:pointer;
+    }
 
     .top-btn{
-      position:fixed;top:18px;z-index:200;
-      display:inline-flex;align-items:center;gap:.8rem;
-      padding:.9rem 1.1rem;border-radius:999px;
+      position:fixed;
+      top:18px;
+      z-index:300;
+      display:inline-flex;
+      align-items:center;
+      gap:.8rem;
+      padding:.9rem 1.1rem;
+      border-radius:999px;
       border:1px solid rgba(245,217,166,.28);
       background:rgba(0,0,0,.26);
-      color:var(--gold);backdrop-filter:blur(14px);
-      letter-spacing:.14em;text-transform:uppercase;font-size:.72rem;
+      color:var(--gold);
+      backdrop-filter:blur(14px);
+      -webkit-backdrop-filter:blur(14px);
+      letter-spacing:.14em;
+      text-transform:uppercase;
+      font-size:.72rem;
     }
+
     .menu-toggle{left:18px}
     .work-toggle{right:18px}
 
     .burger{display:grid;gap:4px}
-    .burger span{display:block;width:18px;height:1.5px;background:currentColor}
-
-    /* SINGLE PIN CONTAINER */
-    #hero{
-      height:160vh;
-      cursor:none;
-      background:url("bg2.jpeg") center center/cover no-repeat;
+    .burger span{
+      display:block;
+      width:18px;
+      height:1.5px;
+      background:currentColor;
+      border-radius:999px;
     }
 
-    .hero-pin{
+    .menu-panel{
+      position:fixed;
+      left:18px;
+      top:68px;
+      width:310px;
+      padding:1.1rem 1.35rem 1.35rem;
+      background:rgba(0,0,0,.98);
+      z-index:320;
+      opacity:0;
+      pointer-events:none;
+      transform:translateY(-8px);
+      transition:opacity .22s ease, transform .22s ease;
+    }
+
+    .menu-panel.open{
+      opacity:1;
+      pointer-events:auto;
+      transform:translateY(0);
+    }
+
+    .menu-top{display:flex;justify-content:flex-end}
+    .menu-close{width:28px;height:28px;display:grid;place-items:center}
+    .menu-list{display:grid;gap:1.95rem;padding-top:.35rem}
+    .menu-link{width:100%;text-align:left}
+    .menu-link strong{display:block;font-size:1.08rem;font-weight:600}
+    .menu-link span{
+      display:block;
+      margin-top:.36rem;
+      font-size:.72rem;
+      letter-spacing:.2em;
+      text-transform:uppercase;
+      color:rgba(245,217,166,.82);
+    }
+
+    /* torch landing */
+    #landing{
+      height:180vh;
+      cursor:none;
+      background:#000;
+    }
+
+    .landing-pin{
       position:sticky;
       top:0;
       height:100vh;
       overflow:hidden;
+      background:#000;
     }
 
-    /* bg2 UNDER */
-    #bg2{
+    /* bg2 lives underneath from the beginning */
+    #bg2-under{
       position:absolute;
       inset:0;
       background:url("bg2.jpeg") center center/cover no-repeat;
       z-index:1;
-      transform:scale(1);
-      will-change:transform;
+      transform:scale(1.12) translateY(20px);
+      will-change:transform, opacity;
+      opacity:.92;
     }
 
-    /* bg1 TOP */
-    #bg1{
+    /* bg1 stays on top */
+    #bg1-top{
       position:absolute;
       inset:0;
       background:url("bg1.png") center bottom/cover no-repeat;
@@ -69,86 +140,223 @@
     }
 
     #darkness{
-      position:absolute;inset:0;background:black;z-index:3;
-      mask-image:radial-gradient(var(--torchW) var(--torchH) at var(--x) var(--y),transparent 0%,rgba(0,0,0,.25) 35%,black 65%);
-      -webkit-mask-image:radial-gradient(var(--torchW) var(--torchH) at var(--x) var(--y),transparent 0%,rgba(0,0,0,.25) 35%,black 65%);
+      position:absolute;
+      inset:0;
+      background:black;
+      z-index:3;
+      pointer-events:none;
+      mask-image:radial-gradient(
+        var(--torchW) var(--torchH) at var(--x) var(--y),
+        transparent 0%,
+        rgba(0,0,0,.25) 35%,
+        black 65%
+      );
+      -webkit-mask-image:radial-gradient(
+        var(--torchW) var(--torchH) at var(--x) var(--y),
+        transparent 0%,
+        rgba(0,0,0,.25) 35%,
+        black 65%
+      );
       transition:opacity 2s ease;
     }
 
     #torch{
-      position:absolute;width:70px;z-index:4;
+      position:absolute;
+      width:70px;
+      z-index:4;
       transform:translate(-50%,-15%) rotate(-20deg);
       pointer-events:none;
+    }
+
+    /* bg3 continuation */
+    #gallery-curve{
+      height:140vh;
+      background:#000;
+    }
+
+    .gallery-pin{
+      position:sticky;
+      top:0;
+      height:100vh;
+      overflow:hidden;
+    }
+
+    #bg3-scene{
+      position:absolute;
+      inset:0;
+      background:url("bg3.png") center center/cover no-repeat;
+      transform:scale(1.08) translateY(10px);
+      will-change:transform;
+    }
+
+    .scene-vignette{
+      position:absolute;
+      inset:0;
+      background:linear-gradient(
+        180deg,
+        rgba(0,0,0,.04),
+        rgba(0,0,0,.12) 55%,
+        rgba(0,0,0,.22)
+      );
+      pointer-events:none;
+    }
+
+    @media (max-width:720px){
+      .top-btn{
+        top:14px;
+        font-size:.66rem;
+        padding:.8rem .95rem;
+      }
+      .menu-toggle{left:14px}
+      .work-toggle{right:14px}
+      .menu-panel{
+        top:62px;
+        left:14px;
+        width:min(310px, calc(100vw - 28px));
+      }
     }
   </style>
 </head>
 <body>
-
-  <button class="top-btn menu-toggle">
+  <button class="top-btn menu-toggle" id="menuToggle">
     <span class="burger"><span></span><span></span><span></span></span>
     <span>Museum’s Galleries</span>
   </button>
 
   <button class="top-btn work-toggle">Let’s Work Together</button>
 
-  <section id="hero">
-    <div class="hero-pin">
-      <div id="bg2"></div>
-      <div id="bg1"></div>
+  <div class="menu-panel" id="menuPanel">
+    <div class="menu-top">
+      <button class="menu-close" id="menuClose">✕</button>
+    </div>
+    <div class="menu-list">
+      <button class="menu-link"><strong>Canvas Studio</strong><span>Gallery 01</span></button>
+      <button class="menu-link"><strong>Project Arcade</strong><span>Gallery 02</span></button>
+      <button class="menu-link"><strong>Customization Co-op</strong><span>Gallery 03</span></button>
+      <button class="menu-link"><strong>Director's Dome</strong><span>Gallery 04</span></button>
+    </div>
+  </div>
+
+  <section id="landing">
+    <div class="landing-pin">
+      <div id="bg2-under"></div>
+      <div id="bg1-top"></div>
       <div id="darkness"></div>
-      <img id="torch" src="torchtm.png" />
+      <img id="torch" src="torchtm.png" alt="Torch" />
+      <div class="scene-vignette"></div>
+    </div>
+  </section>
+
+  <section id="gallery-curve">
+    <div class="gallery-pin">
+      <div id="bg3-scene"></div>
+      <div class="scene-vignette"></div>
     </div>
   </section>
 
   <script>
     gsap.registerPlugin(ScrollTrigger);
 
-    const root=document.documentElement;
-    const torch=document.getElementById("torch");
-    const dark=document.getElementById("darkness");
+    const root = document.documentElement;
+    const torch = document.getElementById("torch");
+    const dark = document.getElementById("darkness");
+    const menuToggle = document.getElementById("menuToggle");
+    const menuPanel = document.getElementById("menuPanel");
+    const menuClose = document.getElementById("menuClose");
 
-    // HARD SCROLL LOCK
-    const prevent=(e)=>{e.preventDefault();window.scrollTo(0,0)};
-    window.addEventListener("wheel",prevent,{passive:false});
-    window.addEventListener("touchmove",prevent,{passive:false});
+    const preventScroll = (e) => {
+      e.preventDefault();
+      window.scrollTo(0, 0);
+    };
 
-    document.addEventListener("mousemove",e=>{
-      root.style.setProperty("--x",e.clientX+"px");
-      root.style.setProperty("--y",e.clientY+"px");
-      torch.style.left=e.clientX+"px";
-      torch.style.top=e.clientY+"px";
+    const preventKeyScroll = (e) => {
+      const keys = ["ArrowUp","ArrowDown","PageUp","PageDown","Home","End"," "];
+      if (keys.includes(e.key)) {
+        e.preventDefault();
+        window.scrollTo(0, 0);
+      }
+    };
+
+    const wheelOpts = { passive:false };
+
+    document.body.classList.add("lock-scroll");
+    document.documentElement.classList.add("lock-scroll");
+    window.scrollTo(0, 0);
+    window.addEventListener("wheel", preventScroll, wheelOpts);
+    window.addEventListener("touchmove", preventScroll, wheelOpts);
+    window.addEventListener("keydown", preventKeyScroll, true);
+
+    document.addEventListener("mousemove", e => {
+      root.style.setProperty("--x", e.clientX + "px");
+      root.style.setProperty("--y", e.clientY + "px");
+      torch.style.left = e.clientX + "px";
+      torch.style.top = e.clientY + "px";
     });
 
-    setTimeout(()=>{
-      dark.style.opacity=0;
-      torch.style.opacity=0;
-      document.body.style.cursor="auto";
-
-      window.removeEventListener("wheel",prevent);
-      window.removeEventListener("touchmove",prevent);
-
+    setTimeout(() => {
+      dark.style.opacity = 0;
+      torch.style.opacity = 0;
+      document.body.style.cursor = "auto";
+      document.body.classList.remove("lock-scroll");
+      document.documentElement.classList.remove("lock-scroll");
+      window.removeEventListener("wheel", preventScroll, wheelOpts);
+      window.removeEventListener("touchmove", preventScroll, wheelOpts);
+      window.removeEventListener("keydown", preventKeyScroll, true);
       ScrollTrigger.refresh();
-    },2500);
+    }, 2500);
 
-    // PERFECT HANDOFF TIMELINE
+    menuToggle.addEventListener("click", () => menuPanel.classList.toggle("open"));
+    menuClose.addEventListener("click", () => menuPanel.classList.remove("open"));
+    document.addEventListener("click", e => {
+      if (!menuPanel.contains(e.target) && !menuToggle.contains(e.target)) {
+        menuPanel.classList.remove("open");
+      }
+    });
+
+    /* bg1 -> bg2 */
     gsap.timeline({
       scrollTrigger:{
-        trigger:"#hero",
+        trigger:"#landing",
         start:"top top",
         end:"bottom bottom",
         scrub:1
       }
     })
-    .to("#bg1",{
-      scale:1.3,
-      yPercent:8,
+    .to("#bg1-top", {
+      scale:1.22,
+      yPercent:7,
       ease:"none"
-    },0)
-    .to("#bg2",{
+    }, 0)
+    .to("#bg1-top", {
+      opacity:0,
+      ease:"none"
+    }, 0.82)
+    .to("#bg2-under", {
       scale:1,
+      y:0,
       ease:"none"
-    },0);
+    }, 0);
 
+    /* bg2 -> bg3 */
+    gsap.timeline({
+      scrollTrigger:{
+        trigger:"#gallery-curve",
+        start:"top bottom",
+        end:"bottom top",
+        scrub:1
+      }
+    })
+    .fromTo("#bg3-scene",
+      {
+        scale:1.08,
+        yPercent:4
+      },
+      {
+        scale:1,
+        yPercent:0,
+        ease:"none"
+      }
+    );
   </script>
 </body>
 </html>
