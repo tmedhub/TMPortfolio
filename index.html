@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Museumof Me</title>
+  <title>Museum of Me</title>
 
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
@@ -105,7 +105,6 @@
       object-fit:contain;
       object-position:center bottom;
       transform-origin:center bottom;
-      filter:none;
       opacity:1;
     }
 
@@ -315,15 +314,20 @@
       font-size:.9rem;
     }
 
-    .bg4-section{
+    .bg4-section,
+    .bg5-section{
       position:relative;
       min-height:100vh;
-      background:url("bg5.png") center center/cover no-repeat;
-      display:flex;
-      align-items:center;
-      justify-content:center;
       overflow:hidden;
-      transform:scale(1.06);
+    }
+
+    .bg4-section{
+      background:url("bg4.jpeg") center center/cover no-repeat;
+    }
+
+    .bg5-section{
+      background:url("bg5.png") center center/cover no-repeat;
+      transform:scale(1.08);
       transform-origin:center center;
       will-change:transform, opacity, filter;
     }
@@ -352,8 +356,18 @@
       inset:0;
       background:linear-gradient(
         to bottom,
-        rgba(0,0,0,0.14),
-        rgba(0,0,0,0.26)
+        rgba(0,0,0,0.10),
+        rgba(0,0,0,0.20)
+      );
+    }
+
+    .bg5-overlay{
+      position:absolute;
+      inset:0;
+      background:linear-gradient(
+        to bottom,
+        rgba(0,0,0,0.08),
+        rgba(0,0,0,0.16)
       );
     }
 
@@ -448,6 +462,10 @@
 
   <section class="bg4-section" id="bg4Section">
     <div class="bg4-overlay"></div>
+  </section>
+
+  <section class="bg5-section" id="bg5Section">
+    <div class="bg5-overlay"></div>
   </section>
 
   <script>
@@ -637,9 +655,9 @@
 
     gsap.fromTo("#bg4Section",
       {
-        opacity: 0.96,
-        scale: 1.06,
-        filter: "blur(3px)"
+        opacity: 0.97,
+        scale: 1.02,
+        filter: "blur(2px)"
       },
       {
         opacity: 1,
@@ -648,6 +666,26 @@
         ease: "power2.out",
         scrollTrigger: {
           trigger: "#bg4Section",
+          start: "top bottom",
+          end: "top 45%",
+          scrub: 1.1
+        }
+      }
+    );
+
+    gsap.fromTo("#bg5Section",
+      {
+        opacity: 0.94,
+        scale: 1.08,
+        filter: "blur(2px)"
+      },
+      {
+        opacity: 1,
+        scale: 1,
+        filter: "blur(0px)",
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: "#bg5Section",
           start: "top bottom",
           end: "top 35%",
           scrub: 1.2
