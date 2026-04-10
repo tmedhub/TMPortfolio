@@ -3,26 +3,33 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Torch to bg2 to bg3</title>
+  <title>Museum Parallax</title>
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-  <link rel="preload" as="image" href="bg1.png">
-  <link rel="preload" as="image" href="bg2.jpeg">
-  <link rel="preload" as="image" href="bg3.jpeg">
+
   <style>
     :root{
-      --x:50%;
-      --y:50%;
-      --torchW:420px;
-      --torchH:620px;
-      --gold:#f5d9a6;
+      --x: 50%;
+      --y: 50%;
+      --torchW: 420px;
+      --torchH: 620px;
+      --gold: #f5d9a6;
+      --bg: #000;
     }
 
-    *{margin:0;padding:0;box-sizing:border-box}
-    html,body{
-      background:#000;
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+    }
+
+    html, body{
+      width:100%;
+      min-height:100%;
+      background:var(--bg);
       color:var(--gold);
-      font-family:Georgia, serif;
+      font-family: Georgia, serif;
       overflow-x:hidden;
       scroll-behavior:smooth;
     }
@@ -34,7 +41,6 @@
       touch-action:none;
     }
 
-    body{min-height:100vh}
     button{
       font:inherit;
       color:inherit;
@@ -43,6 +49,7 @@
       cursor:pointer;
     }
 
+    /* Top buttons */
     .top-btn{
       position:fixed;
       top:18px;
@@ -62,16 +69,21 @@
       font-size:.72rem;
       transition:transform .22s ease, background .22s ease, border-color .22s ease;
     }
+
     .top-btn:hover{
       transform:translateY(-2px);
       background:rgba(18,14,11,.55);
       border-color:rgba(245,217,166,.45);
     }
 
-    .menu-toggle{left:18px}
-    .work-toggle{right:18px}
+    .menu-toggle{ left:18px; }
+    .work-toggle{ right:18px; }
 
-    .burger{display:grid;gap:4px}
+    .burger{
+      display:grid;
+      gap:4px;
+    }
+
     .burger span{
       display:block;
       width:18px;
@@ -93,12 +105,18 @@
       transform:translateY(-8px);
       transition:opacity .22s ease, transform .22s ease;
     }
+
     .menu-panel.open{
       opacity:1;
       pointer-events:auto;
       transform:translateY(0);
     }
-    .menu-top{display:flex;justify-content:flex-end}
+
+    .menu-top{
+      display:flex;
+      justify-content:flex-end;
+    }
+
     .menu-close{
       width:28px;
       height:28px;
@@ -106,9 +124,24 @@
       place-items:center;
       color:var(--gold);
     }
-    .menu-list{display:grid;gap:1.95rem;padding-top:.35rem}
-    .menu-link{width:100%;text-align:left}
-    .menu-link strong{display:block;font-size:1.08rem;font-weight:600}
+
+    .menu-list{
+      display:grid;
+      gap:1.95rem;
+      padding-top:.35rem;
+    }
+
+    .menu-link{
+      width:100%;
+      text-align:left;
+    }
+
+    .menu-link strong{
+      display:block;
+      font-size:1.08rem;
+      font-weight:600;
+    }
+
     .menu-link span{
       display:block;
       margin-top:.36rem;
@@ -118,20 +151,21 @@
       color:rgba(245,217,166,.82);
     }
 
-    /* torch scene */
+    /* Torch intro */
     #hero{
       position:relative;
       height:100vh;
       background:#000;
-      cursor:none;
       overflow:hidden;
+      cursor:none;
     }
 
     #scene{
       position:absolute;
       inset:0;
-      background:url("bg1.png") center bottom/cover no-repeat;
+      background:url("bg1.png") center center / cover no-repeat;
       z-index:1;
+      transform:scale(1.02);
     }
 
     #darkness{
@@ -152,7 +186,7 @@
         rgba(0,0,0,.25) 35%,
         black 65%
       );
-      transition:opacity 2.2s ease;
+      transition:opacity 1.8s ease;
     }
 
     #torch{
@@ -164,14 +198,14 @@
       transition:opacity .6s ease;
     }
 
-    /* Cinematic section - full parallax with zoom */
-    #cinematic{
+    /* Main parallax section */
+    #museum-sequence{
       position:relative;
-      height:500vh;
+      height:420vh;
       background:#000;
     }
 
-    .cin-sticky{
+    .sticky-scene{
       position:sticky;
       top:0;
       height:100vh;
@@ -179,58 +213,103 @@
       background:#000;
     }
 
-    /* All backgrounds stacked, never showing black */
-    #bg2-image{
+    .layer{
       position:absolute;
-      inset:0;
-      background:url("bg2.jpeg") center 30%/cover no-repeat;
-      will-change:transform;
-      z-index:2;
-    }
-
-    #bg3-image{
-      position:absolute;
-      inset:0;
-      background:url("bg3.jpeg") center center/cover no-repeat;
-      will-change:transform;
-      z-index:1;
-    }
-
-    .cin-vignette{
-      position:absolute;
-      inset:0;
-      background:radial-gradient(ellipse 90% 80% at 50% 50%,
-        transparent 55%,
-        rgba(0,0,0,.28) 100%);
+      top:50%;
+      left:50%;
+      width:114vw;
+      height:114vh;
+      object-fit:cover;
+      transform:translate(-50%, -50%) scale(1);
+      will-change:transform, opacity, clip-path, filter;
       pointer-events:none;
-      z-index:3;
+      user-select:none;
     }
 
-    /* Hold sections */
-    #bg2Hold{
-      position:relative;
-      height:100vh;
-      background:url("bg2.jpeg") center 30%/cover no-repeat #000;
+    .sky{ z-index:1; }
+    .mid{ z-index:2; }
+    .front{ z-index:3; }
+    .foreground{ z-index:4; }
+
+    .hall{
+      z-index:5;
+      opacity:0;
+      transform:translate(-50%, -50%) scale(1.18);
+      clip-path:ellipse(4% 7% at 50% 72%);
+      filter:blur(10px);
     }
 
-    #bg3Hold{
-      position:relative;
-      height:100vh;
-      background:url("bg3.jpeg") center center/cover no-repeat #000;
+    .vignette{
+      position:absolute;
+      inset:0;
+      z-index:9;
+      pointer-events:none;
+      background:
+        radial-gradient(
+          ellipse at center,
+          rgba(0,0,0,0) 52%,
+          rgba(0,0,0,.22) 100%
+        );
     }
 
-    @media (max-width:720px){
+    /* Optional section after hallway reveal */
+    #after-hallway{
+      min-height:100vh;
+      background:#120d09;
+      display:grid;
+      place-items:center;
+      padding:4rem 1.5rem;
+      text-align:center;
+    }
+
+    #after-hallway .inner{
+      max-width:800px;
+    }
+
+    #after-hallway h2{
+      font-size:clamp(2rem, 4vw, 4rem);
+      margin-bottom:1rem;
+      color:var(--gold);
+    }
+
+    #after-hallway p{
+      font-size:1rem;
+      line-height:1.7;
+      color:rgba(245,217,166,.82);
+    }
+
+    @media (max-width: 720px){
+      :root{
+        --torchW: 260px;
+        --torchH: 380px;
+      }
+
       .top-btn{
         top:14px;
         font-size:.66rem;
         padding:.8rem .95rem;
       }
-      .menu-toggle{left:14px}
-      .work-toggle{right:14px}
+
+      .menu-toggle{ left:14px; }
+      .work-toggle{ right:14px; }
+
       .menu-panel{
         top:62px;
         left:14px;
         width:min(310px, calc(100vw - 28px));
+      }
+
+      #torch{
+        width:54px;
+      }
+
+      .layer{
+        width:128vw;
+        height:118vh;
+      }
+
+      .hall{
+        clip-path:ellipse(6% 8% at 50% 72%);
       }
     }
   </style>
@@ -255,37 +334,49 @@
     </div>
   </div>
 
-  <!-- torch scene -->
+  <!-- Torch intro -->
   <section id="hero">
     <div id="scene"></div>
     <div id="darkness"></div>
     <img id="torch" src="torchtm.png" alt="Torch" />
   </section>
 
-  <!-- cinematic: bg2 → bg3 with zoom transitions -->
-  <section id="cinematic">
-    <div class="cin-sticky">
-      <div id="bg3-image"></div>
-      <div id="bg2-image"></div>
-      <div class="cin-vignette"></div>
+  <!-- Parallax sequence -->
+  <section id="museum-sequence">
+    <div class="sticky-scene">
+      <!-- Replace with your actual layer files -->
+      <img src="bg1-sky.png" class="layer sky" alt="" />
+      <img src="bg1-mid.png" class="layer mid" alt="" />
+      <img src="bg1-front.png" class="layer front" alt="" />
+      <img src="bg1-foreground.png" class="layer foreground" alt="" />
+      <img src="bg2-main.png" class="layer hall" alt="" />
+      <div class="vignette"></div>
     </div>
   </section>
 
-  <!-- bg2 hold section -->
-  <section id="bg2Hold"></section>
-
-  <!-- bg3 hold section -->
-  <section id="bg3Hold"></section>
+  <!-- Optional content after hallway -->
+  <section id="after-hallway">
+    <div class="inner">
+      <h2>Inside the Museum</h2>
+      <p>
+        Continue with your gallery sections, cards, projects, or artwork here.
+      </p>
+    </div>
+  </section>
 
   <script>
     gsap.registerPlugin(ScrollTrigger);
 
     const root = document.documentElement;
+    const body = document.body;
+
     const torch = document.getElementById("torch");
     const dark = document.getElementById("darkness");
+
     const menuToggle = document.getElementById("menuToggle");
     const menuPanel = document.getElementById("menuPanel");
     const menuClose = document.getElementById("menuClose");
+
     const wheelOpts = { passive: false };
 
     function preventScroll(e){
@@ -303,7 +394,7 @@
 
     function lockScroll(){
       root.classList.add("lock-scroll");
-      document.body.classList.add("lock-scroll");
+      body.classList.add("lock-scroll");
       window.scrollTo(0, 0);
       window.addEventListener("wheel", preventScroll, wheelOpts);
       window.addEventListener("touchmove", preventScroll, wheelOpts);
@@ -312,141 +403,139 @@
 
     function unlockScroll(){
       root.classList.remove("lock-scroll");
-      document.body.classList.remove("lock-scroll");
+      body.classList.remove("lock-scroll");
       window.removeEventListener("wheel", preventScroll, wheelOpts);
       window.removeEventListener("touchmove", preventScroll, wheelOpts);
       window.removeEventListener("keydown", preventKeyScroll, true);
-      document.body.style.cursor = "auto";
+      body.style.cursor = "auto";
       ScrollTrigger.refresh();
     }
 
-    menuToggle.addEventListener("click", () => menuPanel.classList.toggle("open"));
-    menuClose.addEventListener("click", () => menuPanel.classList.remove("open"));
-    document.addEventListener("click", e => {
+    /* Menu */
+    menuToggle.addEventListener("click", () => {
+      menuPanel.classList.toggle("open");
+    });
+
+    menuClose.addEventListener("click", () => {
+      menuPanel.classList.remove("open");
+    });
+
+    document.addEventListener("click", (e) => {
       if (!menuPanel.contains(e.target) && !menuToggle.contains(e.target)) {
         menuPanel.classList.remove("open");
       }
     });
 
-    document.addEventListener("mousemove", e => {
+    /* Torch tracking */
+    document.addEventListener("mousemove", (e) => {
       root.style.setProperty("--x", e.clientX + "px");
       root.style.setProperty("--y", e.clientY + "px");
+
       torch.style.left = e.clientX + "px";
       torch.style.top = e.clientY + "px";
     });
 
+    document.addEventListener("touchmove", (e) => {
+      const touch = e.touches[0];
+      if (!touch) return;
+
+      root.style.setProperty("--x", touch.clientX + "px");
+      root.style.setProperty("--y", touch.clientY + "px");
+
+      torch.style.left = touch.clientX + "px";
+      torch.style.top = touch.clientY + "px";
+    }, { passive: true });
+
+    /* Intro lock */
     lockScroll();
+
     setTimeout(() => {
-      dark.style.opacity = 0;
-      torch.style.opacity = 0;
-      unlockScroll();
+      dark.style.opacity = "0";
+      torch.style.opacity = "0";
+
+      setTimeout(() => {
+        unlockScroll();
+      }, 700);
+    }, 2200);
+
+    /* Parallax timeline */
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: "#museum-sequence",
+        start: "top top",
+        end: "bottom bottom",
+        scrub: 1.15
+      }
+    });
+
+    /* Phase 1: subtle push into exterior */
+    tl.to(".sky", {
+      scale: 1.05,
+      yPercent: -2,
+      ease: "none"
+    }, 0);
+
+    tl.to(".mid", {
+      scale: 1.11,
+      yPercent: -5,
+      ease: "none"
+    }, 0);
+
+    tl.to(".front", {
+      scale: 1.18,
+      yPercent: -9,
+      ease: "none"
+    }, 0);
+
+    tl.to(".foreground", {
+      scale: 1.28,
+      yPercent: -14,
+      xPercent: -2,
+      ease: "none"
+    }, 0);
+
+    /* Phase 2: doorway reveal into hallway */
+    tl.to(".hall", {
+      opacity: 1,
+      scale: 1.06,
+      filter: "blur(3px)",
+      clip-path: "ellipse(16% 20% at 50% 72%)",
+      ease: "none"
+    }, 0.38);
+
+    tl.to(".hall", {
+      scale: 1.02,
+      filter: "blur(0px)",
+      clip-path: "ellipse(48% 48% at 50% 58%)",
+      ease: "none"
+    }, 0.55);
+
+    /* Phase 3: hallway takes over */
+    tl.to(".hall", {
+      scale: 1,
+      clip-path: "ellipse(140% 140% at 50% 50%)",
+      ease: "none"
+    }, 0.72);
+
+    tl.to([".sky", ".mid", ".front", ".foreground"], {
+      opacity: 0,
+      ease: "none"
+    }, 0.72);
+
+    /* Slight hallway push after reveal */
+    tl.to(".hall", {
+      scale: 1.05,
+      ease: "none"
+    }, 0.9);
+
+    /* Safety refresh */
+    window.addEventListener("load", () => {
       ScrollTrigger.refresh();
-    }, 2500);
+    });
 
-    const cinematicEl = document.getElementById("cinematic");
-    const bg2Image = document.getElementById("bg2-image");
-    const bg3Image = document.getElementById("bg3-image");
-
-    /* PHASE 1: Zoom into middle-bottom of bg2 (0-20% scroll) */
-    gsap.fromTo(bg2Image,
-      { scale: 2.5, yPercent: 40, opacity: 1 },
-      {
-        scale: 1.05, yPercent: 0,
-        ease: "power2.out",
-        scrollTrigger: {
-          trigger: cinematicEl,
-          start: "top top",
-          end: "20% top",
-          scrub: 1.5,
-        }
-      }
-    );
-
-    /* PHASE 2: Parallax on bg2 (20-40% scroll) */
-    gsap.to(bg2Image,
-      {
-        scale: 1.15, yPercent: -8,
-        ease: "none",
-        scrollTrigger: {
-          trigger: cinematicEl,
-          start: "20% top",
-          end: "40% top",
-          scrub: 1.5,
-        }
-      }
-    );
-
-    /* PHASE 3: Fade out bg2 & zoom into center of bg3 (40-70% scroll) */
-    gsap.to(bg2Image,
-      {
-        opacity: 0,
-        ease: "power2.inOut",
-        scrollTrigger: {
-          trigger: cinematicEl,
-          start: "40% top",
-          end: "50% top",
-          scrub: 1.5,
-        }
-      }
-    );
-
-    gsap.fromTo(bg3Image,
-      { scale: 2.5, yPercent: 0, opacity: 1 },
-      {
-        scale: 1.08, yPercent: 0,
-        ease: "power2.out",
-        scrollTrigger: {
-          trigger: cinematicEl,
-          start: "40% top",
-          end: "70% top",
-          scrub: 1.5,
-        }
-      }
-    );
-
-    /* PHASE 4: Parallax on bg3 (70-100% scroll) */
-    gsap.to(bg3Image,
-      {
-        scale: 1.18, yPercent: -10,
-        ease: "none",
-        scrollTrigger: {
-          trigger: cinematicEl,
-          start: "70% top",
-          end: "100% top",
-          scrub: 1.5,
-        }
-      }
-    );
-
-    /* bg2Hold - continues with appropriate scale */
-    gsap.fromTo("#bg2Hold",
-      { scale: 1 },
-      {
-        scale: 1.08,
-        ease: "none",
-        scrollTrigger: {
-          trigger: "#bg2Hold",
-          start: "top top",
-          end: "bottom top",
-          scrub: 1.5,
-        }
-      }
-    );
-
-    /* bg3Hold - continues smoothly */
-    gsap.fromTo("#bg3Hold",
-      { scale: 1.08 },
-      {
-        scale: 1.16,
-        ease: "none",
-        scrollTrigger: {
-          trigger: "#bg3Hold",
-          start: "top top",
-          end: "bottom top",
-          scrub: 1.5,
-        }
-      }
-    );
+    window.addEventListener("resize", () => {
+      ScrollTrigger.refresh();
+    });
   </script>
 </body>
 </html>
