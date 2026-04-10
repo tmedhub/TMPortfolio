@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Scene1</title>
+  <title>Museumof Me</title>
 
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
@@ -19,6 +19,11 @@
       --gold-3:#d7b675;
       --text:#f7f1e7;
       --bg:#050505;
+
+      --x:50%;
+      --y:50%;
+      --torchW:360px;
+      --torchH:520px;
     }
 
     *{
@@ -32,11 +37,18 @@
       min-height:100%;
       overflow-x:hidden;
       background:var(--bg);
+      scroll-behavior:smooth;
     }
 
     body{
       font-family:"Inter",sans-serif;
       color:var(--text);
+      background:#050505;
+    }
+
+    body.scroll-locked{
+      overflow:hidden;
+      touch-action:none;
     }
 
     .scene1-wrapper{
@@ -78,7 +90,6 @@
       object-fit:cover;
     }
 
-    /* front back to normal */
     .front{
       z-index:3;
       position:absolute;
@@ -134,18 +145,16 @@
       pointer-events:none;
     }
 
-    /* almost invisible fog, not a box */
     .text-plate{
       position:absolute;
       inset:-22px -26px;
       z-index:1;
-      background:rgba(0,0,0,0.025);
+      background:rgba(0,0,0,0.02);
       border:none;
       backdrop-filter:blur(10px);
       -webkit-backdrop-filter:blur(10px);
       border-radius:30px;
-      box-shadow:none;
-      opacity:0.45;
+      opacity:0.35;
     }
 
     .bg2-content h1{
@@ -198,6 +207,165 @@
       text-shadow:0 2px 10px rgba(0,0,0,0.22);
     }
 
+    /* torch overlay on top of layered scene */
+    #darkness{
+      position:absolute;
+      inset:0;
+      background:black;
+      pointer-events:none;
+      z-index:50;
+      mask-image:radial-gradient(
+        var(--torchW) var(--torchH) at var(--x) var(--y),
+        transparent 0%,
+        rgba(0,0,0,.25) 35%,
+        black 65%
+      );
+      -webkit-mask-image:radial-gradient(
+        var(--torchW) var(--torchH) at var(--x) var(--y),
+        transparent 0%,
+        rgba(0,0,0,.25) 35%,
+        black 65%
+      );
+      transition:opacity 2.2s ease;
+    }
+
+    #torch{
+      position:absolute;
+      width:70px;
+      pointer-events:none;
+      transform:translate(-50%,-15%) rotate(-20deg);
+      z-index:60;
+      transition:opacity 2.2s ease;
+    }
+
+    .canvas-wrap{
+      position:relative;
+      height:100vh;
+      background:black;
+      overflow:hidden;
+    }
+
+    #freeform{
+      position:absolute;
+      inset:0;
+      background:black;
+      overflow:hidden;
+      cursor:grab;
+      z-index:100;
+    }
+
+    #freeform:active{
+      cursor:grabbing;
+    }
+
+    .freeform-inner{
+      position:absolute;
+      left:0;
+      top:0;
+    }
+
+    .freeform-inner img{
+      position:absolute;
+      width:280px;
+      opacity:1;
+      box-shadow:0 30px 80px rgba(0,0,0,.95);
+      z-index:20;
+      pointer-events:none;
+      user-select:none;
+    }
+
+    .freeform-title{
+      position:absolute;
+      inset:0;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      align-items:center;
+      pointer-events:none;
+      z-index:5;
+      text-align:center;
+    }
+
+    .freeform-title h1{
+      font-size:3.4rem;
+      letter-spacing:.35em;
+      opacity:.45;
+      color:#f5d9a6;
+      font-family:"Cormorant Garamond", serif;
+      text-transform:uppercase;
+    }
+
+    .freeform-title p{
+      margin-top:14px;
+      opacity:.35;
+      letter-spacing:.18em;
+      color:#f5d9a6;
+      text-transform:uppercase;
+      font-size:.9rem;
+    }
+
+    .canvas-hold{
+      position:absolute;
+      bottom:24px;
+      left:50%;
+      transform:translateX(-50%);
+      z-index:120;
+      color:rgba(245,217,166,0.78);
+      font-size:.78rem;
+      letter-spacing:.16em;
+      text-transform:uppercase;
+      padding:10px 16px;
+      background:rgba(255,255,255,0.04);
+      border:1px solid rgba(245,217,166,0.12);
+      border-radius:999px;
+      backdrop-filter:blur(8px);
+      -webkit-backdrop-filter:blur(8px);
+      transition:opacity .3s ease;
+    }
+
+    .canvas-hold.hidden{
+      opacity:0;
+    }
+
+    .bg4-section{
+      position:relative;
+      min-height:100vh;
+      background:url("bg4.jpeg") center center/cover no-repeat;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+    }
+
+    .bg4-overlay{
+      position:absolute;
+      inset:0;
+      background:linear-gradient(
+        to bottom,
+        rgba(0,0,0,0.20),
+        rgba(0,0,0,0.36)
+      );
+    }
+
+    .bg4-content{
+      position:relative;
+      z-index:2;
+      width:min(90vw, 900px);
+    }
+
+    .bg4-content h2{
+      font-family:"Cormorant Garamond", serif;
+      font-size:clamp(2.5rem, 5vw, 4.8rem);
+      color:#f7f1e7;
+      text-shadow:0 10px 30px rgba(0,0,0,0.35);
+    }
+
+    .bg4-content p{
+      margin-top:1rem;
+      font-size:1rem;
+      color:rgba(247,241,231,0.88);
+    }
+
     @media (max-width: 900px){
       .foreground{
         width:82vw;
@@ -206,7 +374,8 @@
     }
 
     @media (max-width: 768px){
-      .scene1-wrapper{
+      .scene1-wrapper,
+      .canvas-wrap{
         height:100svh;
       }
 
@@ -231,59 +400,257 @@
       .bg2-content p{
         font-size:0.92rem;
       }
+
+      .freeform-inner img{
+        width:220px;
+      }
+
+      .freeform-title h1{
+        font-size:2.2rem;
+        letter-spacing:.14em;
+      }
+
+      .freeform-title p{
+        font-size:.78rem;
+      }
+
+      #torch{
+        width:56px;
+      }
     }
   </style>
 </head>
-<body>
+<body class="scroll-locked">
 
-<section class="scene1-wrapper" id="scene1">
+  <section class="scene1-wrapper" id="scene1">
+    <div class="scene">
+      <img src="bg1-sky.png" class="layer sky" id="sky" alt="sky">
+      <img src="bg1-mid.png" class="layer mid" id="mid" alt="mid">
+      <img src="bg1-front.png" class="layer front" id="front" alt="front">
+      <img src="bg1-foreground.png" class="foreground" id="foreground" alt="foreground">
 
-  <div class="scene">
-    <img src="bg1-sky.png" class="layer sky" id="sky" alt="sky">
-    <img src="bg1-mid.png" class="layer mid" id="mid" alt="mid">
-    <img src="bg1-front.PNG" class="layer front" id="front" alt="front">
-    <img src="bg1-foreground.PNG" class="foreground" id="foreground" alt="foreground">
-  </div>
-
-  <div class="scene">
-    <img src="bg2-main.png" class="layer bg2" id="bg2" alt="bg2">
-
-    <div class="bg2-content" id="bg2Content">
-      <div class="text-plate"></div>
-      <h1>Hey there, Welcome!!</h1>
-      <div class="gold-line"></div>
-      <p>Step into my little world of creations</p>
+      <div id="darkness"></div>
+      <img id="torch" src="torchtm.png" alt="torch">
     </div>
-  </div>
 
-</section>
+    <div class="scene">
+      <img src="bg2-main.png" class="layer bg2" id="bg2" alt="bg2">
 
-<script>
-  gsap.registerPlugin(ScrollTrigger);
+      <div class="bg2-content" id="bg2Content">
+        <div class="text-plate"></div>
+        <h1>Hey there, Welcome!!</h1>
+        <div class="gold-line"></div>
+        <p>Step into my little world of creations</p>
+      </div>
+    </div>
+  </section>
 
-  const tl = gsap.timeline({
-    scrollTrigger:{
-      trigger:"#scene1",
-      start:"top top",
-      end:"+=3200",
-      scrub:1.6,
-      pin:true
+  <section class="canvas-wrap" id="canvasWrap">
+    <div id="freeform">
+      <div class="freeform-title">
+        <h1>Canvas Studio</h1>
+        <p>Drag & Explore :)</p>
+      </div>
+      <div class="canvas-hold" id="canvasHold">Scroll unlocks after 5 seconds</div>
+      <div class="freeform-inner" id="freeformInner"></div>
+    </div>
+  </section>
+
+  <section class="bg4-section" id="bg4Section">
+    <div class="bg4-overlay"></div>
+    <div class="bg4-content">
+      <h2>Into the next room</h2>
+      <p>Replace this with the next part of your museum.</p>
+    </div>
+  </section>
+
+  <script>
+    gsap.registerPlugin(ScrollTrigger);
+
+    let torchActive = true;
+    let canvasUnlocked = true;
+
+    function lockPageScroll() {
+      document.body.classList.add("scroll-locked");
     }
-  });
 
-  tl.to("#sky",{ y:30, scale:1.02 },0)
-    .to("#mid",{ y:50, scale:1.03 },0)
-    .to("#front",{ y:58, scale:1.02 },0)
-    .to("#foreground",{ y:108, scale:1.07, x:0 },0)
+    function unlockPageScroll() {
+      document.body.classList.remove("scroll-locked");
+    }
 
-    .to("#bg2",{ opacity:1 },0.6)
-    .to("#bg2Content",{ opacity:1, y:-8 },0.75)
+    function preventScroll(e) {
+      if (torchActive || !canvasUnlocked) {
+        e.preventDefault();
+      }
+    }
 
-    .to("#foreground",{ opacity:0 },0.7)
-    .to("#mid",{ opacity:0 },0.75)
-    .to("#front",{ opacity:0 },0.8)
-    .to("#sky",{ opacity:0.2 },0.85);
-</script>
+    function keyBlocker(e) {
+      const blocked = ["Space","ArrowUp","ArrowDown","PageUp","PageDown","Home","End"];
+      if ((torchActive || !canvasUnlocked) && blocked.includes(e.code)) {
+        e.preventDefault();
+      }
+    }
 
+    window.addEventListener("wheel", preventScroll, { passive:false });
+    window.addEventListener("touchmove", preventScroll, { passive:false });
+    window.addEventListener("keydown", keyBlocker, { passive:false });
+
+    const root = document.documentElement;
+    const torch = document.getElementById("torch");
+    const darkness = document.getElementById("darkness");
+
+    document.addEventListener("mousemove", e => {
+      root.style.setProperty("--x", e.clientX + "px");
+      root.style.setProperty("--y", e.clientY + "px");
+      torch.style.left = e.clientX + "px";
+      torch.style.top = e.clientY + "px";
+    });
+
+    /* torch intro over layered images */
+    setTimeout(() => {
+      darkness.style.opacity = 0;
+      torch.style.opacity = 0;
+
+      setTimeout(() => {
+        torchActive = false;
+        unlockPageScroll();
+        darkness.style.display = "none";
+        torch.style.display = "none";
+      }, 2200);
+    }, 8000);
+
+    /* parallax scene */
+    const tl = gsap.timeline({
+      scrollTrigger:{
+        trigger:"#scene1",
+        start:"top top",
+        end:"+=3200",
+        scrub:1.6,
+        pin:true
+      }
+    });
+
+    tl.to("#sky",{ y:30, scale:1.02 },0)
+      .to("#mid",{ y:50, scale:1.03 },0)
+      .to("#front",{ y:58, scale:1.02 },0)
+      .to("#foreground",{ y:108, scale:1.07, x:0 },0)
+      .to("#bg2",{ opacity:1 },0.6)
+      .to("#bg2Content",{ opacity:1, y:-8 },0.75)
+      .to("#foreground",{ opacity:0 },0.7)
+      .to("#mid",{ opacity:0 },0.75)
+      .to("#front",{ opacity:0 },0.8)
+      .to("#sky",{ opacity:0.2 },0.85);
+
+    /* canvas studio */
+    const freeform = document.getElementById("freeform");
+    const inner = document.getElementById("freeformInner");
+    const canvasHold = document.getElementById("canvasHold");
+    const canvasWrap = document.getElementById("canvasWrap");
+
+    let canvasBuilt = false;
+    let canvasTimerStarted = false;
+    let frames = [];
+    let posX = 0, posY = 0, velX = 0, velY = 0;
+    let dragging = false;
+
+    function place(frame, range, minDist){
+      let x, y, ok = false;
+      while(!ok){
+        x = Math.random() * range - range / 2;
+        y = Math.random() * range - range / 2;
+        ok = frames.every(f => Math.hypot(f.x - x, f.y - y) > minDist || f === frame);
+      }
+      frame.x = x;
+      frame.y = y;
+    }
+
+    function buildFreeform(){
+      if (canvasBuilt) return;
+      canvasBuilt = true;
+
+      inner.innerHTML = "";
+      frames = [];
+
+      const COUNT = 8;
+      const RANGE = 2400;
+      const MIN_DIST = 360;
+      const imgs = [...Array(8)].map((_,i)=>`art${i+1}.png`);
+
+      for(let i=0;i<COUNT;i++){
+        const img = document.createElement("img");
+        img.src = imgs[i];
+        img.alt = `Artwork ${i+1}`;
+        inner.appendChild(img);
+
+        const frame = { img, x:0, y:0 };
+        place(frame, RANGE, MIN_DIST);
+        frames.push(frame);
+      }
+
+      freeform.onmousedown = () => dragging = true;
+      window.addEventListener("mouseup", () => dragging = false);
+
+      window.addEventListener("mousemove", e => {
+        if (dragging) {
+          velX += e.movementX * 0.12;
+          velY += e.movementY * 0.12;
+        }
+      });
+
+      (function loop(){
+        if (!dragging) velX += 0.02;
+
+        posX += velX;
+        posY += velY;
+        velX *= 0.92;
+        velY *= 0.92;
+
+        frames.forEach(f => {
+          if (
+            f.x + posX > 1400 || f.x + posX < -1400 ||
+            f.y + posY > 1400 || f.y + posY < -1400
+          ) {
+            place(f, RANGE, MIN_DIST);
+          }
+
+          f.img.style.left = (f.x + posX) + "px";
+          f.img.style.top = (f.y + posY) + "px";
+        });
+
+        requestAnimationFrame(loop);
+      })();
+    }
+
+    ScrollTrigger.create({
+      trigger: canvasWrap,
+      start: "top top",
+      onEnter: () => {
+        buildFreeform();
+
+        if (!canvasTimerStarted) {
+          canvasTimerStarted = true;
+          canvasUnlocked = false;
+          lockPageScroll();
+
+          setTimeout(() => {
+            canvasUnlocked = true;
+            unlockPageScroll();
+            canvasHold.classList.add("hidden");
+          }, 5000);
+        }
+      }
+    });
+
+    gsap.from("#bg4Section", {
+      opacity: 0,
+      ease: "none",
+      scrollTrigger: {
+        trigger: "#bg4Section",
+        start: "top 80%",
+        end: "top 30%",
+        scrub: true
+      }
+    });
+  </script>
 </body>
 </html>
