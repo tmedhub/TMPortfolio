@@ -1,466 +1,200 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Scene1</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Scene 1</title>
 
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Inter:wght@300;400&display=swap" rel="stylesheet">
 
-  <style>
-    :root{
-      --gold-1:#f6ead2;
-      --gold-2:#ead7ae;
-      --gold-3:#d7b675;
-      --text:#f7f1e7;
-      --bg:#050505;
+<style>
+:root{
+  --gold:#e6c27a;
+  --text:#f6f1e8;
+}
 
-      /* foreground */
-      --fg-width: 58vw;
-      --fg-max-width: 980px;
-      --fg-min-width: 430px;
-      --fg-left: 0px;
-      --fg-bottom: -1%;
-    }
+*{margin:0;padding:0;box-sizing:border-box;}
 
-    *{
-      margin:0;
-      padding:0;
-      box-sizing:border-box;
-    }
+body{
+  background:#050505;
+  overflow-x:hidden;
+  font-family:"Inter",sans-serif;
+  color:var(--text);
+}
 
-    html,body{
-      width:100%;
-      min-height:100%;
-      overflow-x:hidden;
-      background:var(--bg);
-    }
+/* SCENE */
+.scene1-wrapper{
+  height:100vh;
+  position:relative;
+  overflow:hidden;
+}
 
-    body{
-      font-family:"Inter",sans-serif;
-      color:var(--text);
-      background:#050505;
-    }
+.scene{
+  position:absolute;
+  inset:0;
+}
 
-    .scene1-wrapper{
-      position:relative;
-      width:100%;
-      height:100vh;
-      overflow:hidden;
-      background:#000;
-      isolation:isolate;
-    }
+/* BASE LAYERS */
+.layer{
+  position:absolute;
+  will-change:transform,opacity;
+}
 
-    .scene{
-      position:absolute;
-      inset:0;
-      width:100%;
-      height:100%;
-      overflow:hidden;
-    }
+/* SKY */
+.sky{
+  z-index:1;
+  width:108%;
+  height:112%;
+  top:-6%;
+  left:-4%;
+  object-fit:cover;
+}
 
-    .layer{
-      position:absolute;
-      display:block;
-      user-select:none;
-      pointer-events:none;
-      will-change:transform, opacity, filter;
-      max-width:none;
-    }
+/* MID */
+.mid{
+  z-index:2;
+  width:112%;
+  height:120%;
+  top:-8%;
+  left:-5%;
+  object-fit:cover;
+}
 
-    .sky{
-      z-index:1;
-      top:-6%;
-      left:-4%;
-      width:108%;
-      height:112%;
-      object-fit:cover;
-      object-position:center center;
-      filter:brightness(1.12) saturate(1.03) contrast(1.04);
-    }
+/* 🔥 FIXED MUSEUM (FRONT) */
+.front{
+  z-index:3;
 
-    .mid{
-      z-index:2;
-      top:-8%;
-      left:-5%;
-      width:112%;
-      height:122%;
-      object-fit:cover;
-      object-position:center bottom;
-      opacity:0.96;
-      filter:brightness(1.08) saturate(1.01) contrast(1.03);
-    }
+  width:70vw;
+  max-width:1100px;
 
-    /* FIXED: front is now a full-screen layer again */
-    .front{
-      z-index:3;
-      top:-2%;
-      left:-2%;
-      width:104%;
-      height:108%;
-      object-fit:cover;
-      object-position:center 72%;
-      transform-origin:center bottom;
-      filter:brightness(1.06) saturate(1.02) contrast(1.02);
-    }
+  height:auto;
 
-    .foreground{
-      position:absolute;
-      z-index:4;
-      left:var(--fg-left);
-      bottom:var(--fg-bottom);
-      width:var(--fg-width);
-      max-width:var(--fg-max-width);
-      min-width:var(--fg-min-width);
-      height:auto;
-      transform-origin:left bottom;
-      transform:scale(1.02);
-      filter:
-        brightness(1.1)
-        contrast(1.06)
-        saturate(1.02)
-        drop-shadow(0 20px 40px rgba(0,0,0,0.45));
-      will-change:transform, opacity;
-      pointer-events:none;
-      user-select:none;
-    }
+  left:50%;
+  bottom:0;
 
-    .bg2{
-      z-index:5;
-      top:-4%;
-      left:-3%;
-      width:106%;
-      height:110%;
-      object-fit:cover;
-      object-position:center center;
-      opacity:0;
-      transform:scale(1.04);
-      filter:brightness(1.04) saturate(1.02) contrast(1.03);
-    }
+  transform:translateX(-50%) scale(1);
 
-    .overlay-vignette{
-      position:absolute;
-      inset:0;
-      z-index:6;
-      pointer-events:none;
-      background:
-        radial-gradient(
-          circle at center,
-          rgba(0,0,0,0.01) 0%,
-          rgba(0,0,0,0.05) 48%,
-          rgba(0,0,0,0.18) 100%
-        );
-      mix-blend-mode:multiply;
-    }
+  object-fit:contain;
+}
 
-    .overlay-gold{
-      position:absolute;
-      inset:0;
-      z-index:7;
-      pointer-events:none;
-      background:
-        linear-gradient(
-          to bottom,
-          rgba(226,191,121,0.09) 0%,
-          rgba(226,191,121,0.05) 28%,
-          rgba(0,0,0,0.04) 68%,
-          rgba(0,0,0,0.12) 100%
-        );
-    }
+/* FOREGROUND */
+.foreground{
+  z-index:4;
 
-    .bg2-content{
-      position:absolute;
-      z-index:8;
-      left:50%;
-      top:50%;
-      transform:translate(-50%, -50%);
-      width:min(92vw, 950px);
-      text-align:center;
-      opacity:0;
-      pointer-events:none;
-    }
+  width:55vw;
+  max-width:900px;
 
-    .bg2-content h1{
-      position:relative;
-      z-index:2;
-      font-family:"Cormorant Garamond", serif;
-      font-size:clamp(2.6rem, 5.4vw, 4.8rem);
-      font-weight:600;
-      line-height:1.04;
-      letter-spacing:0.01em;
-      white-space:nowrap;
-      background:linear-gradient(
-        120deg,
-        #fffdf9 0%,
-        #f6eddc 38%,
-        #ead7ae 70%,
-        #d7b675 100%
-      );
-      -webkit-background-clip:text;
-      background-clip:text;
-      -webkit-text-fill-color:transparent;
-      text-shadow:
-        0 3px 8px rgba(0,0,0,0.32),
-        0 10px 24px rgba(0,0,0,0.42),
-        0 0 16px rgba(255,248,235,0.10);
-    }
+  bottom:0;
+  left:0;
 
-    .text-glow{
-      position:absolute;
-      inset:-90px;
-      z-index:1;
-      background:
-        radial-gradient(
-          circle at center,
-          rgba(0,0,0,0.62) 0%,
-          rgba(0,0,0,0.42) 34%,
-          rgba(0,0,0,0.12) 62%,
-          transparent 78%
-        );
-      filter:blur(34px);
-      opacity:0.95;
-    }
+  position:absolute;
+}
 
-    .gold-line{
-      width:110px;
-      height:1px;
-      margin:1rem auto 0;
-      background:linear-gradient(
-        to right,
-        transparent,
-        rgba(236,221,184,0.95),
-        transparent
-      );
-      opacity:0.95;
-      position:relative;
-      z-index:2;
-    }
+/* BG2 */
+.bg2{
+  z-index:5;
+  width:106%;
+  height:110%;
+  top:-4%;
+  left:-3%;
+  object-fit:cover;
 
-    .bg2-content p{
-      position:relative;
-      z-index:2;
-      margin-top:0.95rem;
-      font-size:1rem;
-      line-height:1.6;
-      color:rgba(250,246,239,0.90);
-      letter-spacing:0.02em;
-    }
+  opacity:0;
+}
 
-    .after-section{
-      min-height:100vh;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      text-align:center;
-      padding:4rem 2rem;
-      background:
-        radial-gradient(circle at top, rgba(226,191,121,0.06), transparent 28%),
-        linear-gradient(to bottom, #070707, #0a0a0a);
-      border-top:1px solid rgba(226,191,121,0.08);
-    }
+/* TEXT */
+.bg2-content{
+  position:absolute;
+  z-index:6;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  text-align:center;
+  opacity:0;
+}
 
-    .after-section .content{
-      max-width:900px;
-    }
+.bg2-content h1{
+  font-family:"Cormorant Garamond",serif;
+  font-size:clamp(2.5rem,6vw,5rem);
 
-    .after-section h2{
-      font-family:"Cormorant Garamond", serif;
-      font-size:clamp(2.4rem, 5vw, 4.6rem);
-      line-height:1;
-      font-weight:600;
-      color:var(--gold-1);
-      margin-bottom:1rem;
-    }
+  background:linear-gradient(
+    120deg,
+    #fffdf9,
+    #f6eddc,
+    #ead7ae,
+    #d7b675
+  );
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
 
-    .after-section p{
-      font-size:1rem;
-      line-height:1.8;
-      color:rgba(247,241,231,0.76);
-      max-width:680px;
-      margin:0 auto;
-      font-weight:300;
-    }
+.bg2-content p{
+  margin-top:1rem;
+  font-size:1rem;
+  color:rgba(255,255,255,0.85);
+}
 
-    @media (max-width: 900px){
-      :root{
-        --fg-width: 70vw;
-        --fg-min-width: 0px;
-      }
-
-      .front{
-        width:108%;
-        height:110%;
-        top:-1%;
-        left:-4%;
-        object-position:center 74%;
-      }
-    }
-
-    @media (max-width: 768px){
-      .scene1-wrapper{
-        height:100svh;
-      }
-
-      :root{
-        --fg-width: 82vw;
-      }
-
-      .front{
-        width:114%;
-        height:112%;
-        top:0%;
-        left:-7%;
-        object-position:center 76%;
-      }
-
-      .bg2-content h1{
-        font-size:clamp(2rem, 8vw, 3rem);
-        white-space:normal;
-      }
-
-      .text-glow{
-        inset:-60px;
-      }
-
-      .bg2-content p{
-        font-size:0.92rem;
-      }
-    }
-  </style>
+</style>
 </head>
+
 <body>
 
-  <section class="scene1-wrapper" id="scene1">
-    <div class="scene scene1-exterior">
-      <img src="bg1-sky.png" alt="Sky background" class="layer sky" id="sky" />
-      <img src="bg1-mid.png" alt="Mid layer" class="layer mid" id="mid" />
-      <img src="bg1-front.png" alt="Front layer" class="layer front" id="front" />
-      <img src="bg1-foreground.png" alt="Foreground layer" class="foreground" id="foreground" />
+<section class="scene1-wrapper" id="scene1">
 
-      <div class="overlay-vignette"></div>
-      <div class="overlay-gold"></div>
+  <div class="scene">
+    <img src="bg1-sky.png" class="layer sky" id="sky">
+    <img src="bg1-mid.png" class="layer mid" id="mid">
+
+    <!-- FIXED FRONT -->
+    <img src="bg1-front.png" class="layer front" id="front">
+
+    <img src="bg1-foreground.png" class="foreground" id="foreground">
+  </div>
+
+  <div class="scene">
+    <img src="bg2-main.png" class="layer bg2" id="bg2">
+
+    <div class="bg2-content" id="bg2Content">
+      <h1>Hey there, Welcome!!</h1>
+      <p>Step into my little world of creations</p>
     </div>
+  </div>
 
-    <div class="scene scene2-preview">
-      <img src="bg2-main.png" alt="Second scene background" class="layer bg2" id="bg2" />
+</section>
 
-      <div class="bg2-content" id="bg2Content">
-        <div class="text-glow"></div>
-        <h1>This space holds the things I’ve made.</h1>
-        <div class="gold-line"></div>
-        <p>Step into my little world of creations</p>
-      </div>
-    </div>
-  </section>
+<script>
+gsap.registerPlugin(ScrollTrigger);
 
-  <section class="after-section">
-    <div class="content">
-      <h2>The gallery opens here</h2>
-      <p>Replace this with your next scene.</p>
-    </div>
-  </section>
+const tl = gsap.timeline({
+  scrollTrigger:{
+    trigger:"#scene1",
+    start:"top top",
+    end:"+=3200",
+    scrub:1.6,
+    pin:true
+  }
+});
 
-  <script>
-    gsap.registerPlugin(ScrollTrigger);
+/* PARALLAX */
+tl.to("#sky",{y:30,scale:1.02},0)
+  .to("#mid",{y:50,scale:1.03},0)
+  .to("#front",{y:40,scale:1.05},0)
+  .to("#foreground",{y:120,scale:1.08},0)
 
-    const sky = document.getElementById("sky");
-    const mid = document.getElementById("mid");
-    const front = document.getElementById("front");
-    const foreground = document.getElementById("foreground");
-    const bg2 = document.getElementById("bg2");
-    const bg2Content = document.getElementById("bg2Content");
-    const scene1 = document.getElementById("scene1");
+/* TRANSITION */
+  .to("#bg2",{opacity:1},0.6)
+  .to("#bg2Content",{opacity:1},0.75)
 
-    gsap.set(sky, { y: 0, scale: 1, opacity: 1 });
-    gsap.set(mid, { y: 0, scale: 1, opacity: 0.96 });
-    gsap.set(front, { y: 0, scale: 1, opacity: 1 });
-    gsap.set(foreground, { scale: 1.02, opacity: 1, x: 0 });
-    gsap.set(bg2, { y: 18, scale: 1.04, opacity: 0 });
-    gsap.set(bg2Content, { y: 20, opacity: 0 });
+/* FADE OUT */
+  .to("#foreground",{opacity:0},0.7)
+  .to("#mid",{opacity:0},0.75)
+  .to("#front",{opacity:0},0.8)
+  .to("#sky",{opacity:0.2},0.85);
 
-    const tl = gsap.timeline({
-      defaults: { ease: "none" },
-      scrollTrigger: {
-        trigger: scene1,
-        start: "top top",
-        end: "+=3400",
-        scrub: 1.8,
-        pin: true,
-        anticipatePin: 1
-      }
-    });
+</script>
 
-    tl.to(sky, {
-      y: 24,
-      scale: 1.02
-    }, 0)
-
-    .to(mid, {
-      y: 42,
-      scale: 1.03
-    }, 0)
-
-    .to(front, {
-      y: 48,
-      scale: 1.03
-    }, 0)
-
-    .to(foreground, {
-      scale: 1.08,
-      x: -10,
-      y: 18
-    }, 0)
-
-    .to(mid, {
-      y: 74,
-      scale: 1.045,
-      opacity: 0.88
-    }, 0.32)
-
-    .to(front, {
-      y: 84,
-      scale: 1.06,
-      opacity: 0.9
-    }, 0.38)
-
-    .to(foreground, {
-      scale: 1.14,
-      x: -16,
-      y: 34,
-      opacity: 0.88
-    }, 0.44)
-
-    .to(bg2, {
-      opacity: 1,
-      scale: 1,
-      y: 0
-    }, 0.58)
-
-    .to(bg2Content, {
-      opacity: 1,
-      y: 0
-    }, 0.73)
-
-    .to(foreground, {
-      opacity: 0
-    }, 0.76)
-
-    .to(mid, {
-      opacity: 0
-    }, 0.75)
-
-    .to(front, {
-      opacity: 0
-    }, 0.8)
-
-    .to(sky, {
-      opacity: 0.2
-    }, 0.84);
-  </script>
 </body>
 </html>
