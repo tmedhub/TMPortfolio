@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Museum of Me</title>
+  <title>Museumof Me</title>
 
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
@@ -327,9 +327,6 @@
 
     .bg5-section{
       background:url("bg5.png") center center/cover no-repeat;
-      transform:scale(1.08);
-      transform-origin:center center;
-      will-change:transform, opacity, filter;
     }
 
     .bg4-section::before{
@@ -366,8 +363,8 @@
       inset:0;
       background:linear-gradient(
         to bottom,
-        rgba(0,0,0,0.08),
-        rgba(0,0,0,0.16)
+        rgba(0,0,0,0.06),
+        rgba(0,0,0,0.14)
       );
     }
 
@@ -648,47 +645,39 @@
           setTimeout(() => {
             canvasUnlocked = true;
             unlockPageScroll();
-          }, 8000);
+          }, 5000);
         }
       }
     });
 
     gsap.fromTo("#bg4Section",
       {
-        opacity: 0.97,
-        scale: 1.02,
-        filter: "blur(2px)"
+        opacity: 0.96
       },
       {
         opacity: 1,
-        scale: 1,
-        filter: "blur(0px)",
-        ease: "power2.out",
+        ease: "power1.out",
         scrollTrigger: {
           trigger: "#bg4Section",
           start: "top bottom",
-          end: "top 45%",
-          scrub: 1.1
+          end: "top 55%",
+          scrub: 1
         }
       }
     );
 
     gsap.fromTo("#bg5Section",
       {
-        opacity: 0.94,
-        scale: 1.08,
-        filter: "blur(2px)"
+        opacity: 0
       },
       {
         opacity: 1,
-        scale: 1,
-        filter: "blur(0px)",
-        ease: "power2.out",
+        ease: "none",
         scrollTrigger: {
           trigger: "#bg5Section",
           start: "top bottom",
-          end: "top 35%",
-          scrub: 1.2
+          end: "top 45%",
+          scrub: 1
         }
       }
     );
