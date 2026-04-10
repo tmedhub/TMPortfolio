@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Scene 1</title>
+  <title>Scene1</title>
 
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
@@ -26,12 +26,6 @@
       --fg-min-width: 430px;
       --fg-left: 0px;
       --fg-bottom: -1%;
-
-      /* front sizing/placement */
-      --front-width: 64%;
-      --front-height: 72%;
-      --front-left: 18%;
-      --front-top: 26%;
     }
 
     *{
@@ -86,10 +80,10 @@
       width:108%;
       height:112%;
       object-fit:cover;
+      object-position:center center;
       filter:brightness(1.12) saturate(1.03) contrast(1.04);
     }
 
-    /* make mid larger so its bottom cut never shows */
     .mid{
       z-index:2;
       top:-8%;
@@ -97,24 +91,24 @@
       width:112%;
       height:122%;
       object-fit:cover;
+      object-position:center bottom;
       opacity:0.96;
       filter:brightness(1.08) saturate(1.01) contrast(1.03);
     }
 
-    /* museum/front lower and still contained */
+    /* FIXED: front is now a full-screen layer again */
     .front{
       z-index:3;
-      top:var(--front-top);
-      left:var(--front-left);
-      width:var(--front-width);
-      height:var(--front-height);
-      object-fit:contain;
-      object-position:center bottom;
+      top:-2%;
+      left:-2%;
+      width:104%;
+      height:108%;
+      object-fit:cover;
+      object-position:center 72%;
       transform-origin:center bottom;
       filter:brightness(1.06) saturate(1.02) contrast(1.02);
     }
 
-    /* foreground fully visible now */
     .foreground{
       position:absolute;
       z-index:4;
@@ -143,6 +137,7 @@
       width:106%;
       height:110%;
       object-fit:cover;
+      object-position:center center;
       opacity:0;
       transform:scale(1.04);
       filter:brightness(1.04) saturate(1.02) contrast(1.03);
@@ -295,11 +290,14 @@
       :root{
         --fg-width: 70vw;
         --fg-min-width: 0px;
+      }
 
-        --front-width: 74%;
-        --front-height: 68%;
-        --front-left: 13%;
-        --front-top: 30%;
+      .front{
+        width:108%;
+        height:110%;
+        top:-1%;
+        left:-4%;
+        object-position:center 74%;
       }
     }
 
@@ -310,10 +308,14 @@
 
       :root{
         --fg-width: 82vw;
-        --front-width: 84%;
-        --front-height: 62%;
-        --front-left: 8%;
-        --front-top: 34%;
+      }
+
+      .front{
+        width:114%;
+        height:112%;
+        top:0%;
+        left:-7%;
+        object-position:center 76%;
       }
 
       .bg2-content h1{
@@ -404,8 +406,8 @@
     }, 0)
 
     .to(front, {
-      y: 70,
-      scale: 1.02
+      y: 48,
+      scale: 1.03
     }, 0)
 
     .to(foreground, {
@@ -421,9 +423,9 @@
     }, 0.32)
 
     .to(front, {
-      y: 110,
-      scale: 1.05,
-      opacity: 0.88
+      y: 84,
+      scale: 1.06,
+      opacity: 0.9
     }, 0.38)
 
     .to(foreground, {
