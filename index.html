@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Scene1</title>
+  <title>Scene 1</title>
 
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
@@ -21,18 +21,17 @@
       --bg:#050505;
 
       /* foreground */
-      --fg-width: 56vw;
-      --fg-max-width: 900px;
-      --fg-min-width: 420px;
-      --fg-strip-height: 42vh;
-      --fg-crop-bottom: 14%;
+      --fg-width: 58vw;
+      --fg-max-width: 980px;
+      --fg-min-width: 430px;
       --fg-left: 0px;
+      --fg-bottom: -1%;
 
-      /* front sizing */
-      --front-width: 62%;
-      --front-height: 66%;
-      --front-left: 19%;
-      --front-top: 16%;
+      /* front sizing/placement */
+      --front-width: 64%;
+      --front-height: 72%;
+      --front-left: 18%;
+      --front-top: 26%;
     }
 
     *{
@@ -90,18 +89,19 @@
       filter:brightness(1.12) saturate(1.03) contrast(1.04);
     }
 
+    /* make mid larger so its bottom cut never shows */
     .mid{
       z-index:2;
-      top:-4%;
-      left:-3%;
-      width:106%;
-      height:108%;
+      top:-8%;
+      left:-5%;
+      width:112%;
+      height:122%;
       object-fit:cover;
       opacity:0.96;
       filter:brightness(1.08) saturate(1.01) contrast(1.03);
     }
 
-    /* front made much smaller */
+    /* museum/front lower and still contained */
     .front{
       z-index:3;
       top:var(--front-top);
@@ -109,38 +109,31 @@
       width:var(--front-width);
       height:var(--front-height);
       object-fit:contain;
-      transform-origin:center center;
+      object-position:center bottom;
+      transform-origin:center bottom;
       filter:brightness(1.06) saturate(1.02) contrast(1.02);
     }
 
-    .foreground-strip{
-      position:absolute;
-      left:0;
-      bottom:0;
-      width:100%;
-      height:var(--fg-strip-height);
-      z-index:4;
-      overflow:hidden;
-      pointer-events:none;
-    }
-
+    /* foreground fully visible now */
     .foreground{
       position:absolute;
+      z-index:4;
       left:var(--fg-left);
-      bottom:0;
+      bottom:var(--fg-bottom);
       width:var(--fg-width);
       max-width:var(--fg-max-width);
       min-width:var(--fg-min-width);
       height:auto;
       transform-origin:left bottom;
-      clip-path: inset(0 0 var(--fg-crop-bottom) 0);
-      transform: scale(1.05);
+      transform:scale(1.02);
       filter:
         brightness(1.1)
         contrast(1.06)
         saturate(1.02)
         drop-shadow(0 20px 40px rgba(0,0,0,0.45));
       will-change:transform, opacity;
+      pointer-events:none;
+      user-select:none;
     }
 
     .bg2{
@@ -197,7 +190,6 @@
       pointer-events:none;
     }
 
-    /* text made slightly whiter */
     .bg2-content h1{
       position:relative;
       z-index:2;
@@ -258,9 +250,9 @@
       position:relative;
       z-index:2;
       margin-top:0.95rem;
-      font-size:0.98rem;
+      font-size:1rem;
       line-height:1.6;
-      color:rgba(250,246,239,0.86);
+      color:rgba(250,246,239,0.90);
       letter-spacing:0.02em;
     }
 
@@ -301,13 +293,13 @@
 
     @media (max-width: 900px){
       :root{
-        --fg-width: 68vw;
+        --fg-width: 70vw;
         --fg-min-width: 0px;
-        --fg-strip-height: 36vh;
-        --front-width: 72%;
-        --front-height: 60%;
-        --front-left: 14%;
-        --front-top: 18%;
+
+        --front-width: 74%;
+        --front-height: 68%;
+        --front-left: 13%;
+        --front-top: 30%;
       }
     }
 
@@ -317,12 +309,11 @@
       }
 
       :root{
-        --fg-width: 78vw;
-        --fg-strip-height: 32vh;
-        --front-width: 82%;
-        --front-height: 56%;
-        --front-left: 9%;
-        --front-top: 20%;
+        --fg-width: 82vw;
+        --front-width: 84%;
+        --front-height: 62%;
+        --front-left: 8%;
+        --front-top: 34%;
       }
 
       .bg2-content h1{
@@ -347,10 +338,7 @@
       <img src="bg1-sky.png" alt="Sky background" class="layer sky" id="sky" />
       <img src="bg1-mid.png" alt="Mid layer" class="layer mid" id="mid" />
       <img src="bg1-front.png" alt="Front layer" class="layer front" id="front" />
-
-      <div class="foreground-strip">
-        <img src="bg1-foreground.png" alt="Foreground layer" class="foreground" id="foreground" />
-      </div>
+      <img src="bg1-foreground.png" alt="Foreground layer" class="foreground" id="foreground" />
 
       <div class="overlay-vignette"></div>
       <div class="overlay-gold"></div>
@@ -361,9 +349,9 @@
 
       <div class="bg2-content" id="bg2Content">
         <div class="text-glow"></div>
-        <h1>Hey there, Welcome!!</h1>
+        <h1>This space holds the things I’ve made.</h1>
         <div class="gold-line"></div>
-        <p>A cinematic portfolio experience</p>
+        <p>Step into my little world of creations</p>
       </div>
     </div>
   </section>
@@ -389,7 +377,7 @@
     gsap.set(sky, { y: 0, scale: 1, opacity: 1 });
     gsap.set(mid, { y: 0, scale: 1, opacity: 0.96 });
     gsap.set(front, { y: 0, scale: 1, opacity: 1 });
-    gsap.set(foreground, { scale: 1.05, opacity: 1, x: 0 });
+    gsap.set(foreground, { scale: 1.02, opacity: 1, x: 0 });
     gsap.set(bg2, { y: 18, scale: 1.04, opacity: 0 });
     gsap.set(bg2Content, { y: 20, opacity: 0 });
 
@@ -416,31 +404,33 @@
     }, 0)
 
     .to(front, {
-      y: 52,
+      y: 70,
       scale: 1.02
     }, 0)
 
     .to(foreground, {
-      scale: 1.12,
-      x: -12
+      scale: 1.08,
+      x: -10,
+      y: 18
     }, 0)
 
     .to(mid, {
-      y: 72,
+      y: 74,
       scale: 1.045,
       opacity: 0.88
     }, 0.32)
 
     .to(front, {
-      y: 82,
+      y: 110,
       scale: 1.05,
       opacity: 0.88
     }, 0.38)
 
     .to(foreground, {
-      scale: 1.18,
-      x: -20,
-      opacity: 0.82
+      scale: 1.14,
+      x: -16,
+      y: 34,
+      opacity: 0.88
     }, 0.44)
 
     .to(bg2, {
