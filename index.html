@@ -1,660 +1,163 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>1Cinematic Museum Scroll</title>
+// Minimal starter structure for your cinematic parallax portfolio
+// Stack: React + GSAP + ScrollTrigger + React Three Fiber
 
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+import React, { useRef, useEffect } from "react";
+import { Canvas } from "@react-three/fiber";
+import { OrbitControls } from "@react-three/drei";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-  <style>
-    :root {
-      --x: 50vw;
-      --y: 55vh;
+// Register GSAP plugin
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
-      /* adjust these later only if doorway alignment needs tuning */
-      --door-x: 50.2%;
-      --door-y: 61.5%;
-      --reveal: 0%;
+// ---------------- TORCH SCENE ----------------
+function TorchIntro() {
+  const torchRef = useRef();
 
-      /* torch beam */
-      --beam-x: 14vw;
-      --beam-y: 10vw;
-    }
+  useEffect(() => {
+    const moveTorch = (e) => {
+      if (!torchRef.current) return;
+      torchRef.current.style.background = `radial-gradient(circle at ${e.clientX}px ${e.clientY}px, rgba(255,255,200,0.25) 0%, rgba(0,0,0,0.95) 200px)`;
+    };
 
-    * {
-      box-sizing: border-box;
-    }
+    window.addEventListener("mousemove", moveTorch);
+    return () => window.removeEventListener("mousemove", moveTorch);
+  }, []);
 
-    html, body {
-      margin: 0;
-      padding: 0;
-      width: 100%;
-      min-height: 100%;
-      background: #000;
-      overflow-x: hidden;
-      font-family: Georgia, "Times New Roman", serif;
-    }
+  return (
+    <section className="h-screen w-full bg-black relative overflow-hidden">
+      <div
+        ref={torchRef}
+        className="absolute inset-0 transition-all duration-75"
+      />
 
-    body.intro-active {
-      cursor: none;
-    }
+      <h1 className="text-white absolute bottom-10 left-10 text-xl opacity-70">
+        Move to explore...
+      </h1>
+    </section>
+  );
+}
 
-    .scroll-wrap {
-      position: relative;
-      height: 470vh;
-      background: #000;
-    }
+// ---------------- PARALLAX SCENE ----------------
+function ParallaxEntrance() {
+  const container = useRef();
 
-    .pin-scene {
-      position: relative;
-      width: 100%;
-      height: 100vh;
-      overflow: hidden;
-      background: #000;
-    }
+  useEffect(() => {
+    const layers = container.current.querySelectorAll(".layer");
 
-    .scene {
-      position: relative;
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-      isolation: isolate;
-      background: #000;
-    }
+    layers.forEach((layer, i) => {
+      gsap.to(layer, {
+        y: (i + 1) * 100,
+        scrollTrigger: {
+          trigger: container.current,
+          start: "top top",
+          end: "bottom top",
+          scrub: true,
+        },
+      });
+    });
+  }, []);
 
-    .layer {
-      position: absolute;
-      pointer-events: none;
-      user-select: none;
-      max-width: none;
-      will-change: transform, opacity, clip-path;
-      transform-origin: center center;
-    }
+  return (
+    <section ref={container} className="h-[200vh] relative">
+      <img src="/layers/bg.png" className="layer absolute w-full" />
+      <img src="/layers/mid.png" className="layer absolute w-full" />
+      <img src="/layers/front.png" className="layer absolute w-full" />
+    </section>
+  );
+}
 
-    /* BACKGROUND SKY */
-    .sky {
-      z-index: 1;
-      left: 50%;
-      top: 50%;
-      width: 108vw;
-      height: 108vh;
-      object-fit: cover;
-      transform: translate(-50%, -50%);
-    }
+// ---------------- ART CANVAS ----------------
+function ArtCanvas() {
+  return (
+    <section className="h-screen bg-neutral-900 flex items-center justify-center text-white">
+      <p>Interactive Art Canvas (build with drag/physics)</p>
+    </section>
+  );
+}
 
-    /* DISTANT TREE/MOUNTAIN LAYER */
-    .mid {
-      z-index: 2;
-      left: 50%;
-      top: 58%;
-      width: 108vw;
-      height: 100vh;
-      object-fit: cover;
-      transform: translate(-50%, -50%);
-    }
+// ---------------- ARCADE SCROLL ----------------
+function Arcade() {
+  const container = useRef();
 
-    /*
-      HALLWAY:
-      completely removed from rendering on landing page
-      this is the bug fix
-    */
-    .hallway {
-      z-index: 3;
-      left: 50%;
-      top: 50%;
-      width: 112vw;
-      height: 112vh;
-      object-fit: cover;
-      transform: translate(-50%, -50%);
-      display: none;
-      opacity: 0;
-      clip-path: circle(var(--reveal) at var(--door-x) var(--door-y));
-    }
+  useEffect(() => {
+    const el = container.current;
 
-    /* MUSEUM: now fits on screen */
-    .museum {
-      z-index: 4;
-      left: 67%;
-      top: 57%;
-      width: min(39vw, 650px);
-      max-height: 78vh;
-      height: auto;
-      object-fit: contain;
-      transform: translate(-50%, -50%);
-    }
+    gsap.to(el, {
+      x: () => -(el.scrollWidth - window.innerWidth),
+      ease: "none",
+      scrollTrigger: {
+        trigger: el,
+        start: "top top",
+        end: () => `+=${el.scrollWidth}`,
+        scrub: true,
+        pin: true,
+      },
+    });
+  }, []);
 
-    /* PLAQUE: bigger again */
-    .foreground {
-      z-index: 5;
-      left: 17%;
-      top: 78%;
-      width: min(30vw, 470px);
-      height: auto;
-      object-fit: contain;
-      transform: translate(-50%, -50%);
-    }
-
-    /* FRONT FOLIAGE ABOVE PLAQUE */
-    .front {
-      z-index: 6;
-      left: 50%;
-      top: 72%;
-      width: 114vw;
-      height: 92vh;
-      object-fit: cover;
-      transform: translate(-50%, -50%);
-    }
-
-    .vignette {
-      position: absolute;
-      inset: 0;
-      z-index: 20;
-      pointer-events: none;
-      background:
-        radial-gradient(circle at center,
-          rgba(0,0,0,0) 50%,
-          rgba(0,0,0,0.10) 74%,
-          rgba(0,0,0,0.30) 100%);
-    }
-
-    .darkness {
-      position: absolute;
-      inset: 0;
-      z-index: 30;
-      pointer-events: none;
-      opacity: 1;
-      background:
-        radial-gradient(
-          ellipse var(--beam-x) var(--beam-y) at var(--x) var(--y),
-          rgba(0,0,0,0) 0%,
-          rgba(0,0,0,0.05) 16%,
-          rgba(0,0,0,0.24) 30%,
-          rgba(0,0,0,0.72) 54%,
-          rgba(0,0,0,0.98) 100%
-        );
-    }
-
-    .torch {
-      position: fixed;
-      left: 0;
-      top: 0;
-      width: 52px;
-      z-index: 60;
-      pointer-events: none;
-      opacity: 1;
-      will-change: transform, opacity;
-      filter: drop-shadow(0 0 10px rgba(255, 176, 88, 0.16));
-    }
-
-    @media (max-width: 1200px) {
-      .museum {
-        left: 66%;
-        top: 58%;
-        width: min(46vw, 620px);
-      }
-
-      .foreground {
-        left: 18%;
-        top: 79%;
-        width: min(34vw, 420px);
-      }
-    }
-
-    @media (max-width: 900px) {
-      .museum {
-        left: 66%;
-        top: 58%;
-        width: 58vw;
-        max-height: 74vh;
-      }
-
-      .foreground {
-        left: 18%;
-        top: 81%;
-        width: 42vw;
-      }
-    }
-
-    @media (hover: none), (pointer: coarse) {
-      body.intro-active {
-        cursor: auto;
-      }
-
-      .torch {
-        display: none;
-      }
-
-      :root {
-        --beam-x: 24vw;
-        --beam-y: 18vw;
-      }
-
-      .sky {
-        width: 132vw;
-        height: 120vh;
-      }
-
-      .mid {
-        width: 128vw;
-        height: 110vh;
-      }
-
-      .hallway {
-        width: 132vw;
-        height: 120vh;
-      }
-
-      .museum {
-        left: 66%;
-        top: 59%;
-        width: 72vw;
-        max-height: 76vh;
-      }
-
-      .foreground {
-        left: 20%;
-        top: 82%;
-        width: 48vw;
-      }
-
-      .front {
-        width: 134vw;
-        height: 108vh;
-      }
-    }
-  </style>
-</head>
-<body class="intro-active">
-  <main class="scroll-wrap">
-    <section class="pin-scene">
-      <div class="scene" id="scene">
-        <img src="bg1-sky.png" class="layer sky" alt="Night sky" />
-        <img src="bg1-mid.png" class="layer mid" alt="Distant forest" />
-        <img src="hallway.jpeg" class="layer hallway" alt="Interior hallway" />
-        <img src="bg2-main.png" class="layer museum" alt="Museum building" />
-        <img src="bg1-foreground.png" class="layer foreground" alt="Plaque layer" />
-        <img src="bg1-front.png" class="layer front" alt="Front foliage" />
-
-        <div class="vignette"></div>
-        <div class="darkness" id="darkness"></div>
+  return (
+    <section className="h-screen overflow-hidden">
+      <div ref={container} className="flex w-[300vw] h-full">
+        <div className="w-screen flex items-center justify-center bg-red-400">Project 1</div>
+        <div className="w-screen flex items-center justify-center bg-blue-400">Project 2</div>
+        <div className="w-screen flex items-center justify-center bg-green-400">Project 3</div>
       </div>
     </section>
-  </main>
+  );
+}
 
-  <img src="torchtm.png" class="torch" id="torch" alt="Torch" />
+// ---------------- 3D SHELF ----------------
+function Shelf3D() {
+  return (
+    <section className="h-screen">
+      <Canvas camera={{ position: [0, 0, 5] }}>
+        <ambientLight />
+        <mesh>
+          <boxGeometry />
+          <meshStandardMaterial color="orange" />
+        </mesh>
+        <OrbitControls />
+      </Canvas>
+    </section>
+  );
+}
 
-  <script>
-    gsap.registerPlugin(ScrollTrigger);
+// ---------------- THEATER ----------------
+function Theater() {
+  return (
+    <section className="h-screen bg-black flex items-center justify-center">
+      <video
+        src="/demo.mp4"
+        controls
+        className="w-3/4 rounded-xl shadow-2xl"
+      />
+    </section>
+  );
+}
 
-    const root = document.documentElement;
-    const body = document.body;
-    const torch = document.getElementById("torch");
-    const darkness = document.getElementById("darkness");
+// ---------------- FINAL CTA ----------------
+function FinalCTA() {
+  return (
+    <section className="h-screen bg-gradient-to-b from-black to-indigo-900 text-white flex items-center justify-center">
+      <h1 className="text-4xl">Let's build something together</h1>
+    </section>
+  );
+}
 
-    const sky = document.querySelector(".sky");
-    const mid = document.querySelector(".mid");
-    const hallway = document.querySelector(".hallway");
-    const museum = document.querySelector(".museum");
-    const foreground = document.querySelector(".foreground");
-    const front = document.querySelector(".front");
-
-    const isTouch = window.matchMedia("(hover: none), (pointer: coarse)").matches;
-
-    let targetX = window.innerWidth * 0.5;
-    let targetY = window.innerHeight * 0.55;
-    let currentX = targetX;
-    let currentY = targetY;
-
-    function clamp(v, min, max) {
-      return Math.max(min, Math.min(max, v));
-    }
-
-    function setPointer(x, y) {
-      targetX = clamp(x, 0, window.innerWidth);
-      targetY = clamp(y, 0, window.innerHeight);
-    }
-
-    function onMove(e) {
-      setPointer(e.clientX, e.clientY);
-    }
-
-    function onTouch(e) {
-      if (!e.touches || !e.touches[0]) return;
-      setPointer(e.touches[0].clientX, e.touches[0].clientY);
-    }
-
-    function renderTorch() {
-      currentX += (targetX - currentX) * 0.16;
-      currentY += (targetY - currentY) * 0.16;
-
-      root.style.setProperty("--x", `${currentX}px`);
-      root.style.setProperty("--y", `${currentY}px`);
-
-      if (!isTouch) {
-        torch.style.transform =
-          `translate(${currentX}px, ${currentY}px) translate(-50%, -50%) rotate(-14deg)`;
-      }
-
-      requestAnimationFrame(renderTorch);
-    }
-
-    window.addEventListener("mousemove", onMove, { passive: true });
-    window.addEventListener("touchstart", onTouch, { passive: true });
-    window.addEventListener("touchmove", onTouch, { passive: true });
-
-    function preload(src) {
-      return new Promise((resolve) => {
-        const img = new Image();
-        img.onload = resolve;
-        img.onerror = resolve;
-        img.src = src;
-      });
-    }
-
-    async function preloadAll() {
-      await Promise.all([
-        preload("bg1-sky.png"),
-        preload("bg1-mid.png"),
-        preload("bg2-main.png"),
-        preload("bg1-front.png"),
-        preload("bg1-foreground.png"),
-        preload("hallway.jpeg"),
-        preload("torchtm.png")
-      ]);
-    }
-
-    function setInitialState() {
-      gsap.set(sky, {
-        x: 0,
-        y: 0,
-        scale: 1.0,
-        opacity: 1
-      });
-
-      gsap.set(mid, {
-        x: 0,
-        y: 0,
-        scale: 1.02,
-        opacity: 1
-      });
-
-      gsap.set(hallway, {
-        x: 0,
-        y: 0,
-        scale: 1.12,
-        opacity: 0
-      });
-
-      gsap.set(museum, {
-        x: 0,
-        y: 0,
-        scale: 1.0,
-        opacity: 1
-      });
-
-      gsap.set(foreground, {
-        x: 0,
-        y: 0,
-        scale: 1.0,
-        opacity: 1
-      });
-
-      gsap.set(front, {
-        x: 0,
-        y: 0,
-        scale: 1.0,
-        opacity: 1
-      });
-
-      gsap.set(root, {
-        "--reveal": "0%"
-      });
-    }
-
-    function playIntro() {
-      const intro = gsap.timeline({
-        defaults: { ease: "power2.out" },
-        onComplete: () => {
-          body.classList.remove("intro-active");
-          darkness.style.pointerEvents = "none";
-        }
-      });
-
-      intro.to({}, { duration: 1.8 });
-
-      intro.to(darkness, {
-        opacity: 0,
-        duration: 1.05,
-        ease: "power3.out"
-      });
-
-      intro.to(torch, {
-        opacity: 0,
-        duration: 0.7
-      }, "-=0.82");
-    }
-
-    function buildScrollTimeline() {
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: ".scroll-wrap",
-          start: "top top",
-          end: "+=4300",
-          scrub: 1,
-          pin: ".pin-scene",
-          anticipatePin: 1,
-          invalidateOnRefresh: true
-        }
-      });
-
-      /* phase 1 */
-      tl.to(sky, {
-        y: -18,
-        scale: 1.03,
-        ease: "none"
-      }, 0);
-
-      tl.to(mid, {
-        y: -42,
-        scale: 1.07,
-        ease: "none"
-      }, 0);
-
-      tl.to(museum, {
-        y: -12,
-        x: -8,
-        scale: 1.10,
-        ease: "none"
-      }, 0);
-
-      tl.to(foreground, {
-        y: -26,
-        x: -8,
-        scale: 1.03,
-        opacity: 0.95,
-        ease: "none"
-      }, 0);
-
-      tl.to(front, {
-        y: -60,
-        scale: 1.05,
-        ease: "none"
-      }, 0);
-
-      /* phase 2 */
-      tl.to(sky, {
-        y: -42,
-        scale: 1.06,
-        ease: "none"
-      }, 1);
-
-      tl.to(mid, {
-        y: -94,
-        scale: 1.14,
-        ease: "none"
-      }, 1);
-
-      tl.to(museum, {
-        y: -58,
-        x: -22,
-        scale: 1.34,
-        ease: "none"
-      }, 1);
-
-      tl.to(foreground, {
-        y: -76,
-        x: -18,
-        scale: 1.08,
-        opacity: 0.74,
-        ease: "none"
-      }, 1);
-
-      tl.to(front, {
-        y: -150,
-        scale: 1.14,
-        opacity: 0.84,
-        ease: "none"
-      }, 1);
-
-      /* phase 3 */
-      tl.to(foreground, {
-        y: -140,
-        x: -28,
-        scale: 1.14,
-        opacity: 0,
-        ease: "none"
-      }, 2);
-
-      tl.to(front, {
-        y: -310,
-        scale: 1.32,
-        opacity: 0,
-        ease: "none"
-      }, 2);
-
-      tl.to(mid, {
-        y: -180,
-        scale: 1.23,
-        opacity: 0.96,
-        ease: "none"
-      }, 2);
-
-      tl.to(museum, {
-        y: -118,
-        x: -36,
-        scale: 1.72,
-        ease: "none"
-      }, 2);
-
-      /* hallway appears only here */
-      tl.set(hallway, {
-        display: "block"
-      }, 3.0);
-
-      tl.to(hallway, {
-        opacity: 1,
-        duration: 0.01
-      }, 3.0);
-
-      tl.to(root, {
-        "--reveal": "3%",
-        ease: "none"
-      }, 3.0);
-
-      tl.to(museum, {
-        scale: 1.90,
-        y: -136,
-        x: -42,
-        ease: "none"
-      }, 3.0);
-
-      tl.to(root, {
-        "--reveal": "8%",
-        ease: "none"
-      }, 3.35);
-
-      tl.to(hallway, {
-        scale: 1.08,
-        ease: "none"
-      }, 3.35);
-
-      tl.to(root, {
-        "--reveal": "16%",
-        ease: "none"
-      }, 3.72);
-
-      tl.to(museum, {
-        scale: 2.08,
-        y: -152,
-        x: -48,
-        ease: "none"
-      }, 3.72);
-
-      tl.to(root, {
-        "--reveal": "30%",
-        ease: "none"
-      }, 4.08);
-
-      tl.to(hallway, {
-        scale: 1.03,
-        ease: "none"
-      }, 4.08);
-
-      tl.to(root, {
-        "--reveal": "54%",
-        ease: "none"
-      }, 4.45);
-
-      tl.to(museum, {
-        scale: 2.26,
-        y: -168,
-        x: -56,
-        ease: "none"
-      }, 4.45);
-
-      /* hallway takes over */
-      tl.to(root, {
-        "--reveal": "125%",
-        ease: "none"
-      }, 5.0);
-
-      tl.to(hallway, {
-        scale: 1.0,
-        ease: "none"
-      }, 5.0);
-
-      tl.to([museum, mid, sky], {
-        opacity: 0,
-        ease: "none"
-      }, 5.04);
-
-      tl.to(hallway, {
-        scale: 1.04,
-        y: -8,
-        ease: "none"
-      }, 5.7);
-
-      tl.to(hallway, {
-        scale: 1.08,
-        y: -20,
-        ease: "none"
-      }, 6.3);
-    }
-
-    window.addEventListener("resize", () => ScrollTrigger.refresh());
-
-    async function init() {
-      await preloadAll();
-      setInitialState();
-      renderTorch();
-      playIntro();
-      buildScrollTimeline();
-      ScrollTrigger.refresh();
-    }
-
-    init();
-  </script>
-</body>
-</html>
+// ---------------- MAIN APP ----------------
+export default function App() {
+  return (
+    <div>
+      <TorchIntro />
+      <ParallaxEntrance />
+      <ArtCanvas />
+      <Arcade />
+      <Shelf3D />
+      <Theater />
+      <FinalCTA />
+    </div>
+  );
+}
