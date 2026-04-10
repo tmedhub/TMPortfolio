@@ -14,20 +14,25 @@
 
   <style>
     :root{
-      --gold-1:#f3ddb0;
-      --gold-2:#e2bf79;
-      --gold-3:#bf9047;
+      --gold-1:#f6ead2;
+      --gold-2:#ead7ae;
+      --gold-3:#d7b675;
       --text:#f7f1e7;
       --bg:#050505;
 
-      /* foreground controls */
+      /* foreground */
       --fg-width: 56vw;
       --fg-max-width: 900px;
       --fg-min-width: 420px;
       --fg-strip-height: 42vh;
       --fg-crop-bottom: 14%;
-      --fg-bottom-shift: 7%;
       --fg-left: 0px;
+
+      /* front sizing */
+      --front-width: 62%;
+      --front-height: 66%;
+      --front-left: 19%;
+      --front-top: 16%;
     }
 
     *{
@@ -96,17 +101,18 @@
       filter:brightness(1.08) saturate(1.01) contrast(1.03);
     }
 
+    /* front made much smaller */
     .front{
       z-index:3;
-      top:-3%;
-      left:-2%;
-      width:104%;
-      height:106%;
-      object-fit:cover;
+      top:var(--front-top);
+      left:var(--front-left);
+      width:var(--front-width);
+      height:var(--front-height);
+      object-fit:contain;
+      transform-origin:center center;
       filter:brightness(1.06) saturate(1.02) contrast(1.02);
     }
 
-    /* bottom strip that forces foreground to sit at screen edge */
     .foreground-strip{
       position:absolute;
       left:0;
@@ -127,8 +133,8 @@
       min-width:var(--fg-min-width);
       height:auto;
       transform-origin:left bottom;
-      transform:translateY(var(--fg-bottom-shift));
       clip-path: inset(0 0 var(--fg-crop-bottom) 0);
+      transform: scale(1.05);
       filter:
         brightness(1.1)
         contrast(1.06)
@@ -191,6 +197,7 @@
       pointer-events:none;
     }
 
+    /* text made slightly whiter */
     .bg2-content h1{
       position:relative;
       z-index:2;
@@ -202,17 +209,18 @@
       white-space:nowrap;
       background:linear-gradient(
         120deg,
-        var(--gold-1) 0%,
-        var(--gold-2) 42%,
-        var(--gold-3) 100%
+        #fffdf9 0%,
+        #f6eddc 38%,
+        #ead7ae 70%,
+        #d7b675 100%
       );
       -webkit-background-clip:text;
       background-clip:text;
       -webkit-text-fill-color:transparent;
       text-shadow:
-        0 4px 10px rgba(0,0,0,0.35),
-        0 12px 30px rgba(0,0,0,0.45),
-        0 0 20px rgba(226,191,121,0.12);
+        0 3px 8px rgba(0,0,0,0.32),
+        0 10px 24px rgba(0,0,0,0.42),
+        0 0 16px rgba(255,248,235,0.10);
     }
 
     .text-glow{
@@ -238,7 +246,7 @@
       background:linear-gradient(
         to right,
         transparent,
-        rgba(226,191,121,0.95),
+        rgba(236,221,184,0.95),
         transparent
       );
       opacity:0.95;
@@ -252,7 +260,7 @@
       margin-top:0.95rem;
       font-size:0.98rem;
       line-height:1.6;
-      color:rgba(247,241,231,0.82);
+      color:rgba(250,246,239,0.86);
       letter-spacing:0.02em;
     }
 
@@ -296,8 +304,10 @@
         --fg-width: 68vw;
         --fg-min-width: 0px;
         --fg-strip-height: 36vh;
-        --fg-crop-bottom: 12%;
-        --fg-bottom-shift: 6%;
+        --front-width: 72%;
+        --front-height: 60%;
+        --front-left: 14%;
+        --front-top: 18%;
       }
     }
 
@@ -309,8 +319,10 @@
       :root{
         --fg-width: 78vw;
         --fg-strip-height: 32vh;
-        --fg-crop-bottom: 10%;
-        --fg-bottom-shift: 5%;
+        --front-width: 82%;
+        --front-height: 56%;
+        --front-left: 9%;
+        --front-top: 20%;
       }
 
       .bg2-content h1{
@@ -336,7 +348,7 @@
       <img src="bg1-mid.png" alt="Mid layer" class="layer mid" id="mid" />
       <img src="bg1-front.png" alt="Front layer" class="layer front" id="front" />
 
-      <div class="foreground-strip" id="foregroundStrip">
+      <div class="foreground-strip">
         <img src="bg1-foreground.png" alt="Foreground layer" class="foreground" id="foreground" />
       </div>
 
@@ -377,7 +389,7 @@
     gsap.set(sky, { y: 0, scale: 1, opacity: 1 });
     gsap.set(mid, { y: 0, scale: 1, opacity: 0.96 });
     gsap.set(front, { y: 0, scale: 1, opacity: 1 });
-    gsap.set(foreground, { yPercent: 7, x: 0, scale: 1, opacity: 1 });
+    gsap.set(foreground, { scale: 1.05, opacity: 1, x: 0 });
     gsap.set(bg2, { y: 18, scale: 1.04, opacity: 0 });
     gsap.set(bg2Content, { y: 20, opacity: 0 });
 
@@ -404,14 +416,13 @@
     }, 0)
 
     .to(front, {
-      y: 68,
-      scale: 1.045
+      y: 52,
+      scale: 1.02
     }, 0)
 
     .to(foreground, {
-      yPercent: 16,
-      x: -8,
-      scale: 1.08
+      scale: 1.12,
+      x: -12
     }, 0)
 
     .to(mid, {
@@ -421,15 +432,14 @@
     }, 0.32)
 
     .to(front, {
-      y: 112,
-      scale: 1.075,
-      opacity: 0.9
+      y: 82,
+      scale: 1.05,
+      opacity: 0.88
     }, 0.38)
 
     .to(foreground, {
-      yPercent: 28,
-      x: -16,
-      scale: 1.12,
+      scale: 1.18,
+      x: -20,
       opacity: 0.82
     }, 0.44)
 
