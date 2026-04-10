@@ -41,35 +41,63 @@
       inset: 0;
       width: 100%;
       height: 100%;
+      overflow: hidden;
     }
 
     .layer {
       position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
+      display: block;
       will-change: transform, opacity;
       pointer-events: none;
       user-select: none;
+      max-width: none;
     }
 
+    /* SKY: oversize so no black gap appears during movement */
     .sky {
       z-index: 1;
+      top: -8%;
+      left: -4%;
+      width: 108%;
+      height: 116%;
+      object-fit: cover;
     }
 
+    /* FRONT: half-ish size, moved upward */
     .front {
       z-index: 2;
+      width: 52vw;
+      max-width: 900px;
+      min-width: 480px;
+      height: auto;
+      left: 50%;
+      top: 10%;
+      transform: translateX(-50%);
+      transform-origin: center center;
     }
 
+    /* FOREGROUND: half-ish size, aligned left */
     .foreground {
       z-index: 3;
+      width: 46vw;
+      max-width: 760px;
+      min-width: 320px;
+      height: auto;
+      left: 0;
+      bottom: -2%;
+      transform-origin: left bottom;
     }
 
+    /* BG2 should fill fully */
     .bg2 {
       z-index: 4;
+      top: -3%;
+      left: -3%;
+      width: 106%;
+      height: 110%;
+      object-fit: cover;
       opacity: 0;
-      transform: scale(1.12) translateY(50px);
+      transform: scale(1.06);
     }
 
     .overlay-gradient {
@@ -79,15 +107,15 @@
       background:
         linear-gradient(
           to bottom,
-          rgba(0, 0, 0, 0.05) 0%,
-          rgba(0, 0, 0, 0.08) 35%,
-          rgba(0, 0, 0, 0.28) 75%,
-          rgba(0, 0, 0, 0.5) 100%
+          rgba(0, 0, 0, 0.02) 0%,
+          rgba(0, 0, 0, 0.04) 35%,
+          rgba(0, 0, 0, 0.12) 70%,
+          rgba(0, 0, 0, 0.22) 100%
         );
       pointer-events: none;
     }
 
-    .hero-title {
+    .bg2-title {
       position: absolute;
       z-index: 6;
       left: 50%;
@@ -96,37 +124,34 @@
       text-align: center;
       width: 90%;
       max-width: 900px;
+      opacity: 0;
       pointer-events: none;
     }
 
-    .hero-title h1 {
-      font-size: clamp(2.5rem, 7vw, 6rem);
-      line-height: 0.95;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
+    .bg2-title h1 {
+      font-size: clamp(2.2rem, 6vw, 5.2rem);
+      line-height: 1.05;
       font-weight: 700;
-      text-shadow: 0 10px 30px rgba(0,0,0,0.35);
+      color: #fff;
+      text-shadow:
+        0 8px 30px rgba(0, 0, 0, 0.4),
+        0 2px 8px rgba(0, 0, 0, 0.35);
     }
 
-    .hero-title p {
-      margin-top: 18px;
-      font-size: clamp(1rem, 2vw, 1.25rem);
-      opacity: 0.9;
-      letter-spacing: 0.14em;
+    .debug-note {
+      position: fixed;
+      top: 18px;
+      right: 18px;
+      z-index: 99;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.12);
+      backdrop-filter: blur(8px);
+      padding: 12px 16px;
+      border-radius: 999px;
+      font-size: 12px;
+      letter-spacing: 0.12em;
       text-transform: uppercase;
-    }
-
-    .scroll-indicator {
-      position: absolute;
-      z-index: 6;
-      left: 50%;
-      bottom: 32px;
-      transform: translateX(-50%);
-      font-size: 0.85rem;
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-      opacity: 0.8;
-      pointer-events: none;
+      opacity: 0.85;
     }
 
     .after-section {
@@ -151,35 +176,48 @@
     }
 
     .after-section p {
-      font-size: 1.1rem;
+      font-size: 1.05rem;
       line-height: 1.7;
       opacity: 0.8;
     }
 
-    .debug-note {
-      position: fixed;
-      top: 14px;
-      right: 14px;
-      z-index: 99;
-      background: rgba(255,255,255,0.08);
-      border: 1px solid rgba(255,255,255,0.1);
-      backdrop-filter: blur(8px);
-      padding: 10px 12px;
-      border-radius: 999px;
-      font-size: 12px;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      opacity: 0.8;
+    @media (max-width: 900px) {
+      .front {
+        width: 70vw;
+        min-width: 0;
+        top: 15%;
+      }
+
+      .foreground {
+        width: 58vw;
+        min-width: 0;
+      }
+
+      .bg2-title h1 {
+        font-size: clamp(2rem, 8vw, 4rem);
+      }
     }
 
-    @media (max-width: 768px) {
+    @media (max-width: 600px) {
       .scene1-wrapper {
         height: 100svh;
       }
 
-      .scroll-indicator {
-        bottom: 20px;
-        font-size: 0.75rem;
+      .sky {
+        top: -6%;
+        left: -8%;
+        width: 116%;
+        height: 114%;
+      }
+
+      .front {
+        width: 82vw;
+        top: 18%;
+      }
+
+      .foreground {
+        width: 70vw;
+        bottom: 0;
       }
     }
   </style>
@@ -192,20 +230,15 @@
     <div class="scene scene1-exterior">
       <img src="bg1-sky.png" alt="Sky background" class="layer sky" id="sky" />
       <img src="bg1-front.png" alt="Museum front" class="layer front" id="front" />
-      <img src="bg1-foreground.png" alt="Foreground trees" class="layer foreground" id="foreground" />
-
+      <img src="bg1-foreground.png" alt="Foreground left" class="layer foreground" id="foreground" />
       <div class="overlay-gradient"></div>
-
-      <div class="hero-title" id="heroTitle">
-        <h1>Enter the Museum</h1>
-        <p>A cinematic portfolio experience</p>
-      </div>
-
-      <div class="scroll-indicator" id="scrollIndicator">Scroll to enter</div>
     </div>
 
     <div class="scene scene2-preview">
       <img src="bg2-main.png" alt="Museum interior" class="layer bg2" id="bg2" />
+      <div class="bg2-title" id="bg2Title">
+        <h1>Hey there, Welcome!!</h1>
+      </div>
     </div>
   </section>
 
@@ -213,7 +246,6 @@
     <div class="content">
       <h2>Scene 2 begins here</h2>
       <p>
-        This placeholder section exists so you can continue scrolling after the pinned cinematic entrance.
         Replace this with your artwork canvas section next.
       </p>
     </div>
@@ -226,88 +258,77 @@
     const front = document.getElementById("front");
     const foreground = document.getElementById("foreground");
     const bg2 = document.getElementById("bg2");
-    const heroTitle = document.getElementById("heroTitle");
-    const scrollIndicator = document.getElementById("scrollIndicator");
+    const bg2Title = document.getElementById("bg2Title");
     const scene1 = document.getElementById("scene1");
 
+    gsap.set(sky, { y: 0, x: 0, scale: 1 });
+    gsap.set(front, { y: 0, x: 0, scale: 1 });
+    gsap.set(foreground, { y: 0, x: 0, scale: 1 });
+    gsap.set(bg2, { y: 20, scale: 1.06, opacity: 0 });
+    gsap.set(bg2Title, { y: 40, opacity: 0 });
+
     const tl = gsap.timeline({
+      defaults: { ease: "none" },
       scrollTrigger: {
         trigger: scene1,
         start: "top top",
-        end: "+=2800",
-        scrub: true,
+        end: "+=3200",
+        scrub: 1.4,
         pin: true,
         anticipatePin: 1
       }
     });
 
     tl.to(sky, {
-      y: 70,
+      y: 35,
+      scale: 1.03
+    }, 0)
+
+    .to(front, {
+      y: 60,
+      scale: 1.04
+    }, 0)
+
+    .to(foreground, {
+      y: 120,
       x: -10,
-      scale: 1.06,
-      ease: "none"
+      scale: 1.05
     }, 0)
 
     .to(front, {
-      y: 170,
+      y: 110,
+      scale: 1.08,
+      opacity: 0.92
+    }, 0.35)
+
+    .to(foreground, {
+      y: 220,
       x: -20,
-      scale: 1.13,
-      ease: "none"
-    }, 0)
-
-    .to(foreground, {
-      y: 310,
-      x: -35,
-      scale: 1.22,
-      ease: "none"
-    }, 0)
-
-    .to(heroTitle, {
-      y: -40,
-      opacity: 0.3,
-      ease: "none"
-    }, 0.25)
-
-    .to(scrollIndicator, {
-      opacity: 0,
-      y: 20,
-      ease: "none"
-    }, 0.28)
-
-    .to(front, {
-      scale: 1.32,
-      y: 250,
-      ease: "none"
-    }, 0.45)
-
-    .to(sky, {
-      opacity: 0.78,
-      ease: "none"
-    }, 0.5)
-
-    .to(foreground, {
-      opacity: 0,
-      y: 470,
-      scale: 1.35,
-      ease: "none"
-    }, 0.58)
-
-    .to(heroTitle, {
-      opacity: 0,
-      y: -90,
-      ease: "none"
-    }, 0.58)
+      scale: 1.08,
+      opacity: 0.75
+    }, 0.4)
 
     .to(bg2, {
       opacity: 1,
       scale: 1,
-      y: 0,
-      ease: "none"
-    }, 0.68)
+      y: 0
+    }, 0.58)
 
-    .to([sky, front], {
-      opacity: 0,
-      ease: "none"
+    .to(bg2Title, {
+      opacity: 1,
+      y: 0
+    }, 0.72)
+
+    .to(front, {
+      opacity: 0
+    }, 0.76)
+
+    .to(foreground, {
+      opacity: 0
+    }, 0.7)
+
+    .to(sky, {
+      opacity: 0.18
     }, 0.82);
   </script>
 
