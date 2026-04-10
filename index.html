@@ -13,14 +13,14 @@
       --x: 50vw;
       --y: 55vh;
 
-      /* tweak these 2 for doorway alignment */
+      /* tweak doorway alignment here later if needed */
       --door-x: 50%;
       --door-y: 58%;
 
       /* hallway reveal amount */
       --reveal: 0%;
 
-      /* torch beam size */
+      /* smaller torch beam */
       --beam-x: 17vw;
       --beam-y: 12vw;
     }
@@ -78,6 +78,17 @@
       will-change: transform, opacity, clip-path;
     }
 
+    /* hallway pushed furthest back so it cannot leak in front */
+    .hallway {
+      z-index: 0;
+      width: 120vw;
+      height: 120vh;
+      object-fit: cover;
+      opacity: 0;
+      clip-path: circle(var(--reveal) at var(--door-x) var(--door-y));
+      will-change: transform, opacity, clip-path;
+    }
+
     .sky {
       z-index: 1;
       width: 128vw;
@@ -92,21 +103,21 @@
       object-fit: cover;
     }
 
-    .hallway {
-      z-index: 3;
-      width: 124vw;
-      height: 124vh;
-      object-fit: cover;
-      opacity: 0;
-      clip-path: circle(var(--reveal) at var(--door-x) var(--door-y));
-      will-change: transform, opacity, clip-path;
-    }
-
     .museum {
-      z-index: 4;
+      z-index: 3;
       width: 116vw;
       height: 116vh;
       object-fit: contain;
+    }
+
+    /* front above foreground, as requested */
+    .foreground {
+      z-index: 4;
+      width: 82vw;   /* much smaller now */
+      height: 82vh;  /* much smaller now */
+      object-fit: contain;
+      left: 50%;
+      top: 72%;
     }
 
     .front {
@@ -114,49 +125,6 @@
       width: 126vw;
       height: 126vh;
       object-fit: cover;
-    }
-
-    .foreground {
-      z-index: 6;
-      width: 132vw;
-      height: 132vh;
-      object-fit: cover;
-    }
-
-    .plaque {
-      position: absolute;
-      left: 4.5vw;
-      top: 8.5vh;
-      z-index: 15;
-      width: min(27vw, 390px);
-      padding: 1rem 1.15rem 0.95rem 1.15rem;
-      background:
-        linear-gradient(180deg, rgba(88, 49, 20, 0.95), rgba(55, 28, 12, 0.96));
-      color: #d8b063;
-      clip-path: polygon(0 0, 88% 0, 100% 50%, 88% 100%, 0 100%);
-      box-shadow:
-        0 10px 28px rgba(0,0,0,0.34),
-        inset 0 0 0 1px rgba(255, 214, 130, 0.08);
-      transform: rotate(-1deg);
-      transform-origin: left center;
-      pointer-events: none;
-    }
-
-    .plaque h1 {
-      margin: 0 0 0.28rem 0;
-      font-size: clamp(1.15rem, 2vw, 2rem);
-      line-height: 1.03;
-      font-weight: 500;
-      color: #d9b164;
-      text-shadow: 0 2px 8px rgba(0,0,0,0.3);
-    }
-
-    .plaque p {
-      margin: 0;
-      font-size: clamp(0.78rem, 1.15vw, 1.08rem);
-      line-height: 1.15;
-      color: #d9b164;
-      text-shadow: 0 2px 8px rgba(0,0,0,0.28);
     }
 
     .vignette {
@@ -201,15 +169,6 @@
       filter: drop-shadow(0 0 10px rgba(255, 176, 88, 0.16));
     }
 
-    @media (max-width: 900px) {
-      .plaque {
-        left: 4vw;
-        top: 7vh;
-        width: min(50vw, 285px);
-        padding: 0.85rem 0.95rem;
-      }
-    }
-
     @media (hover: none), (pointer: coarse) {
       body.intro-active {
         cursor: auto;
@@ -232,14 +191,15 @@
       .sky,
       .mid,
       .front,
-      .foreground,
       .hallway {
         width: 138vw;
         height: 128vh;
       }
 
-      .plaque {
-        width: min(58vw, 320px);
+      .foreground {
+        width: 92vw;
+        height: 74vh;
+        top: 76%;
       }
     }
   </style>
@@ -248,17 +208,12 @@
   <main class="scroll-wrap">
     <section class="pin-scene">
       <div class="scene" id="scene">
+        <img src="hallway.jpeg" class="layer hallway" alt="Museum hallway" />
         <img src="bg1-sky.png" class="layer sky" alt="Night sky" />
         <img src="bg1-mid.png" class="layer mid" alt="Forest background" />
-        <img src="hallway.jpeg" class="layer hallway" alt="Museum hallway" />
         <img src="bg2-main.png" class="layer museum" alt="Museum building" />
-        <img src="bg1-front.png" class="layer front" alt="Near foliage" />
         <img src="bg1-foreground.png" class="layer foreground" alt="Closest foliage" />
-
-        <div class="plaque">
-          <h1>Shanima's Portfolio</h1>
-          <p>Where curiosity leads the way</p>
-        </div>
+        <img src="bg1-front.png" class="layer front" alt="Near foliage" />
 
         <div class="vignette"></div>
         <div class="darkness" id="darkness"></div>
@@ -276,12 +231,12 @@
     const torch = document.getElementById("torch");
     const darkness = document.getElementById("darkness");
 
+    const hallway = document.querySelector(".hallway");
     const sky = document.querySelector(".sky");
     const mid = document.querySelector(".mid");
     const museum = document.querySelector(".museum");
-    const front = document.querySelector(".front");
     const foreground = document.querySelector(".foreground");
-    const hallway = document.querySelector(".hallway");
+    const front = document.querySelector(".front");
 
     const isTouch = window.matchMedia("(hover: none), (pointer: coarse)").matches;
 
@@ -349,6 +304,15 @@
     }
 
     function setInitialState() {
+      gsap.set(hallway, {
+        xPercent: -50,
+        yPercent: -50,
+        scale: 1.1,
+        x: 0,
+        y: 0,
+        opacity: 0
+      });
+
       gsap.set(sky, {
         xPercent: -50,
         yPercent: -50,
@@ -376,31 +340,22 @@
         opacity: 1
       });
 
-      gsap.set(front, {
-        xPercent: -50,
-        yPercent: -50,
-        scale: 1.12,
-        x: 0,
-        y: 0,
-        opacity: 1
-      });
-
       gsap.set(foreground, {
         xPercent: -50,
         yPercent: -50,
-        scale: 1.16,
+        scale: 0.92,
         x: 0,
         y: 0,
         opacity: 1
       });
 
-      gsap.set(hallway, {
+      gsap.set(front, {
         xPercent: -50,
         yPercent: -50,
-        scale: 1.22,
+        scale: 1.08,
         x: 0,
         y: 0,
-        opacity: 0
+        opacity: 1
       });
 
       gsap.set(root, {
@@ -444,7 +399,7 @@
         }
       });
 
-      /* phase 1 */
+      /* approach phase */
       tl.to(sky, {
         y: -35,
         scale: 1.13,
@@ -463,21 +418,21 @@
         ease: "none"
       }, 0);
 
+      tl.to(foreground, {
+        y: -90,
+        x: 12,
+        scale: 1.02,
+        opacity: 0.8,
+        ease: "none"
+      }, 0);
+
       tl.to(front, {
         y: -150,
         x: -18,
-        scale: 1.28,
+        scale: 1.22,
         ease: "none"
       }, 0);
 
-      tl.to(foreground, {
-        y: -250,
-        x: 28,
-        scale: 1.44,
-        ease: "none"
-      }, 0);
-
-      /* phase 2 */
       tl.to(sky, {
         y: -70,
         scale: 1.18,
@@ -496,35 +451,34 @@
         ease: "none"
       }, 1);
 
+      tl.to(foreground, {
+        y: -180,
+        x: 26,
+        scale: 1.14,
+        opacity: 0.45,
+        ease: "none"
+      }, 1);
+
       tl.to(front, {
         y: -320,
         x: -56,
-        scale: 1.58,
+        scale: 1.5,
         opacity: 0.72,
         ease: "none"
       }, 1);
 
       tl.to(foreground, {
-        y: -500,
-        x: 84,
-        scale: 1.9,
-        opacity: 0.22,
-        ease: "none"
-      }, 1);
-
-      /* phase 3 */
-      tl.to(front, {
-        y: -560,
-        x: -95,
-        scale: 1.84,
+        y: -320,
+        x: 44,
+        scale: 1.28,
         opacity: 0,
         ease: "none"
       }, 2);
 
-      tl.to(foreground, {
-        y: -820,
-        x: 140,
-        scale: 2.3,
+      tl.to(front, {
+        y: -560,
+        x: -95,
+        scale: 1.75,
         opacity: 0,
         ease: "none"
       }, 2);
@@ -542,7 +496,7 @@
         ease: "none"
       }, 2);
 
-      /* phase 4: hallway reveal starts */
+      /* reveal hallway late */
       tl.to(hallway, {
         opacity: 1,
         duration: 0.01
@@ -565,7 +519,7 @@
       }, 3.35);
 
       tl.to(hallway, {
-        scale: 1.18,
+        scale: 1.06,
         ease: "none"
       }, 3.35);
 
@@ -586,7 +540,7 @@
       }, 4.05);
 
       tl.to(hallway, {
-        scale: 1.08,
+        scale: 1.02,
         ease: "none"
       }, 4.05);
 
@@ -601,7 +555,6 @@
         ease: "none"
       }, 4.45);
 
-      /* phase 5 */
       tl.to(root, {
         "--reveal": "120%",
         ease: "none"
@@ -617,7 +570,6 @@
         ease: "none"
       }, 5.05);
 
-      /* phase 6 */
       tl.to(hallway, {
         scale: 1.05,
         y: -12,
