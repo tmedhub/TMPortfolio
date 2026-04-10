@@ -1,163 +1,315 @@
-// Minimal starter structure for your cinematic parallax portfolio
-// Stack: React + GSAP + ScrollTrigger + React Three Fiber
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cinematic Museum Portfolio - Scene 1</title>
 
-import React, { useRef, useEffect } from "react";
-import { Canvas } from "@react-three/fiber";
-import { OrbitControls } from "@react-three/drei";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
 
-// Register GSAP plugin
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger);
-}
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-// ---------------- TORCH SCENE ----------------
-function TorchIntro() {
-  const torchRef = useRef();
+    html, body {
+      width: 100%;
+      min-height: 100%;
+      background: #000;
+      overflow-x: hidden;
+      font-family: Arial, Helvetica, sans-serif;
+      color: white;
+    }
 
-  useEffect(() => {
-    const moveTorch = (e) => {
-      if (!torchRef.current) return;
-      torchRef.current.style.background = `radial-gradient(circle at ${e.clientX}px ${e.clientY}px, rgba(255,255,200,0.25) 0%, rgba(0,0,0,0.95) 200px)`;
-    };
+    body {
+      background: #000;
+    }
 
-    window.addEventListener("mousemove", moveTorch);
-    return () => window.removeEventListener("mousemove", moveTorch);
-  }, []);
+    .scene1-wrapper {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      overflow: hidden;
+      background: #000;
+    }
 
-  return (
-    <section className="h-screen w-full bg-black relative overflow-hidden">
-      <div
-        ref={torchRef}
-        className="absolute inset-0 transition-all duration-75"
-      />
+    .scene {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+    }
 
-      <h1 className="text-white absolute bottom-10 left-10 text-xl opacity-70">
-        Move to explore...
-      </h1>
-    </section>
-  );
-}
+    .layer {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      will-change: transform, opacity;
+      pointer-events: none;
+      user-select: none;
+    }
 
-// ---------------- PARALLAX SCENE ----------------
-function ParallaxEntrance() {
-  const container = useRef();
+    .sky {
+      z-index: 1;
+    }
 
-  useEffect(() => {
-    const layers = container.current.querySelectorAll(".layer");
+    .front {
+      z-index: 2;
+    }
 
-    layers.forEach((layer, i) => {
-      gsap.to(layer, {
-        y: (i + 1) * 100,
-        scrollTrigger: {
-          trigger: container.current,
-          start: "top top",
-          end: "bottom top",
-          scrub: true,
-        },
-      });
-    });
-  }, []);
+    .foreground {
+      z-index: 3;
+    }
 
-  return (
-    <section ref={container} className="h-[200vh] relative">
-      <img src="/layers/bg.png" className="layer absolute w-full" />
-      <img src="/layers/mid.png" className="layer absolute w-full" />
-      <img src="/layers/front.png" className="layer absolute w-full" />
-    </section>
-  );
-}
+    .bg2 {
+      z-index: 4;
+      opacity: 0;
+      transform: scale(1.12) translateY(50px);
+    }
 
-// ---------------- ART CANVAS ----------------
-function ArtCanvas() {
-  return (
-    <section className="h-screen bg-neutral-900 flex items-center justify-center text-white">
-      <p>Interactive Art Canvas (build with drag/physics)</p>
-    </section>
-  );
-}
+    .overlay-gradient {
+      position: absolute;
+      inset: 0;
+      z-index: 5;
+      background:
+        linear-gradient(
+          to bottom,
+          rgba(0, 0, 0, 0.05) 0%,
+          rgba(0, 0, 0, 0.08) 35%,
+          rgba(0, 0, 0, 0.28) 75%,
+          rgba(0, 0, 0, 0.5) 100%
+        );
+      pointer-events: none;
+    }
 
-// ---------------- ARCADE SCROLL ----------------
-function Arcade() {
-  const container = useRef();
+    .hero-title {
+      position: absolute;
+      z-index: 6;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      width: 90%;
+      max-width: 900px;
+      pointer-events: none;
+    }
 
-  useEffect(() => {
-    const el = container.current;
+    .hero-title h1 {
+      font-size: clamp(2.5rem, 7vw, 6rem);
+      line-height: 0.95;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      font-weight: 700;
+      text-shadow: 0 10px 30px rgba(0,0,0,0.35);
+    }
 
-    gsap.to(el, {
-      x: () => -(el.scrollWidth - window.innerWidth),
-      ease: "none",
+    .hero-title p {
+      margin-top: 18px;
+      font-size: clamp(1rem, 2vw, 1.25rem);
+      opacity: 0.9;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    .scroll-indicator {
+      position: absolute;
+      z-index: 6;
+      left: 50%;
+      bottom: 32px;
+      transform: translateX(-50%);
+      font-size: 0.85rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      opacity: 0.8;
+      pointer-events: none;
+    }
+
+    .after-section {
+      min-height: 100vh;
+      background: #0b0b0b;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 4rem 2rem;
+      text-align: center;
+    }
+
+    .after-section .content {
+      max-width: 800px;
+    }
+
+    .after-section h2 {
+      font-size: clamp(2rem, 5vw, 4rem);
+      margin-bottom: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .after-section p {
+      font-size: 1.1rem;
+      line-height: 1.7;
+      opacity: 0.8;
+    }
+
+    .debug-note {
+      position: fixed;
+      top: 14px;
+      right: 14px;
+      z-index: 99;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.1);
+      backdrop-filter: blur(8px);
+      padding: 10px 12px;
+      border-radius: 999px;
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      opacity: 0.8;
+    }
+
+    @media (max-width: 768px) {
+      .scene1-wrapper {
+        height: 100svh;
+      }
+
+      .scroll-indicator {
+        bottom: 20px;
+        font-size: 0.75rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="debug-note">Scene 1</div>
+
+  <section class="scene1-wrapper" id="scene1">
+    <div class="scene scene1-exterior">
+      <img src="bg1-sky.png" alt="Sky background" class="layer sky" id="sky" />
+      <img src="bg1-front.png" alt="Museum front" class="layer front" id="front" />
+      <img src="bg1-foreground.png" alt="Foreground trees" class="layer foreground" id="foreground" />
+
+      <div class="overlay-gradient"></div>
+
+      <div class="hero-title" id="heroTitle">
+        <h1>Enter the Museum</h1>
+        <p>A cinematic portfolio experience</p>
+      </div>
+
+      <div class="scroll-indicator" id="scrollIndicator">Scroll to enter</div>
+    </div>
+
+    <div class="scene scene2-preview">
+      <img src="bg2-main.png" alt="Museum interior" class="layer bg2" id="bg2" />
+    </div>
+  </section>
+
+  <section class="after-section">
+    <div class="content">
+      <h2>Scene 2 begins here</h2>
+      <p>
+        This placeholder section exists so you can continue scrolling after the pinned cinematic entrance.
+        Replace this with your artwork canvas section next.
+      </p>
+    </div>
+  </section>
+
+  <script>
+    gsap.registerPlugin(ScrollTrigger);
+
+    const sky = document.getElementById("sky");
+    const front = document.getElementById("front");
+    const foreground = document.getElementById("foreground");
+    const bg2 = document.getElementById("bg2");
+    const heroTitle = document.getElementById("heroTitle");
+    const scrollIndicator = document.getElementById("scrollIndicator");
+    const scene1 = document.getElementById("scene1");
+
+    const tl = gsap.timeline({
       scrollTrigger: {
-        trigger: el,
+        trigger: scene1,
         start: "top top",
-        end: () => `+=${el.scrollWidth}`,
+        end: "+=2800",
         scrub: true,
         pin: true,
-      },
+        anticipatePin: 1
+      }
     });
-  }, []);
 
-  return (
-    <section className="h-screen overflow-hidden">
-      <div ref={container} className="flex w-[300vw] h-full">
-        <div className="w-screen flex items-center justify-center bg-red-400">Project 1</div>
-        <div className="w-screen flex items-center justify-center bg-blue-400">Project 2</div>
-        <div className="w-screen flex items-center justify-center bg-green-400">Project 3</div>
-      </div>
-    </section>
-  );
-}
+    tl.to(sky, {
+      y: 70,
+      x: -10,
+      scale: 1.06,
+      ease: "none"
+    }, 0)
 
-// ---------------- 3D SHELF ----------------
-function Shelf3D() {
-  return (
-    <section className="h-screen">
-      <Canvas camera={{ position: [0, 0, 5] }}>
-        <ambientLight />
-        <mesh>
-          <boxGeometry />
-          <meshStandardMaterial color="orange" />
-        </mesh>
-        <OrbitControls />
-      </Canvas>
-    </section>
-  );
-}
+    .to(front, {
+      y: 170,
+      x: -20,
+      scale: 1.13,
+      ease: "none"
+    }, 0)
 
-// ---------------- THEATER ----------------
-function Theater() {
-  return (
-    <section className="h-screen bg-black flex items-center justify-center">
-      <video
-        src="/demo.mp4"
-        controls
-        className="w-3/4 rounded-xl shadow-2xl"
-      />
-    </section>
-  );
-}
+    .to(foreground, {
+      y: 310,
+      x: -35,
+      scale: 1.22,
+      ease: "none"
+    }, 0)
 
-// ---------------- FINAL CTA ----------------
-function FinalCTA() {
-  return (
-    <section className="h-screen bg-gradient-to-b from-black to-indigo-900 text-white flex items-center justify-center">
-      <h1 className="text-4xl">Let's build something together</h1>
-    </section>
-  );
-}
+    .to(heroTitle, {
+      y: -40,
+      opacity: 0.3,
+      ease: "none"
+    }, 0.25)
 
-// ---------------- MAIN APP ----------------
-export default function App() {
-  return (
-    <div>
-      <TorchIntro />
-      <ParallaxEntrance />
-      <ArtCanvas />
-      <Arcade />
-      <Shelf3D />
-      <Theater />
-      <FinalCTA />
-    </div>
-  );
-}
+    .to(scrollIndicator, {
+      opacity: 0,
+      y: 20,
+      ease: "none"
+    }, 0.28)
+
+    .to(front, {
+      scale: 1.32,
+      y: 250,
+      ease: "none"
+    }, 0.45)
+
+    .to(sky, {
+      opacity: 0.78,
+      ease: "none"
+    }, 0.5)
+
+    .to(foreground, {
+      opacity: 0,
+      y: 470,
+      scale: 1.35,
+      ease: "none"
+    }, 0.58)
+
+    .to(heroTitle, {
+      opacity: 0,
+      y: -90,
+      ease: "none"
+    }, 0.58)
+
+    .to(bg2, {
+      opacity: 1,
+      scale: 1,
+      y: 0,
+      ease: "none"
+    }, 0.68)
+
+    .to([sky, front], {
+      opacity: 0,
+      ease: "none"
+    }, 0.82);
+  </script>
+
+</body>
+</html>
