@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Single</title>
+  <title>Museum Portfolio</title>
 
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
@@ -11,33 +11,32 @@
   <style>
     :root {
       --x: 50vw;
-      --y: 50vh;
+      --y: 55vh;
 
-      /* Doorway anchor: tweak ONLY these if needed */
+      /* tweak these 2 for doorway alignment */
       --door-x: 50%;
       --door-y: 58%;
 
       /* hallway reveal amount */
       --reveal: 0%;
 
-      /* torch beam */
-      --beam-x: 28vw;
-      --beam-y: 20vw;
+      /* torch beam size */
+      --beam-x: 17vw;
+      --beam-y: 12vw;
     }
 
     * {
       box-sizing: border-box;
     }
 
-    html,
-    body {
+    html, body {
       margin: 0;
       padding: 0;
       width: 100%;
       min-height: 100%;
       background: #000;
       overflow-x: hidden;
-      font-family: Arial, Helvetica, sans-serif;
+      font-family: Georgia, "Times New Roman", serif;
     }
 
     body.intro-active {
@@ -79,7 +78,6 @@
       will-change: transform, opacity, clip-path;
     }
 
-    /* back to front */
     .sky {
       z-index: 1;
       width: 128vw;
@@ -99,8 +97,9 @@
       width: 124vw;
       height: 124vh;
       object-fit: cover;
+      opacity: 0;
       clip-path: circle(var(--reveal) at var(--door-x) var(--door-y));
-      opacity: 1;
+      will-change: transform, opacity, clip-path;
     }
 
     .museum {
@@ -124,6 +123,42 @@
       object-fit: cover;
     }
 
+    .plaque {
+      position: absolute;
+      left: 4.5vw;
+      top: 8.5vh;
+      z-index: 15;
+      width: min(27vw, 390px);
+      padding: 1rem 1.15rem 0.95rem 1.15rem;
+      background:
+        linear-gradient(180deg, rgba(88, 49, 20, 0.95), rgba(55, 28, 12, 0.96));
+      color: #d8b063;
+      clip-path: polygon(0 0, 88% 0, 100% 50%, 88% 100%, 0 100%);
+      box-shadow:
+        0 10px 28px rgba(0,0,0,0.34),
+        inset 0 0 0 1px rgba(255, 214, 130, 0.08);
+      transform: rotate(-1deg);
+      transform-origin: left center;
+      pointer-events: none;
+    }
+
+    .plaque h1 {
+      margin: 0 0 0.28rem 0;
+      font-size: clamp(1.15rem, 2vw, 2rem);
+      line-height: 1.03;
+      font-weight: 500;
+      color: #d9b164;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    }
+
+    .plaque p {
+      margin: 0;
+      font-size: clamp(0.78rem, 1.15vw, 1.08rem);
+      line-height: 1.15;
+      color: #d9b164;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.28);
+    }
+
     .vignette {
       position: absolute;
       inset: 0;
@@ -132,8 +167,8 @@
       background:
         radial-gradient(circle at center,
           rgba(0,0,0,0) 45%,
-          rgba(0,0,0,0.18) 72%,
-          rgba(0,0,0,0.45) 100%);
+          rgba(0,0,0,0.14) 72%,
+          rgba(0,0,0,0.42) 100%);
     }
 
     .darkness {
@@ -146,9 +181,9 @@
         radial-gradient(
           ellipse var(--beam-x) var(--beam-y) at var(--x) var(--y),
           rgba(0,0,0,0) 0%,
-          rgba(0,0,0,0.04) 18%,
-          rgba(0,0,0,0.28) 34%,
-          rgba(0,0,0,0.72) 54%,
+          rgba(0,0,0,0.06) 18%,
+          rgba(0,0,0,0.30) 34%,
+          rgba(0,0,0,0.76) 54%,
           rgba(0,0,0,0.97) 100%
         );
       will-change: opacity, background;
@@ -158,26 +193,21 @@
       position: fixed;
       left: 0;
       top: 0;
-      width: 88px;
+      width: 56px;
       z-index: 60;
       pointer-events: none;
-      transform: translate(-50%, -50%);
       opacity: 1;
       will-change: transform, opacity;
-      filter: drop-shadow(0 0 18px rgba(255, 176, 88, 0.16));
+      filter: drop-shadow(0 0 10px rgba(255, 176, 88, 0.16));
     }
 
-    .credits {
-      position: fixed;
-      left: 18px;
-      bottom: 16px;
-      z-index: 80;
-      color: rgba(255,255,255,0.72);
-      font-size: 12px;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      pointer-events: none;
-      mix-blend-mode: screen;
+    @media (max-width: 900px) {
+      .plaque {
+        left: 4vw;
+        top: 7vh;
+        width: min(50vw, 285px);
+        padding: 0.85rem 0.95rem;
+      }
     }
 
     @media (hover: none), (pointer: coarse) {
@@ -190,8 +220,8 @@
       }
 
       :root {
-        --beam-x: 44vw;
-        --beam-y: 34vw;
+        --beam-x: 28vw;
+        --beam-y: 20vw;
       }
 
       .museum {
@@ -207,6 +237,10 @@
         width: 138vw;
         height: 128vh;
       }
+
+      .plaque {
+        width: min(58vw, 320px);
+      }
     }
   </style>
 </head>
@@ -214,14 +248,17 @@
   <main class="scroll-wrap">
     <section class="pin-scene">
       <div class="scene" id="scene">
+        <img src="bg1-sky.png" class="layer sky" alt="Night sky" />
+        <img src="bg1-mid.png" class="layer mid" alt="Forest background" />
+        <img src="hallway.jpeg" class="layer hallway" alt="Museum hallway" />
+        <img src="bg2-main.png" class="layer museum" alt="Museum building" />
+        <img src="bg1-front.png" class="layer front" alt="Near foliage" />
+        <img src="bg1-foreground.png" class="layer foreground" alt="Closest foliage" />
 
-        <!-- BACK TO FRONT -->
-        <img src="bg1-sky.png" class="layer sky" alt="Sky" />
-        <img src="bg1-mid.png" class="layer mid" alt="Distant trees" />
-        <img src="hallway.jpeg" class="layer hallway" alt="Hallway" />
-        <img src="bg2-main.png" class="layer museum" alt="Museum" />
-        <img src="bg1-front.png" class="layer front" alt="Front layer" />
-        <img src="bg1-foreground.png" class="layer foreground" alt="Foreground layer" />
+        <div class="plaque">
+          <h1>Shanima's Portfolio</h1>
+          <p>Where curiosity leads the way</p>
+        </div>
 
         <div class="vignette"></div>
         <div class="darkness" id="darkness"></div>
@@ -230,14 +267,12 @@
   </main>
 
   <img src="torchtm.png" class="torch" id="torch" alt="Torch" />
-  <div class="credits">Single scroll cinematic scene</div>
 
   <script>
     gsap.registerPlugin(ScrollTrigger);
 
     const root = document.documentElement;
     const body = document.body;
-
     const torch = document.getElementById("torch");
     const darkness = document.getElementById("darkness");
 
@@ -281,7 +316,8 @@
       root.style.setProperty("--y", currentY + "px");
 
       if (!isTouch) {
-        torch.style.transform = `translate(${currentX}px, ${currentY}px) translate(-50%, -50%)`;
+        torch.style.transform =
+          `translate(${currentX}px, ${currentY}px) translate(-50%, -50%) rotate(-18deg)`;
       }
 
       requestAnimationFrame(renderTorch);
@@ -316,55 +352,55 @@
       gsap.set(sky, {
         xPercent: -50,
         yPercent: -50,
+        scale: 1.08,
         x: 0,
         y: 0,
-        scale: 1.08,
         opacity: 1
       });
 
       gsap.set(mid, {
         xPercent: -50,
         yPercent: -50,
+        scale: 1.12,
         x: 0,
         y: 0,
-        scale: 1.12,
         opacity: 1
       });
 
       gsap.set(museum, {
         xPercent: -50,
         yPercent: -50,
+        scale: 1.02,
         x: 0,
         y: 16,
-        scale: 1.02,
         opacity: 1
       });
 
       gsap.set(front, {
         xPercent: -50,
         yPercent: -50,
+        scale: 1.12,
         x: 0,
         y: 0,
-        scale: 1.12,
         opacity: 1
       });
 
       gsap.set(foreground, {
         xPercent: -50,
         yPercent: -50,
+        scale: 1.16,
         x: 0,
         y: 0,
-        scale: 1.16,
         opacity: 1
       });
 
       gsap.set(hallway, {
         xPercent: -50,
         yPercent: -50,
+        scale: 1.22,
         x: 0,
         y: 0,
-        scale: 1.28,
-        opacity: 1
+        opacity: 0
       });
 
       gsap.set(root, {
@@ -381,18 +417,18 @@
         }
       });
 
-      tl.to({}, { duration: 1.9 });
+      tl.to({}, { duration: 1.8 });
 
       tl.to(darkness, {
         opacity: 0,
-        duration: 1.2,
+        duration: 1.1,
         ease: "power3.out"
       });
 
       tl.to(torch, {
         opacity: 0,
-        duration: 0.8
-      }, "-=0.95");
+        duration: 0.75
+      }, "-=0.9");
     }
 
     function buildScrollTimeline() {
@@ -408,7 +444,7 @@
         }
       });
 
-      /* PHASE 1: forward drift with layered depth */
+      /* phase 1 */
       tl.to(sky, {
         y: -35,
         scale: 1.13,
@@ -441,7 +477,7 @@
         ease: "none"
       }, 0);
 
-      /* PHASE 2: approach the museum harder */
+      /* phase 2 */
       tl.to(sky, {
         y: -70,
         scale: 1.18,
@@ -476,7 +512,7 @@
         ease: "none"
       }, 1);
 
-      /* PHASE 3: clear front obstruction, center the entrance */
+      /* phase 3 */
       tl.to(front, {
         y: -560,
         x: -95,
@@ -506,7 +542,12 @@
         ease: "none"
       }, 2);
 
-      /* PHASE 4: doorway reveal starts small and stays doorway-locked */
+      /* phase 4: hallway reveal starts */
+      tl.to(hallway, {
+        opacity: 1,
+        duration: 0.01
+      }, 3.0);
+
       tl.to(root, {
         "--reveal": "4%",
         ease: "none"
@@ -560,7 +601,7 @@
         ease: "none"
       }, 4.45);
 
-      /* PHASE 5: hallway takes over only after strong reveal */
+      /* phase 5 */
       tl.to(root, {
         "--reveal": "120%",
         ease: "none"
@@ -576,7 +617,7 @@
         ease: "none"
       }, 5.05);
 
-      /* PHASE 6: fully inside */
+      /* phase 6 */
       tl.to(hallway, {
         scale: 1.05,
         y: -12,
