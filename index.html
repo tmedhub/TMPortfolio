@@ -1,442 +1,221 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Museum Cinematic Scroll</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Museum Experience</title>
 
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
 
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+<style>
+:root{
+  --x:50%;
+  --y:50%;
+  --torchW:420px;
+  --torchH:620px;
+}
 
-    html, body {
-      width: 100%;
-      min-height: 100%;
-      background: #000;
-      overflow-x: hidden;
-      font-family: Arial, sans-serif;
-      cursor: none;
-    }
+*{margin:0;padding:0;box-sizing:border-box;}
 
-    body.touch-device {
-      cursor: auto;
-    }
+html,body{
+  background:#000;
+  overflow-x:hidden;
+  cursor:none;
+}
 
-    .page {
-      width: 100%;
-      background: #000;
-    }
+/* SCROLL SYSTEM */
+.scroll-shell{
+  height:500vh;
+}
 
-    /* Scroll area that powers the whole cinematic */
-    .scroll-shell {
-      height: 500vh; /* Controls total scroll distance */
-      position: relative;
-      background: #000;
-    }
+.scene-pin{
+  position:sticky;
+  top:0;
+  height:100vh;
+  overflow:hidden;
+}
 
-    /* ONE pinned section only */
-    .scene-pin {
-      position: sticky;
-      top: 0;
-      width: 100%;
-      height: 100vh;
-      overflow: hidden;
-      background: #000;
-    }
+.scene{
+  position:relative;
+  width:100%;
+  height:100%;
+  overflow:hidden;
+}
 
-    .scene {
-      position: relative;
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-      background: #000;
-    }
+/* LAYERS */
+.layer{
+  position:absolute;
+  left:50%;
+  top:50%;
+  width:120vw;
+  height:120vh;
+  object-fit:cover;
+  transform:translate(-50%,-50%);
+  pointer-events:none;
+}
 
-    /* Shared layer rules */
-    .layer {
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      width: 110vw;
-      height: 110vh;
-      transform: translate(-50%, -50%);
-      background-repeat: no-repeat;
-      background-position: center center;
-      background-size: cover;
-      will-change: transform, opacity, clip-path;
-      pointer-events: none;
-    }
+/* Z INDEX */
+.sky{z-index:1;}
+.mid{z-index:2;}
+.museum{z-index:3;}
+.foreground{z-index:4;}
+.hallway{
+  z-index:6;
+  clip-path:circle(0% at 50% 58%);
+}
 
-    /* Exterior stack */
-    .sky {
-      z-index: 1;
-      background-image: url('./assets/sky.png');
-      transform: translate(-50%, -50%) scale(1.08);
-    }
+/* TORCH DARKNESS */
+#darkness{
+  position:absolute;
+  inset:0;
+  background:black;
+  z-index:20;
+  pointer-events:none;
 
-    .mid {
-      z-index: 2;
-      background-image: url('./assets/mountains-trees.png');
-      transform: translate(-50%, -50%) scale(1.1);
-    }
+  mask-image:radial-gradient(
+    var(--torchW) var(--torchH) at var(--x) var(--y),
+    transparent 0%,
+    rgba(0,0,0,.3) 35%,
+    black 65%
+  );
 
-    .museum {
-      z-index: 3;
-      background-image: url('./assets/museum.png');
-      transform: translate(-50%, -50%) scale(1.12);
-    }
+  -webkit-mask-image:radial-gradient(
+    var(--torchW) var(--torchH) at var(--x) var(--y),
+    transparent 0%,
+    rgba(0,0,0,.3) 35%,
+    black 65%
+  );
 
-    .foreground {
-      z-index: 4;
-      background-image: url('./assets/plaque.png');
-      width: 115vw;
-      height: 115vh;
-      transform: translate(-50%, -50%) scale(1.15);
-      background-position: center bottom;
-    }
+  transition:opacity 1.2s ease;
+}
 
-    /* Hallway sits above exterior but hidden at first */
-    .hallway {
-      z-index: 6;
-      background-image: url('./assets/hallway.png');
-      transform: translate(-50%, -50%) scale(1.22);
-      opacity: 1;
-      clip-path: circle(0% at 50% 58%);
-      -webkit-clip-path: circle(0% at 50% 58%);
-    }
+/* TORCH IMAGE */
+#torch{
+  position:fixed;
+  width:80px;
+  transform:translate(-50%,-20%) rotate(-20deg);
+  pointer-events:none;
+  z-index:30;
+}
 
-    /* Dark intro overlay */
-    .torch-darkness {
-      position: absolute;
-      inset: 0;
-      z-index: 20;
-      background: rgba(0, 0, 0, 0.98);
-      pointer-events: none;
-      will-change: mask-image, -webkit-mask-image, opacity;
-    }
-
-    /* Soft cinematic vignette */
-    .vignette {
-      position: absolute;
-      inset: 0;
-      z-index: 15;
-      pointer-events: none;
-      background:
-        radial-gradient(circle at center, transparent 35%, rgba(0,0,0,0.18) 65%, rgba(0,0,0,0.55) 100%);
-      mix-blend-mode: multiply;
-    }
-
-    /* Torch cursor image */
-    .torch-cursor {
-      position: fixed;
-      left: 0;
-      top: 0;
-      width: 120px;
-      height: 120px;
-      z-index: 50;
-      pointer-events: none;
-      transform: translate(-50%, -50%);
-      background: url('./assets/torch.png') no-repeat center center / contain;
-      will-change: transform, opacity;
-    }
-
-    body.touch-device .torch-cursor {
-      display: none;
-    }
-
-    /* Optional helper text */
-    .hint {
-      position: absolute;
-      left: 50%;
-      bottom: 30px;
-      transform: translateX(-50%);
-      z-index: 25;
-      color: rgba(255,255,255,0.82);
-      font-size: 14px;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      pointer-events: none;
-      opacity: 0.9;
-    }
-
-    @media (max-width: 768px) {
-      .layer {
-        width: 125vw;
-        height: 125vh;
-      }
-
-      .foreground {
-        width: 135vw;
-        height: 130vh;
-      }
-
-      .torch-cursor {
-        width: 90px;
-        height: 90px;
-      }
-    }
-  </style>
+/* OPTIONAL VIGNETTE */
+.vignette{
+  position:absolute;
+  inset:0;
+  z-index:10;
+  pointer-events:none;
+  background:radial-gradient(circle at center,
+    transparent 40%,
+    rgba(0,0,0,0.3) 70%,
+    rgba(0,0,0,0.7) 100%);
+}
+</style>
 </head>
+
 <body>
-  <div class="torch-cursor" id="torchCursor"></div>
 
-  <main class="page">
-    <section class="scroll-shell">
-      <div class="scene-pin">
-        <div class="scene" id="scene">
-          <div class="layer sky" id="sky"></div>
-          <div class="layer mid" id="mid"></div>
-          <div class="layer museum" id="museum"></div>
-          <div class="layer foreground" id="foreground"></div>
-          <div class="layer hallway" id="hallway"></div>
+<img id="torch" src="torch.png"/>
 
-          <div class="vignette"></div>
-          <div class="torch-darkness" id="torchDarkness"></div>
-          <div class="hint" id="hint">Explore, then scroll forward</div>
-        </div>
-      </div>
-    </section>
-  </main>
+<div class="scroll-shell">
+  <div class="scene-pin">
+    <div class="scene">
 
-  <script>
-    gsap.registerPlugin(ScrollTrigger);
+      <!-- LAYERS -->
+      <img class="layer sky" src="sky.png"/>
+      <img class="layer mid" src="mid.png"/>
+      <img class="layer museum" src="museum.png"/>
+      <img class="layer foreground" src="plaque.png"/>
+      <img class="layer hallway" id="hallway" src="hallway.png"/>
 
-    const body = document.body;
-    const torchCursor = document.getElementById("torchCursor");
-    const torchDarkness = document.getElementById("torchDarkness");
-    const scene = document.getElementById("scene");
-    const hint = document.getElementById("hint");
+      <div class="vignette"></div>
+      <div id="darkness"></div>
 
-    const sky = document.getElementById("sky");
-    const mid = document.getElementById("mid");
-    const museum = document.getElementById("museum");
-    const foreground = document.getElementById("foreground");
-    const hallway = document.getElementById("hallway");
+    </div>
+  </div>
+</div>
 
-    let pointerX = window.innerWidth * 0.5;
-    let pointerY = window.innerHeight * 0.5;
-    let targetX = pointerX;
-    let targetY = pointerY;
-    let introComplete = false;
-    let isTouch = false;
+<script>
+gsap.registerPlugin(ScrollTrigger);
 
-    function setTorchMask(x, y) {
-      const mask = `radial-gradient(circle 140px at ${x}px ${y}px,
-        rgba(0,0,0,0) 0px,
-        rgba(0,0,0,0) 70px,
-        rgba(0,0,0,0.35) 110px,
-        rgba(0,0,0,0.92) 170px,
-        rgba(0,0,0,1) 240px)`;
+const root = document.documentElement;
+const torch = document.getElementById("torch");
+const darkness = document.getElementById("darkness");
+const hallway = document.getElementById("hallway");
 
-      torchDarkness.style.webkitMaskImage = mask;
-      torchDarkness.style.maskImage = mask;
-      torchDarkness.style.webkitMaskRepeat = "no-repeat";
-      torchDarkness.style.maskRepeat = "no-repeat";
-    }
+let introDone = false;
 
-    function updatePointer(clientX, clientY) {
-      targetX = clientX;
-      targetY = clientY;
-    }
+/* TORCH FOLLOW (YOUR LOGIC STYLE) */
+document.addEventListener("mousemove", e=>{
+  root.style.setProperty("--x", e.clientX + "px");
+  root.style.setProperty("--y", e.clientY + "px");
 
-    function onMouseMove(e) {
-      if (isTouch) return;
-      updatePointer(e.clientX, e.clientY);
-    }
+  torch.style.left = e.clientX + "px";
+  torch.style.top = e.clientY + "px";
+});
 
-    function onTouchMove(e) {
-      isTouch = true;
-      body.classList.add("touch-device");
-      if (!e.touches || !e.touches[0]) return;
-      updatePointer(e.touches[0].clientX, e.touches[0].clientY);
-    }
+/* INTRO FADE */
+setTimeout(()=>{
+  darkness.style.opacity = 0;
+  torch.style.opacity = 0;
 
-    window.addEventListener("mousemove", onMouseMove, { passive: true });
-    window.addEventListener("touchstart", onTouchMove, { passive: true });
-    window.addEventListener("touchmove", onTouchMove, { passive: true });
+  setTimeout(()=>{
+    darkness.style.display="none";
+    introDone = true;
+  },1200);
+},2000);
 
-    gsap.ticker.add(() => {
-      pointerX += (targetX - pointerX) * 0.18;
-      pointerY += (targetY - pointerY) * 0.18;
+/* SCROLL ANIMATION */
+const tl = gsap.timeline({
+  scrollTrigger:{
+    trigger:".scroll-shell",
+    start:"top top",
+    end:"+=4000",
+    scrub:true,
+    pin:".scene-pin"
+  }
+});
 
-      if (!isTouch) {
-        torchCursor.style.transform = `translate(${pointerX - 60}px, ${pointerY - 60}px)`;
-      }
+/* PARALLAX */
+tl.to(".sky",{y:-60, scale:1.15},0);
+tl.to(".mid",{y:-140, scale:1.25},0);
+tl.to(".museum",{y:-220, scale:1.5},0);
+tl.to(".foreground",{y:-350, scale:1.4},0);
 
-      if (!introComplete) {
-        setTorchMask(pointerX, pointerY);
-      }
-    });
+/* APPROACH */
+tl.to(".museum",{y:-450, scale:2.2},1.2);
+tl.to(".foreground",{y:-650, opacity:0},1.2);
 
-    function buildIntro() {
-      setTorchMask(pointerX, pointerY);
+/* DOORWAY REVEAL */
+tl.to(hallway,{
+  clipPath:"circle(10% at 50% 58%)",
+  scale:1.1
+},2.2);
 
-      const introTl = gsap.timeline({
-        defaults: { ease: "power2.out" }
-      });
+tl.to(hallway,{
+  clipPath:"circle(25% at 50% 58%)"
+},2.6);
 
-      introTl
-        .fromTo(
-          [sky, mid, museum, foreground],
-          { opacity: 0.75, scale: 1.18 },
-          { opacity: 1, scale: 1.0, duration: 1.8, stagger: 0.03 }
-        )
-        .to({}, { duration: 1.2 }) // lets the torch exploration breathe
-        .to(torchDarkness, {
-          opacity: 0,
-          duration: 1.2,
-          onComplete: () => {
-            introComplete = true;
-            torchDarkness.style.display = "none";
-          }
-        }, "-=0.1")
-        .to(hint, { opacity: 0.35, duration: 0.8 }, "<");
+tl.to(hallway,{
+  clipPath:"circle(60% at 50% 58%)"
+},3);
 
-      return introTl;
-    }
+tl.to(hallway,{
+  clipPath:"circle(140% at 50% 58%)",
+  scale:1
+},3.6);
 
-    function buildScrollTimeline() {
-      // Reset in case of refresh/rebuild
-      gsap.set([sky, mid, museum, foreground, hallway], { clearProps: "x,y,scale,opacity,clipPath" });
+/* FADE EXTERIOR AFTER */
+tl.to([".sky",".mid",".museum"],{
+  opacity:0
+},3.8);
 
-      gsap.set(sky, { xPercent: -50, yPercent: -50, scale: 1.08 });
-      gsap.set(mid, { xPercent: -50, yPercent: -50, scale: 1.1 });
-      gsap.set(museum, { xPercent: -50, yPercent: -50, scale: 1.12 });
-      gsap.set(foreground, { xPercent: -50, yPercent: -50, scale: 1.15 });
-      gsap.set(hallway, {
-        xPercent: -50,
-        yPercent: -50,
-        scale: 1.22,
-        clipPath: "circle(0% at 50% 58%)"
-      });
+/* FINAL INTERIOR */
+tl.to(hallway,{
+  y:-80,
+  scale:1.08
+},4.3);
 
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: ".scroll-shell",
-          start: "top top",
-          end: "+=4000",
-          scrub: true,
-          pin: ".scene-pin",
-          anticipatePin: 1,
-          invalidateOnRefresh: true
-        }
-      });
-
-      /*
-        PHASE 2 — push-in with parallax
-      */
-      tl.to(sky, {
-        y: -60,
-        scale: 1.18
-      }, 0);
-
-      tl.to(mid, {
-        y: -140,
-        scale: 1.28
-      }, 0);
-
-      tl.to(museum, {
-        y: -220,
-        scale: 1.5
-      }, 0);
-
-      tl.to(foreground, {
-        y: -360,
-        scale: 1.45,
-        opacity: 0.95
-      }, 0);
-
-      /*
-        PHASE 3 — approach entrance harder
-      */
-      tl.to(sky, {
-        y: -100,
-        scale: 1.24
-      }, 1.2);
-
-      tl.to(mid, {
-        y: -240,
-        scale: 1.42
-      }, 1.2);
-
-      tl.to(museum, {
-        y: -420,
-        scale: 2.15
-      }, 1.2);
-
-      tl.to(foreground, {
-        y: -620,
-        scale: 1.6,
-        opacity: 0
-      }, 1.2);
-
-      /*
-        PHASE 4 — reveal hallway through the doorway
-        Not a fade-first transition.
-        The hallway opens from the door area with clip-path expansion.
-      */
-      tl.to(hallway, {
-        clipPath: "circle(12% at 50% 58%)",
-        scale: 1.18
-      }, 2.2);
-
-      tl.to(hallway, {
-        clipPath: "circle(24% at 50% 58%)",
-        scale: 1.12
-      }, 2.55);
-
-      tl.to(hallway, {
-        clipPath: "circle(44% at 50% 58%)",
-        scale: 1.06
-      }, 2.9);
-
-      tl.to(hallway, {
-        clipPath: "circle(78% at 50% 58%)",
-        scale: 1.02
-      }, 3.25);
-
-      tl.to(hallway, {
-        clipPath: "circle(140% at 50% 58%)",
-        scale: 1.0
-      }, 3.6);
-
-      /*
-        PHASE 5 — exterior dies off after hallway has already taken over
-      */
-      tl.to([sky, mid, museum], {
-        opacity: 0,
-        stagger: 0.02
-      }, 3.75);
-
-      tl.to(hallway, {
-        scale: 1.04,
-        y: -40
-      }, 3.9);
-
-      tl.to(hallway, {
-        scale: 1.08,
-        y: -90
-      }, 4.4);
-
-      return tl;
-    }
-
-    function init() {
-      buildIntro();
-      buildScrollTimeline();
-    }
-
-    window.addEventListener("load", init);
-
-    window.addEventListener("resize", () => {
-      ScrollTrigger.refresh();
-    });
-  </script>
+</script>
 </body>
 </html>
