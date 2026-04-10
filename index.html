@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Elegant Museum Portfolio - Scene 1</title>
+  <title>E1legant Museum Portfolio - Scene 1</title>
 
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
@@ -15,14 +15,11 @@
   <style>
     :root {
       --bg: #050505;
-      --bg-soft: #0c0c0c;
-      --gold: #d6b06a;
-      --gold-soft: #b9914f;
-      --gold-bright: #f1d79c;
-      --text: #f5eee3;
-      --muted: rgba(245, 238, 227, 0.72);
-      --border: rgba(214, 176, 106, 0.22);
-      --shadow: rgba(0, 0, 0, 0.45);
+      --gold: #d8b36a;
+      --gold-soft: #c59a4d;
+      --gold-bright: #f2dca8;
+      --text: #f8f3ea;
+      --muted: rgba(248, 243, 234, 0.78);
     }
 
     * {
@@ -42,9 +39,7 @@
     body {
       font-family: "Inter", sans-serif;
       color: var(--text);
-      background:
-        radial-gradient(circle at top, rgba(214,176,106,0.08), transparent 35%),
-        linear-gradient(to bottom, #040404, #090909 50%, #050505);
+      background: #050505;
     }
 
     .scene1-wrapper {
@@ -66,90 +61,78 @@
 
     .layer {
       position: absolute;
-      display: block;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
       will-change: transform, opacity, filter;
       pointer-events: none;
       user-select: none;
       max-width: none;
     }
 
-    /* BACKGROUND SKY */
+    /* Keep all layers full-screen for better composition */
     .sky {
       z-index: 1;
-      top: -8%;
-      left: -4%;
       width: 108%;
-      height: 116%;
-      object-fit: cover;
-      filter: saturate(0.88) brightness(0.78) contrast(1.02);
+      height: 112%;
+      top: -6%;
+      left: -4%;
+      filter: brightness(1.08) saturate(1.02) contrast(1.04);
     }
 
-    /* TRUE MID DEPTH LAYER */
     .mid {
       z-index: 2;
-      width: 74vw;
-      max-width: 1250px;
-      min-width: 540px;
-      height: auto;
-      left: 50%;
-      top: 14%;
-      transform: translateX(-50%);
-      transform-origin: center center;
-      opacity: 0.88;
-      filter: saturate(0.85) brightness(0.72) blur(0.4px);
+      width: 106%;
+      height: 108%;
+      top: -4%;
+      left: -3%;
+      filter: brightness(1.03) saturate(0.98) contrast(1.02);
+      opacity: 0.95;
     }
 
-    /* FRONT BUILDING / PRIMARY OBJECT */
     .front {
       z-index: 3;
-      width: 52vw;
-      max-width: 900px;
-      min-width: 470px;
-      height: auto;
-      left: 50%;
-      top: 9%;
-      transform: translateX(-50%);
-      transform-origin: center center;
-      filter: saturate(0.92) brightness(0.82);
+      width: 104%;
+      height: 106%;
+      top: -3%;
+      left: -2%;
+      filter: brightness(1.02) saturate(1) contrast(1.02);
     }
 
-    /* FOREGROUND LEFT OBJECT */
     .foreground {
       z-index: 4;
-      width: 46vw;
-      max-width: 760px;
-      min-width: 320px;
-      height: auto;
+      width: 104%;
+      height: 106%;
+      top: -2%;
       left: 0;
-      bottom: -2%;
-      transform-origin: left bottom;
-      filter: saturate(0.88) brightness(0.72);
+      filter: brightness(0.98) saturate(0.96) contrast(1.01);
     }
 
-    /* NEXT SCENE BACKGROUND */
     .bg2 {
       z-index: 5;
-      top: -3%;
-      left: -3%;
       width: 106%;
       height: 110%;
+      top: -4%;
+      left: -3%;
       object-fit: cover;
       opacity: 0;
-      transform: scale(1.06);
-      filter: brightness(0.72) saturate(0.9);
+      transform: scale(1.04);
+      filter: brightness(1.02) saturate(1.02) contrast(1.03);
     }
 
-    /* CINEMATIC DARKENING */
     .overlay-vignette {
       position: absolute;
       inset: 0;
       z-index: 6;
       pointer-events: none;
       background:
-        radial-gradient(circle at center,
-          rgba(0,0,0,0.02) 0%,
-          rgba(0,0,0,0.12) 46%,
-          rgba(0,0,0,0.34) 100%);
+        radial-gradient(
+          circle at center,
+          rgba(0,0,0,0.01) 0%,
+          rgba(0,0,0,0.05) 48%,
+          rgba(0,0,0,0.18) 100%
+        );
       mix-blend-mode: multiply;
     }
 
@@ -161,103 +144,46 @@
       background:
         linear-gradient(
           to bottom,
-          rgba(214,176,106,0.05) 0%,
-          rgba(214,176,106,0.02) 28%,
-          rgba(0,0,0,0.08) 60%,
-          rgba(0,0,0,0.28) 100%
+          rgba(216,179,106,0.08) 0%,
+          rgba(216,179,106,0.04) 30%,
+          rgba(0,0,0,0.03) 68%,
+          rgba(0,0,0,0.12) 100%
         );
-    }
-
-    .top-ui {
-      position: absolute;
-      top: 24px;
-      left: 28px;
-      right: 28px;
-      z-index: 10;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      pointer-events: none;
-    }
-
-    .brand-mark {
-      font-family: "Cormorant Garamond", serif;
-      font-size: 1rem;
-      letter-spacing: 0.28em;
-      text-transform: uppercase;
-      color: rgba(241, 215, 156, 0.86);
-      padding-bottom: 6px;
-      border-bottom: 1px solid rgba(214,176,106,0.32);
-      text-shadow: 0 2px 14px rgba(0,0,0,0.28);
-    }
-
-    .scene-pill {
-      border: 1px solid var(--border);
-      color: rgba(241, 215, 156, 0.9);
-      padding: 14px 22px;
-      border-radius: 999px;
-      background: rgba(8, 8, 8, 0.34);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      font-size: 0.8rem;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      box-shadow:
-        inset 0 0 0 1px rgba(255,255,255,0.03),
-        0 8px 28px rgba(0,0,0,0.26);
     }
 
     .bg2-content {
       position: absolute;
       z-index: 8;
       left: 50%;
-      top: 52%;
+      top: 50%;
       transform: translate(-50%, -50%);
-      width: min(88vw, 1050px);
+      width: min(90vw, 900px);
       text-align: center;
       opacity: 0;
       pointer-events: none;
     }
 
-    .eyebrow {
-      font-size: 0.82rem;
-      letter-spacing: 0.34em;
-      text-transform: uppercase;
-      color: rgba(241, 215, 156, 0.84);
-      margin-bottom: 1rem;
-    }
-
     .bg2-content h1 {
       font-family: "Cormorant Garamond", serif;
-      font-size: clamp(3rem, 7vw, 6.8rem);
-      line-height: 0.95;
+      font-size: clamp(2rem, 3vw, 3rem);
+      line-height: 1;
       font-weight: 600;
       color: var(--gold-bright);
-      letter-spacing: 0.01em;
+      letter-spacing: 0.02em;
+      white-space: nowrap;
       text-shadow:
-        0 2px 0 rgba(255,255,255,0.02),
-        0 10px 30px rgba(0,0,0,0.42),
-        0 0 28px rgba(214,176,106,0.06);
-    }
-
-    .bg2-content p {
-      margin: 1.2rem auto 0;
-      max-width: 700px;
-      font-size: clamp(0.96rem, 1.6vw, 1.08rem);
-      line-height: 1.75;
-      color: var(--muted);
-      font-weight: 300;
-      letter-spacing: 0.01em;
+        0 4px 18px rgba(0,0,0,0.28),
+        0 0 20px rgba(216,179,106,0.08);
     }
 
     .gold-line {
-      width: 120px;
+      width: 90px;
       height: 1px;
-      margin: 1.25rem auto 0;
+      margin: 0.9rem auto 0;
       background: linear-gradient(
         to right,
         transparent,
-        rgba(214,176,106,0.9),
+        rgba(216,179,106,0.9),
         transparent
       );
       opacity: 0.9;
@@ -266,26 +192,18 @@
     .after-section {
       min-height: 100vh;
       background:
-        radial-gradient(circle at top, rgba(214,176,106,0.06), transparent 28%),
+        radial-gradient(circle at top, rgba(216,179,106,0.06), transparent 28%),
         linear-gradient(to bottom, #070707, #0a0a0a);
       display: flex;
       align-items: center;
       justify-content: center;
       padding: 4rem 2rem;
       text-align: center;
-      border-top: 1px solid rgba(214,176,106,0.1);
+      border-top: 1px solid rgba(216,179,106,0.08);
     }
 
     .after-section .content {
       max-width: 900px;
-    }
-
-    .after-section .mini {
-      font-size: 0.8rem;
-      letter-spacing: 0.34em;
-      text-transform: uppercase;
-      color: rgba(241, 215, 156, 0.8);
-      margin-bottom: 1rem;
     }
 
     .after-section h2 {
@@ -306,74 +224,14 @@
       font-weight: 300;
     }
 
-    @media (max-width: 980px) {
-      .mid {
-        width: 88vw;
-        min-width: 0;
-        top: 16%;
-      }
-
-      .front {
-        width: 70vw;
-        min-width: 0;
-        top: 14%;
-      }
-
-      .foreground {
-        width: 58vw;
-        min-width: 0;
-      }
-
-      .top-ui {
-        top: 18px;
-        left: 18px;
-        right: 18px;
-      }
-
-      .scene-pill {
-        padding: 12px 18px;
-      }
-    }
-
-    @media (max-width: 600px) {
+    @media (max-width: 768px) {
       .scene1-wrapper {
         height: 100svh;
       }
 
-      .sky {
-        top: -6%;
-        left: -8%;
-        width: 116%;
-        height: 114%;
-      }
-
-      .mid {
-        width: 100vw;
-        top: 22%;
-      }
-
-      .front {
-        width: 84vw;
-        top: 20%;
-      }
-
-      .foreground {
-        width: 70vw;
-        bottom: 0;
-      }
-
-      .brand-mark {
-        font-size: 0.8rem;
-        letter-spacing: 0.2em;
-      }
-
-      .scene-pill {
-        font-size: 0.72rem;
-        padding: 10px 16px;
-      }
-
-      .bg2-content p {
-        font-size: 0.92rem;
+      .bg2-content h1 {
+        font-size: clamp(1.5rem, 6vw, 2.2rem);
+        white-space: normal;
       }
     }
   </style>
@@ -381,16 +239,11 @@
 <body>
 
   <section class="scene1-wrapper" id="scene1">
-    <div class="top-ui">
-      <div class="brand-mark">Portfolio Museum</div>
-      <div class="scene-pill">Scene 1</div>
-    </div>
-
     <div class="scene scene1-exterior">
       <img src="bg1-sky.png" alt="Sky background" class="layer sky" id="sky" />
       <img src="bg1-mid.png" alt="Mid depth layer" class="layer mid" id="mid" />
       <img src="bg1-front.png" alt="Museum front" class="layer front" id="front" />
-      <img src="bg1-foreground.png" alt="Foreground left" class="layer foreground" id="foreground" />
+      <img src="bg1-foreground.png" alt="Foreground layer" class="layer foreground" id="foreground" />
 
       <div class="overlay-vignette"></div>
       <div class="overlay-gold"></div>
@@ -400,24 +253,17 @@
       <img src="bg2-main.png" alt="Museum interior" class="layer bg2" id="bg2" />
 
       <div class="bg2-content" id="bg2Content">
-        <div class="eyebrow">Curated Experience</div>
-        <h1>Hey there,<br>Welcome.</h1>
+        <h1>Hey there, Welcome!!</h1>
         <div class="gold-line"></div>
-        <p>
-          Step inside a portfolio shaped like a living museum —
-          a cinematic journey through artworks, experiments, motion, and ideas.
-        </p>
       </div>
     </div>
   </section>
 
   <section class="after-section">
     <div class="content">
-      <div class="mini">Next Scene</div>
       <h2>The gallery opens here</h2>
       <p>
-        Replace this section with your floating artwork canvas next.
-        The entrance scene now has the right luxury visual language, so the rest of the portfolio should continue with the same restraint and elegance.
+        Replace this section with your next scene.
       </p>
     </div>
   </section>
@@ -433,12 +279,12 @@
     const bg2Content = document.getElementById("bg2Content");
     const scene1 = document.getElementById("scene1");
 
-    gsap.set(sky, { y: 0, x: 0, scale: 1, opacity: 1 });
-    gsap.set(mid, { y: 0, x: 0, scale: 1, opacity: 0.88 });
-    gsap.set(front, { y: 0, x: 0, scale: 1, opacity: 1 });
-    gsap.set(foreground, { y: 0, x: 0, scale: 1, opacity: 1 });
-    gsap.set(bg2, { y: 20, scale: 1.06, opacity: 0 });
-    gsap.set(bg2Content, { y: 40, opacity: 0 });
+    gsap.set(sky, { y: 0, scale: 1, opacity: 1 });
+    gsap.set(mid, { y: 0, scale: 1, opacity: 0.95 });
+    gsap.set(front, { y: 0, scale: 1, opacity: 1 });
+    gsap.set(foreground, { y: 0, scale: 1, opacity: 1 });
+    gsap.set(bg2, { y: 18, scale: 1.04, opacity: 0 });
+    gsap.set(bg2Content, { y: 20, opacity: 0 });
 
     const tl = gsap.timeline({
       defaults: { ease: "none" },
@@ -446,51 +292,49 @@
         trigger: scene1,
         start: "top top",
         end: "+=3400",
-        scrub: 1.6,
+        scrub: 1.8,
         pin: true,
         anticipatePin: 1
       }
     });
 
     tl.to(sky, {
-      y: 30,
-      scale: 1.025
+      y: 24,
+      scale: 1.02
     }, 0)
 
     .to(mid, {
-      y: 55,
-      scale: 1.035
+      y: 42,
+      scale: 1.03
     }, 0)
 
     .to(front, {
-      y: 65,
-      scale: 1.04
+      y: 68,
+      scale: 1.045
     }, 0)
 
     .to(foreground, {
-      y: 120,
-      x: -10,
-      scale: 1.05
+      y: 110,
+      scale: 1.06
     }, 0)
 
     .to(mid, {
-      y: 95,
-      scale: 1.055,
-      opacity: 0.8
-    }, 0.34)
+      y: 72,
+      scale: 1.045,
+      opacity: 0.88
+    }, 0.32)
 
     .to(front, {
-      y: 115,
-      scale: 1.08,
-      opacity: 0.92
+      y: 112,
+      scale: 1.075,
+      opacity: 0.9
     }, 0.38)
 
     .to(foreground, {
-      y: 220,
-      x: -18,
-      scale: 1.08,
-      opacity: 0.7
-    }, 0.42)
+      y: 190,
+      scale: 1.09,
+      opacity: 0.72
+    }, 0.44)
 
     .to(bg2, {
       opacity: 1,
@@ -501,7 +345,7 @@
     .to(bg2Content, {
       opacity: 1,
       y: 0
-    }, 0.72)
+    }, 0.73)
 
     .to(front, {
       opacity: 0
@@ -516,7 +360,7 @@
     }, 0.72)
 
     .to(sky, {
-      opacity: 0.16
+      opacity: 0.2
     }, 0.84);
   </script>
 
