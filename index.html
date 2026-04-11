@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Museumof Me</title>
+  <title>Museum of Me</title>
 
   <script>
     if ("scrollRestoration" in history) {
@@ -530,7 +530,6 @@
     .panel-title,
     .lets-work h2,
     .bg6-copy h2,
-    .arcade-main-title,
     .arcade-card-title{
       font-family:"Cormorant Garamond", serif;
       text-transform:uppercase;
@@ -552,7 +551,7 @@
       font-size:.9rem;
     }
 
-    /* PROJECT ARCADE SECTION */
+    /* PROJECT ARCADE */
     .bg4-stage{
       position:relative;
       height:100vh;
@@ -590,7 +589,7 @@
     .bg6-reveal{
       background-image:url("bg6.PNG");
       background-position:center center;
-      z-index:15;
+      z-index:16;
       opacity:0;
       transform:scale(1.02);
       pointer-events:none;
@@ -619,7 +618,7 @@
     }
 
     .bg6-overlay{
-      z-index:16;
+      z-index:17;
       background:linear-gradient(to bottom, rgba(0,0,0,0.10), rgba(0,0,0,0.24));
       opacity:0;
       pointer-events:none;
@@ -644,55 +643,14 @@
       );
     }
 
-    .arcade-title-wrap{
-      position:absolute;
-      inset:0;
-      z-index:8;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      pointer-events:none;
-      opacity:0;
-    }
-
-    .arcade-main-title{
-      font-size:clamp(2.6rem, 6vw, 5rem);
-      line-height:1;
-      letter-spacing:0.08em;
-      color:#f4dfbd;
-      white-space:nowrap;
-      text-shadow:
-        0 8px 24px rgba(0,0,0,0.38),
-        0 0 40px rgba(215,182,117,0.10);
-      transform:translateY(18px);
-    }
-
-    #arcadeFade{
-      position:absolute;
-      inset:0;
-      background:#000;
-      opacity:0;
-      z-index:9;
-      pointer-events:none;
-    }
-
     #projectsJourney{
       position:absolute;
       inset:0;
       z-index:10;
       opacity:0;
       overflow:hidden;
-      background:
-        radial-gradient(circle at 50% -10%, rgba(188,120,56,0.16), transparent 28%),
-        linear-gradient(180deg, #120b07 0%, #060504 100%);
-      pointer-events:auto;
-      cursor:grab;
-      user-select:none;
-      touch-action:pan-y;
-    }
-
-    #projectsJourney.dragging{
-      cursor:grabbing;
+      background:#090705;
+      pointer-events:none;
     }
 
     #projectsJourney::before{
@@ -702,8 +660,22 @@
       z-index:1;
       pointer-events:none;
       background:
-        linear-gradient(to right, rgba(0,0,0,0.76), transparent 11%, transparent 89%, rgba(0,0,0,0.76)),
-        linear-gradient(to bottom, rgba(255,244,220,0.03), transparent 18%, rgba(0,0,0,0.22));
+        linear-gradient(to bottom, rgba(255,244,220,0.02), transparent 16%, rgba(0,0,0,0.12)),
+        radial-gradient(circle at 50% -10%, rgba(188,120,56,0.08), transparent 26%);
+    }
+
+    .arcade-note{
+      position:absolute;
+      top:4.2vh;
+      left:50%;
+      transform:translateX(-50%);
+      z-index:12;
+      font-size:0.58rem;
+      letter-spacing:0.28em;
+      text-transform:uppercase;
+      color:rgba(215,181,120,0.42);
+      white-space:nowrap;
+      pointer-events:none;
     }
 
     .arcade-shell{
@@ -734,7 +706,7 @@
       border-radius:24px;
       overflow:hidden;
       background:
-        linear-gradient(180deg, rgba(28,18,12,0.96), rgba(14,10,8,0.98));
+        linear-gradient(180deg, #1f140d, #120d09);
       box-shadow:
         0 24px 64px rgba(0,0,0,0.52),
         inset 0 1px 0 rgba(255,240,220,0.04);
@@ -769,8 +741,8 @@
       border-radius:24px;
       pointer-events:none;
       background:
-        linear-gradient(135deg, rgba(255,245,230,0.03), transparent 18%, transparent 82%, rgba(255,220,170,0.03)),
-        radial-gradient(circle at 15% 18%, rgba(215,150,83,0.07), transparent 18%);
+        linear-gradient(135deg, rgba(255,245,230,0.02), transparent 18%, transparent 82%, rgba(255,220,170,0.02)),
+        radial-gradient(circle at 15% 18%, rgba(215,150,83,0.04), transparent 18%);
     }
 
     .arcade-left{
@@ -780,8 +752,7 @@
       display:flex;
       flex-direction:column;
       justify-content:center;
-      background:
-        linear-gradient(180deg, rgba(34,22,15,0.78), rgba(18,12,9,0.82));
+      background:linear-gradient(180deg, #24170f, #16100b);
     }
 
     .arcade-index{
@@ -822,9 +793,8 @@
       font-size:0.64rem;
       letter-spacing:0.08em;
       color:rgba(244,234,220,0.78);
-      background:rgba(255,255,255,0.02);
+      background:#19110c;
       border:1px solid rgba(199,154,87,0.20);
-      backdrop-filter:blur(2px);
     }
 
     .arcade-actions{
@@ -847,7 +817,7 @@
       letter-spacing:0.14em;
       text-transform:uppercase;
       color:#ebdbc3;
-      background:rgba(255,255,255,0.02);
+      background:#18100b;
       border:1px solid rgba(199,154,87,0.26);
       transition:transform .22s ease, border-color .22s ease, background .22s ease;
     }
@@ -855,7 +825,7 @@
     .arcade-btn:hover{
       transform:translateY(-1px);
       border-color:rgba(199,154,87,0.48);
-      background:rgba(255,255,255,0.035);
+      background:#21160f;
     }
 
     .arcade-right{
@@ -874,11 +844,10 @@
       border-radius:18px;
       overflow:hidden;
       background:
-        radial-gradient(circle at 20% 20%, rgba(215,150,83,0.14), transparent 18%),
-        linear-gradient(135deg, rgba(255,245,230,0.03), transparent 18%),
-        linear-gradient(180deg, rgba(17,12,9,0.75), rgba(14,10,8,0.92));
+        radial-gradient(circle at 20% 20%, rgba(215,150,83,0.08), transparent 18%),
+        linear-gradient(180deg, #16100b, #0e0b08);
       box-shadow:
-        inset 0 0 0 1px rgba(199,154,87,0.16),
+        inset 0 0 0 1px rgba(199,154,87,0.12),
         0 16px 34px rgba(0,0,0,0.24);
     }
 
@@ -888,10 +857,10 @@
       inset:18px;
       border-radius:14px;
       background:
-        linear-gradient(135deg, rgba(255,245,220,0.04), transparent 34%),
-        radial-gradient(circle at bottom right, rgba(215,182,117,0.08), transparent 26%),
-        linear-gradient(160deg, rgba(44,28,18,0.96), rgba(18,12,9,0.98));
-      box-shadow:inset 0 0 0 1px rgba(255,235,198,0.06);
+        linear-gradient(135deg, rgba(255,245,220,0.02), transparent 34%),
+        radial-gradient(circle at bottom right, rgba(215,182,117,0.05), transparent 26%),
+        linear-gradient(160deg, #24180f, #15100b);
+      box-shadow:inset 0 0 0 1px rgba(255,235,198,0.05);
     }
 
     .arcade-grid{
@@ -907,10 +876,10 @@
     .mini-panel{
       border-radius:12px;
       background:
-        linear-gradient(180deg, rgba(199,154,87,0.08), rgba(255,255,255,0.02)),
-        linear-gradient(160deg, rgba(30,20,14,0.96), rgba(14,10,8,0.96));
-      border:1px solid rgba(199,154,87,0.12);
-      box-shadow:inset 0 1px 0 rgba(255,245,220,0.03);
+        linear-gradient(180deg, rgba(199,154,87,0.05), rgba(255,255,255,0.01)),
+        linear-gradient(160deg, #1b130e, #120d09);
+      border:1px solid rgba(199,154,87,0.10);
+      box-shadow:inset 0 1px 0 rgba(255,245,220,0.02);
     }
 
     .arcade-badge{
@@ -924,9 +893,12 @@
       letter-spacing:0.18em;
       text-transform:uppercase;
       color:#f2dfbf;
-      background:rgba(10,7,5,0.42);
-      border:1px solid rgba(199,154,87,0.24);
-      backdrop-filter:blur(8px);
+      background:#130e0a;
+      border:1px solid rgba(199,154,87,0.20);
+    }
+
+    #bg6Stage{
+      z-index:18;
     }
 
     .bg6-stage{
@@ -1206,11 +1178,6 @@
         padding:34px 22px;
       }
 
-      .arcade-main-title{
-        font-size:2.2rem;
-        letter-spacing:0.05em;
-      }
-
       .arcade-track{
         gap:18px;
         padding:0 5vw;
@@ -1236,6 +1203,12 @@
       .arcade-btn{
         font-size:0.58rem;
         padding:9px 11px;
+      }
+
+      .arcade-note{
+        top:5vh;
+        font-size:0.54rem;
+        letter-spacing:0.20em;
       }
 
       .bg6-stage{
@@ -1326,21 +1299,18 @@
     <div class="bg5-top" id="bg5Top"></div>
     <div class="bg5-overlay" id="bg5Overlay"></div>
 
-    <div class="arcade-title-wrap" id="arcadeTitleWrap">
-      <h2 class="arcade-main-title" id="arcadeMainTitle">Project Arcade</h2>
-    </div>
-
-    <div id="arcadeFade"></div>
-
     <div id="projectsJourney">
+      <div class="arcade-note">Scroll through the exhibits</div>
+
       <div class="arcade-shell" id="scrollShell">
         <div class="arcade-track" id="track">
+
           <article class="arcade-card">
             <div class="arcade-left">
               <div class="arcade-index">01</div>
               <h2 class="arcade-card-title">Clay Creation</h2>
               <p class="arcade-desc">
-                Sculptural forms, handcrafted surfaces, and tactile storytelling presented like a curated exhibit in a warmer, tighter arcade layout.
+                Sculptural forms, handcrafted surfaces, and tactile storytelling presented in a tighter, darker, more grounded arcade layout.
               </p>
 
               <div class="arcade-meta">
@@ -1377,7 +1347,7 @@
               <div class="arcade-index">02</div>
               <h2 class="arcade-card-title">Board Games</h2>
               <p class="arcade-desc">
-                Social play, tactile systems, and tabletop interaction reimagined with a smaller, more screen-fit premium card layout.
+                Social play, tactile systems, and tabletop interaction reimagined in a smaller premium gallery that fits the screen better.
               </p>
 
               <div class="arcade-meta">
@@ -1414,7 +1384,7 @@
               <div class="arcade-index">03</div>
               <h2 class="arcade-card-title">Interactive Work</h2>
               <p class="arcade-desc">
-                Motion, interface thinking, and visual systems arranged into a cinematic showcase without using art images as placeholders.
+                Motion, interface thinking, and visual systems arranged into a cinematic showcase without any translucent full-screen background.
               </p>
 
               <div class="arcade-meta">
@@ -1445,6 +1415,7 @@
               </div>
             </div>
           </article>
+
         </div>
       </div>
     </div>
@@ -1547,7 +1518,6 @@
       }, 2200);
     }, 5000);
 
-    /* Gallery dropdown */
     const galleryToggle = document.getElementById("galleryToggle");
     const galleryDropdown = document.getElementById("galleryDropdown");
 
@@ -1568,7 +1538,6 @@
       });
     });
 
-    /* Scene 1 */
     const tl = gsap.timeline({
       scrollTrigger:{
         trigger:"#scene1",
@@ -1590,7 +1559,6 @@
       .to("#front",{ opacity:0 },0.60)
       .to("#sky",{ opacity:0.08 },0.66);
 
-    /* Canvas Studio */
     gsap.timeline({
       scrollTrigger:{
         trigger:"#canvasStudio",
@@ -1754,23 +1722,22 @@
       }
     });
 
-    /* Project Arcade - replaced horizontal section */
     const shell = document.getElementById("scrollShell");
     const track = document.getElementById("track");
     const projectsJourney = document.getElementById("projectsJourney");
+    const bg4Base = document.getElementById("bg4Base");
+    const bg4Overlay = document.getElementById("bg4Overlay");
+    const bg5Top = document.getElementById("bg5Top");
+    const bg5Overlay = document.getElementById("bg5Overlay");
+    const bg6Reveal = document.getElementById("bg6Reveal");
+    const bg6Overlay = document.getElementById("bg6Overlay");
 
     let currentX = 0;
     let targetX = 0;
-    let isDown = false;
-    let startX = 0;
-    let startTargetX = 0;
 
-    function getMinX() {
-      return Math.min(0, shell.clientWidth - track.scrollWidth - 40);
-    }
-
-    function clampX(x) {
-      return Math.max(getMinX(), Math.min(24, x));
+    function clampTrackX(x) {
+      const minX = Math.min(0, shell.clientWidth - track.scrollWidth - 40);
+      return Math.max(minX, Math.min(24, x));
     }
 
     function animateTrack() {
@@ -1780,160 +1747,88 @@
     }
     animateTrack();
 
-    function horizontalEnabled() {
-      return gsap.getProperty(projectsJourney, "opacity") > 0.92;
-    }
-
-    shell.addEventListener("wheel", (e) => {
-      if (!horizontalEnabled()) return;
-      e.preventDefault();
-      targetX = clampX(targetX - e.deltaY * 1.02);
-    }, { passive:false });
-
-    shell.addEventListener("mousedown", (e) => {
-      if (!horizontalEnabled()) return;
-      isDown = true;
-      projectsJourney.classList.add("dragging");
-      startX = e.clientX;
-      startTargetX = targetX;
-    });
-
-    window.addEventListener("mousemove", (e) => {
-      if (!isDown) return;
-      const dx = e.clientX - startX;
-      targetX = clampX(startTargetX + dx);
-    });
-
-    window.addEventListener("mouseup", () => {
-      isDown = false;
-      projectsJourney.classList.remove("dragging");
-    });
-
-    shell.addEventListener("touchstart", (e) => {
-      if (!horizontalEnabled()) return;
-      isDown = true;
-      projectsJourney.classList.add("dragging");
-      startX = e.touches[0].clientX;
-      startTargetX = targetX;
-    }, { passive:true });
-
-    window.addEventListener("touchmove", (e) => {
-      if (!isDown) return;
-      const dx = e.touches[0].clientX - startX;
-      targetX = clampX(startTargetX + dx);
-    }, { passive:true });
-
-    window.addEventListener("touchend", () => {
-      isDown = false;
-      projectsJourney.classList.remove("dragging");
-    });
-
-    window.addEventListener("resize", () => {
-      targetX = clampX(targetX);
-    });
-
     const projectArcadeTimeline = gsap.timeline({
       scrollTrigger: {
         trigger: "#projectArcade",
         start: "top top",
-        end: "+=5200",
-        scrub: 1.1,
+        end: () => "+=" + (track.scrollWidth - shell.clientWidth + 2600),
+        scrub: 1,
         pin: true,
         invalidateOnRefresh: true,
         onUpdate: self => {
-          const p = self.progress;
+          const progress = self.progress;
 
-          if (p < 0.34) {
-            document.getElementById("bg4Base").style.visibility = "visible";
+          if (progress < 0.16) {
+            gsap.set(bg5Top, { opacity: 1 });
+            gsap.set(bg5Overlay, { opacity: 1 });
           } else {
-            document.getElementById("bg4Base").style.visibility = "hidden";
+            gsap.set(bg5Top, { opacity: 0 });
+            gsap.set(bg5Overlay, { opacity: 0 });
           }
+
+          const horizontalStart = 0.22;
+          const horizontalEnd = 0.82;
+
+          const moveProgress = gsap.utils.clamp(
+            0,
+            1,
+            (progress - horizontalStart) / (horizontalEnd - horizontalStart)
+          );
+
+          const maxX = Math.max(0, track.scrollWidth - shell.clientWidth);
+          targetX = clampTrackX(-maxX * moveProgress);
         }
       }
     });
 
     projectArcadeTimeline
-      /* slow smoother transition from bg4 -> bg3(bg5 image) */
-      .to("#bg4Base", {
+      .to(bg4Base, {
         scale: 1.08,
-        opacity: 0.0,
-        ease: "power2.inOut"
-      }, 0.00)
-      .to("#bg4Overlay", {
         opacity: 0,
         ease: "power2.inOut"
-      }, 0.00)
-      .fromTo("#bg5Top",
+      }, 0)
+      .to(bg4Overlay, {
+        opacity: 0,
+        ease: "power2.inOut"
+      }, 0)
+      .fromTo(bg5Top,
         { opacity: 0, scale: 1.04 },
         { opacity: 1, scale: 1, ease: "power2.out" },
-        0.06
+        0.02
       )
-      .fromTo("#bg5Overlay",
+      .fromTo(bg5Overlay,
         { opacity: 0 },
         { opacity: 1, ease: "power2.out" },
-        0.08
+        0.04
       )
-
-      /* centered Project Arcade title on bg3 */
-      .fromTo("#arcadeTitleWrap",
+      .fromTo(projectsJourney,
         { opacity: 0 },
-        { opacity: 1, ease: "power2.out" },
+        { opacity: 1, ease: "power2.inOut" },
         0.18
       )
-      .fromTo("#arcadeMainTitle",
-        { y: 18, opacity: 0 },
-        { y: 0, opacity: 1, ease: "power2.out" },
-        0.18
-      )
-
-      /* hold title on bg3 */
-      .to({}, { duration: 0.18 }, 0.32)
-
-      /* smooth fade into card section */
-      .to("#arcadeTitleWrap", {
-        opacity: 0,
-        ease: "power2.inOut"
-      }, 0.48)
-      .to("#arcadeFade", {
+      .to(projectsJourney, {
         opacity: 1,
-        ease: "power2.inOut"
-      }, 0.50)
-      .fromTo("#projectsJourney",
-        { opacity: 0 },
-        { opacity: 1, ease: "power2.out" },
-        0.58
-      )
-      .to("#arcadeFade", {
-        opacity: 0,
-        ease: "power2.out"
-      }, 0.62)
-
-      /* keep bg3 fully behind cards, no bg4 bleed */
-      .to("#bg5Top", {
-        opacity: 0.22,
-        scale: 1.03,
         ease: "none"
-      }, 0.62)
-      .to("#bg5Overlay", {
-        opacity: 0.30,
-        ease: "none"
-      }, 0.62)
-
-      /* final reveal to bg6 */
-      .to("#projectsJourney", {
+      }, 0.82)
+      .to(projectsJourney, {
         opacity: 0,
         ease: "power2.inOut"
-      }, 0.88)
-      .fromTo("#bg6Reveal",
+      }, 0.92)
+      .fromTo(bg6Reveal,
         { opacity: 0, scale: 1.02 },
         { opacity: 1, scale: 1, ease: "power2.out" },
-        0.90
+        0.94
       )
-      .fromTo("#bg6Overlay",
+      .fromTo(bg6Overlay,
         { opacity: 0 },
         { opacity: 1, ease: "power2.out" },
-        0.92
+        0.95
       );
+
+    window.addEventListener("resize", () => {
+      targetX = clampTrackX(targetX);
+      ScrollTrigger.refresh();
+    });
 
     ScrollTrigger.refresh();
   </script>
