@@ -558,10 +558,10 @@
     }
 
     .bg4-base,
-    .bg5-top{
+    .bg5-top,
+    .bg6-reveal{
       position:absolute;
       inset:0;
-      background-position:center center;
       background-repeat:no-repeat;
       background-size:cover;
       will-change:transform, opacity;
@@ -569,19 +569,31 @@
 
     .bg4-base{
       background-image:url("bg4.jpeg");
+      background-position:center center;
       z-index:1;
       transform:scale(1);
     }
 
     .bg5-top{
       background-image:url("bg5.png");
+      background-position:36% center;
       z-index:3;
       opacity:0;
       transform:scale(1.02);
     }
 
+    .bg6-reveal{
+      background-image:url("bg6.PNG");
+      background-position:center center;
+      z-index:8;
+      opacity:0;
+      transform:scale(1.03);
+      pointer-events:none;
+    }
+
     .bg4-overlay,
-    .bg5-overlay{
+    .bg5-overlay,
+    .bg6-overlay{
       position:absolute;
       inset:0;
       pointer-events:none;
@@ -598,6 +610,13 @@
       opacity:0;
     }
 
+    .bg6-overlay{
+      z-index:9;
+      background:linear-gradient(to bottom, rgba(0,0,0,0.05), rgba(0,0,0,0.15));
+      opacity:0;
+      pointer-events:none;
+    }
+
     .bg4-stage::before{
       content:"";
       position:absolute;
@@ -605,7 +624,7 @@
       left:0;
       right:0;
       height:180px;
-      z-index:5;
+      z-index:10;
       pointer-events:none;
       background:linear-gradient(
         to bottom,
@@ -640,6 +659,7 @@
       pointer-events:auto;
       cursor:grab;
       user-select:none;
+      touch-action:none;
     }
 
     #projectsJourney.dragging{
@@ -1117,6 +1137,7 @@
   <section class="bg4-stage" id="projectArcade">
     <div class="bg4-base" id="bg4Base"></div>
     <div class="bg4-overlay" id="bg4Overlay"></div>
+
     <div class="bg5-top" id="bg5Top"></div>
     <div class="bg5-overlay" id="bg5Overlay"></div>
 
@@ -1193,6 +1214,9 @@
         </div>
       </div>
     </div>
+
+    <div class="bg6-reveal" id="bg6Reveal"></div>
+    <div class="bg6-overlay" id="bg6Overlay"></div>
   </section>
 
   <section class="bg6-stage" id="bg6Stage">
@@ -1479,14 +1503,22 @@
     const projectsTrack = document.getElementById("projectsTrack");
     const projectsJourney = document.getElementById("projectsJourney");
 
-    let trackX = 0;
+    let baseTrackX = 0;
+    let dragOffsetX = 0;
+    let finalTrackX = 0;
+
     let dragActive = false;
     let dragStartX = 0;
-    let dragStartTrackX = 0;
+    let dragStartOffsetX = 0;
 
     function getTrackBounds() {
       const maxNegative = Math.min(0, projectsJourney.clientWidth - projectsTrack.scrollWidth);
       return { min: maxNegative, max: 0 };
+    }
+
+    function getTotalScrollableDistance() {
+      const bounds = getTrackBounds();
+      return Math.abs(bounds.min);
     }
 
     function clampTrackX(x) {
@@ -1494,9 +1526,9 @@
       return Math.max(bounds.min, Math.min(bounds.max, x));
     }
 
-    function setTrackX(x) {
-      trackX = clampTrackX(x);
-      gsap.set(projectsTrack, { x: trackX });
+    function applyTrackX() {
+      finalTrackX = clampTrackX(baseTrackX + dragOffsetX);
+      gsap.set(projectsTrack, { x: finalTrackX });
     }
 
     function pointerX(event) {
@@ -1507,14 +1539,15 @@
       if (gsap.getProperty(projectsJourney, "opacity") < 0.95) return;
       dragActive = true;
       dragStartX = pointerX(event);
-      dragStartTrackX = trackX;
+      dragStartOffsetX = dragOffsetX;
       projectsJourney.classList.add("dragging");
     }
 
     function moveDrag(event) {
       if (!dragActive) return;
       const dx = pointerX(event) - dragStartX;
-      setTrackX(dragStartTrackX + dx);
+      dragOffsetX = dragStartOffsetX + dx;
+      applyTrackX();
     }
 
     function endDrag() {
@@ -1531,94 +1564,109 @@
     window.addEventListener("mouseup", endDrag);
     window.addEventListener("touchend", endDrag);
 
-    gsap.timeline({
+    const projectArcadeTimeline = gsap.timeline({
       scrollTrigger: {
         trigger: "#projectArcade",
         start: "top top",
-        end: "+=4600",
-        scrub: 1.2,
+        end: "+=5200",
+        scrub: 1.15,
         pin: true,
         invalidateOnRefresh: true,
-        onRefresh: () => setTrackX(trackX)
+        onRefresh: self => {
+          const totalDistance = getTotalScrollableDistance();
+          const horizontalProgress = gsap.utils.clamp(0, 1, (self.progress - 0.48) / 0.34);
+          baseTrackX = -totalDistance * horizontalProgress;
+          applyTrackX();
+        },
+        onUpdate: self => {
+          const totalDistance = getTotalScrollableDistance();
+
+          const horizontalProgress = gsap.utils.clamp(0, 1, (self.progress - 0.48) / 0.34);
+          baseTrackX = -totalDistance * horizontalProgress;
+          applyTrackX();
+        }
       }
-    })
-    .fromTo("#bg4Base",
-      { scale: 1, opacity: 1 },
-      { scale: 1.1, opacity: 1, ease: "none" },
-      0
-    )
-    .fromTo("#bg4Overlay",
-      { opacity: 1 },
-      { opacity: 0.42, ease: "none" },
-      0
-    )
-    .fromTo("#bg5Top",
-      { opacity: 0, scale: 1.02 },
-      { opacity: 1, scale: 1, ease: "none" },
-      0.2
-    )
-    .fromTo("#bg5Overlay",
-      { opacity: 0.18 },
-      { opacity: 0.06, ease: "none" },
-      0.2
-    )
-    .to("#bg4Base", {
-      opacity: 0,
-      ease: "power2.out"
-    }, 0.34)
-    .to("#bg4Overlay", {
-      opacity: 0,
-      ease: "power2.out"
-    }, 0.34)
-    .to("#bg5Top", {
-      scale: 3.2,
-      xPercent: 38,
-      yPercent: 6,
-      transformOrigin: "30% 50%",
-      ease: "power2.inOut"
-    }, 0.45)
-    .to("#bg5Top", {
-      xPercent: 38,
-      yPercent: 6,
-      scale: 3.2,
-      transformOrigin: "30% 50%",
-      ease: "none"
-    }, 0.58)
-    .to("#bg5Overlay", {
-      opacity: 0.18,
-      ease: "power2.out"
-    }, 0.45)
-    .to({}, {
-      duration: 0.38
-    }, 0.62)
-    .to("#arcadeFade", {
-      opacity: 1,
-      ease: "power2.inOut"
-    }, 0.70)
-    .to("#bg5Top", {
-      opacity: 0,
-      ease: "none"
-    }, 0.72)
-    .to("#bg5Overlay", {
-      opacity: 0,
-      ease: "none"
-    }, 0.72)
-    .to("#projectsJourney", {
-      opacity: 1,
-      ease: "power2.out",
-      onStart: () => setTrackX(trackX)
-    }, 0.74)
-    .to({}, {
-      duration: 0.16
-    }, 0.80)
-    .to("#projectsJourney", {
-      opacity: 0,
-      ease: "power2.inOut"
-    }, 0.95)
-    .to("#arcadeFade", {
-      opacity: 0,
-      ease: "power2.inOut"
-    }, 0.98);
+    });
+
+    projectArcadeTimeline
+      .fromTo("#bg4Base",
+        { scale: 1, opacity: 1 },
+        { scale: 1.1, opacity: 1, ease: "none" },
+        0
+      )
+      .fromTo("#bg4Overlay",
+        { opacity: 1 },
+        { opacity: 0.42, ease: "none" },
+        0
+      )
+      .fromTo("#bg5Top",
+        { opacity: 0, scale: 1.02, xPercent: 0, yPercent: 0 },
+        { opacity: 1, scale: 1, xPercent: 0, yPercent: 0, ease: "none" },
+        0.18
+      )
+      .fromTo("#bg5Overlay",
+        { opacity: 0.18 },
+        { opacity: 0.06, ease: "none" },
+        0.18
+      )
+      .to("#bg4Base", {
+        opacity: 0,
+        ease: "power2.out"
+      }, 0.32)
+      .to("#bg4Overlay", {
+        opacity: 0,
+        ease: "power2.out"
+      }, 0.32)
+      .to("#bg5Top", {
+        scale: 3.35,
+        xPercent: 54,
+        yPercent: 4,
+        transformOrigin: "24% 50%",
+        ease: "power2.inOut"
+      }, 0.42)
+      .to("#bg5Overlay", {
+        opacity: 0.18,
+        ease: "power2.out"
+      }, 0.42)
+      .to({}, { duration: 0.10 }, 0.56)
+      .to("#arcadeFade", {
+        opacity: 1,
+        ease: "power2.inOut"
+      }, 0.60)
+      .to("#bg5Top", {
+        opacity: 0,
+        ease: "none"
+      }, 0.64)
+      .to("#bg5Overlay", {
+        opacity: 0,
+        ease: "none"
+      }, 0.64)
+      .to("#projectsJourney", {
+        opacity: 1,
+        ease: "power2.out",
+        onStart: () => applyTrackX()
+      }, 0.66)
+      .to("#projectsJourney", {
+        opacity: 1,
+        ease: "none"
+      }, 0.86)
+      .to("#projectsJourney", {
+        opacity: 0,
+        ease: "power2.inOut"
+      }, 0.90)
+      .to("#bg6Reveal", {
+        opacity: 1,
+        scale: 1,
+        ease: "power2.inOut"
+      }, 0.90)
+      .to("#bg6Overlay", {
+        opacity: 1,
+        ease: "power2.inOut"
+      }, 0.90)
+      .to("#arcadeFade", {
+        opacity: 0,
+        ease: "power2.inOut"
+      }, 0.94);
 
     const galleryToggle = document.getElementById("galleryToggle");
     const galleryDropdown = document.getElementById("galleryDropdown");
@@ -1659,7 +1707,7 @@
     });
 
     window.addEventListener("resize", () => {
-      setTrackX(trackX);
+      applyTrackX();
       ScrollTrigger.refresh();
     });
   </script>
