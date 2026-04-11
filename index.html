@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Museumof Me</title>
+  <title>Museum of Me</title>
 
   <script>
     if ("scrollRestoration" in history) {
@@ -637,7 +637,13 @@
       overflow:hidden;
       opacity:0;
       z-index:7;
-      pointer-events:none;
+      pointer-events:auto;
+      cursor:grab;
+      user-select:none;
+    }
+
+    #projectsJourney.dragging{
+      cursor:grabbing;
     }
 
     #projectsJourney::before{
@@ -658,6 +664,7 @@
       gap:4vw;
       padding:0 10vw;
       will-change:transform;
+      transform:translate3d(0,0,0);
     }
 
     .proj{
@@ -1470,14 +1477,69 @@
     });
 
     const projectsTrack = document.getElementById("projectsTrack");
+    const projectsJourney = document.getElementById("projectsJourney");
+
+    let trackX = 0;
+    let dragActive = false;
+    let dragStartX = 0;
+    let dragStartTrackX = 0;
+
+    function getTrackBounds() {
+      const maxNegative = Math.min(0, projectsJourney.clientWidth - projectsTrack.scrollWidth);
+      return { min: maxNegative, max: 0 };
+    }
+
+    function clampTrackX(x) {
+      const bounds = getTrackBounds();
+      return Math.max(bounds.min, Math.min(bounds.max, x));
+    }
+
+    function setTrackX(x) {
+      trackX = clampTrackX(x);
+      gsap.set(projectsTrack, { x: trackX });
+    }
+
+    function pointerX(event) {
+      return event.touches ? event.touches[0].clientX : event.clientX;
+    }
+
+    function startDrag(event) {
+      if (gsap.getProperty(projectsJourney, "opacity") < 0.95) return;
+      dragActive = true;
+      dragStartX = pointerX(event);
+      dragStartTrackX = trackX;
+      projectsJourney.classList.add("dragging");
+    }
+
+    function moveDrag(event) {
+      if (!dragActive) return;
+      const dx = pointerX(event) - dragStartX;
+      setTrackX(dragStartTrackX + dx);
+    }
+
+    function endDrag() {
+      dragActive = false;
+      projectsJourney.classList.remove("dragging");
+    }
+
+    projectsJourney.addEventListener("mousedown", startDrag);
+    projectsJourney.addEventListener("touchstart", startDrag, { passive: true });
+
+    window.addEventListener("mousemove", moveDrag);
+    window.addEventListener("touchmove", moveDrag, { passive: true });
+
+    window.addEventListener("mouseup", endDrag);
+    window.addEventListener("touchend", endDrag);
 
     gsap.timeline({
       scrollTrigger: {
         trigger: "#projectArcade",
         start: "top top",
-        end: "+=4400",
+        end: "+=4600",
         scrub: 1.2,
-        pin: true
+        pin: true,
+        invalidateOnRefresh: true,
+        onRefresh: () => setTrackX(trackX)
       }
     })
     .fromTo("#bg4Base",
@@ -1497,50 +1559,58 @@
     )
     .fromTo("#bg5Overlay",
       { opacity: 0.18 },
-      { opacity: 0.04, ease: "none" },
+      { opacity: 0.06, ease: "none" },
       0.2
     )
     .to("#bg4Base", {
       opacity: 0,
       ease: "power2.out"
-    }, 0.35)
+    }, 0.34)
     .to("#bg4Overlay", {
       opacity: 0,
       ease: "power2.out"
-    }, 0.35)
+    }, 0.34)
     .to("#bg5Top", {
-      scale: 2.85,
-      xPercent: 22,
-      yPercent: 8,
+      scale: 3.2,
+      xPercent: 38,
+      yPercent: 6,
+      transformOrigin: "30% 50%",
       ease: "power2.inOut"
     }, 0.45)
+    .to("#bg5Top", {
+      xPercent: 38,
+      yPercent: 6,
+      scale: 3.2,
+      transformOrigin: "30% 50%",
+      ease: "none"
+    }, 0.58)
     .to("#bg5Overlay", {
-      opacity: 0.16,
+      opacity: 0.18,
       ease: "power2.out"
     }, 0.45)
     .to({}, {
-      duration: 0.35
-    }, 0.60)
+      duration: 0.38
+    }, 0.62)
     .to("#arcadeFade", {
       opacity: 1,
       ease: "power2.inOut"
-    }, 0.66)
+    }, 0.70)
     .to("#bg5Top", {
       opacity: 0,
       ease: "none"
-    }, 0.70)
+    }, 0.72)
     .to("#bg5Overlay", {
       opacity: 0,
       ease: "none"
-    }, 0.70)
+    }, 0.72)
     .to("#projectsJourney", {
       opacity: 1,
-      ease: "power2.out"
-    }, 0.72)
-    .to("#projectsTrack", {
-      x: () => -(projectsTrack.scrollWidth - window.innerWidth),
-      ease: "none"
+      ease: "power2.out",
+      onStart: () => setTrackX(trackX)
     }, 0.74)
+    .to({}, {
+      duration: 0.16
+    }, 0.80)
     .to("#projectsJourney", {
       opacity: 0,
       ease: "power2.inOut"
@@ -1586,6 +1656,11 @@
           target.scrollIntoView({ behavior: "smooth", block: "start" });
         }
       });
+    });
+
+    window.addEventListener("resize", () => {
+      setTrackX(trackX);
+      ScrollTrigger.refresh();
     });
   </script>
 </body>
