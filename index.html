@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Museum of Me</title>
+  <title>Museumof Me</title>
 
   <script>
     if ("scrollRestoration" in history) {
@@ -508,6 +508,7 @@
       z-index:20;
       pointer-events:none;
       user-select:none;
+      transition:opacity 0.35s ease;
     }
 
     .freeform-title{
@@ -628,7 +629,9 @@
     #projectsJourney{
       position:absolute;
       inset:0;
-      background:#000;
+      background:
+        radial-gradient(circle at top, rgba(215,182,117,0.06), transparent 24%),
+        linear-gradient(180deg, #040404 0%, #000 100%);
       display:flex;
       align-items:center;
       overflow:hidden;
@@ -637,7 +640,20 @@
       pointer-events:none;
     }
 
+    #projectsJourney::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      pointer-events:none;
+      z-index:1;
+      background:
+        linear-gradient(to right, rgba(0,0,0,0.75), transparent 10%, transparent 90%, rgba(0,0,0,0.75)),
+        linear-gradient(to bottom, rgba(255,245,220,0.03), transparent 18%, rgba(0,0,0,0.2));
+    }
+
     #projectsTrack{
+      position:relative;
+      z-index:2;
       display:flex;
       gap:4vw;
       padding:0 10vw;
@@ -647,8 +663,8 @@
     .proj{
       position:relative;
       min-width:72vw;
-      max-width:900px;
-      height:64vh;
+      max-width:920px;
+      height:66vh;
       display:flex;
       align-items:center;
       justify-content:center;
@@ -658,21 +674,23 @@
       content:"";
       position:absolute;
       inset:0;
-      border-radius:28px;
+      border-radius:30px;
       background:
-        linear-gradient(180deg, rgba(20,16,12,0.95), rgba(8,6,5,0.96));
-      border:1px solid rgba(215,182,117,0.28);
+        radial-gradient(circle at top left, rgba(255,244,214,0.06), transparent 20%),
+        linear-gradient(180deg, rgba(24,18,13,0.97), rgba(8,6,5,0.98));
+      border:1px solid rgba(215,182,117,0.24);
       box-shadow:
-        0 30px 80px rgba(0,0,0,0.55),
-        inset 0 1px 0 rgba(255,245,220,0.06);
+        0 36px 90px rgba(0,0,0,0.58),
+        0 0 0 1px rgba(215,182,117,0.05),
+        inset 0 1px 0 rgba(255,245,220,0.07);
     }
 
     .proj::after{
       content:"";
       position:absolute;
-      inset:16px;
+      inset:14px;
       border-radius:22px;
-      border:1px solid rgba(215,182,117,0.18);
+      border:1px solid rgba(215,182,117,0.14);
       pointer-events:none;
     }
 
@@ -681,10 +699,10 @@
       z-index:2;
       width:100%;
       height:100%;
-      padding:40px;
+      padding:34px;
       display:grid;
-      grid-template-columns:1.15fr 0.85fr;
-      gap:34px;
+      grid-template-columns:1.08fr 0.92fr;
+      gap:32px;
       align-items:center;
     }
 
@@ -692,26 +710,27 @@
       position:relative;
       height:100%;
       min-height:320px;
-      border-radius:22px;
+      border-radius:24px;
       overflow:hidden;
-      border:1px solid rgba(215,182,117,0.18);
+      border:1px solid rgba(215,182,117,0.16);
       background:
-        radial-gradient(circle at top left, rgba(255,245,220,0.05), transparent 28%),
-        linear-gradient(180deg, rgba(36,27,20,0.95), rgba(14,11,9,0.98));
+        radial-gradient(circle at 20% 18%, rgba(255,245,220,0.05), transparent 20%),
+        linear-gradient(160deg, rgba(48,33,21,0.96), rgba(13,10,8,0.98));
       box-shadow:
         inset 0 1px 0 rgba(255,245,220,0.04),
-        0 16px 40px rgba(0,0,0,0.28);
+        inset 0 0 80px rgba(0,0,0,0.18),
+        0 18px 44px rgba(0,0,0,0.28);
     }
 
     .proj-visual::before{
       content:"";
       position:absolute;
       inset:18px;
-      border-radius:16px;
-      border:1px solid rgba(215,182,117,0.14);
+      border-radius:18px;
+      border:1px solid rgba(215,182,117,0.12);
       background:
-        linear-gradient(135deg, rgba(255,245,220,0.04), transparent 35%),
-        radial-gradient(circle at 30% 20%, rgba(215,182,117,0.08), transparent 25%);
+        linear-gradient(135deg, rgba(255,245,220,0.05), transparent 34%),
+        radial-gradient(circle at bottom right, rgba(215,182,117,0.08), transparent 24%);
     }
 
     .proj-visual::after{
@@ -719,16 +738,30 @@
       position:absolute;
       left:50%;
       top:50%;
-      width:62%;
-      height:62%;
+      width:64%;
+      height:64%;
       transform:translate(-50%, -50%);
-      border-radius:14px;
+      border-radius:16px;
       background:
-        linear-gradient(135deg, rgba(215,182,117,0.22), rgba(215,182,117,0.04)),
-        linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.01));
+        linear-gradient(135deg, rgba(215,182,117,0.24), rgba(215,182,117,0.05)),
+        linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01));
       box-shadow:
         inset 0 0 0 1px rgba(255,245,220,0.05),
-        0 10px 24px rgba(0,0,0,0.18);
+        0 12px 28px rgba(0,0,0,0.22);
+    }
+
+    .proj-art{
+      position:absolute;
+      inset:34px;
+      border-radius:14px;
+      background:
+        linear-gradient(135deg, rgba(255,245,220,0.06), transparent 32%),
+        radial-gradient(circle at 30% 20%, rgba(215,182,117,0.10), transparent 20%),
+        linear-gradient(160deg, rgba(62,45,28,0.95), rgba(18,14,11,0.98));
+      border:1px solid rgba(215,182,117,0.12);
+      box-shadow:
+        inset 0 0 0 1px rgba(255,245,220,0.03),
+        0 14px 30px rgba(0,0,0,0.18);
     }
 
     .proj-copy{
@@ -739,34 +772,34 @@
     }
 
     .proj-kicker{
-      font-size:0.75rem;
-      letter-spacing:0.28em;
+      font-size:0.74rem;
+      letter-spacing:0.3em;
       text-transform:uppercase;
-      color:rgba(215,182,117,0.95);
+      color:rgba(215,182,117,0.96);
       margin-bottom:14px;
     }
 
     .proj-title{
-      font-size:clamp(2.2rem, 4vw, 4rem);
-      line-height:0.96;
-      color:#f6ead2;
+      font-size:clamp(2.4rem, 4vw, 4.2rem);
+      line-height:0.94;
+      color:#f7ead0;
       margin-bottom:18px;
       text-shadow:0 10px 24px rgba(0,0,0,0.28);
     }
 
     .proj-line{
-      width:110px;
+      width:120px;
       height:1px;
-      margin:0 0 18px;
-      background:linear-gradient(to right, rgba(236,221,184,0.95), transparent);
+      margin:0 0 20px;
+      background:linear-gradient(to right, rgba(236,221,184,0.95), rgba(215,182,117,0.18));
       opacity:0.95;
     }
 
     .proj-desc{
-      max-width:420px;
+      max-width:430px;
       font-size:1rem;
-      line-height:1.8;
-      color:rgba(247,241,231,0.82);
+      line-height:1.82;
+      color:rgba(247,241,231,0.8);
     }
 
     .proj-tags{
@@ -779,11 +812,12 @@
     .proj-tag{
       padding:10px 14px;
       border-radius:999px;
-      border:1px solid rgba(215,182,117,0.18);
+      border:1px solid rgba(215,182,117,0.16);
       background:rgba(255,245,220,0.03);
       color:rgba(247,241,231,0.78);
-      font-size:0.78rem;
+      font-size:0.76rem;
       letter-spacing:0.06em;
+      box-shadow:inset 0 1px 0 rgba(255,245,220,0.03);
     }
 
     .bg6-stage{
@@ -981,13 +1015,13 @@
 
       .proj{
         min-width:86vw;
-        height:70vh;
+        height:72vh;
       }
 
       .proj-content{
         grid-template-columns:1fr;
         gap:20px;
-        padding:26px;
+        padding:24px;
       }
 
       .proj-visual{
@@ -995,7 +1029,7 @@
       }
 
       .proj-title{
-        font-size:2.4rem;
+        font-size:2.35rem;
       }
 
       .proj-desc{
@@ -1085,7 +1119,7 @@
       <div id="projectsTrack">
         <div class="proj">
           <div class="proj-content">
-            <div class="proj-visual"></div>
+            <div class="proj-visual"><div class="proj-art"></div></div>
             <div class="proj-copy">
               <div class="proj-kicker">Exhibit I</div>
               <h2 class="proj-title">Clay Creation</h2>
@@ -1102,7 +1136,7 @@
 
         <div class="proj">
           <div class="proj-content">
-            <div class="proj-visual"></div>
+            <div class="proj-visual"><div class="proj-art"></div></div>
             <div class="proj-copy">
               <div class="proj-kicker">Exhibit II</div>
               <h2 class="proj-title">Board Games</h2>
@@ -1119,7 +1153,7 @@
 
         <div class="proj">
           <div class="proj-content">
-            <div class="proj-visual"></div>
+            <div class="proj-visual"><div class="proj-art"></div></div>
             <div class="proj-copy">
               <div class="proj-kicker">Exhibit III</div>
               <h2 class="proj-title">Events Hosted</h2>
@@ -1136,7 +1170,7 @@
 
         <div class="proj">
           <div class="proj-content">
-            <div class="proj-visual"></div>
+            <div class="proj-visual"><div class="proj-art"></div></div>
             <div class="proj-copy">
               <div class="proj-kicker">Exhibit IV</div>
               <h2 class="proj-title">Interactive Work</h2>
@@ -1441,14 +1475,14 @@
       scrollTrigger: {
         trigger: "#projectArcade",
         start: "top top",
-        end: "+=3800",
+        end: "+=4400",
         scrub: 1.2,
         pin: true
       }
     })
     .fromTo("#bg4Base",
-      { scale: 1 },
-      { scale: 1.1, ease: "none" },
+      { scale: 1, opacity: 1 },
+      { scale: 1.1, opacity: 1, ease: "none" },
       0
     )
     .fromTo("#bg4Overlay",
@@ -1466,28 +1500,47 @@
       { opacity: 0.04, ease: "none" },
       0.2
     )
+    .to("#bg4Base", {
+      opacity: 0,
+      ease: "power2.out"
+    }, 0.35)
+    .to("#bg4Overlay", {
+      opacity: 0,
+      ease: "power2.out"
+    }, 0.35)
     .to("#bg5Top", {
       scale: 2.85,
       xPercent: 22,
       yPercent: 8,
       ease: "power2.inOut"
     }, 0.45)
+    .to("#bg5Overlay", {
+      opacity: 0.16,
+      ease: "power2.out"
+    }, 0.45)
+    .to({}, {
+      duration: 0.35
+    }, 0.60)
     .to("#arcadeFade", {
       opacity: 1,
       ease: "power2.inOut"
-    }, 0.55)
+    }, 0.66)
     .to("#bg5Top", {
       opacity: 0,
       ease: "none"
-    }, 0.6)
+    }, 0.70)
+    .to("#bg5Overlay", {
+      opacity: 0,
+      ease: "none"
+    }, 0.70)
     .to("#projectsJourney", {
       opacity: 1,
       ease: "power2.out"
-    }, 0.62)
+    }, 0.72)
     .to("#projectsTrack", {
       x: () => -(projectsTrack.scrollWidth - window.innerWidth),
       ease: "none"
-    }, 0.65)
+    }, 0.74)
     .to("#projectsJourney", {
       opacity: 0,
       ease: "power2.inOut"
