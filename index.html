@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Museumof Me</title>
+  <title>Museum of Me</title>
 
   <script>
     if ("scrollRestoration" in history) {
@@ -1724,153 +1724,193 @@
       }
     });
 
-    const shell = document.getElementById("scrollShell");
-    const track = document.getElementById("track");
-    const projectsJourney = document.getElementById("projectsJourney");
-    const bg4Base = document.getElementById("bg4Base");
-    const bg4Overlay = document.getElementById("bg4Overlay");
-    const bg5Top = document.getElementById("bg5Top");
-    const bg5Overlay = document.getElementById("bg5Overlay");
-    const bg6Reveal = document.getElementById("bg6Reveal");
-    const bg6Overlay = document.getElementById("bg6Overlay");
+<script>
+  const shell = document.getElementById("scrollShell");
+  const track = document.getElementById("track");
+  const projectsJourney = document.getElementById("projectsJourney");
+  const bg4Base = document.getElementById("bg4Base");
+  const bg4Overlay = document.getElementById("bg4Overlay");
+  const bg5Top = document.getElementById("bg5Top");
+  const bg5Overlay = document.getElementById("bg5Overlay");
+  const bg6Reveal = document.getElementById("bg6Reveal");
+  const bg6Overlay = document.getElementById("bg6Overlay");
 
-    let currentX = 0;
-    let targetX = 0;
+  let currentX = 0;
+  let targetX = 0;
 
-    function clampTrackX(x) {
-      const minX = Math.min(0, shell.clientWidth - track.scrollWidth - 40);
-      return Math.max(minX, Math.min(24, x));
-    }
+  let isDraggingTrack = false;
+  let dragStartX = 0;
+  let dragStartTargetX = 0;
 
-    function animateTrack() {
-      currentX += (targetX - currentX) * 0.09;
-      track.style.transform = `translate3d(${currentX}px,0,0)`;
-      requestAnimationFrame(animateTrack);
-    }
-    animateTrack();
-
-const projectArcadeTimeline = gsap.timeline({
-  scrollTrigger: {
-    trigger: "#projectArcade",
-    start: "top top",
-    end: () => "+=" + (track.scrollWidth - shell.clientWidth + 3200),
-    scrub: 1,
-    pin: true,
-    invalidateOnRefresh: true,
-    onUpdate: self => {
-      const progress = self.progress;
-
-      const horizontalStart = 0.30;
-      const horizontalEnd = 0.82;
-
-      const moveProgress = gsap.utils.clamp(
-        0,
-        1,
-        (progress - horizontalStart) / (horizontalEnd - horizontalStart)
-      );
-
-      const maxX = Math.max(0, track.scrollWidth - shell.clientWidth);
-      targetX = clampTrackX(-maxX * moveProgress);
-    }
+  function getMinTrackX() {
+    return Math.min(0, shell.clientWidth - track.scrollWidth - 40);
   }
-});
 
-projectArcadeTimeline
-  /* STEP 1: zoom bg4 in before reveal */
-  .fromTo(bg4Base,
-    { scale: 1, opacity: 1 },
-    { scale: 1.14, opacity: 1, ease: "none" },
-    0.00
-  )
-  .fromTo(bg4Overlay,
-    { opacity: 1 },
-    { opacity: 0.22, ease: "none" },
-    0.00
-  )
+  function clampTrackX(x) {
+    return Math.max(getMinTrackX(), Math.min(24, x));
+  }
 
-  /* STEP 2: bg5 fades in over bg4 */
-  .fromTo(bg5Top,
-    { opacity: 0, scale: 1.02, xPercent: 0, yPercent: 0 },
-    { opacity: 1, scale: 1, xPercent: 0, yPercent: 0, ease: "power2.out" },
-    0.14
-  )
-  .fromTo(bg5Overlay,
-    { opacity: 0 },
-    { opacity: 1, ease: "power2.out" },
-    0.14
-  )
+  function animateTrack() {
+    currentX += (targetX - currentX) * 0.09;
+    track.style.transform = `translate3d(${currentX}px,0,0)`;
+    requestAnimationFrame(animateTrack);
+  }
+  animateTrack();
 
-  /* STEP 3: bg4 disappears */
-  .to(bg4Base, {
-    opacity: 0,
-    ease: "power2.out"
-  }, 0.24)
-  .to(bg4Overlay, {
-    opacity: 0,
-    ease: "power2.out"
-  }, 0.24)
+  function projectArcadeVisibleEnough() {
+    return gsap.getProperty(projectsJourney, "opacity") > 0.85;
+  }
 
-  /* STEP 4: hold on bg5 a bit */
-  .to({}, { duration: 0.10 }, 0.30)
+  function beginTrackDrag(clientX) {
+    if (!projectArcadeVisibleEnough()) return;
+    isDraggingTrack = true;
+    dragStartX = clientX;
+    dragStartTargetX = targetX;
+  }
 
-  /* STEP 5: zoom bg5 to upper-left-ish before horizontal section */
-  .to(bg5Top, {
-    scale: 2.95,
-    xPercent: -16,
-    yPercent: -8,
-    transformOrigin: "50% 50%",
-    ease: "power2.inOut"
-  }, 0.36)
-  .to(bg5Overlay, {
-    opacity: 0.18,
-    ease: "power2.inOut"
-  }, 0.36)
+  function moveTrackDrag(clientX) {
+    if (!isDraggingTrack) return;
+    const dx = clientX - dragStartX;
+    targetX = clampTrackX(dragStartTargetX + dx);
+  }
 
-  /* STEP 6: horizontal opaque layer comes in */
-  .fromTo(projectsJourney,
-    { opacity: 0 },
-    { opacity: 1, ease: "power2.inOut" },
-    0.52
-  )
+  function endTrackDrag() {
+    isDraggingTrack = false;
+  }
 
-  /* once horizontal starts, bg5 goes away behind it */
-  .to(bg5Top, {
-    opacity: 0,
-    ease: "power2.out"
-  }, 0.58)
-  .to(bg5Overlay, {
-    opacity: 0,
-    ease: "power2.out"
-  }, 0.58)
+  shell.addEventListener("mousedown", (e) => {
+    beginTrackDrag(e.clientX);
+  });
 
-  /* keep horizontal section on screen */
-  .to(projectsJourney, {
-    opacity: 1,
-    ease: "none"
-  }, 0.82)
+  window.addEventListener("mousemove", (e) => {
+    moveTrackDrag(e.clientX);
+  });
 
-  /* exit into bg6 */
-  .to(projectsJourney, {
-    opacity: 0,
-    ease: "power2.inOut"
-  }, 0.92)
-  .fromTo(bg6Reveal,
-    { opacity: 0, scale: 1.02 },
-    { opacity: 1, scale: 1, ease: "power2.out" },
-    0.94
-  )
-  .fromTo(bg6Overlay,
-    { opacity: 0 },
-    { opacity: 1, ease: "power2.out" },
-    0.95
-  );
+  window.addEventListener("mouseup", () => {
+    endTrackDrag();
+  });
 
-    window.addEventListener("resize", () => {
-      targetX = clampTrackX(targetX);
-      ScrollTrigger.refresh();
-    });
+  shell.addEventListener("touchstart", (e) => {
+    beginTrackDrag(e.touches[0].clientX);
+  }, { passive: true });
 
+  window.addEventListener("touchmove", (e) => {
+    moveTrackDrag(e.touches[0].clientX);
+  }, { passive: true });
+
+  window.addEventListener("touchend", () => {
+    endTrackDrag();
+  });
+
+  const projectArcadeTimeline = gsap.timeline({
+    scrollTrigger: {
+      trigger: "#projectArcade",
+      start: "top top",
+      end: () => "+=" + (track.scrollWidth - shell.clientWidth + 3200),
+      scrub: 1,
+      pin: true,
+      invalidateOnRefresh: true,
+      onUpdate: self => {
+        const progress = self.progress;
+
+        const horizontalStart = 0.30;
+        const horizontalEnd = 0.82;
+
+        const moveProgress = gsap.utils.clamp(
+          0,
+          1,
+          (progress - horizontalStart) / (horizontalEnd - horizontalStart)
+        );
+
+        const maxX = Math.max(0, track.scrollWidth - shell.clientWidth);
+        const scrollDrivenX = clampTrackX(-maxX * moveProgress);
+
+        if (!isDraggingTrack) {
+          targetX = scrollDrivenX;
+        }
+      }
+    }
+  });
+
+  projectArcadeTimeline
+    .fromTo(bg4Base,
+      { scale: 1, opacity: 1 },
+      { scale: 1.14, opacity: 1, ease: "none" },
+      0.00
+    )
+    .fromTo(bg4Overlay,
+      { opacity: 1 },
+      { opacity: 0.22, ease: "none" },
+      0.00
+    )
+    .fromTo(bg5Top,
+      { opacity: 0, scale: 1.02, xPercent: 0, yPercent: 0 },
+      { opacity: 1, scale: 1, xPercent: 0, yPercent: 0, ease: "power2.out" },
+      0.14
+    )
+    .fromTo(bg5Overlay,
+      { opacity: 0 },
+      { opacity: 1, ease: "power2.out" },
+      0.14
+    )
+    .to(bg4Base, {
+      opacity: 0,
+      ease: "power2.out"
+    }, 0.24)
+    .to(bg4Overlay, {
+      opacity: 0,
+      ease: "power2.out"
+    }, 0.24)
+    .to({}, { duration: 0.10 }, 0.30)
+    .to(bg5Top, {
+      scale: 2.95,
+      xPercent: -16,
+      yPercent: -8,
+      transformOrigin: "50% 50%",
+      ease: "power2.inOut"
+    }, 0.36)
+    .to(bg5Overlay, {
+      opacity: 0.18,
+      ease: "power2.inOut"
+    }, 0.36)
+    .fromTo(projectsJourney,
+      { opacity: 0 },
+      { opacity: 1, ease: "power2.inOut" },
+      0.52
+    )
+    .to(bg5Top, {
+      opacity: 0,
+      ease: "power2.out"
+    }, 0.58)
+    .to(bg5Overlay, {
+      opacity: 0,
+      ease: "power2.out"
+    }, 0.58)
+    .to(projectsJourney, {
+      opacity: 1,
+      ease: "none"
+    }, 0.82)
+    .to(projectsJourney, {
+      opacity: 0,
+      ease: "power2.inOut"
+    }, 0.92)
+    .fromTo(bg6Reveal,
+      { opacity: 0, scale: 1.02 },
+      { opacity: 1, scale: 1, ease: "power2.out" },
+      0.94
+    )
+    .fromTo(bg6Overlay,
+      { opacity: 0 },
+      { opacity: 1, ease: "power2.out" },
+      0.95
+    );
+
+  window.addEventListener("resize", () => {
+    targetX = clampTrackX(targetX);
     ScrollTrigger.refresh();
-  </script>
+  });
+
+  ScrollTrigger.refresh();
+</script>
 </body>
 </html>
