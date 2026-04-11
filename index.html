@@ -1,199 +1,1667 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Museum</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Museum of Me</title>
 
-<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+  <script>
+    if ("scrollRestoration" in history) {
+      history.scrollRestoration = "manual";
+    }
 
-<style>
-body { margin:0; overflow-x:hidden; background:black; color:white; }
-section { height:100vh; position:relative; }
+    window.addEventListener("beforeunload", () => {
+      window.scrollTo(0, 0);
+    });
 
-/* simple placeholders */
-#bg4Base, #bg5Top {
-  position:absolute;
-  inset:0;
-  background-size:cover;
-  background-position:center;
-}
-#bg4Base { background:#111; }
-#bg5Top { background:#222; opacity:0; }
+    window.addEventListener("load", () => {
+      window.scrollTo(0, 0);
+      setTimeout(() => window.scrollTo(0, 0), 10);
+    });
+  </script>
 
-#projectsJourney {
-  position:absolute;
-  inset:0;
-  display:flex;
-  align-items:center;
-  overflow:hidden;
-  opacity:0;
-  cursor:grab;
-}
-#projectsJourney.dragging { cursor:grabbing; }
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
 
-#projectsTrack {
-  display:flex;
-  gap:4vw;
-  padding:0 10vw;
-}
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 
-.proj {
-  min-width:70vw;
-  height:60vh;
-  background:#333;
-  border:1px solid gold;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
-</style>
-</head>
+  <style>
+    :root{
+      --gold-1:#f6ead2;
+      --gold-2:#ead7ae;
+      --gold-3:#d7b675;
+      --text:#f7f1e7;
+      --bg:#050505;
 
-<body>
+      --x:50%;
+      --y:50%;
+      --torchW:320px;
+      --torchH:480px;
+    }
 
-<section></section>
-<section></section>
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+    }
 
-<!-- PROJECT ARCADE -->
-<section id="projectArcade">
+    html,body{
+      width:100%;
+      min-height:100%;
+      overflow-x:hidden;
+      background:var(--bg);
+      scroll-behavior:smooth;
+    }
 
-  <div id="bg4Base"></div>
-  <div id="bg5Top"></div>
+    body{
+      font-family:"Inter",sans-serif;
+      color:var(--text);
+      background:#050505;
+      cursor:none;
+    }
 
-  <div id="projectsJourney">
-    <div id="projectsTrack">
-      <div class="proj">Project 1</div>
-      <div class="proj">Project 2</div>
-      <div class="proj">Project 3</div>
-      <div class="proj">Project 4</div>
-    </div>
-  </div>
+    body.scroll-locked{
+      overflow:hidden;
+      touch-action:none;
+    }
 
-</section>
+    body.torch-ended{
+      cursor:auto;
+    }
 
-<section></section>
+    .museum-nav{
+      position:fixed;
+      top:22px;
+      left:24px;
+      right:24px;
+      z-index:40;
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      pointer-events:none;
+    }
 
-<script>
-gsap.registerPlugin(ScrollTrigger);
+    .museum-btn{
+      pointer-events:auto;
+      position:relative;
+      display:inline-flex;
+      align-items:center;
+      gap:12px;
+      padding:14px 18px;
+      border-radius:999px;
+      border:1px solid rgba(234,215,174,0.22);
+      background:linear-gradient(180deg, rgba(22,18,13,0.82), rgba(10,8,6,0.72));
+      color:#f3e7cd;
+      text-decoration:none;
+      box-shadow:
+        0 10px 30px rgba(0,0,0,0.28),
+        inset 0 1px 0 rgba(255,245,220,0.06);
+      backdrop-filter:blur(8px);
+      -webkit-backdrop-filter:blur(8px);
+      transition:
+        transform 0.3s ease,
+        border-color 0.3s ease,
+        background 0.3s ease,
+        box-shadow 0.3s ease,
+        color 0.3s ease;
+    }
 
-const track = document.getElementById("projectsTrack");
-const journey = document.getElementById("projectsJourney");
+    .museum-btn:hover{
+      transform:translateY(-1px);
+      border-color:rgba(234,215,174,0.42);
+      box-shadow:
+        0 16px 34px rgba(0,0,0,0.34),
+        0 0 0 1px rgba(215,182,117,0.06),
+        inset 0 1px 0 rgba(255,245,220,0.08);
+      color:#fff5dd;
+    }
 
-let trackX = 0;
-let dragActive = false;
-let startX = 0;
-let startTrack = 0;
+    .museum-btn::before{
+      content:"";
+      position:absolute;
+      inset:1px;
+      border-radius:inherit;
+      pointer-events:none;
+      background:linear-gradient(
+        135deg,
+        rgba(255,245,220,0.05),
+        rgba(255,245,220,0.01) 35%,
+        rgba(215,182,117,0.04) 100%
+      );
+    }
 
-/* ========= DRAG ========= */
+    .btn-label{
+      position:relative;
+      z-index:1;
+      font-family:"Cormorant Garamond", serif;
+      font-size:1.15rem;
+      letter-spacing:0.04em;
+      font-weight:600;
+      white-space:nowrap;
+    }
 
-function clamp(x){
-  const max = 0;
-  const min = Math.min(0, journey.clientWidth - track.scrollWidth);
-  return Math.max(min, Math.min(max, x));
-}
+    .museum-menu-btn{
+      position:relative;
+    }
 
-function setX(x){
-  trackX = clamp(x);
-  gsap.set(track, { x: trackX });
-}
+    .menu-icon{
+      position:relative;
+      z-index:1;
+      width:18px;
+      display:flex;
+      flex-direction:column;
+      gap:4px;
+    }
 
-journey.addEventListener("mousedown", e=>{
-  dragActive = true;
-  startX = e.clientX;
-  startTrack = trackX;
-  journey.classList.add("dragging");
-});
+    .menu-icon span{
+      display:block;
+      width:18px;
+      height:1px;
+      border-radius:99px;
+      background:linear-gradient(
+        to right,
+        rgba(246,234,210,0.95),
+        rgba(215,182,117,0.95)
+      );
+      box-shadow:0 0 8px rgba(215,182,117,0.18);
+    }
 
-window.addEventListener("mousemove", e=>{
-  if(!dragActive) return;
+    .gallery-dropdown{
+      position:absolute;
+      top:68px;
+      left:0;
+      min-width:320px;
+      padding:12px;
+      border-radius:24px;
+      border:1px solid rgba(234,215,174,0.18);
+      background:linear-gradient(180deg, rgba(16,13,10,0.96), rgba(8,7,5,0.94));
+      box-shadow:
+        0 24px 60px rgba(0,0,0,0.44),
+        inset 0 1px 0 rgba(255,245,220,0.05);
+      backdrop-filter:blur(12px);
+      -webkit-backdrop-filter:blur(12px);
+      opacity:0;
+      visibility:hidden;
+      transform:translateY(10px) scale(0.98);
+      transform-origin:top left;
+      transition:
+        opacity 0.28s ease,
+        transform 0.28s ease,
+        visibility 0.28s ease;
+      pointer-events:none;
+    }
 
-  const dx = e.clientX - startX;
-  const newX = startTrack + dx;
-  setX(newX);
+    .gallery-dropdown.open{
+      opacity:1;
+      visibility:visible;
+      transform:translateY(0) scale(1);
+      pointer-events:auto;
+    }
 
-  const maxMove = track.scrollWidth - window.innerWidth;
-  const progress = Math.abs(trackX) / maxMove;
+    .gallery-link{
+      display:flex;
+      flex-direction:column;
+      gap:3px;
+      padding:12px 14px;
+      border-radius:16px;
+      text-decoration:none;
+      transition:
+        background 0.25s ease,
+        color 0.25s ease,
+        transform 0.25s ease;
+    }
 
-  const st = ScrollTrigger.getById("arcade");
+    .gallery-link:hover{
+      background:rgba(215,182,117,0.08);
+      transform:translateX(3px);
+    }
 
-  if(st){
-    st.scroll(st.start + progress * (st.end - st.start));
-  }
-});
+    .gallery-kicker{
+      font-size:0.72rem;
+      letter-spacing:0.22em;
+      text-transform:uppercase;
+      color:rgba(215,182,117,0.9);
+      font-weight:500;
+    }
 
-window.addEventListener("mouseup", ()=>{
-  dragActive = false;
-  journey.classList.remove("dragging");
-});
+    .gallery-name{
+      font-family:"Cormorant Garamond", serif;
+      font-size:1.15rem;
+      color:rgba(247,241,231,0.92);
+      letter-spacing:0.03em;
+    }
 
-/* ========= SCROLL ========= */
+    .museum-work-btn{
+      margin-left:auto;
+    }
 
-const tl = gsap.timeline({
-  scrollTrigger:{
-    id:"arcade",
-    trigger:"#projectArcade",
-    start:"top top",
-    end:"+=4000",
-    scrub:1.2,
-    pin:true,
-    onUpdate:(self)=>{
-      if(!dragActive){
-        const maxMove = track.scrollWidth - window.innerWidth;
-        trackX = -self.progress * maxMove;
-        gsap.set(track,{ x:trackX });
+    .scene1-wrapper{
+      position:relative;
+      width:100%;
+      height:100vh;
+      overflow:hidden;
+      background:#000;
+      isolation:isolate;
+    }
+
+    .scene1-wrapper::after{
+      content:"";
+      position:absolute;
+      left:0;
+      right:0;
+      bottom:0;
+      height:26vh;
+      z-index:12;
+      pointer-events:none;
+      background:linear-gradient(
+        to bottom,
+        rgba(0,0,0,0),
+        rgba(0,0,0,0.18),
+        rgba(0,0,0,0.55),
+        #000
+      );
+    }
+
+    .scene{
+      position:absolute;
+      inset:0;
+    }
+
+    .layer{
+      position:absolute;
+      pointer-events:none;
+      user-select:none;
+      will-change:transform, opacity, filter;
+    }
+
+    .sky{
+      z-index:1;
+      top:-6%;
+      left:-4%;
+      width:108%;
+      height:112%;
+      object-fit:cover;
+    }
+
+    .mid{
+      z-index:2;
+      top:-8%;
+      left:-5%;
+      width:112%;
+      height:122%;
+      object-fit:cover;
+    }
+
+    .front{
+      z-index:3;
+      position:absolute;
+      left:0;
+      bottom:0;
+      width:100%;
+      height:auto;
+      object-fit:contain;
+      object-position:center bottom;
+      transform-origin:center bottom;
+      opacity:1;
+    }
+
+    .foreground{
+      position:absolute;
+      z-index:4;
+      width:72vw;
+      max-width:1280px;
+      min-width:520px;
+      left:0;
+      bottom:0;
+      height:auto;
+      transform-origin:left bottom;
+      transform:scale(1.02);
+      filter:
+        brightness(1.02)
+        contrast(0.98)
+        saturate(0.94)
+        drop-shadow(0 14px 28px rgba(0,0,0,0.32));
+    }
+
+    .bg2{
+      z-index:5;
+      top:-4%;
+      left:-3%;
+      width:106%;
+      height:110%;
+      object-fit:cover;
+      opacity:0;
+      transform:scale(1.02);
+    }
+
+    .bg2-content{
+      position:absolute;
+      z-index:6;
+      left:50%;
+      top:44%;
+      transform:translate(-50%, -50%);
+      width:min(92vw, 960px);
+      text-align:center;
+      opacity:0;
+      pointer-events:none;
+      will-change:transform, opacity;
+      padding:34px 42px 30px;
+    }
+
+    .text-plate{
+      position:absolute;
+      inset:0;
+      z-index:1;
+      background:rgba(255,255,255,0.032);
+      border:1px solid rgba(255,255,255,0.05);
+      border-radius:30px;
+      opacity:1;
+      box-shadow:none;
+      backdrop-filter:none;
+      -webkit-backdrop-filter:none;
+    }
+
+    .bg2-content h1{
+      position:relative;
+      z-index:2;
+      font-family:"Cormorant Garamond", serif;
+      font-size:clamp(2.5rem, 5.2vw, 4.6rem);
+      font-weight:600;
+      line-height:1.05;
+      letter-spacing:0.01em;
+      white-space:nowrap;
+      background:linear-gradient(
+        120deg,
+        #fffdf9 0%,
+        #f6eddc 38%,
+        #ead7ae 70%,
+        #d7b675 100%
+      );
+      -webkit-background-clip:text;
+      background-clip:text;
+      -webkit-text-fill-color:transparent;
+      text-shadow:
+        0 2px 10px rgba(0,0,0,0.32),
+        0 10px 28px rgba(0,0,0,0.24);
+    }
+
+    .gold-line{
+      position:relative;
+      z-index:2;
+      width:120px;
+      height:1px;
+      margin:1rem auto 0.95rem;
+      background:linear-gradient(
+        to right,
+        transparent,
+        rgba(236,221,184,0.95),
+        transparent
+      );
+      opacity:0.95;
+    }
+
+    .bg2-content p{
+      position:relative;
+      z-index:2;
+      margin-top:0;
+      font-size:1rem;
+      line-height:1.6;
+      color:rgba(250,246,239,0.92);
+      letter-spacing:0.02em;
+      text-shadow:0 2px 10px rgba(0,0,0,0.22);
+    }
+
+    #darkness{
+      position:absolute;
+      inset:0;
+      background:black;
+      pointer-events:none;
+      z-index:50;
+      mask-image:radial-gradient(
+        var(--torchW) var(--torchH) at var(--x) var(--y),
+        transparent 0%,
+        rgba(0,0,0,.25) 35%,
+        black 65%
+      );
+      -webkit-mask-image:radial-gradient(
+        var(--torchW) var(--torchH) at var(--x) var(--y),
+        transparent 0%,
+        rgba(0,0,0,.25) 35%,
+        black 65%
+      );
+      transition:opacity 2.2s ease;
+    }
+
+    #torch{
+      position:absolute;
+      width:70px;
+      pointer-events:none;
+      transform:translate(-50%,-15%) rotate(-20deg);
+      z-index:60;
+      transition:opacity 2.2s ease;
+    }
+
+    .canvas-wrap,
+    .gallery-panel,
+    .lets-work,
+    .bg6-stage{
+      position:relative;
+      min-height:100vh;
+      overflow:hidden;
+    }
+
+    .canvas-wrap{
+      height:100vh;
+      background:
+        linear-gradient(to bottom, rgba(0,0,0,0.0), rgba(0,0,0,0.22) 18%, #000 46%),
+        #000;
+    }
+
+    .canvas-wrap::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      pointer-events:none;
+      z-index:2;
+      background:linear-gradient(
+        to bottom,
+        rgba(245,217,166,0.03) 0%,
+        rgba(0,0,0,0.00) 20%,
+        rgba(0,0,0,0.00) 100%
+      );
+    }
+
+    #freeform{
+      position:absolute;
+      inset:0;
+      background:black;
+      overflow:hidden;
+      cursor:default;
+      z-index:100;
+      opacity:0.92;
+      transform:scale(1.01);
+      will-change:opacity, transform;
+    }
+
+    body.torch-ended #freeform{
+      cursor:grab;
+    }
+
+    body.torch-ended #freeform:active,
+    body.torch-ended #freeform.is-dragging{
+      cursor:grabbing;
+    }
+
+    .freeform-inner{
+      position:absolute;
+      left:0;
+      top:0;
+    }
+
+    .freeform-inner img{
+      position:absolute;
+      width:280px;
+      opacity:1;
+      box-shadow:0 30px 80px rgba(0,0,0,.95);
+      z-index:20;
+      pointer-events:none;
+      user-select:none;
+      transition:opacity 0.35s ease;
+    }
+
+    .freeform-title{
+      position:absolute;
+      inset:0;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      align-items:center;
+      pointer-events:none;
+      z-index:5;
+      text-align:center;
+      opacity:0.82;
+      transform:translateY(12px);
+      will-change:opacity, transform;
+    }
+
+    .freeform-title h1,
+    .panel-title,
+    .lets-work h2,
+    .proj-title{
+      font-family:"Cormorant Garamond", serif;
+      text-transform:uppercase;
+    }
+
+    .freeform-title h1{
+      font-size:3.4rem;
+      letter-spacing:.35em;
+      opacity:.45;
+      color:#f5d9a6;
+    }
+
+    .freeform-title p{
+      margin-top:14px;
+      opacity:.35;
+      letter-spacing:.18em;
+      color:#f5d9a6;
+      text-transform:uppercase;
+      font-size:.9rem;
+    }
+
+    .bg4-stage{
+      position:relative;
+      height:100vh;
+      overflow:hidden;
+      background:#000;
+    }
+
+    .bg4-base,
+    .bg5-top{
+      position:absolute;
+      inset:0;
+      background-position:center center;
+      background-repeat:no-repeat;
+      background-size:cover;
+      will-change:transform, opacity;
+    }
+
+    .bg4-base{
+      background-image:url("bg4.jpeg");
+      z-index:1;
+      transform:scale(1);
+    }
+
+    .bg5-top{
+      background-image:url("bg5.png");
+      z-index:3;
+      opacity:0;
+      transform:scale(1.02);
+    }
+
+    .bg4-overlay,
+    .bg5-overlay{
+      position:absolute;
+      inset:0;
+      pointer-events:none;
+    }
+
+    .bg4-overlay{
+      z-index:2;
+      background:linear-gradient(to bottom, rgba(0,0,0,0.08), rgba(0,0,0,0.18));
+    }
+
+    .bg5-overlay{
+      z-index:4;
+      background:linear-gradient(to bottom, rgba(0,0,0,0.03), rgba(0,0,0,0.08));
+      opacity:0;
+    }
+
+    .bg4-stage::before{
+      content:"";
+      position:absolute;
+      top:0;
+      left:0;
+      right:0;
+      height:180px;
+      z-index:5;
+      pointer-events:none;
+      background:linear-gradient(
+        to bottom,
+        #000 0%,
+        rgba(0,0,0,0.88) 14%,
+        rgba(0,0,0,0.62) 38%,
+        rgba(0,0,0,0.26) 66%,
+        rgba(0,0,0,0) 100%
+      );
+    }
+
+    #arcadeFade{
+      position:absolute;
+      inset:0;
+      background:#000;
+      opacity:0;
+      z-index:6;
+      pointer-events:none;
+    }
+
+    #projectsJourney{
+      position:absolute;
+      inset:0;
+      background:
+        radial-gradient(circle at top, rgba(215,182,117,0.06), transparent 24%),
+        linear-gradient(180deg, #040404 0%, #000 100%);
+      display:flex;
+      align-items:center;
+      overflow:hidden;
+      opacity:0;
+      z-index:7;
+      pointer-events:auto;
+      cursor:grab;
+      user-select:none;
+    }
+
+    #projectsJourney.dragging{
+      cursor:grabbing;
+    }
+
+    #projectsJourney::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      pointer-events:none;
+      z-index:1;
+      background:
+        linear-gradient(to right, rgba(0,0,0,0.75), transparent 10%, transparent 90%, rgba(0,0,0,0.75)),
+        linear-gradient(to bottom, rgba(255,245,220,0.03), transparent 18%, rgba(0,0,0,0.2));
+    }
+
+    #projectsTrack{
+      position:relative;
+      z-index:2;
+      display:flex;
+      gap:4vw;
+      padding:0 10vw;
+      will-change:transform;
+      transform:translate3d(0,0,0);
+    }
+
+    .proj{
+      position:relative;
+      min-width:72vw;
+      max-width:920px;
+      height:66vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+
+    .proj::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      border-radius:30px;
+      background:
+        radial-gradient(circle at top left, rgba(255,244,214,0.06), transparent 20%),
+        linear-gradient(180deg, rgba(24,18,13,0.97), rgba(8,6,5,0.98));
+      border:1px solid rgba(215,182,117,0.24);
+      box-shadow:
+        0 36px 90px rgba(0,0,0,0.58),
+        0 0 0 1px rgba(215,182,117,0.05),
+        inset 0 1px 0 rgba(255,245,220,0.07);
+    }
+
+    .proj::after{
+      content:"";
+      position:absolute;
+      inset:14px;
+      border-radius:22px;
+      border:1px solid rgba(215,182,117,0.14);
+      pointer-events:none;
+    }
+
+    .proj-content{
+      position:relative;
+      z-index:2;
+      width:100%;
+      height:100%;
+      padding:34px;
+      display:grid;
+      grid-template-columns:1.08fr 0.92fr;
+      gap:32px;
+      align-items:center;
+    }
+
+    .proj-visual{
+      position:relative;
+      height:100%;
+      min-height:320px;
+      border-radius:24px;
+      overflow:hidden;
+      border:1px solid rgba(215,182,117,0.16);
+      background:
+        radial-gradient(circle at 20% 18%, rgba(255,245,220,0.05), transparent 20%),
+        linear-gradient(160deg, rgba(48,33,21,0.96), rgba(13,10,8,0.98));
+      box-shadow:
+        inset 0 1px 0 rgba(255,245,220,0.04),
+        inset 0 0 80px rgba(0,0,0,0.18),
+        0 18px 44px rgba(0,0,0,0.28);
+    }
+
+    .proj-visual::before{
+      content:"";
+      position:absolute;
+      inset:18px;
+      border-radius:18px;
+      border:1px solid rgba(215,182,117,0.12);
+      background:
+        linear-gradient(135deg, rgba(255,245,220,0.05), transparent 34%),
+        radial-gradient(circle at bottom right, rgba(215,182,117,0.08), transparent 24%);
+    }
+
+    .proj-visual::after{
+      content:"";
+      position:absolute;
+      left:50%;
+      top:50%;
+      width:64%;
+      height:64%;
+      transform:translate(-50%, -50%);
+      border-radius:16px;
+      background:
+        linear-gradient(135deg, rgba(215,182,117,0.24), rgba(215,182,117,0.05)),
+        linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01));
+      box-shadow:
+        inset 0 0 0 1px rgba(255,245,220,0.05),
+        0 12px 28px rgba(0,0,0,0.22);
+    }
+
+    .proj-art{
+      position:absolute;
+      inset:34px;
+      border-radius:14px;
+      background:
+        linear-gradient(135deg, rgba(255,245,220,0.06), transparent 32%),
+        radial-gradient(circle at 30% 20%, rgba(215,182,117,0.10), transparent 20%),
+        linear-gradient(160deg, rgba(62,45,28,0.95), rgba(18,14,11,0.98));
+      border:1px solid rgba(215,182,117,0.12);
+      box-shadow:
+        inset 0 0 0 1px rgba(255,245,220,0.03),
+        0 14px 30px rgba(0,0,0,0.18);
+    }
+
+    .proj-copy{
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      min-width:0;
+    }
+
+    .proj-kicker{
+      font-size:0.74rem;
+      letter-spacing:0.3em;
+      text-transform:uppercase;
+      color:rgba(215,182,117,0.96);
+      margin-bottom:14px;
+    }
+
+    .proj-title{
+      font-size:clamp(2.4rem, 4vw, 4.2rem);
+      line-height:0.94;
+      color:#f7ead0;
+      margin-bottom:18px;
+      text-shadow:0 10px 24px rgba(0,0,0,0.28);
+    }
+
+    .proj-line{
+      width:120px;
+      height:1px;
+      margin:0 0 20px;
+      background:linear-gradient(to right, rgba(236,221,184,0.95), rgba(215,182,117,0.18));
+      opacity:0.95;
+    }
+
+    .proj-desc{
+      max-width:430px;
+      font-size:1rem;
+      line-height:1.82;
+      color:rgba(247,241,231,0.8);
+    }
+
+    .proj-tags{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-top:22px;
+    }
+
+    .proj-tag{
+      padding:10px 14px;
+      border-radius:999px;
+      border:1px solid rgba(215,182,117,0.16);
+      background:rgba(255,245,220,0.03);
+      color:rgba(247,241,231,0.78);
+      font-size:0.76rem;
+      letter-spacing:0.06em;
+      box-shadow:inset 0 1px 0 rgba(255,245,220,0.03);
+    }
+
+    .bg6-stage{
+      display:flex;
+      align-items:stretch;
+      justify-content:stretch;
+      background:#000;
+    }
+
+    .bg6-image{
+      width:100%;
+      min-height:100vh;
+      background:url("bg6.PNG") center center / cover no-repeat;
+    }
+
+    .gallery-panel{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      padding:8vh 6vw;
+      background:
+        radial-gradient(circle at top, rgba(215,182,117,0.08), transparent 32%),
+        linear-gradient(180deg, #090806 0%, #050505 100%);
+    }
+
+    .gallery-panel::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      pointer-events:none;
+      background:
+        linear-gradient(to bottom, rgba(255,255,255,0.02), transparent 18%),
+        linear-gradient(to top, rgba(215,182,117,0.04), transparent 22%);
+    }
+
+    .panel-card{
+      position:relative;
+      width:min(920px, 92vw);
+      padding:46px 42px;
+      border-radius:30px;
+      border:1px solid rgba(234,215,174,0.16);
+      background:linear-gradient(180deg, rgba(20,16,12,0.72), rgba(10,8,6,0.52));
+      backdrop-filter:blur(6px);
+      -webkit-backdrop-filter:blur(6px);
+      box-shadow:
+        0 30px 80px rgba(0,0,0,0.38),
+        inset 0 1px 0 rgba(255,245,220,0.04);
+    }
+
+    .panel-title{
+      font-size:clamp(2.2rem, 5vw, 4rem);
+      letter-spacing:0.12em;
+      color:#f2dfb8;
+      text-shadow:0 10px 30px rgba(0,0,0,0.35);
+    }
+
+    .panel-line{
+      width:120px;
+      height:1px;
+      margin:1rem auto 1.1rem;
+      background:linear-gradient(to right, transparent, rgba(236,221,184,0.95), transparent);
+      opacity:0.9;
+    }
+
+    .panel-copy{
+      max-width:650px;
+      margin:0 auto;
+      font-size:1rem;
+      line-height:1.75;
+      color:rgba(247,241,231,0.82);
+    }
+
+    .lets-work{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      padding:10vh 6vw;
+      background:
+        radial-gradient(circle at top, rgba(215,182,117,0.10), transparent 30%),
+        linear-gradient(180deg, #060505 0%, #030303 100%);
+    }
+
+    .lets-work-card{
+      width:min(980px, 94vw);
+      padding:54px 44px;
+      border-radius:32px;
+      border:1px solid rgba(234,215,174,0.18);
+      background:linear-gradient(180deg, rgba(18,15,11,0.84), rgba(7,6,5,0.72));
+      box-shadow:
+        0 30px 90px rgba(0,0,0,0.46),
+        inset 0 1px 0 rgba(255,245,220,0.04);
+    }
+
+    .lets-work h2{
+      font-size:clamp(2.4rem, 5.5vw, 4.4rem);
+      letter-spacing:0.08em;
+      color:#f4e3bc;
+      text-shadow:0 10px 30px rgba(0,0,0,0.32);
+    }
+
+    .lets-work p{
+      max-width:720px;
+      margin:1.2rem auto 0;
+      font-size:1rem;
+      line-height:1.8;
+      color:rgba(247,241,231,0.84);
+    }
+
+    @media (max-width: 900px){
+      .foreground{
+        width:82vw;
+        min-width:0;
       }
     }
-  }
-});
 
-/* ========= TRANSITION ========= */
+    @media (max-width: 768px){
+      .museum-nav{
+        top:14px;
+        left:14px;
+        right:14px;
+      }
 
-tl.fromTo("#bg4Base",
-  {scale:1},
-  {scale:1.1},
-  0
-)
+      .museum-btn{
+        padding:12px 14px;
+        gap:10px;
+      }
 
-.fromTo("#bg5Top",
-  {opacity:0, scale:1.05},
-  {opacity:1, scale:1},
-  0.2
-)
+      .btn-label{
+        font-size:0.98rem;
+      }
 
-.to("#bg4Base",{opacity:0},0.35)
+      .gallery-dropdown{
+        top:58px;
+        min-width:250px;
+      }
 
-/* ========= ZOOM LEFT ========= */
+      .museum-work-btn .btn-label{
+        max-width:130px;
+        overflow:hidden;
+        text-overflow:ellipsis;
+      }
 
-.to("#bg5Top",{
-  scale:3.6,
-  xPercent:52,
-  yPercent:-2,
-  transformOrigin:"25% 45%",
-  ease:"power2.inOut"
-},0.45)
+      .scene1-wrapper,
+      .canvas-wrap,
+      .bg4-stage,
+      .bg6-stage{
+        height:100svh;
+      }
 
-/* LOCK */
-.to("#bg5Top",{
-  scale:3.6,
-  xPercent:52,
-  yPercent:-2,
-  transformOrigin:"25% 45%",
-  ease:"none"
-},0.6)
+      .foreground{
+        width:92vw;
+      }
 
-/* HOLD */
-.to({}, {duration:0.4},0.65)
+      .bg2-content{
+        top:42%;
+        padding:22px 20px 20px;
+      }
 
-/* ENTER PROJECTS */
-.to("#bg5Top",{opacity:0},0.72)
-.to("#projectsJourney",{opacity:1},0.75)
+      .bg2-content h1{
+        font-size:clamp(2rem, 8vw, 3rem);
+        white-space:normal;
+      }
 
-/* EXIT */
-.to("#projectsJourney",{opacity:0},0.95)
+      .text-plate{
+        border-radius:22px;
+      }
 
-</script>
+      .bg2-content p{
+        font-size:0.92rem;
+      }
 
+      .freeform-inner img{
+        width:220px;
+      }
+
+      .freeform-title h1{
+        font-size:2.2rem;
+        letter-spacing:.14em;
+      }
+
+      .freeform-title p{
+        font-size:.78rem;
+      }
+
+      #torch{
+        width:56px;
+      }
+
+      .panel-card,
+      .lets-work-card{
+        padding:34px 22px;
+      }
+
+      .proj{
+        min-width:86vw;
+        height:72vh;
+      }
+
+      .proj-content{
+        grid-template-columns:1fr;
+        gap:20px;
+        padding:24px;
+      }
+
+      .proj-visual{
+        min-height:220px;
+      }
+
+      .proj-title{
+        font-size:2.35rem;
+      }
+
+      .proj-desc{
+        max-width:none;
+      }
+    }
+  </style>
+</head>
+<body class="scroll-locked">
+
+  <div class="museum-nav" id="museumNav">
+    <button class="museum-btn museum-menu-btn" id="galleryToggle" aria-label="Open galleries menu">
+      <span class="menu-icon" aria-hidden="true">
+        <span></span>
+        <span></span>
+        <span></span>
+      </span>
+      <span class="btn-label">Museum’s Galleries</span>
+    </button>
+
+    <div class="gallery-dropdown" id="galleryDropdown">
+      <a href="#canvasStudio" class="gallery-link">
+        <span class="gallery-kicker">Gallery I</span>
+        <span class="gallery-name">Canvas Studio</span>
+      </a>
+      <a href="#projectArcade" class="gallery-link">
+        <span class="gallery-kicker">Gallery II</span>
+        <span class="gallery-name">Project Arcade</span>
+      </a>
+      <a href="#customizationCoop" class="gallery-link">
+        <span class="gallery-kicker">Gallery III</span>
+        <span class="gallery-name">Customization Co-op</span>
+      </a>
+      <a href="#directorsDome" class="gallery-link">
+        <span class="gallery-kicker">Gallery IV</span>
+        <span class="gallery-name">Director’s Dome</span>
+      </a>
+    </div>
+
+    <a href="#letsWorkSection" class="museum-btn museum-work-btn">
+      <span class="btn-label">Let’s Work Together</span>
+    </a>
+  </div>
+
+  <section class="scene1-wrapper" id="scene1">
+    <div class="scene">
+      <img src="bg1-sky.png" class="layer sky" id="sky" alt="sky">
+      <img src="bg1-mid.png" class="layer mid" id="mid" alt="mid">
+      <img src="bg1-front.PNG" class="layer front" id="front" alt="front">
+      <img src="bg1-foreground.PNG" class="foreground" id="foreground" alt="foreground">
+
+      <div id="darkness"></div>
+      <img id="torch" src="torchtm.png" alt="torch">
+    </div>
+
+    <div class="scene">
+      <img src="bg2-main.png" class="layer bg2" id="bg2" alt="bg2">
+
+      <div class="bg2-content" id="bg2Content">
+        <div class="text-plate"></div>
+        <h1>Hey there, Welcome!!</h1>
+        <div class="gold-line"></div>
+        <p>Step into my little world of creations</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="canvas-wrap" id="canvasStudio">
+    <div id="freeform">
+      <div class="freeform-title" id="freeformTitle">
+        <h1>Canvas Studio</h1>
+        <p>Drag & Explore :)</p>
+      </div>
+      <div class="freeform-inner" id="freeformInner"></div>
+    </div>
+  </section>
+
+  <section class="bg4-stage" id="projectArcade">
+    <div class="bg4-base" id="bg4Base"></div>
+    <div class="bg4-overlay" id="bg4Overlay"></div>
+    <div class="bg5-top" id="bg5Top"></div>
+    <div class="bg5-overlay" id="bg5Overlay"></div>
+
+    <div id="arcadeFade"></div>
+
+    <div id="projectsJourney">
+      <div id="projectsTrack">
+        <div class="proj">
+          <div class="proj-content">
+            <div class="proj-visual"><div class="proj-art"></div></div>
+            <div class="proj-copy">
+              <div class="proj-kicker">Exhibit I</div>
+              <h2 class="proj-title">Clay Creation</h2>
+              <div class="proj-line"></div>
+              <p class="proj-desc">Placeholder showcase for tactile forms, sculpted pieces, and handcrafted visual storytelling presented like a premium museum exhibit.</p>
+              <div class="proj-tags">
+                <span class="proj-tag">Placeholder</span>
+                <span class="proj-tag">Museum Styled</span>
+                <span class="proj-tag">Featured Work</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="proj">
+          <div class="proj-content">
+            <div class="proj-visual"><div class="proj-art"></div></div>
+            <div class="proj-copy">
+              <div class="proj-kicker">Exhibit II</div>
+              <h2 class="proj-title">Board Games</h2>
+              <div class="proj-line"></div>
+              <p class="proj-desc">Placeholder section for playful systems, social experiences, and beautifully presented concepts framed with warm gold detailing.</p>
+              <div class="proj-tags">
+                <span class="proj-tag">Placeholder</span>
+                <span class="proj-tag">Interactive</span>
+                <span class="proj-tag">Curated</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="proj">
+          <div class="proj-content">
+            <div class="proj-visual"><div class="proj-art"></div></div>
+            <div class="proj-copy">
+              <div class="proj-kicker">Exhibit III</div>
+              <h2 class="proj-title">Events Hosted</h2>
+              <div class="proj-line"></div>
+              <p class="proj-desc">Placeholder exhibit for gatherings, experiences, and hosted moments presented with the atmosphere of a gallery installation.</p>
+              <div class="proj-tags">
+                <span class="proj-tag">Placeholder</span>
+                <span class="proj-tag">Atmospheric</span>
+                <span class="proj-tag">Showcase</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="proj">
+          <div class="proj-content">
+            <div class="proj-visual"><div class="proj-art"></div></div>
+            <div class="proj-copy">
+              <div class="proj-kicker">Exhibit IV</div>
+              <h2 class="proj-title">Interactive Work</h2>
+              <div class="proj-line"></div>
+              <p class="proj-desc">Placeholder card for immersive digital projects, motion pieces, and cinematic interfaces that deserve a high-end presentation.</p>
+              <div class="proj-tags">
+                <span class="proj-tag">Placeholder</span>
+                <span class="proj-tag">Motion Design</span>
+                <span class="proj-tag">Premium UI</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg6-stage" id="bg6Stage">
+    <div class="bg6-image"></div>
+  </section>
+
+  <section class="gallery-panel" id="customizationCoop">
+    <div class="panel-card">
+      <h2 class="panel-title">Customization Co-op</h2>
+      <div class="panel-line"></div>
+      <p class="panel-copy">
+        A curated space for tailored experiences, bespoke interactions, and crafted visual identity.
+        Replace this panel with your actual customization showcase whenever you’re ready.
+      </p>
+    </div>
+  </section>
+
+  <section class="gallery-panel" id="directorsDome">
+    <div class="panel-card">
+      <h2 class="panel-title">Director’s Dome</h2>
+      <div class="panel-line"></div>
+      <p class="panel-copy">
+        The final chamber for highlights, featured work, and signature direction.
+        You can turn this into your premium portfolio or closing gallery section.
+      </p>
+    </div>
+  </section>
+
+  <section class="lets-work" id="letsWorkSection">
+    <div class="lets-work-card">
+      <h2>Let’s Work Together</h2>
+      <p>
+        If you’d like to build something immersive, polished, and memorable, this is where the next
+        conversation begins. Add your form, email, contact links, or collaboration CTA here.
+      </p>
+    </div>
+  </section>
+
+  <script>
+    window.scrollTo(0, 0);
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    let torchActive = true;
+    let introComplete = false;
+
+    function lockPageScroll() {
+      document.body.classList.add("scroll-locked");
+    }
+
+    function unlockPageScroll() {
+      document.body.classList.remove("scroll-locked");
+    }
+
+    function preventScroll(e) {
+      if (!introComplete || torchActive) {
+        e.preventDefault();
+      }
+    }
+
+    function keyBlocker(e) {
+      const blocked = ["Space","ArrowUp","ArrowDown","PageUp","PageDown","Home","End"];
+      if ((!introComplete || torchActive) && blocked.includes(e.code)) {
+        e.preventDefault();
+      }
+    }
+
+    window.addEventListener("wheel", preventScroll, { passive:false });
+    window.addEventListener("touchmove", preventScroll, { passive:false });
+    window.addEventListener("keydown", keyBlocker, { passive:false });
+
+    const root = document.documentElement;
+    const torch = document.getElementById("torch");
+    const darkness = document.getElementById("darkness");
+
+    document.addEventListener("mousemove", e => {
+      root.style.setProperty("--x", e.clientX + "px");
+      root.style.setProperty("--y", e.clientY + "px");
+
+      if (torchActive) {
+        torch.style.left = e.clientX + "px";
+        torch.style.top = e.clientY + "px";
+      }
+    });
+
+    setTimeout(() => {
+      darkness.style.opacity = 0;
+      torch.style.opacity = 0;
+
+      setTimeout(() => {
+        torchActive = false;
+        introComplete = true;
+        document.body.classList.add("torch-ended");
+        unlockPageScroll();
+        darkness.style.display = "none";
+        torch.style.display = "none";
+      }, 2200);
+    }, 5000);
+
+    const tl = gsap.timeline({
+      scrollTrigger:{
+        trigger:"#scene1",
+        start:"top top",
+        end:"+=2000",
+        scrub:1.15,
+        pin:true
+      }
+    });
+
+    tl.to("#sky",{ y:22, scale:1.015 },0)
+      .to("#mid",{ y:36, scale:1.02 },0)
+      .to("#front",{ y:42, scale:1.015 },0)
+      .to("#foreground",{ y:78, scale:1.045, x:0 },0)
+      .to("#bg2",{ opacity:1, scale:1, duration:0.82, ease:"power2.out" },0.40)
+      .to("#bg2Content",{ opacity:1, y:-1, duration:0.58, ease:"power1.out" },0.46)
+      .to("#foreground",{ opacity:0 },0.50)
+      .to("#mid",{ opacity:0 },0.56)
+      .to("#front",{ opacity:0 },0.60)
+      .to("#sky",{ opacity:0.08 },0.66);
+
+    gsap.timeline({
+      scrollTrigger:{
+        trigger:"#canvasStudio",
+        start:"top bottom",
+        end:"top 55%",
+        scrub:1
+      }
+    })
+    .fromTo("#freeform",
+      { opacity:0.90, scale:1.012 },
+      { opacity:1, scale:1, ease:"none" },
+      0
+    )
+    .fromTo("#freeformTitle",
+      { opacity:0.65, y:18 },
+      { opacity:1, y:0, ease:"none" },
+      0.08
+    );
+
+    const freeform = document.getElementById("freeform");
+    const inner = document.getElementById("freeformInner");
+
+    let canvasBuilt = false;
+    let frames = [];
+    let posX = 0, posY = 0, velX = 0, velY = 0;
+    let dragging = false;
+
+    const VIEW_LIMIT_X = 980;
+    const VIEW_LIMIT_Y = 760;
+    const RESPAWN_LIMIT_X = 1120;
+    const RESPAWN_LIMIT_Y = 860;
+
+    function getSpawnPosition(range, edgePad = 180){
+      const side = Math.floor(Math.random() * 4);
+      let x = 0, y = 0;
+
+      if (side === 0) {
+        x = -VIEW_LIMIT_X - edgePad - Math.random() * 180;
+        y = (Math.random() * range) - range / 2;
+      } else if (side === 1) {
+        x = VIEW_LIMIT_X + edgePad + Math.random() * 180;
+        y = (Math.random() * range) - range / 2;
+      } else if (side === 2) {
+        x = (Math.random() * range) - range / 2;
+        y = -VIEW_LIMIT_Y - edgePad - Math.random() * 160;
+      } else {
+        x = (Math.random() * range) - range / 2;
+        y = VIEW_LIMIT_Y + edgePad + Math.random() * 160;
+      }
+
+      return { x, y };
+    }
+
+    function place(frame, range, minDist, preferEdge = false){
+      let candidate, ok = false, tries = 0;
+
+      while(!ok && tries < 140){
+        candidate = preferEdge
+          ? getSpawnPosition(range)
+          : {
+              x: Math.random() * range - range / 2,
+              y: Math.random() * range - range / 2
+            };
+
+        ok = frames.every(f => {
+          if (f === frame) return true;
+          return Math.hypot(f.x - candidate.x, f.y - candidate.y) > minDist;
+        });
+
+        tries++;
+      }
+
+      frame.x = candidate.x;
+      frame.y = candidate.y;
+    }
+
+    function buildFreeform(){
+      if (canvasBuilt) return;
+      canvasBuilt = true;
+
+      inner.innerHTML = "";
+      frames = [];
+
+      const COUNT = 8;
+      const RANGE = 2600;
+      const MIN_DIST = 340;
+      const imgs = [...Array(8)].map((_,i)=>`art${i+1}.png`);
+
+      for(let i=0;i<COUNT;i++){
+        const img = document.createElement("img");
+        img.src = imgs[i];
+        img.alt = `Artwork ${i+1}`;
+        inner.appendChild(img);
+
+        const frame = { img, x:0, y:0, id:i, opacity:0 };
+        place(frame, RANGE, MIN_DIST, i > 2);
+        frames.push(frame);
+      }
+
+      freeform.onmousedown = () => {
+        dragging = true;
+        freeform.classList.add("is-dragging");
+      };
+
+      window.addEventListener("mouseup", () => {
+        dragging = false;
+        freeform.classList.remove("is-dragging");
+      });
+
+      window.addEventListener("mousemove", e => {
+        if (dragging) {
+          velX += e.movementX * 0.12;
+          velY += e.movementY * 0.12;
+        }
+      });
+
+      (function loop(){
+        if (!dragging) velX += 0.028;
+
+        posX += velX;
+        posY += velY;
+        velX *= 0.92;
+        velY *= 0.92;
+
+        frames.forEach(f => {
+          const screenX = f.x + posX;
+          const screenY = f.y + posY;
+
+          if (!f.opacity) f.opacity = 0;
+
+          const visible =
+            screenX > -260 && screenX < window.innerWidth + 80 &&
+            screenY > -260 && screenY < window.innerHeight + 80;
+
+          const target = visible ? 1 : 0;
+          f.opacity += (target - f.opacity) * 0.08;
+
+          const outOfRange =
+            screenX > RESPAWN_LIMIT_X || screenX < -RESPAWN_LIMIT_X ||
+            screenY > RESPAWN_LIMIT_Y || screenY < -RESPAWN_LIMIT_Y;
+
+          if (outOfRange) {
+            place(f, 2600, 340, true);
+            f.opacity = 0;
+          }
+
+          f.img.style.left = (f.x + posX) + "px";
+          f.img.style.top = (f.y + posY) + "px";
+          f.img.style.opacity = f.opacity;
+        });
+
+        requestAnimationFrame(loop);
+      })();
+    }
+
+    ScrollTrigger.create({
+      trigger: "#canvasStudio",
+      start: "top top",
+      onEnter: () => {
+        buildFreeform();
+      }
+    });
+
+    const projectsTrack = document.getElementById("projectsTrack");
+    const projectsJourney = document.getElementById("projectsJourney");
+
+    let trackX = 0;
+    let dragActive = false;
+    let dragStartX = 0;
+    let dragStartTrackX = 0;
+
+    function getTrackBounds() {
+      const maxNegative = Math.min(0, projectsJourney.clientWidth - projectsTrack.scrollWidth);
+      return { min: maxNegative, max: 0 };
+    }
+
+    function clampTrackX(x) {
+      const bounds = getTrackBounds();
+      return Math.max(bounds.min, Math.min(bounds.max, x));
+    }
+
+    function setTrackX(x) {
+      trackX = clampTrackX(x);
+      gsap.set(projectsTrack, { x: trackX });
+    }
+
+    function pointerX(event) {
+      return event.touches ? event.touches[0].clientX : event.clientX;
+    }
+
+    function startDrag(event) {
+      if (gsap.getProperty(projectsJourney, "opacity") < 0.95) return;
+      dragActive = true;
+      dragStartX = pointerX(event);
+      dragStartTrackX = trackX;
+      projectsJourney.classList.add("dragging");
+    }
+
+    function moveDrag(event) {
+      if (!dragActive) return;
+      const dx = pointerX(event) - dragStartX;
+      setTrackX(dragStartTrackX + dx);
+    }
+
+    function endDrag() {
+      dragActive = false;
+      projectsJourney.classList.remove("dragging");
+    }
+
+    projectsJourney.addEventListener("mousedown", startDrag);
+    projectsJourney.addEventListener("touchstart", startDrag, { passive: true });
+
+    window.addEventListener("mousemove", moveDrag);
+    window.addEventListener("touchmove", moveDrag, { passive: true });
+
+    window.addEventListener("mouseup", endDrag);
+    window.addEventListener("touchend", endDrag);
+
+    gsap.timeline({
+      scrollTrigger: {
+        trigger: "#projectArcade",
+        start: "top top",
+        end: "+=4600",
+        scrub: 1.2,
+        pin: true,
+        invalidateOnRefresh: true,
+        onRefresh: () => setTrackX(trackX)
+      }
+    })
+    .fromTo("#bg4Base",
+      { scale: 1, opacity: 1 },
+      { scale: 1.1, opacity: 1, ease: "none" },
+      0
+    )
+    .fromTo("#bg4Overlay",
+      { opacity: 1 },
+      { opacity: 0.42, ease: "none" },
+      0
+    )
+    .fromTo("#bg5Top",
+      { opacity: 0, scale: 1.02 },
+      { opacity: 1, scale: 1, ease: "none" },
+      0.2
+    )
+    .fromTo("#bg5Overlay",
+      { opacity: 0.18 },
+      { opacity: 0.06, ease: "none" },
+      0.2
+    )
+    .to("#bg4Base", {
+      opacity: 0,
+      ease: "power2.out"
+    }, 0.34)
+    .to("#bg4Overlay", {
+      opacity: 0,
+      ease: "power2.out"
+    }, 0.34)
+    .to("#bg5Top", {
+      scale: 3.2,
+      xPercent: 38,
+      yPercent: 6,
+      transformOrigin: "30% 50%",
+      ease: "power2.inOut"
+    }, 0.45)
+    .to("#bg5Top", {
+      xPercent: 38,
+      yPercent: 6,
+      scale: 3.2,
+      transformOrigin: "30% 50%",
+      ease: "none"
+    }, 0.58)
+    .to("#bg5Overlay", {
+      opacity: 0.18,
+      ease: "power2.out"
+    }, 0.45)
+    .to({}, {
+      duration: 0.38
+    }, 0.62)
+    .to("#arcadeFade", {
+      opacity: 1,
+      ease: "power2.inOut"
+    }, 0.70)
+    .to("#bg5Top", {
+      opacity: 0,
+      ease: "none"
+    }, 0.72)
+    .to("#bg5Overlay", {
+      opacity: 0,
+      ease: "none"
+    }, 0.72)
+    .to("#projectsJourney", {
+      opacity: 1,
+      ease: "power2.out",
+      onStart: () => setTrackX(trackX)
+    }, 0.74)
+    .to({}, {
+      duration: 0.16
+    }, 0.80)
+    .to("#projectsJourney", {
+      opacity: 0,
+      ease: "power2.inOut"
+    }, 0.95)
+    .to("#arcadeFade", {
+      opacity: 0,
+      ease: "power2.inOut"
+    }, 0.98);
+
+    const galleryToggle = document.getElementById("galleryToggle");
+    const galleryDropdown = document.getElementById("galleryDropdown");
+
+    if (galleryToggle && galleryDropdown) {
+      galleryToggle.addEventListener("click", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        galleryDropdown.classList.toggle("open");
+      });
+
+      document.addEventListener("click", (e) => {
+        if (!galleryDropdown.contains(e.target) && !galleryToggle.contains(e.target)) {
+          galleryDropdown.classList.remove("open");
+        }
+      });
+
+      galleryDropdown.querySelectorAll(".gallery-link").forEach(link => {
+        link.addEventListener("click", () => {
+          galleryDropdown.classList.remove("open");
+        });
+      });
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener("click", function(e) {
+        const targetId = this.getAttribute("href");
+        const target = document.querySelector(targetId);
+
+        if (!target) return;
+
+        e.preventDefault();
+
+        if (!torchActive) {
+          target.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      });
+    });
+
+    window.addEventListener("resize", () => {
+      setTrackX(trackX);
+      ScrollTrigger.refresh();
+    });
+  </script>
 </body>
 </html>
