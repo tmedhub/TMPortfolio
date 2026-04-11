@@ -561,7 +561,14 @@
     }
 
     .bg4-base,
-    .bg5-top,
+    .bg5-top{
+  background-image:url("bg5.png");
+  background-position:center center;
+  z-index:4;
+  opacity:0;
+  transform:scale(1.02);
+  will-change:transform, opacity;
+}
     .bg6-reveal{
       position:absolute;
       inset:0;
@@ -643,15 +650,15 @@
       );
     }
 
-    #projectsJourney{
-      position:absolute;
-      inset:0;
-      z-index:10;
-      opacity:0;
-      overflow:hidden;
-      background:#090705;
-      pointer-events:none;
-    }
+#projectsJourney{
+  position:absolute;
+  inset:0;
+  z-index:10;
+  opacity:0;
+  overflow:hidden;
+  background:#090705;
+  pointer-events:none;
+}
 
     #projectsJourney::before{
       content:"";
@@ -664,19 +671,20 @@
         radial-gradient(circle at 50% -10%, rgba(188,120,56,0.08), transparent 26%);
     }
 
-    .arcade-note{
-      position:absolute;
-      top:4.2vh;
-      left:50%;
-      transform:translateX(-50%);
-      z-index:12;
-      font-size:0.58rem;
-      letter-spacing:0.28em;
-      text-transform:uppercase;
-      color:rgba(215,181,120,0.42);
-      white-space:nowrap;
-      pointer-events:none;
-    }
+.arcade-note{
+  position:absolute;
+  top:4.2vh;
+  left:50%;
+  transform:translateX(-50%);
+  z-index:30;
+  font-size:0.62rem;
+  letter-spacing:0.30em;
+  text-transform:uppercase;
+  color:rgba(215,181,120,0.62);
+  white-space:nowrap;
+  pointer-events:none;
+  opacity:1;
+}
 
     .arcade-shell{
       position:absolute;
@@ -1747,83 +1755,121 @@
     }
     animateTrack();
 
-    const projectArcadeTimeline = gsap.timeline({
-      scrollTrigger: {
-        trigger: "#projectArcade",
-        start: "top top",
-        end: () => "+=" + (track.scrollWidth - shell.clientWidth + 2600),
-        scrub: 1,
-        pin: true,
-        invalidateOnRefresh: true,
-        onUpdate: self => {
-          const progress = self.progress;
+const projectArcadeTimeline = gsap.timeline({
+  scrollTrigger: {
+    trigger: "#projectArcade",
+    start: "top top",
+    end: () => "+=" + (track.scrollWidth - shell.clientWidth + 3200),
+    scrub: 1,
+    pin: true,
+    invalidateOnRefresh: true,
+    onUpdate: self => {
+      const progress = self.progress;
 
-          if (progress < 0.16) {
-            gsap.set(bg5Top, { opacity: 1 });
-            gsap.set(bg5Overlay, { opacity: 1 });
-          } else {
-            gsap.set(bg5Top, { opacity: 0 });
-            gsap.set(bg5Overlay, { opacity: 0 });
-          }
+      const horizontalStart = 0.30;
+      const horizontalEnd = 0.82;
 
-          const horizontalStart = 0.22;
-          const horizontalEnd = 0.82;
-
-          const moveProgress = gsap.utils.clamp(
-            0,
-            1,
-            (progress - horizontalStart) / (horizontalEnd - horizontalStart)
-          );
-
-          const maxX = Math.max(0, track.scrollWidth - shell.clientWidth);
-          targetX = clampTrackX(-maxX * moveProgress);
-        }
-      }
-    });
-
-    projectArcadeTimeline
-      .to(bg4Base, {
-        scale: 1.08,
-        opacity: 0,
-        ease: "power2.inOut"
-      }, 0)
-      .to(bg4Overlay, {
-        opacity: 0,
-        ease: "power2.inOut"
-      }, 0)
-      .fromTo(bg5Top,
-        { opacity: 0, scale: 1.04 },
-        { opacity: 1, scale: 1, ease: "power2.out" },
-        0.02
-      )
-      .fromTo(bg5Overlay,
-        { opacity: 0 },
-        { opacity: 1, ease: "power2.out" },
-        0.04
-      )
-      .fromTo(projectsJourney,
-        { opacity: 0 },
-        { opacity: 1, ease: "power2.inOut" },
-        0.18
-      )
-      .to(projectsJourney, {
-        opacity: 1,
-        ease: "none"
-      }, 0.82)
-      .to(projectsJourney, {
-        opacity: 0,
-        ease: "power2.inOut"
-      }, 0.92)
-      .fromTo(bg6Reveal,
-        { opacity: 0, scale: 1.02 },
-        { opacity: 1, scale: 1, ease: "power2.out" },
-        0.94
-      )
-      .fromTo(bg6Overlay,
-        { opacity: 0 },
-        { opacity: 1, ease: "power2.out" },
-        0.95
+      const moveProgress = gsap.utils.clamp(
+        0,
+        1,
+        (progress - horizontalStart) / (horizontalEnd - horizontalStart)
       );
+
+      const maxX = Math.max(0, track.scrollWidth - shell.clientWidth);
+      targetX = clampTrackX(-maxX * moveProgress);
+    }
+  }
+});
+
+projectArcadeTimeline
+  /* STEP 1: zoom bg4 in before reveal */
+  .fromTo(bg4Base,
+    { scale: 1, opacity: 1 },
+    { scale: 1.14, opacity: 1, ease: "none" },
+    0.00
+  )
+  .fromTo(bg4Overlay,
+    { opacity: 1 },
+    { opacity: 0.22, ease: "none" },
+    0.00
+  )
+
+  /* STEP 2: bg5 fades in over bg4 */
+  .fromTo(bg5Top,
+    { opacity: 0, scale: 1.02, xPercent: 0, yPercent: 0 },
+    { opacity: 1, scale: 1, xPercent: 0, yPercent: 0, ease: "power2.out" },
+    0.14
+  )
+  .fromTo(bg5Overlay,
+    { opacity: 0 },
+    { opacity: 1, ease: "power2.out" },
+    0.14
+  )
+
+  /* STEP 3: bg4 disappears */
+  .to(bg4Base, {
+    opacity: 0,
+    ease: "power2.out"
+  }, 0.24)
+  .to(bg4Overlay, {
+    opacity: 0,
+    ease: "power2.out"
+  }, 0.24)
+
+  /* STEP 4: hold on bg5 a bit */
+  .to({}, { duration: 0.10 }, 0.30)
+
+  /* STEP 5: zoom bg5 to upper-left-ish before horizontal section */
+  .to(bg5Top, {
+    scale: 2.95,
+    xPercent: -16,
+    yPercent: -8,
+    transformOrigin: "50% 50%",
+    ease: "power2.inOut"
+  }, 0.36)
+  .to(bg5Overlay, {
+    opacity: 0.18,
+    ease: "power2.inOut"
+  }, 0.36)
+
+  /* STEP 6: horizontal opaque layer comes in */
+  .fromTo(projectsJourney,
+    { opacity: 0 },
+    { opacity: 1, ease: "power2.inOut" },
+    0.52
+  )
+
+  /* once horizontal starts, bg5 goes away behind it */
+  .to(bg5Top, {
+    opacity: 0,
+    ease: "power2.out"
+  }, 0.58)
+  .to(bg5Overlay, {
+    opacity: 0,
+    ease: "power2.out"
+  }, 0.58)
+
+  /* keep horizontal section on screen */
+  .to(projectsJourney, {
+    opacity: 1,
+    ease: "none"
+  }, 0.82)
+
+  /* exit into bg6 */
+  .to(projectsJourney, {
+    opacity: 0,
+    ease: "power2.inOut"
+  }, 0.92)
+  .fromTo(bg6Reveal,
+    { opacity: 0, scale: 1.02 },
+    { opacity: 1, scale: 1, ease: "power2.out" },
+    0.94
+  )
+  .fromTo(bg6Overlay,
+    { opacity: 0 },
+    { opacity: 1, ease: "power2.out" },
+    0.95
+  );
 
     window.addEventListener("resize", () => {
       targetX = clampTrackX(targetX);
