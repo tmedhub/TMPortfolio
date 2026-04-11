@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Museumof Me</title>
+  <title>Museum of Me</title>
 
   <script>
     if ("scrollRestoration" in history) {
@@ -76,7 +76,7 @@
       top:22px;
       left:24px;
       right:24px;
-      z-index:9999;
+      z-index:40; /* under darkness + torch */
       display:flex;
       justify-content:space-between;
       align-items:flex-start;
@@ -170,18 +170,18 @@
 
     .gallery-dropdown{
       position:absolute;
-      top:64px;
+      top:68px;
       left:0;
-      min-width:300px;
+      min-width:320px;
       padding:12px;
-      border-radius:22px;
+      border-radius:24px;
       border:1px solid rgba(234,215,174,0.18);
-      background:linear-gradient(180deg, rgba(16,13,10,0.94), rgba(8,7,5,0.92));
+      background:linear-gradient(180deg, rgba(16,13,10,0.96), rgba(8,7,5,0.94));
       box-shadow:
         0 24px 60px rgba(0,0,0,0.44),
-        inset 0 1px 0 rgba(255,245,220,0.04);
-      backdrop-filter:blur(10px);
-      -webkit-backdrop-filter:blur(10px);
+        inset 0 1px 0 rgba(255,245,220,0.05);
+      backdrop-filter:blur(12px);
+      -webkit-backdrop-filter:blur(12px);
       opacity:0;
       visibility:hidden;
       transform:translateY(10px) scale(0.98);
@@ -201,14 +201,12 @@
     }
 
     .gallery-link{
-      display:block;
-      padding:13px 14px;
-      border-radius:14px;
+      display:flex;
+      flex-direction:column;
+      gap:3px;
+      padding:12px 14px;
+      border-radius:16px;
       text-decoration:none;
-      color:rgba(247,241,231,0.9);
-      font-family:"Cormorant Garamond", serif;
-      font-size:1.08rem;
-      letter-spacing:0.03em;
       transition:
         background 0.25s ease,
         color 0.25s ease,
@@ -217,8 +215,22 @@
 
     .gallery-link:hover{
       background:rgba(215,182,117,0.08);
-      color:#fff4db;
       transform:translateX(3px);
+    }
+
+    .gallery-kicker{
+      font-size:0.72rem;
+      letter-spacing:0.22em;
+      text-transform:uppercase;
+      color:rgba(215,182,117,0.9);
+      font-weight:500;
+    }
+
+    .gallery-name{
+      font-family:"Cormorant Garamond", serif;
+      font-size:1.15rem;
+      color:rgba(247,241,231,0.92);
+      letter-spacing:0.03em;
     }
 
     .museum-work-btn{
@@ -423,7 +435,23 @@
 
     .canvas-wrap{
       height:100vh;
-      background:black;
+      background:
+        linear-gradient(to bottom, rgba(0,0,0,0.0), rgba(0,0,0,0.22) 18%, #000 46%),
+        #000;
+    }
+
+    .canvas-wrap::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      pointer-events:none;
+      z-index:2;
+      background:linear-gradient(
+        to bottom,
+        rgba(245,217,166,0.03) 0%,
+        rgba(0,0,0,0.00) 20%,
+        rgba(0,0,0,0.00) 100%
+      );
     }
 
     #freeform{
@@ -433,6 +461,9 @@
       overflow:hidden;
       cursor:default;
       z-index:100;
+      opacity:0.92;
+      transform:scale(1.01);
+      will-change:opacity, transform;
     }
 
     body.torch-ended #freeform{
@@ -470,6 +501,9 @@
       pointer-events:none;
       z-index:5;
       text-align:center;
+      opacity:0.82;
+      transform:translateY(12px);
+      will-change:opacity, transform;
     }
 
     .freeform-title h1,
@@ -682,7 +716,7 @@
 
       .gallery-dropdown{
         top:58px;
-        min-width:240px;
+        min-width:250px;
       }
 
       .museum-work-btn .btn-label{
@@ -756,10 +790,22 @@
     </button>
 
     <div class="gallery-dropdown" id="galleryDropdown">
-      <a href="#canvasStudio" class="gallery-link">Canvas Studio</a>
-      <a href="#projectArcade" class="gallery-link">Project Arcade</a>
-      <a href="#customizationCoop" class="gallery-link">Customization Co-op</a>
-      <a href="#directorsDome" class="gallery-link">Director’s Dome</a>
+      <a href="#canvasStudio" class="gallery-link">
+        <span class="gallery-kicker">Gallery I</span>
+        <span class="gallery-name">Canvas Studio</span>
+      </a>
+      <a href="#projectArcade" class="gallery-link">
+        <span class="gallery-kicker">Gallery II</span>
+        <span class="gallery-name">Project Arcade</span>
+      </a>
+      <a href="#customizationCoop" class="gallery-link">
+        <span class="gallery-kicker">Gallery III</span>
+        <span class="gallery-name">Customization Co-op</span>
+      </a>
+      <a href="#directorsDome" class="gallery-link">
+        <span class="gallery-kicker">Gallery IV</span>
+        <span class="gallery-name">Director’s Dome</span>
+      </a>
     </div>
 
     <a href="#letsWorkSection" class="museum-btn museum-work-btn">
@@ -792,7 +838,7 @@
 
   <section class="canvas-wrap" id="canvasStudio">
     <div id="freeform">
-      <div class="freeform-title">
+      <div class="freeform-title" id="freeformTitle">
         <h1>Canvas Studio</h1>
         <p>Drag & Explore :)</p>
       </div>
@@ -904,8 +950,8 @@
       scrollTrigger:{
         trigger:"#scene1",
         start:"top top",
-        end:"+=2200",
-        scrub:1.2,
+        end:"+=2000",
+        scrub:1.15,
         pin:true
       }
     });
@@ -914,12 +960,31 @@
       .to("#mid",{ y:36, scale:1.02 },0)
       .to("#front",{ y:42, scale:1.015 },0)
       .to("#foreground",{ y:78, scale:1.045, x:0 },0)
-      .to("#bg2",{ opacity:1, scale:1, duration:0.8, ease:"power2.out" },0.42)
-      .to("#bg2Content",{ opacity:1, y:-1, duration:0.55, ease:"power1.out" },0.48)
-      .to("#foreground",{ opacity:0 },0.52)
-      .to("#mid",{ opacity:0 },0.58)
-      .to("#front",{ opacity:0 },0.62)
-      .to("#sky",{ opacity:0.14 },0.68);
+      .to("#bg2",{ opacity:1, scale:1, duration:0.82, ease:"power2.out" },0.40)
+      .to("#bg2Content",{ opacity:1, y:-1, duration:0.58, ease:"power1.out" },0.46)
+      .to("#foreground",{ opacity:0 },0.50)
+      .to("#mid",{ opacity:0 },0.56)
+      .to("#front",{ opacity:0 },0.60)
+      .to("#sky",{ opacity:0.08 },0.66);
+
+    gsap.timeline({
+      scrollTrigger:{
+        trigger:"#canvasStudio",
+        start:"top bottom",
+        end:"top 55%",
+        scrub:1
+      }
+    })
+    .fromTo("#freeform",
+      { opacity:0.90, scale:1.012 },
+      { opacity:1, scale:1, ease:"none" },
+      0
+    )
+    .fromTo("#freeformTitle",
+      { opacity:0.65, y:18 },
+      { opacity:1, y:0, ease:"none" },
+      0.08
+    );
 
     const freeform = document.getElementById("freeform");
     const inner = document.getElementById("freeformInner");
@@ -929,15 +994,57 @@
     let posX = 0, posY = 0, velX = 0, velY = 0;
     let dragging = false;
 
-    function place(frame, range, minDist){
-      let x, y, ok = false;
-      while(!ok){
-        x = Math.random() * range - range / 2;
-        y = Math.random() * range - range / 2;
-        ok = frames.every(f => Math.hypot(f.x - x, f.y - y) > minDist || f === frame);
+    const VIEW_LIMIT_X = 980;
+    const VIEW_LIMIT_Y = 760;
+    const RESPAWN_LIMIT_X = 1120;
+    const RESPAWN_LIMIT_Y = 860;
+
+    function distance(a, b){
+      return Math.hypot(a.x - b.x, a.y - b.y);
+    }
+
+    function getSpawnPosition(range, edgePad = 180){
+      const side = Math.floor(Math.random() * 4);
+      let x = 0, y = 0;
+
+      if (side === 0) { // left
+        x = -VIEW_LIMIT_X - edgePad - Math.random() * 180;
+        y = (Math.random() * range) - range / 2;
+      } else if (side === 1) { // right
+        x = VIEW_LIMIT_X + edgePad + Math.random() * 180;
+        y = (Math.random() * range) - range / 2;
+      } else if (side === 2) { // top
+        x = (Math.random() * range) - range / 2;
+        y = -VIEW_LIMIT_Y - edgePad - Math.random() * 160;
+      } else { // bottom
+        x = (Math.random() * range) - range / 2;
+        y = VIEW_LIMIT_Y + edgePad + Math.random() * 160;
       }
-      frame.x = x;
-      frame.y = y;
+
+      return { x, y };
+    }
+
+    function place(frame, range, minDist, preferEdge = false){
+      let candidate, ok = false, tries = 0;
+
+      while(!ok && tries < 140){
+        candidate = preferEdge
+          ? getSpawnPosition(range)
+          : {
+              x: Math.random() * range - range / 2,
+              y: Math.random() * range - range / 2
+            };
+
+        ok = frames.every(f => {
+          if (f === frame) return true;
+          return Math.hypot(f.x - candidate.x, f.y - candidate.y) > minDist;
+        });
+
+        tries++;
+      }
+
+      frame.x = candidate.x;
+      frame.y = candidate.y;
     }
 
     function buildFreeform(){
@@ -948,8 +1055,8 @@
       frames = [];
 
       const COUNT = 8;
-      const RANGE = 2400;
-      const MIN_DIST = 360;
+      const RANGE = 2600;
+      const MIN_DIST = 340;
       const imgs = [...Array(8)].map((_,i)=>`art${i+1}.png`);
 
       for(let i=0;i<COUNT;i++){
@@ -958,8 +1065,8 @@
         img.alt = `Artwork ${i+1}`;
         inner.appendChild(img);
 
-        const frame = { img, x:0, y:0 };
-        place(frame, RANGE, MIN_DIST);
+        const frame = { img, x:0, y:0, id:i };
+        place(frame, RANGE, MIN_DIST, i > 2);
         frames.push(frame);
       }
 
@@ -981,7 +1088,7 @@
       });
 
       (function loop(){
-        if (!dragging) velX += 0.02;
+        if (!dragging) velX += 0.028;
 
         posX += velX;
         posY += velY;
@@ -989,11 +1096,15 @@
         velY *= 0.92;
 
         frames.forEach(f => {
-          if (
-            f.x + posX > 1400 || f.x + posX < -1400 ||
-            f.y + posY > 1400 || f.y + posY < -1400
-          ) {
-            place(f, RANGE, MIN_DIST);
+          const screenX = f.x + posX;
+          const screenY = f.y + posY;
+
+          const outOfRange =
+            screenX > RESPAWN_LIMIT_X || screenX < -RESPAWN_LIMIT_X ||
+            screenY > RESPAWN_LIMIT_Y || screenY < -RESPAWN_LIMIT_Y;
+
+          if (outOfRange) {
+            place(f, 2600, 340, true);
           }
 
           f.img.style.left = (f.x + posX) + "px";
@@ -1015,9 +1126,10 @@
     gsap.timeline({
       scrollTrigger: {
         trigger: "#projectArcade",
-        start: "top bottom",
-        end: "bottom top",
-        scrub: 1.2
+        start: "top top",
+        end: "+=1600",
+        scrub: 1.2,
+        pin: true
       }
     })
     .fromTo("#bg4Base",
@@ -1027,18 +1139,18 @@
     )
     .fromTo("#bg4Overlay",
       { opacity: 1 },
-      { opacity: 0.45, ease: "none" },
+      { opacity: 0.42, ease: "none" },
       0
     )
     .fromTo("#bg5Top",
-      { opacity: 0, scale: 1.03 },
+      { opacity: 0, scale: 1.025 },
       { opacity: 1, scale: 1, ease: "none" },
-      0.28
+      0.30
     )
     .fromTo("#bg5Overlay",
-      { opacity: 0.16 },
+      { opacity: 0.18 },
       { opacity: 0.04, ease: "none" },
-      0.28
+      0.30
     );
 
     const galleryToggle = document.getElementById("galleryToggle");
