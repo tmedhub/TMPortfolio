@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Museum of Me</title>
+  <title>Museumof Me</title>
 
   <script>
     if ("scrollRestoration" in history) {
@@ -76,7 +76,7 @@
       top:22px;
       left:24px;
       right:24px;
-      z-index:40; /* under darkness + torch */
+      z-index:40;
       display:flex;
       justify-content:space-between;
       align-items:flex-start;
@@ -256,6 +256,8 @@
       pointer-events:none;
       user-select:none;
       will-change:transform, opacity, filter;
+      backface-visibility:hidden;
+      transform-style:preserve-3d;
     }
 
     .sky{
@@ -315,7 +317,11 @@
       height:110%;
       object-fit:cover;
       opacity:0;
-      transform:scale(1.02);
+      transform:scale(1.04);
+      filter:blur(0px);
+      will-change:transform, opacity, filter;
+      backface-visibility:hidden;
+      transform-style:preserve-3d;
     }
 
     .bg2-content{
@@ -328,7 +334,7 @@
       text-align:center;
       opacity:0;
       pointer-events:none;
-      will-change:transform, opacity;
+      will-change:transform, opacity, filter;
       padding:34px 42px 30px;
     }
 
@@ -436,7 +442,7 @@
     .canvas-wrap{
       height:100vh;
       background:
-        linear-gradient(to bottom, rgba(0,0,0,0.0), rgba(0,0,0,0.22) 18%, #000 46%),
+        linear-gradient(to bottom, rgba(0,0,0,0.0), rgba(0,0,0,0.18) 16%, #000 48%),
         #000;
     }
 
@@ -463,7 +469,9 @@
       z-index:100;
       opacity:0.92;
       transform:scale(1.01);
-      will-change:opacity, transform;
+      will-change:opacity, transform, filter;
+      backface-visibility:hidden;
+      transform-style:preserve-3d;
     }
 
     body.torch-ended #freeform{
@@ -489,6 +497,10 @@
       z-index:20;
       pointer-events:none;
       user-select:none;
+      transition:opacity 0.45s ease;
+      will-change:transform, opacity;
+      backface-visibility:hidden;
+      transform-style:preserve-3d;
     }
 
     .freeform-title{
@@ -503,7 +515,9 @@
       text-align:center;
       opacity:0.82;
       transform:translateY(12px);
-      will-change:opacity, transform;
+      will-change:opacity, transform, filter;
+      backface-visibility:hidden;
+      transform-style:preserve-3d;
     }
 
     .freeform-title h1,
@@ -950,104 +964,179 @@
       scrollTrigger:{
         trigger:"#scene1",
         start:"top top",
-        end:"+=2000",
-        scrub:1.15,
-        pin:true
+        end:"+=2400",
+        scrub:1.05,
+        pin:true,
+        anticipatePin:1
       }
     });
 
-    tl.to("#sky",{ y:22, scale:1.015 },0)
-      .to("#mid",{ y:36, scale:1.02 },0)
-      .to("#front",{ y:42, scale:1.015 },0)
-      .to("#foreground",{ y:78, scale:1.045, x:0 },0)
-      .to("#bg2",{ opacity:1, scale:1, duration:0.82, ease:"power2.out" },0.40)
-      .to("#bg2Content",{ opacity:1, y:-1, duration:0.58, ease:"power1.out" },0.46)
-      .to("#foreground",{ opacity:0 },0.50)
-      .to("#mid",{ opacity:0 },0.56)
-      .to("#front",{ opacity:0 },0.60)
-      .to("#sky",{ opacity:0.08 },0.66);
+    tl.to("#sky",{ y:42, scale:1.04, ease:"none" },0)
+      .to("#mid",{ y:88, scale:1.075, ease:"none" },0)
+      .to("#front",{ y:124, scale:1.06, ease:"none" },0)
+      .to("#foreground",{ y:176, scale:1.11, x:18, ease:"none" },0)
+
+      .fromTo("#bg2",
+        { opacity:0, scale:1.09, y:32, filter:"blur(8px)" },
+        { opacity:1, scale:1, y:0, filter:"blur(0px)", duration:1.2, ease:"power2.out" },
+        0.38
+      )
+
+      .fromTo("#bg2Content",
+        { opacity:0, y:48, scale:0.975, filter:"blur(10px)" },
+        { opacity:1, y:0, scale:1, filter:"blur(0px)", duration:0.95, ease:"power3.out" },
+        0.50
+      )
+
+      .to("#foreground",{ opacity:0, duration:0.55, ease:"power2.out" },0.50)
+      .to("#front",{ opacity:0, duration:0.55, ease:"power2.out" },0.58)
+      .to("#mid",{ opacity:0, duration:0.62, ease:"power2.out" },0.63)
+      .to("#sky",{ opacity:0.06, duration:0.75, ease:"power2.out" },0.73);
 
     gsap.timeline({
       scrollTrigger:{
         trigger:"#canvasStudio",
-        start:"top bottom",
-        end:"top 55%",
-        scrub:1
+        start:"top 92%",
+        end:"top 38%",
+        scrub:1.15
       }
     })
     .fromTo("#freeform",
-      { opacity:0.90, scale:1.012 },
-      { opacity:1, scale:1, ease:"none" },
+      { opacity:0.72, scale:1.04, y:60, filter:"blur(10px)" },
+      { opacity:1, scale:1, y:0, filter:"blur(0px)", ease:"none" },
       0
     )
     .fromTo("#freeformTitle",
-      { opacity:0.65, y:18 },
-      { opacity:1, y:0, ease:"none" },
-      0.08
+      { opacity:0.3, y:40, scale:0.96, filter:"blur(8px)" },
+      { opacity:0.92, y:0, scale:1, filter:"blur(0px)", ease:"none" },
+      0.10
     );
 
     const freeform = document.getElementById("freeform");
     const inner = document.getElementById("freeformInner");
 
     let canvasBuilt = false;
+    let animationStarted = false;
     let frames = [];
     let posX = 0, posY = 0, velX = 0, velY = 0;
     let dragging = false;
 
-    const VIEW_LIMIT_X = 980;
-    const VIEW_LIMIT_Y = 760;
-    const RESPAWN_LIMIT_X = 1120;
-    const RESPAWN_LIMIT_Y = 860;
+    const VIEWPORT_PAD_X = 420;
+    const VIEWPORT_PAD_Y = 320;
+    const FRAME_MIN_DIST = 300;
+    const FLOAT_STRENGTH = 18;
 
-    function distance(a, b){
-      return Math.hypot(a.x - b.x, a.y - b.y);
+    function getViewportSize() {
+      return {
+        w: window.innerWidth,
+        h: window.innerHeight
+      };
     }
 
-    function getSpawnPosition(range, edgePad = 180){
-      const side = Math.floor(Math.random() * 4);
-      let x = 0, y = 0;
-
-      if (side === 0) { // left
-        x = -VIEW_LIMIT_X - edgePad - Math.random() * 180;
-        y = (Math.random() * range) - range / 2;
-      } else if (side === 1) { // right
-        x = VIEW_LIMIT_X + edgePad + Math.random() * 180;
-        y = (Math.random() * range) - range / 2;
-      } else if (side === 2) { // top
-        x = (Math.random() * range) - range / 2;
-        y = -VIEW_LIMIT_Y - edgePad - Math.random() * 160;
-      } else { // bottom
-        x = (Math.random() * range) - range / 2;
-        y = VIEW_LIMIT_Y + edgePad + Math.random() * 160;
-      }
-
-      return { x, y };
+    function randomBetween(min, max) {
+      return min + Math.random() * (max - min);
     }
 
-    function place(frame, range, minDist, preferEdge = false){
-      let candidate, ok = false, tries = 0;
+    function frameFarEnough(x, y, ignoreFrame = null) {
+      return frames.every(f => {
+        if (f === ignoreFrame) return true;
+        return Math.hypot(f.worldX - x, f.worldY - y) > FRAME_MIN_DIST;
+      });
+    }
 
-      while(!ok && tries < 140){
-        candidate = preferEdge
-          ? getSpawnPosition(range)
-          : {
-              x: Math.random() * range - range / 2,
-              y: Math.random() * range - range / 2
-            };
+    function getSpawnOutsideView(ignoreFrame = null) {
+      const { w, h } = getViewportSize();
+      let tries = 0;
 
-        ok = frames.every(f => {
-          if (f === frame) return true;
-          return Math.hypot(f.x - candidate.x, f.y - candidate.y) > minDist;
-        });
+      while (tries < 160) {
+        const side = Math.floor(Math.random() * 4);
+        let worldX = 0;
+        let worldY = 0;
 
+        if (side === 0) {
+          worldX = -posX - VIEWPORT_PAD_X - randomBetween(120, 260);
+          worldY = -posY + randomBetween(-h * 0.45, h * 0.45);
+        } else if (side === 1) {
+          worldX = -posX + w + VIEWPORT_PAD_X + randomBetween(120, 260);
+          worldY = -posY + randomBetween(-h * 0.45, h * 0.45);
+        } else if (side === 2) {
+          worldX = -posX + randomBetween(-w * 0.35, w * 1.35);
+          worldY = -posY - VIEWPORT_PAD_Y - randomBetween(120, 240);
+        } else {
+          worldX = -posX + randomBetween(-w * 0.35, w * 1.35);
+          worldY = -posY + h + VIEWPORT_PAD_Y + randomBetween(120, 240);
+        }
+
+        if (frameFarEnough(worldX, worldY, ignoreFrame)) {
+          return { worldX, worldY };
+        }
         tries++;
       }
 
-      frame.x = candidate.x;
-      frame.y = candidate.y;
+      return {
+        worldX: -posX + w + VIEWPORT_PAD_X + randomBetween(160, 260),
+        worldY: -posY + randomBetween(0, h)
+      };
     }
 
-    function buildFreeform(){
+    function getInitialSpawn(ignoreFrame = null) {
+      const { w, h } = getViewportSize();
+      let tries = 0;
+
+      while (tries < 180) {
+        const worldX = randomBetween(w * 0.08, w * 0.92) - posX;
+        const worldY = randomBetween(h * 0.10, h * 0.88) - posY;
+
+        if (frameFarEnough(worldX, worldY, ignoreFrame)) {
+          return { worldX, worldY };
+        }
+        tries++;
+      }
+
+      return {
+        worldX: randomBetween(w * 0.15, w * 0.85) - posX,
+        worldY: randomBetween(h * 0.15, h * 0.85) - posY
+      };
+    }
+
+    function isVisibleOnScreen(frame) {
+      const { w, h } = getViewportSize();
+      const x = frame.worldX + posX;
+      const y = frame.worldY + posY;
+
+      return (
+        x > -260 &&
+        x < w &&
+        y > -260 &&
+        y < h
+      );
+    }
+
+    function isFarOutside(frame) {
+      const { w, h } = getViewportSize();
+      const x = frame.worldX + posX;
+      const y = frame.worldY + posY;
+
+      return (
+        x < -520 ||
+        x > w + 520 ||
+        y < -520 ||
+        y > h + 520
+      );
+    }
+
+    function recycleFrame(frame) {
+      const replacement = getSpawnOutsideView(frame);
+      frame.worldX = replacement.worldX;
+      frame.worldY = replacement.worldY;
+      frame.seed = Math.random() * 1000;
+      frame.scale = randomBetween(0.92, 1.08);
+      frame.rotationBase = randomBetween(-8, 8);
+      frame.opacity = 0;
+      frame.respawnAt = performance.now();
+    }
+
+    function buildFreeform() {
       if (canvasBuilt) return;
       canvasBuilt = true;
 
@@ -1055,18 +1144,33 @@
       frames = [];
 
       const COUNT = 8;
-      const RANGE = 2600;
-      const MIN_DIST = 340;
       const imgs = [...Array(8)].map((_,i)=>`art${i+1}.png`);
 
-      for(let i=0;i<COUNT;i++){
+      for (let i = 0; i < COUNT; i++) {
         const img = document.createElement("img");
         img.src = imgs[i];
-        img.alt = `Artwork ${i+1}`;
+        img.alt = `Artwork ${i + 1}`;
+        img.style.position = "absolute";
+        img.style.willChange = "transform, opacity";
         inner.appendChild(img);
 
-        const frame = { img, x:0, y:0, id:i };
-        place(frame, RANGE, MIN_DIST, i > 2);
+        const shouldStartVisible = i < 5;
+        const spawn = shouldStartVisible ? getInitialSpawn() : getSpawnOutsideView();
+
+        const frame = {
+          img,
+          worldX: spawn.worldX,
+          worldY: spawn.worldY,
+          baseWidth: randomBetween(250, 320),
+          scale: randomBetween(0.94, 1.08),
+          rotationBase: randomBetween(-7, 7),
+          seed: Math.random() * 1000,
+          opacity: shouldStartVisible ? 1 : 0,
+          respawnAt: performance.now()
+        };
+
+        img.style.width = `${frame.baseWidth}px`;
+        img.style.opacity = shouldStartVisible ? "1" : "0";
         frames.push(frame);
       }
 
@@ -1082,42 +1186,71 @@
 
       window.addEventListener("mousemove", e => {
         if (dragging) {
-          velX += e.movementX * 0.12;
-          velY += e.movementY * 0.12;
+          velX += e.movementX * 0.11;
+          velY += e.movementY * 0.11;
         }
       });
 
-      (function loop(){
-        if (!dragging) velX += 0.028;
+      if (!animationStarted) {
+        animationStarted = true;
 
-        posX += velX;
-        posY += velY;
-        velX *= 0.92;
-        velY *= 0.92;
+        let lastTime = performance.now();
 
-        frames.forEach(f => {
-          const screenX = f.x + posX;
-          const screenY = f.y + posY;
+        function loop(now) {
+          const dt = Math.min((now - lastTime) / 16.666, 2);
+          lastTime = now;
 
-          const outOfRange =
-            screenX > RESPAWN_LIMIT_X || screenX < -RESPAWN_LIMIT_X ||
-            screenY > RESPAWN_LIMIT_Y || screenY < -RESPAWN_LIMIT_Y;
-
-          if (outOfRange) {
-            place(f, 2600, 340, true);
+          if (!dragging) {
+            velX += 0.018 * dt;
           }
 
-          f.img.style.left = (f.x + posX) + "px";
-          f.img.style.top = (f.y + posY) + "px";
-        });
+          posX += velX * dt;
+          posY += velY * dt;
+
+          velX *= 0.935;
+          velY *= 0.935;
+
+          frames.forEach((f, index) => {
+            const t = now * 0.0016 + f.seed;
+
+            if (isFarOutside(f) && f.opacity > 0.98) {
+              recycleFrame(f);
+            }
+
+            const visible = isVisibleOnScreen(f);
+
+            if (visible) {
+              f.opacity += 0.045 * dt;
+            } else {
+              f.opacity -= 0.02 * dt;
+            }
+
+            f.opacity = Math.max(0, Math.min(1, f.opacity));
+
+            const floatX = Math.sin(t * 0.9 + index) * FLOAT_STRENGTH;
+            const floatY = Math.cos(t * 0.75 + index * 0.7) * FLOAT_STRENGTH;
+            const rotate = f.rotationBase + Math.sin(t * 0.55) * 2.8;
+
+            const screenX = f.worldX + posX + floatX;
+            const screenY = f.worldY + posY + floatY;
+
+            f.img.style.left = `${screenX}px`;
+            f.img.style.top = `${screenY}px`;
+            f.img.style.opacity = `${f.opacity}`;
+            f.img.style.transform = `translate3d(0,0,0) rotate(${rotate}deg) scale(${f.scale})`;
+          });
+
+          requestAnimationFrame(loop);
+        }
 
         requestAnimationFrame(loop);
-      })();
+      }
     }
 
     ScrollTrigger.create({
       trigger: "#canvasStudio",
-      start: "top top",
+      start: "top 78%",
+      once: true,
       onEnter: () => {
         buildFreeform();
       }
@@ -1129,7 +1262,8 @@
         start: "top top",
         end: "+=1600",
         scrub: 1.2,
-        pin: true
+        pin: true,
+        anticipatePin: 1
       }
     })
     .fromTo("#bg4Base",
