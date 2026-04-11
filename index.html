@@ -3,7 +3,22 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Museum of Me</title>
+  <title>Museumof Me</title>
+
+  <script>
+    if ("scrollRestoration" in history) {
+      history.scrollRestoration = "manual";
+    }
+
+    window.addEventListener("beforeunload", () => {
+      window.scrollTo(0, 0);
+    });
+
+    window.addEventListener("load", () => {
+      window.scrollTo(0, 0);
+      setTimeout(() => window.scrollTo(0, 0), 10);
+    });
+  </script>
 
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
@@ -54,6 +69,160 @@
 
     body.torch-ended{
       cursor:auto;
+    }
+
+    .museum-nav{
+      position:fixed;
+      top:22px;
+      left:24px;
+      right:24px;
+      z-index:9999;
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      pointer-events:none;
+    }
+
+    .museum-btn{
+      pointer-events:auto;
+      position:relative;
+      display:inline-flex;
+      align-items:center;
+      gap:12px;
+      padding:14px 18px;
+      border-radius:999px;
+      border:1px solid rgba(234,215,174,0.22);
+      background:linear-gradient(180deg, rgba(22,18,13,0.82), rgba(10,8,6,0.72));
+      color:#f3e7cd;
+      text-decoration:none;
+      box-shadow:
+        0 10px 30px rgba(0,0,0,0.28),
+        inset 0 1px 0 rgba(255,245,220,0.06);
+      backdrop-filter:blur(8px);
+      -webkit-backdrop-filter:blur(8px);
+      transition:
+        transform 0.3s ease,
+        border-color 0.3s ease,
+        background 0.3s ease,
+        box-shadow 0.3s ease,
+        color 0.3s ease;
+    }
+
+    .museum-btn:hover{
+      transform:translateY(-1px);
+      border-color:rgba(234,215,174,0.42);
+      box-shadow:
+        0 16px 34px rgba(0,0,0,0.34),
+        0 0 0 1px rgba(215,182,117,0.06),
+        inset 0 1px 0 rgba(255,245,220,0.08);
+      color:#fff5dd;
+    }
+
+    .museum-btn::before{
+      content:"";
+      position:absolute;
+      inset:1px;
+      border-radius:inherit;
+      pointer-events:none;
+      background:linear-gradient(
+        135deg,
+        rgba(255,245,220,0.05),
+        rgba(255,245,220,0.01) 35%,
+        rgba(215,182,117,0.04) 100%
+      );
+    }
+
+    .btn-label{
+      position:relative;
+      z-index:1;
+      font-family:"Cormorant Garamond", serif;
+      font-size:1.15rem;
+      letter-spacing:0.04em;
+      font-weight:600;
+      white-space:nowrap;
+    }
+
+    .museum-menu-btn{
+      position:relative;
+    }
+
+    .menu-icon{
+      position:relative;
+      z-index:1;
+      width:18px;
+      display:flex;
+      flex-direction:column;
+      gap:4px;
+    }
+
+    .menu-icon span{
+      display:block;
+      width:18px;
+      height:1px;
+      border-radius:99px;
+      background:linear-gradient(
+        to right,
+        rgba(246,234,210,0.95),
+        rgba(215,182,117,0.95)
+      );
+      box-shadow:0 0 8px rgba(215,182,117,0.18);
+    }
+
+    .gallery-dropdown{
+      position:absolute;
+      top:64px;
+      left:0;
+      min-width:300px;
+      padding:12px;
+      border-radius:22px;
+      border:1px solid rgba(234,215,174,0.18);
+      background:linear-gradient(180deg, rgba(16,13,10,0.94), rgba(8,7,5,0.92));
+      box-shadow:
+        0 24px 60px rgba(0,0,0,0.44),
+        inset 0 1px 0 rgba(255,245,220,0.04);
+      backdrop-filter:blur(10px);
+      -webkit-backdrop-filter:blur(10px);
+      opacity:0;
+      visibility:hidden;
+      transform:translateY(10px) scale(0.98);
+      transform-origin:top left;
+      transition:
+        opacity 0.28s ease,
+        transform 0.28s ease,
+        visibility 0.28s ease;
+      pointer-events:none;
+    }
+
+    .gallery-dropdown.open{
+      opacity:1;
+      visibility:visible;
+      transform:translateY(0) scale(1);
+      pointer-events:auto;
+    }
+
+    .gallery-link{
+      display:block;
+      padding:13px 14px;
+      border-radius:14px;
+      text-decoration:none;
+      color:rgba(247,241,231,0.9);
+      font-family:"Cormorant Garamond", serif;
+      font-size:1.08rem;
+      letter-spacing:0.03em;
+      transition:
+        background 0.25s ease,
+        color 0.25s ease,
+        transform 0.25s ease;
+    }
+
+    .gallery-link:hover{
+      background:rgba(215,182,117,0.08);
+      color:#fff4db;
+      transform:translateX(3px);
+    }
+
+    .museum-work-btn{
+      margin-left:auto;
     }
 
     .scene1-wrapper{
@@ -148,14 +317,15 @@
       opacity:0;
       pointer-events:none;
       will-change:transform, opacity;
+      padding:34px 42px 30px;
     }
 
     .text-plate{
       position:absolute;
-      inset:-18px -22px;
+      inset:0;
       z-index:1;
-      background:rgba(255,255,255,0.028);
-      border:1px solid rgba(255,255,255,0.045);
+      background:rgba(255,255,255,0.032);
+      border:1px solid rgba(255,255,255,0.05);
       border-radius:30px;
       opacity:1;
       box-shadow:none;
@@ -243,11 +413,17 @@
       transition:opacity 2.2s ease;
     }
 
-    .canvas-wrap{
+    .canvas-wrap,
+    .gallery-panel,
+    .lets-work{
       position:relative;
+      min-height:100vh;
+      overflow:hidden;
+    }
+
+    .canvas-wrap{
       height:100vh;
       background:black;
-      overflow:hidden;
     }
 
     #freeform{
@@ -296,13 +472,18 @@
       text-align:center;
     }
 
+    .freeform-title h1,
+    .panel-title,
+    .lets-work h2{
+      font-family:"Cormorant Garamond", serif;
+      text-transform:uppercase;
+    }
+
     .freeform-title h1{
       font-size:3.4rem;
       letter-spacing:.35em;
       opacity:.45;
       color:#f5d9a6;
-      font-family:"Cormorant Garamond", serif;
-      text-transform:uppercase;
     }
 
     .freeform-title p{
@@ -314,32 +495,62 @@
       font-size:.9rem;
     }
 
-    .bg4-section,
-    .bg5-section{
+    .bg4-stage{
       position:relative;
-      min-height:100vh;
+      height:100vh;
       overflow:hidden;
+      background:#000;
     }
 
-    .bg4-section{
-      background:url("bg4.jpeg") center center/cover no-repeat;
+    .bg4-base,
+    .bg5-top{
+      position:absolute;
+      inset:0;
+      background-position:center center;
+      background-repeat:no-repeat;
+      background-size:cover;
+      will-change:transform, opacity;
+    }
+
+    .bg4-base{
+      background-image:url("bg4.jpeg");
       z-index:1;
+      transform:scale(1);
     }
 
-    .bg5-section{
-      background:url("bg5.png") center center/cover no-repeat;
-      margin-top:-42vh;
+    .bg5-top{
+      background-image:url("bg5.png");
+      z-index:3;
+      opacity:0;
+      transform:scale(1.02);
+    }
+
+    .bg4-overlay,
+    .bg5-overlay{
+      position:absolute;
+      inset:0;
+      pointer-events:none;
+    }
+
+    .bg4-overlay{
       z-index:2;
+      background:linear-gradient(to bottom, rgba(0,0,0,0.08), rgba(0,0,0,0.18));
     }
 
-    .bg4-section::before{
+    .bg5-overlay{
+      z-index:4;
+      background:linear-gradient(to bottom, rgba(0,0,0,0.03), rgba(0,0,0,0.08));
+      opacity:0;
+    }
+
+    .bg4-stage::before{
       content:"";
       position:absolute;
       top:0;
       left:0;
       right:0;
       height:180px;
-      z-index:1;
+      z-index:5;
       pointer-events:none;
       background:linear-gradient(
         to bottom,
@@ -351,27 +562,99 @@
       );
     }
 
-    .bg4-overlay{
-      position:absolute;
-      inset:0;
-      background:linear-gradient(
-        to bottom,
-        rgba(0,0,0,0.10),
-        rgba(0,0,0,0.18)
-      );
-      z-index:1;
+    .gallery-panel{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      padding:8vh 6vw;
+      background:
+        radial-gradient(circle at top, rgba(215,182,117,0.08), transparent 32%),
+        linear-gradient(180deg, #090806 0%, #050505 100%);
     }
 
-    .bg5-overlay{
+    .gallery-panel::before{
+      content:"";
       position:absolute;
       inset:0;
-      background:linear-gradient(
-        to bottom,
-        rgba(0,0,0,0.03),
-        rgba(0,0,0,0.08)
-      );
-      opacity:0;
-      z-index:1;
+      pointer-events:none;
+      background:
+        linear-gradient(to bottom, rgba(255,255,255,0.02), transparent 18%),
+        linear-gradient(to top, rgba(215,182,117,0.04), transparent 22%);
+    }
+
+    .panel-card{
+      position:relative;
+      width:min(920px, 92vw);
+      padding:46px 42px;
+      border-radius:30px;
+      border:1px solid rgba(234,215,174,0.16);
+      background:linear-gradient(180deg, rgba(20,16,12,0.72), rgba(10,8,6,0.52));
+      backdrop-filter:blur(6px);
+      -webkit-backdrop-filter:blur(6px);
+      box-shadow:
+        0 30px 80px rgba(0,0,0,0.38),
+        inset 0 1px 0 rgba(255,245,220,0.04);
+    }
+
+    .panel-title{
+      font-size:clamp(2.2rem, 5vw, 4rem);
+      letter-spacing:0.12em;
+      color:#f2dfb8;
+      text-shadow:0 10px 30px rgba(0,0,0,0.35);
+    }
+
+    .panel-line{
+      width:120px;
+      height:1px;
+      margin:1rem auto 1.1rem;
+      background:linear-gradient(to right, transparent, rgba(236,221,184,0.95), transparent);
+      opacity:0.9;
+    }
+
+    .panel-copy{
+      max-width:650px;
+      margin:0 auto;
+      font-size:1rem;
+      line-height:1.75;
+      color:rgba(247,241,231,0.82);
+    }
+
+    .lets-work{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      padding:10vh 6vw;
+      background:
+        radial-gradient(circle at top, rgba(215,182,117,0.10), transparent 30%),
+        linear-gradient(180deg, #060505 0%, #030303 100%);
+    }
+
+    .lets-work-card{
+      width:min(980px, 94vw);
+      padding:54px 44px;
+      border-radius:32px;
+      border:1px solid rgba(234,215,174,0.18);
+      background:linear-gradient(180deg, rgba(18,15,11,0.84), rgba(7,6,5,0.72));
+      box-shadow:
+        0 30px 90px rgba(0,0,0,0.46),
+        inset 0 1px 0 rgba(255,245,220,0.04);
+    }
+
+    .lets-work h2{
+      font-size:clamp(2.4rem, 5.5vw, 4.4rem);
+      letter-spacing:0.08em;
+      color:#f4e3bc;
+      text-shadow:0 10px 30px rgba(0,0,0,0.32);
+    }
+
+    .lets-work p{
+      max-width:720px;
+      margin:1.2rem auto 0;
+      font-size:1rem;
+      line-height:1.8;
+      color:rgba(247,241,231,0.84);
     }
 
     @media (max-width: 900px){
@@ -382,8 +665,35 @@
     }
 
     @media (max-width: 768px){
+      .museum-nav{
+        top:14px;
+        left:14px;
+        right:14px;
+      }
+
+      .museum-btn{
+        padding:12px 14px;
+        gap:10px;
+      }
+
+      .btn-label{
+        font-size:0.98rem;
+      }
+
+      .gallery-dropdown{
+        top:58px;
+        min-width:240px;
+      }
+
+      .museum-work-btn .btn-label{
+        max-width:130px;
+        overflow:hidden;
+        text-overflow:ellipsis;
+      }
+
       .scene1-wrapper,
-      .canvas-wrap{
+      .canvas-wrap,
+      .bg4-stage{
         height:100svh;
       }
 
@@ -393,6 +703,7 @@
 
       .bg2-content{
         top:42%;
+        padding:22px 20px 20px;
       }
 
       .bg2-content h1{
@@ -401,7 +712,6 @@
       }
 
       .text-plate{
-        inset:-14px -14px;
         border-radius:22px;
       }
 
@@ -426,13 +736,36 @@
         width:56px;
       }
 
-      .bg5-section{
-        margin-top:-30vh;
+      .panel-card,
+      .lets-work-card{
+        padding:34px 22px;
       }
     }
   </style>
 </head>
 <body class="scroll-locked">
+
+  <div class="museum-nav" id="museumNav">
+    <button class="museum-btn museum-menu-btn" id="galleryToggle" aria-label="Open galleries menu">
+      <span class="menu-icon" aria-hidden="true">
+        <span></span>
+        <span></span>
+        <span></span>
+      </span>
+      <span class="btn-label">Museum’s Galleries</span>
+    </button>
+
+    <div class="gallery-dropdown" id="galleryDropdown">
+      <a href="#canvasStudio" class="gallery-link">Canvas Studio</a>
+      <a href="#projectArcade" class="gallery-link">Project Arcade</a>
+      <a href="#customizationCoop" class="gallery-link">Customization Co-op</a>
+      <a href="#directorsDome" class="gallery-link">Director’s Dome</a>
+    </div>
+
+    <a href="#letsWorkSection" class="museum-btn museum-work-btn">
+      <span class="btn-label">Let’s Work Together</span>
+    </a>
+  </div>
 
   <section class="scene1-wrapper" id="scene1">
     <div class="scene">
@@ -457,7 +790,7 @@
     </div>
   </section>
 
-  <section class="canvas-wrap" id="canvasWrap">
+  <section class="canvas-wrap" id="canvasStudio">
     <div id="freeform">
       <div class="freeform-title">
         <h1>Canvas Studio</h1>
@@ -467,15 +800,48 @@
     </div>
   </section>
 
-  <section class="bg4-section" id="bg4Section">
-    <div class="bg4-overlay"></div>
+  <section class="bg4-stage" id="projectArcade">
+    <div class="bg4-base" id="bg4Base"></div>
+    <div class="bg4-overlay" id="bg4Overlay"></div>
+    <div class="bg5-top" id="bg5Top"></div>
+    <div class="bg5-overlay" id="bg5Overlay"></div>
   </section>
 
-  <section class="bg5-section" id="bg5Section">
-    <div class="bg5-overlay"></div>
+  <section class="gallery-panel" id="customizationCoop">
+    <div class="panel-card">
+      <h2 class="panel-title">Customization Co-op</h2>
+      <div class="panel-line"></div>
+      <p class="panel-copy">
+        A curated space for tailored experiences, bespoke interactions, and crafted visual identity.
+        Replace this panel with your actual customization showcase whenever you’re ready.
+      </p>
+    </div>
+  </section>
+
+  <section class="gallery-panel" id="directorsDome">
+    <div class="panel-card">
+      <h2 class="panel-title">Director’s Dome</h2>
+      <div class="panel-line"></div>
+      <p class="panel-copy">
+        The final chamber for highlights, featured work, and signature direction.
+        You can turn this into your premium portfolio or closing gallery section.
+      </p>
+    </div>
+  </section>
+
+  <section class="lets-work" id="letsWorkSection">
+    <div class="lets-work-card">
+      <h2>Let’s Work Together</h2>
+      <p>
+        If you’d like to build something immersive, polished, and memorable, this is where the next
+        conversation begins. Add your form, email, contact links, or collaboration CTA here.
+      </p>
+    </div>
   </section>
 
   <script>
+    window.scrollTo(0, 0);
+
     gsap.registerPlugin(ScrollTrigger);
 
     let torchActive = true;
@@ -639,7 +1005,7 @@
     }
 
     ScrollTrigger.create({
-      trigger: "#canvasWrap",
+      trigger: "#canvasStudio",
       start: "top top",
       onEnter: () => {
         buildFreeform();
@@ -648,27 +1014,70 @@
 
     gsap.timeline({
       scrollTrigger: {
-        trigger: "#bg5Section",
-        start: "top 92%",
-        end: "top 35%",
-        scrub: 1
+        trigger: "#projectArcade",
+        start: "top bottom",
+        end: "bottom top",
+        scrub: 1.2
       }
     })
-    .fromTo("#bg5Section",
-      { opacity: 0 },
-      { opacity: 1, ease: "none" },
+    .fromTo("#bg4Base",
+      { scale: 1, opacity: 1 },
+      { scale: 1.12, opacity: 1, ease: "none" },
       0
     )
-    .fromTo("#bg5Section .bg5-overlay",
-      { opacity: 0.20 },
-      { opacity: 0.06, ease: "none" },
-      0
-    )
-    .fromTo("#bg4Section",
+    .fromTo("#bg4Overlay",
       { opacity: 1 },
-      { opacity: 0.35, ease: "none" },
+      { opacity: 0.45, ease: "none" },
       0
+    )
+    .fromTo("#bg5Top",
+      { opacity: 0, scale: 1.03 },
+      { opacity: 1, scale: 1, ease: "none" },
+      0.28
+    )
+    .fromTo("#bg5Overlay",
+      { opacity: 0.16 },
+      { opacity: 0.04, ease: "none" },
+      0.28
     );
+
+    const galleryToggle = document.getElementById("galleryToggle");
+    const galleryDropdown = document.getElementById("galleryDropdown");
+
+    if (galleryToggle && galleryDropdown) {
+      galleryToggle.addEventListener("click", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        galleryDropdown.classList.toggle("open");
+      });
+
+      document.addEventListener("click", (e) => {
+        if (!galleryDropdown.contains(e.target) && !galleryToggle.contains(e.target)) {
+          galleryDropdown.classList.remove("open");
+        }
+      });
+
+      galleryDropdown.querySelectorAll(".gallery-link").forEach(link => {
+        link.addEventListener("click", () => {
+          galleryDropdown.classList.remove("open");
+        });
+      });
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener("click", function(e) {
+        const targetId = this.getAttribute("href");
+        const target = document.querySelector(targetId);
+
+        if (!target) return;
+
+        e.preventDefault();
+
+        if (!torchActive) {
+          target.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      });
+    });
   </script>
 </body>
 </html>
