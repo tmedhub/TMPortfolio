@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Museum of Me</title>
+  <title>Museumof Me</title>
 
   <script>
     if ("scrollRestoration" in history) {
@@ -579,13 +579,12 @@
     }
 
     .bg5-top{
-  background-image:url("bg5.png");
-  background-position:center center;
-  z-index:4;
-  opacity:0;
-  transform:scale(1.02);
-  will-change:transform, opacity;
-}
+      background-image:url("bg5.png");
+      background-position:center center;
+      z-index:4;
+      opacity:0;
+      transform:scale(1.035);
+    }
 
     .bg6-reveal{
       background-image:url("bg6.PNG");
@@ -644,15 +643,15 @@
       );
     }
 
-#projectsJourney{
-  position:absolute;
-  inset:0;
-  z-index:10;
-  opacity:0;
-  overflow:hidden;
-  background:#090705;
-  pointer-events:none;
-}
+    #projectsJourney{
+      position:absolute;
+      inset:0;
+      z-index:10;
+      opacity:0;
+      overflow:hidden;
+      background:#090705;
+      pointer-events:auto;
+    }
 
     #projectsJourney::before{
       content:"";
@@ -665,20 +664,20 @@
         radial-gradient(circle at 50% -10%, rgba(188,120,56,0.08), transparent 26%);
     }
 
-.arcade-note{
-  position:absolute;
-  top:4.2vh;
-  left:50%;
-  transform:translateX(-50%);
-  z-index:30;
-  font-size:0.62rem;
-  letter-spacing:0.30em;
-  text-transform:uppercase;
-  color:rgba(215,181,120,0.62);
-  white-space:nowrap;
-  pointer-events:none;
-  opacity:1;
-}
+    .arcade-note{
+      position:absolute;
+      top:4.2vh;
+      left:50%;
+      transform:translateX(-50%);
+      z-index:30;
+      font-size:0.62rem;
+      letter-spacing:0.30em;
+      text-transform:uppercase;
+      color:rgba(215,181,120,0.62);
+      white-space:nowrap;
+      pointer-events:none;
+      opacity:1;
+    }
 
     .arcade-shell{
       position:absolute;
@@ -687,6 +686,13 @@
       display:flex;
       align-items:center;
       overflow:hidden;
+      cursor:grab;
+      user-select:none;
+      touch-action:pan-y;
+    }
+
+    .arcade-shell.dragging{
+      cursor:grabbing;
     }
 
     .arcade-track{
@@ -707,8 +713,7 @@
       grid-template-columns:0.92fr 1.08fr;
       border-radius:24px;
       overflow:hidden;
-      background:
-        linear-gradient(180deg, #1f140d, #120d09);
+      background:linear-gradient(180deg, #1f140d, #120d09);
       box-shadow:
         0 24px 64px rgba(0,0,0,0.52),
         inset 0 1px 0 rgba(255,240,220,0.04);
@@ -1724,193 +1729,194 @@
       }
     });
 
-<script>
-  const shell = document.getElementById("scrollShell");
-  const track = document.getElementById("track");
-  const projectsJourney = document.getElementById("projectsJourney");
-  const bg4Base = document.getElementById("bg4Base");
-  const bg4Overlay = document.getElementById("bg4Overlay");
-  const bg5Top = document.getElementById("bg5Top");
-  const bg5Overlay = document.getElementById("bg5Overlay");
-  const bg6Reveal = document.getElementById("bg6Reveal");
-  const bg6Overlay = document.getElementById("bg6Overlay");
+    const shell = document.getElementById("scrollShell");
+    const track = document.getElementById("track");
+    const projectsJourney = document.getElementById("projectsJourney");
+    const bg4Base = document.getElementById("bg4Base");
+    const bg4Overlay = document.getElementById("bg4Overlay");
+    const bg5Top = document.getElementById("bg5Top");
+    const bg5Overlay = document.getElementById("bg5Overlay");
+    const bg6Reveal = document.getElementById("bg6Reveal");
+    const bg6Overlay = document.getElementById("bg6Overlay");
 
-  let currentX = 0;
-  let targetX = 0;
+    let currentX = 0;
+    let targetX = 0;
 
-  let isDraggingTrack = false;
-  let dragStartX = 0;
-  let dragStartTargetX = 0;
+    let isDraggingTrack = false;
+    let dragStartX = 0;
+    let dragStartTargetX = 0;
 
-  function getMinTrackX() {
-    return Math.min(0, shell.clientWidth - track.scrollWidth - 40);
-  }
+    function getMinTrackX() {
+      return Math.min(0, shell.clientWidth - track.scrollWidth - 40);
+    }
 
-  function clampTrackX(x) {
-    return Math.max(getMinTrackX(), Math.min(24, x));
-  }
+    function clampTrackX(x) {
+      return Math.max(getMinTrackX(), Math.min(24, x));
+    }
 
-  function animateTrack() {
-    currentX += (targetX - currentX) * 0.09;
-    track.style.transform = `translate3d(${currentX}px,0,0)`;
-    requestAnimationFrame(animateTrack);
-  }
-  animateTrack();
+    function animateTrack() {
+      currentX += (targetX - currentX) * 0.09;
+      track.style.transform = `translate3d(${currentX}px,0,0)`;
+      requestAnimationFrame(animateTrack);
+    }
+    animateTrack();
 
-  function projectArcadeVisibleEnough() {
-    return gsap.getProperty(projectsJourney, "opacity") > 0.85;
-  }
+    function projectArcadeVisibleEnough() {
+      return gsap.getProperty(projectsJourney, "opacity") > 0.85;
+    }
 
-  function beginTrackDrag(clientX) {
-    if (!projectArcadeVisibleEnough()) return;
-    isDraggingTrack = true;
-    dragStartX = clientX;
-    dragStartTargetX = targetX;
-  }
+    function beginTrackDrag(clientX) {
+      if (!projectArcadeVisibleEnough()) return;
+      isDraggingTrack = true;
+      dragStartX = clientX;
+      dragStartTargetX = targetX;
+      shell.classList.add("dragging");
+    }
 
-  function moveTrackDrag(clientX) {
-    if (!isDraggingTrack) return;
-    const dx = clientX - dragStartX;
-    targetX = clampTrackX(dragStartTargetX + dx);
-  }
+    function moveTrackDrag(clientX) {
+      if (!isDraggingTrack) return;
+      const dx = clientX - dragStartX;
+      targetX = clampTrackX(dragStartTargetX + dx);
+    }
 
-  function endTrackDrag() {
-    isDraggingTrack = false;
-  }
+    function endTrackDrag() {
+      isDraggingTrack = false;
+      shell.classList.remove("dragging");
+    }
 
-  shell.addEventListener("mousedown", (e) => {
-    beginTrackDrag(e.clientX);
-  });
+    shell.addEventListener("mousedown", (e) => {
+      beginTrackDrag(e.clientX);
+    });
 
-  window.addEventListener("mousemove", (e) => {
-    moveTrackDrag(e.clientX);
-  });
+    window.addEventListener("mousemove", (e) => {
+      moveTrackDrag(e.clientX);
+    });
 
-  window.addEventListener("mouseup", () => {
-    endTrackDrag();
-  });
+    window.addEventListener("mouseup", () => {
+      endTrackDrag();
+    });
 
-  shell.addEventListener("touchstart", (e) => {
-    beginTrackDrag(e.touches[0].clientX);
-  }, { passive: true });
+    shell.addEventListener("touchstart", (e) => {
+      beginTrackDrag(e.touches[0].clientX);
+    }, { passive: true });
 
-  window.addEventListener("touchmove", (e) => {
-    moveTrackDrag(e.touches[0].clientX);
-  }, { passive: true });
+    window.addEventListener("touchmove", (e) => {
+      moveTrackDrag(e.touches[0].clientX);
+    }, { passive: true });
 
-  window.addEventListener("touchend", () => {
-    endTrackDrag();
-  });
+    window.addEventListener("touchend", () => {
+      endTrackDrag();
+    });
 
-  const projectArcadeTimeline = gsap.timeline({
-    scrollTrigger: {
-      trigger: "#projectArcade",
-      start: "top top",
-      end: () => "+=" + (track.scrollWidth - shell.clientWidth + 3200),
-      scrub: 1,
-      pin: true,
-      invalidateOnRefresh: true,
-      onUpdate: self => {
-        const progress = self.progress;
+    const projectArcadeTimeline = gsap.timeline({
+      scrollTrigger: {
+        trigger: "#projectArcade",
+        start: "top top",
+        end: () => "+=" + (track.scrollWidth - shell.clientWidth + 3200),
+        scrub: 1,
+        pin: true,
+        invalidateOnRefresh: true,
+        onUpdate: self => {
+          const progress = self.progress;
 
-        const horizontalStart = 0.30;
-        const horizontalEnd = 0.82;
+          const horizontalStart = 0.30;
+          const horizontalEnd = 0.82;
 
-        const moveProgress = gsap.utils.clamp(
-          0,
-          1,
-          (progress - horizontalStart) / (horizontalEnd - horizontalStart)
-        );
+          const moveProgress = gsap.utils.clamp(
+            0,
+            1,
+            (progress - horizontalStart) / (horizontalEnd - horizontalStart)
+          );
 
-        const maxX = Math.max(0, track.scrollWidth - shell.clientWidth);
-        const scrollDrivenX = clampTrackX(-maxX * moveProgress);
+          const maxX = Math.max(0, track.scrollWidth - shell.clientWidth);
+          const scrollDrivenX = clampTrackX(-maxX * moveProgress);
 
-        if (!isDraggingTrack) {
-          targetX = scrollDrivenX;
+          if (!isDraggingTrack) {
+            targetX = scrollDrivenX;
+          }
         }
       }
-    }
-  });
+    });
 
-  projectArcadeTimeline
-    .fromTo(bg4Base,
-      { scale: 1, opacity: 1 },
-      { scale: 1.14, opacity: 1, ease: "none" },
-      0.00
-    )
-    .fromTo(bg4Overlay,
-      { opacity: 1 },
-      { opacity: 0.22, ease: "none" },
-      0.00
-    )
-    .fromTo(bg5Top,
-      { opacity: 0, scale: 1.02, xPercent: 0, yPercent: 0 },
-      { opacity: 1, scale: 1, xPercent: 0, yPercent: 0, ease: "power2.out" },
-      0.14
-    )
-    .fromTo(bg5Overlay,
-      { opacity: 0 },
-      { opacity: 1, ease: "power2.out" },
-      0.14
-    )
-    .to(bg4Base, {
-      opacity: 0,
-      ease: "power2.out"
-    }, 0.24)
-    .to(bg4Overlay, {
-      opacity: 0,
-      ease: "power2.out"
-    }, 0.24)
-    .to({}, { duration: 0.10 }, 0.30)
-    .to(bg5Top, {
-      scale: 2.95,
-      xPercent: -16,
-      yPercent: -8,
-      transformOrigin: "50% 50%",
-      ease: "power2.inOut"
-    }, 0.36)
-    .to(bg5Overlay, {
-      opacity: 0.18,
-      ease: "power2.inOut"
-    }, 0.36)
-    .fromTo(projectsJourney,
-      { opacity: 0 },
-      { opacity: 1, ease: "power2.inOut" },
-      0.52
-    )
-    .to(bg5Top, {
-      opacity: 0,
-      ease: "power2.out"
-    }, 0.58)
-    .to(bg5Overlay, {
-      opacity: 0,
-      ease: "power2.out"
-    }, 0.58)
-    .to(projectsJourney, {
-      opacity: 1,
-      ease: "none"
-    }, 0.82)
-    .to(projectsJourney, {
-      opacity: 0,
-      ease: "power2.inOut"
-    }, 0.92)
-    .fromTo(bg6Reveal,
-      { opacity: 0, scale: 1.02 },
-      { opacity: 1, scale: 1, ease: "power2.out" },
-      0.94
-    )
-    .fromTo(bg6Overlay,
-      { opacity: 0 },
-      { opacity: 1, ease: "power2.out" },
-      0.95
-    );
+    projectArcadeTimeline
+      .fromTo(bg4Base,
+        { scale: 1, opacity: 1 },
+        { scale: 1.14, opacity: 1, ease: "none" },
+        0.00
+      )
+      .fromTo(bg4Overlay,
+        { opacity: 1 },
+        { opacity: 0.22, ease: "none" },
+        0.00
+      )
+      .fromTo(bg5Top,
+        { opacity: 0, scale: 1.02, xPercent: 0, yPercent: 0 },
+        { opacity: 1, scale: 1, xPercent: 0, yPercent: 0, ease: "power2.out" },
+        0.14
+      )
+      .fromTo(bg5Overlay,
+        { opacity: 0 },
+        { opacity: 1, ease: "power2.out" },
+        0.14
+      )
+      .to(bg4Base, {
+        opacity: 0,
+        ease: "power2.out"
+      }, 0.24)
+      .to(bg4Overlay, {
+        opacity: 0,
+        ease: "power2.out"
+      }, 0.24)
+      .to({}, { duration: 0.10 }, 0.30)
+      .to(bg5Top, {
+        scale: 2.95,
+        xPercent: -16,
+        yPercent: -8,
+        transformOrigin: "50% 50%",
+        ease: "power2.inOut"
+      }, 0.36)
+      .to(bg5Overlay, {
+        opacity: 0.18,
+        ease: "power2.inOut"
+      }, 0.36)
+      .fromTo(projectsJourney,
+        { opacity: 0 },
+        { opacity: 1, ease: "power2.inOut" },
+        0.52
+      )
+      .to(bg5Top, {
+        opacity: 0,
+        ease: "power2.out"
+      }, 0.58)
+      .to(bg5Overlay, {
+        opacity: 0,
+        ease: "power2.out"
+      }, 0.58)
+      .to(projectsJourney, {
+        opacity: 1,
+        ease: "none"
+      }, 0.82)
+      .to(projectsJourney, {
+        opacity: 0,
+        ease: "power2.inOut"
+      }, 0.92)
+      .fromTo(bg6Reveal,
+        { opacity: 0, scale: 1.02 },
+        { opacity: 1, scale: 1, ease: "power2.out" },
+        0.94
+      )
+      .fromTo(bg6Overlay,
+        { opacity: 0 },
+        { opacity: 1, ease: "power2.out" },
+        0.95
+      );
 
-  window.addEventListener("resize", () => {
-    targetX = clampTrackX(targetX);
+    window.addEventListener("resize", () => {
+      targetX = clampTrackX(targetX);
+      ScrollTrigger.refresh();
+    });
+
     ScrollTrigger.refresh();
-  });
-
-  ScrollTrigger.refresh();
-</script>
+  </script>
 </body>
 </html>
