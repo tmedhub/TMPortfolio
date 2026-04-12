@@ -651,6 +651,8 @@
       opacity:0;
       overflow:hidden;
       background:#090705;
+      backdrop-filter:none;
+      -webkit-backdrop-filter:none;
       pointer-events:auto;
     }
 
@@ -660,9 +662,8 @@
       inset:0;
       z-index:1;
       pointer-events:none;
-      background:
-        linear-gradient(to bottom, rgba(255,244,220,0.02), transparent 16%, rgba(0,0,0,0.12)),
-        radial-gradient(circle at 50% -10%, rgba(188,120,56,0.08), transparent 26%);
+      background:#090705;
+      opacity:1;
     }
 
     .arcade-note{
@@ -1470,7 +1471,9 @@
   <section class="bg6-stage" id="bg6Stage">
     <div class="bg6-image"></div>
 
-    <div id="bg6Heading" style="position:absolute; top:10%; left:50%; transform:translateX(-50%); z-index:4; font-family:'Cormorant Garamond', serif; font-size:clamp(2.8rem,5vw,5rem); letter-spacing:0.08em; text-transform:uppercase; color:#f3dfb7; text-shadow:0 10px 28px rgba(0,0,0,0.34), 0 0 26px rgba(215,182,117,0.18); white-space:nowrap; pointer-events:none;">Customization Co-op</div>
+    <div id="bg6Heading" style="position:absolute; top:9%; left:50%; transform:translateX(-50%); z-index:4; font-family:'Cormorant Garamond', serif; font-size:clamp(2.8rem,5vw,5rem); letter-spacing:0.08em; text-transform:uppercase; color:#f3dfb7; text-shadow:0 10px 28px rgba(0,0,0,0.34), 0 0 26px rgba(215,182,117,0.18); white-space:nowrap; pointer-events:none; text-align:center;">Customization Co-op</div>
+
+    <div id="bg6Subheading" style="position:absolute; top:18%; left:50%; transform:translateX(-50%); z-index:4; font-family:'Inter', sans-serif; font-size:clamp(0.95rem,1.4vw,1.15rem); letter-spacing:0.10em; color:rgba(247,241,231,0.68); text-shadow:0 4px 18px rgba(0,0,0,0.28); white-space:nowrap; pointer-events:none; text-align:center;">Experiences can always be tailored to you.</div>
 
     <div class="bg6-image"></div>
 
@@ -1481,16 +1484,7 @@
       <img src="wed.png" class="shelf-item" id="shelfItem2" alt="Wed asset" style="left:64%; top:38%; width:112px;" draggable="false">
     </div>
 
-    <div class="bg6-copy">
-      <div class="mini">Gallery III</div>
-      <h2>Customization Co-op</h2>
-      <div class="bg6-line"></div>
-      <p>
-        A tailored space for bespoke interactions, refined creative choices, and premium customization.
-        Use this section to highlight how experiences can be shaped, adapted, and made truly personal.
-      </p>
-    </div>
-  </section>
+    </section>
 
   <section class="gallery-panel" id="directorsDome">
     <div class="panel-card">
@@ -1936,10 +1930,10 @@
         ease: "power2.out"
       }, 0.22)
       .to(bg5Top, {
-        scale: 3.7,
-        xPercent: 15,
-        yPercent: -16,
-        transformOrigin: "16% 22%",
+        scale: 3.55,
+        xPercent: 21,
+        yPercent: -11,
+        transformOrigin: "20% 28%",
         ease: "power2.inOut"
       }, 0.30)
       .to(bg5Overlay, {
