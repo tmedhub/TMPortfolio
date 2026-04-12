@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Museum of Me</title>
+  <title>Museumof Me</title>
 
   <script>
     if ("scrollRestoration" in history) {
@@ -651,16 +651,15 @@
       opacity:0;
       overflow:hidden;
       background:#090705;
-      backdrop-filter:none;
-      -webkit-backdrop-filter:none;
       pointer-events:auto;
+      isolation:isolate;
     }
 
     #projectsJourney::before{
       content:"";
       position:absolute;
       inset:0;
-      z-index:1;
+      z-index:0;
       pointer-events:none;
       background:#090705;
       opacity:1;
@@ -694,6 +693,7 @@
       cursor:grab;
       user-select:none;
       touch-action:pan-y;
+      background:#090705;
     }
 
     .arcade-shell.dragging{
@@ -855,9 +855,7 @@
       height:100%;
       border-radius:18px;
       overflow:hidden;
-      background:
-        radial-gradient(circle at 20% 20%, rgba(215,150,83,0.08), transparent 18%),
-        linear-gradient(180deg, #16100b, #0e0b08);
+      background:#120d09;
       box-shadow:
         inset 0 0 0 1px rgba(199,154,87,0.12),
         0 16px 34px rgba(0,0,0,0.24);
@@ -866,13 +864,11 @@
     .arcade-media::before{
       content:"";
       position:absolute;
-      inset:18px;
-      border-radius:14px;
-      background:
-        linear-gradient(135deg, rgba(255,245,220,0.02), transparent 34%),
-        radial-gradient(circle at bottom right, rgba(215,182,117,0.05), transparent 26%),
-        linear-gradient(160deg, #24180f, #15100b);
+      inset:0;
+      border-radius:18px;
+      background:linear-gradient(180deg, rgba(18,13,9,0.98), rgba(18,13,9,0.98));
       box-shadow:inset 0 0 0 1px rgba(255,235,198,0.05);
+      z-index:0;
     }
 
     .arcade-grid{
@@ -892,6 +888,117 @@
         linear-gradient(160deg, #1b130e, #120d09);
       border:1px solid rgba(199,154,87,0.10);
       box-shadow:inset 0 1px 0 rgba(255,245,220,0.02);
+    }
+
+    .media-image-wrap{
+      position:absolute;
+      inset:18px;
+      border-radius:14px;
+      overflow:hidden;
+      z-index:2;
+      background:#120d09;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+
+    .media-image-wrap img{
+      width:100%;
+      height:100%;
+      object-fit:contain;
+      display:block;
+      background:#120d09;
+    }
+
+    .media-carousel{
+      position:absolute;
+      inset:18px;
+      border-radius:14px;
+      overflow:hidden;
+      z-index:2;
+      background:#120d09;
+    }
+
+    .media-slides{
+      position:relative;
+      width:100%;
+      height:100%;
+    }
+
+    .media-slide{
+      position:absolute;
+      inset:0;
+      opacity:0;
+      transition:opacity 0.28s ease;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background:#120d09;
+    }
+
+    .media-slide.active{
+      opacity:1;
+    }
+
+    .media-slide img{
+      width:100%;
+      height:100%;
+      object-fit:contain;
+      display:block;
+      background:#120d09;
+    }
+
+    .media-arrow{
+      position:absolute;
+      top:50%;
+      transform:translateY(-50%);
+      z-index:4;
+      width:38px;
+      height:38px;
+      border-radius:999px;
+      border:1px solid rgba(199,154,87,0.30);
+      background:rgba(18,13,9,0.90);
+      color:#f2dfbf;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      cursor:pointer;
+      font-size:1rem;
+      line-height:1;
+    }
+
+    .media-arrow.prev{ left:12px; }
+    .media-arrow.next{ right:12px; }
+
+    .bg6-header{
+      position:relative;
+      min-height:24vh;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:flex-end;
+      gap:10px;
+      padding:8vh 6vw 3vh;
+      text-align:center;
+      background:linear-gradient(180deg, #090705 0%, #0b0907 100%);
+    }
+
+    .bg6-title{
+      font-family:'Cormorant Garamond', serif;
+      font-size:clamp(2.6rem, 5vw, 4.8rem);
+      letter-spacing:0.08em;
+      text-transform:uppercase;
+      color:#f3dfb7;
+      text-shadow:0 10px 28px rgba(0,0,0,0.24), 0 0 22px rgba(215,182,117,0.14);
+      line-height:1;
+    }
+
+    .bg6-subtitle{
+      font-family:'Inter', sans-serif;
+      font-size:clamp(0.92rem, 1.4vw, 1.08rem);
+      letter-spacing:0.08em;
+      color:rgba(247,241,231,0.74);
+      line-height:1.5;
     }
 
     .arcade-badge{
@@ -1373,13 +1480,13 @@
 
             <div class="arcade-right">
               <div class="arcade-media">
-                <div class="arcade-grid">
-                  <div class="mini-panel"></div>
-                  <div class="mini-panel"></div>
-                  <div class="mini-panel"></div>
-                  <div class="mini-panel"></div>
-                  <div class="mini-panel"></div>
-                  <div class="mini-panel"></div>
+                <div class="media-carousel" data-carousel>
+                  <button class="media-arrow prev" type="button" aria-label="Previous image">‹</button>
+                  <div class="media-slides">
+                    <div class="media-slide active"><img src="nunnu.png" alt="Board Games preview 1"></div>
+                    <div class="media-slide"><img src="f1.png" alt="Board Games preview 2"></div>
+                  </div>
+                  <button class="media-arrow next" type="button" aria-label="Next image">›</button>
                 </div>
                 <div class="arcade-badge">Project Preview</div>
               </div>
@@ -1468,23 +1575,19 @@
     <div class="bg6-overlay" id="bg6Overlay"></div>
   </section>
 
+  <section class="bg6-header" id="bg6Header">
+    <div class="bg6-title">Customization Co-op</div>
+    <div class="bg6-subtitle">Experiences can always be tailored to you.</div>
+  </section>
+
   <section class="bg6-stage" id="bg6Stage">
     <div class="bg6-image"></div>
-
-    <div id="bg6Heading" style="position:absolute; top:9%; left:50%; transform:translateX(-50%); z-index:4; font-family:'Cormorant Garamond', serif; font-size:clamp(2.8rem,5vw,5rem); letter-spacing:0.08em; text-transform:uppercase; color:#f3dfb7; text-shadow:0 10px 28px rgba(0,0,0,0.34), 0 0 26px rgba(215,182,117,0.18); white-space:nowrap; pointer-events:none; text-align:center;">Customization Co-op</div>
-
-    <div id="bg6Subheading" style="position:absolute; top:18%; left:50%; transform:translateX(-50%); z-index:4; font-family:'Inter', sans-serif; font-size:clamp(0.95rem,1.4vw,1.15rem); letter-spacing:0.10em; color:rgba(247,241,231,0.68); text-shadow:0 4px 18px rgba(0,0,0,0.28); white-space:nowrap; pointer-events:none; text-align:center;">Experiences can always be tailored to you.</div>
-
-    <div class="bg6-image"></div>
-
-    <div id="bg6Heading" style="position:absolute; top:10%; left:50%; transform:translateX(-50%); z-index:4; font-family:'Cormorant Garamond', serif; font-size:clamp(2.8rem,5vw,5rem); letter-spacing:0.08em; text-transform:uppercase; color:#f3dfb7; text-shadow:0 10px 28px rgba(0,0,0,0.34), 0 0 26px rgba(215,182,117,0.18); white-space:nowrap; pointer-events:none;">Customization Co-op</div>
 
     <div class="bg6-shelf-layer" id="bg6ShelfLayer">
       <img src="vang.png" class="shelf-item" id="shelfItem1" alt="Vang asset" style="left:36%; top:24%; width:110px;" draggable="false">
       <img src="wed.png" class="shelf-item" id="shelfItem2" alt="Wed asset" style="left:64%; top:38%; width:112px;" draggable="false">
     </div>
-
-    </section>
+  </section>
 
   <section class="gallery-panel" id="directorsDome">
     <div class="panel-card">
@@ -2048,6 +2151,33 @@
     }
 
     enableShelfDragging(".shelf-item");
+
+    document.querySelectorAll("[data-carousel]").forEach(carousel => {
+      const slides = Array.from(carousel.querySelectorAll(".media-slide"));
+      const prev = carousel.querySelector(".prev");
+      const next = carousel.querySelector(".next");
+      let index = 0;
+
+      function renderSlides() {
+        slides.forEach((slide, i) => {
+          slide.classList.toggle("active", i === index);
+        });
+      }
+
+      prev.addEventListener("click", (e) => {
+        e.stopPropagation();
+        index = (index - 1 + slides.length) % slides.length;
+        renderSlides();
+      });
+
+      next.addEventListener("click", (e) => {
+        e.stopPropagation();
+        index = (index + 1) % slides.length;
+        renderSlides();
+      });
+
+      renderSlides();
+    });
 
     ScrollTrigger.refresh();
   </script>
