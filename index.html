@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Museumof Me</title>
+  <title>Museum of Me</title>
 
   <script>
     if ("scrollRestoration" in history) {
@@ -444,10 +444,1228 @@
     }
 
     .canvas-wrap,
-    0,0,0,0.35);
+    .gallery-panel,
+    .lets-work,
+    .bg6-stage{
+      position:relative;
+      min-height:100vh;
+      overflow:hidden;
     }
 
-    .panel-line{      document.body.classList.add("torch-ended");
+    .canvas-wrap{
+      height:100vh;
+      background:
+        linear-gradient(to bottom, rgba(0,0,0,0.0), rgba(0,0,0,0.22) 18%, #000 46%),
+        #000;
+    }
+
+    .canvas-wrap::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      pointer-events:none;
+      z-index:2;
+      background:linear-gradient(
+        to bottom,
+        rgba(245,217,166,0.03) 0%,
+        rgba(0,0,0,0.00) 20%,
+        rgba(0,0,0,0.00) 100%
+      );
+    }
+
+    #freeform{
+      position:absolute;
+      inset:0;
+      background:black;
+      overflow:hidden;
+      cursor:default;
+      z-index:100;
+      opacity:0.92;
+      transform:scale(1.01);
+      will-change:opacity, transform;
+    }
+
+    body.torch-ended #freeform{
+      cursor:grab;
+    }
+
+    body.torch-ended #freeform:active,
+    body.torch-ended #freeform.is-dragging{
+      cursor:grabbing;
+    }
+
+    .freeform-inner{
+      position:absolute;
+      left:0;
+      top:0;
+    }
+
+    .freeform-inner img{
+      position:absolute;
+      width:280px;
+      opacity:1;
+      box-shadow:0 30px 80px rgba(0,0,0,.95);
+      z-index:20;
+      pointer-events:none;
+      user-select:none;
+      transition:opacity 0.35s ease;
+    }
+
+    .freeform-title{
+      position:absolute;
+      inset:0;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      align-items:center;
+      pointer-events:none;
+      z-index:5;
+      text-align:center;
+      opacity:0.82;
+      transform:translateY(12px);
+      will-change:opacity, transform;
+    }
+
+    .freeform-title h1,
+    .panel-title,
+    .lets-work h2,
+    .bg6-copy h2,
+    .arcade-card-title{
+      font-family:"Cormorant Garamond", serif;
+      text-transform:uppercase;
+    }
+
+    .freeform-title h1{
+      font-size:3.4rem;
+      letter-spacing:.35em;
+      opacity:.45;
+      color:#f5d9a6;
+    }
+
+    .freeform-title p{
+      margin-top:14px;
+      opacity:.35;
+      letter-spacing:.18em;
+      color:#f5d9a6;
+      text-transform:uppercase;
+      font-size:.9rem;
+    }
+
+    .bg4-stage{
+      position:relative;
+      height:100vh;
+      overflow:hidden;
+      background:#000;
+      isolation:isolate;
+    }
+
+    .bg4-base,
+    .bg5-top,
+    .bg6-reveal{
+      position:absolute;
+      inset:0;
+      background-repeat:no-repeat;
+      background-size:cover;
+      will-change:transform, opacity;
+    }
+
+    .bg4-base{
+      background-image:url("bg4.jpeg");
+      background-position:center center;
+      z-index:1;
+      opacity:1;
+      transform:scale(1);
+    }
+
+    .bg5-top{
+      background-image:url("bg5.png");
+      background-position:center center;
+      z-index:4;
+      opacity:0;
+      transform:scale(1.08);
+    }
+
+    .bg6-reveal{
+      background-image:url("bg6.png");
+      background-position:center center;
+      background-size:cover;
+      z-index:18;
+      opacity:0;
+      transform:scale(1.08);
+      pointer-events:none;
+      will-change:transform, opacity;
+    }
+
+    .bg4-overlay,
+    .bg5-overlay,
+    .bg6-overlay{
+      position:absolute;
+      inset:0;
+      pointer-events:none;
+    }
+
+    .bg4-overlay{
+      z-index:2;
+      background:linear-gradient(to bottom, rgba(0,0,0,0.10), rgba(0,0,0,0.24));
+      opacity:1;
+    }
+
+    .bg5-overlay{
+      z-index:5;
+      background:
+        radial-gradient(circle at 50% 20%, rgba(212,157,93,0.14), transparent 28%),
+        linear-gradient(to bottom, rgba(0,0,0,0.14), rgba(0,0,0,0.28));
+      opacity:0;
+    }
+
+    .bg6-overlay{
+      z-index:19;
+      background:linear-gradient(to bottom, rgba(0,0,0,0.10), rgba(0,0,0,0.24));
+      opacity:0;
+      pointer-events:none;
+    }
+
+    .bg4-stage::before{
+      content:"";
+      position:absolute;
+      top:0;
+      left:0;
+      right:0;
+      height:180px;
+      z-index:20;
+      pointer-events:none;
+      background:linear-gradient(
+        to bottom,
+        #000 0%,
+        rgba(0,0,0,0.88) 14%,
+        rgba(0,0,0,0.62) 38%,
+        rgba(0,0,0,0.26) 66%,
+        rgba(0,0,0,0) 100%
+      );
+    }
+
+    #projectsJourney{
+      position:absolute;
+      inset:0;
+      z-index:10;
+      opacity:0;
+      overflow:hidden;
+      background:#090705;
+      pointer-events:auto;
+      isolation:isolate;
+    }
+
+    #projectsJourney::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      z-index:0;
+      pointer-events:none;
+      background:#090705;
+      opacity:1;
+    }
+
+    .arcade-note{
+      position:absolute;
+      top:12vh;
+      left:50%;
+      transform:translateX(-50%);
+      z-index:50;
+      font-size:0.95rem;
+      letter-spacing:0.34em;
+      text-transform:uppercase;
+      color:#fff3d4;
+      text-shadow:
+        0 4px 18px rgba(0,0,0,0.95),
+        0 0 28px rgba(255,210,140,0.35);
+      white-space:nowrap;
+      pointer-events:none;
+      opacity:1;
+    }
+
+    .arcade-shell{
+      position:absolute;
+      inset:0;
+      z-index:2;
+      display:flex;
+      align-items:center;
+      overflow:hidden;
+      cursor:grab;
+      user-select:none;
+      touch-action:pan-y;
+      background:#090705;
+    }
+
+    .arcade-shell.dragging{
+      cursor:grabbing;
+    }
+
+    .arcade-track{
+      display:flex;
+      gap:1.6vw;
+      padding:0 10vw;
+      will-change:transform;
+      transform:translate3d(0,0,0);
+    }
+
+    .arcade-card{
+      flex:0 0 64vw;
+      max-width:860px;
+      min-width:760px;
+      height:52vh;
+      position:relative;
+      display:grid;
+      grid-template-columns:0.92fr 1.08fr;
+      border-radius:24px;
+      overflow:hidden;
+      background:linear-gradient(180deg, #1f140d, #120d09);
+      box-shadow:
+        0 24px 64px rgba(0,0,0,0.52),
+        inset 0 1px 0 rgba(255,240,220,0.04);
+    }
+
+    .arcade-card::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      border-radius:24px;
+      padding:1px;
+      background:linear-gradient(
+        135deg,
+        rgba(96,62,31,0.95) 0%,
+        rgba(199,154,87,0.95) 18%,
+        rgba(125,83,43,0.92) 42%,
+        rgba(74,48,27,0.96) 68%,
+        rgba(199,154,87,0.82) 100%
+      );
+      -webkit-mask:
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+      -webkit-mask-composite:xor;
+      mask-composite:exclude;
+      pointer-events:none;
+    }
+
+    .arcade-card::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      border-radius:24px;
+      pointer-events:none;
+      background:
+        linear-gradient(135deg, rgba(255,245,230,0.02), transparent 18%, transparent 82%, rgba(255,220,170,0.02)),
+        radial-gradient(circle at 15% 18%, rgba(215,150,83,0.04), transparent 18%);
+    }
+
+    .arcade-left{
+      position:relative;
+      z-index:2;
+      padding:34px 26px 30px 32px;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      background:linear-gradient(180deg, #24170f, #16100b);
+    }
+
+    .arcade-index{
+      font-family:"Cormorant Garamond", serif;
+      font-size:0.82rem;
+      letter-spacing:0.35em;
+      color:rgba(215,181,120,0.78);
+      margin-bottom:10px;
+    }
+
+    .arcade-card-title{
+      font-size:clamp(2rem, 3vw, 3.2rem);
+      line-height:0.92;
+      letter-spacing:0.03em;
+      color:#f3dfbf;
+      margin-bottom:12px;
+      text-shadow:0 6px 18px rgba(0,0,0,0.25);
+    }
+
+    .arcade-desc{
+      max-width:320px;
+      font-size:0.88rem;
+      line-height:1.75;
+      color:rgba(244,234,220,0.72);
+      margin-bottom:18px;
+    }
+
+    .arcade-meta{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      margin-bottom:16px;
+    }
+
+    .arcade-pill{
+      padding:8px 11px;
+      border-radius:999px;
+      font-size:0.64rem;
+      letter-spacing:0.08em;
+      color:rgba(244,234,220,0.78);
+      background:#19110c;
+      border:1px solid rgba(199,154,87,0.20);
+    }
+
+    .arcade-actions{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+    }
+
+    .arcade-btn{
+      appearance:none;
+      border:none;
+      text-decoration:none;
+      cursor:pointer;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding:9px 12px;
+      border-radius:999px;
+      font-size:0.60rem;
+      letter-spacing:0.14em;
+      text-transform:uppercase;
+      color:#ebdbc3;
+      background:#18100b;
+      border:1px solid rgba(199,154,87,0.26);
+      transition:transform .22s ease, border-color .22s ease, background .22s ease;
+    }
+
+    .arcade-btn:hover{
+      transform:translateY(-1px);
+      border-color:rgba(199,154,87,0.48);
+      background:#21160f;
+    }
+
+    .arcade-right{
+      position:relative;
+      z-index:2;
+      padding:14px 14px 14px 0;
+      display:flex;
+      align-items:stretch;
+      justify-content:stretch;
+    }
+
+    .arcade-media{
+      position:relative;
+      width:100%;
+      height:100%;
+      border-radius:18px;
+      overflow:hidden;
+      background:#120d09;
+      box-shadow:
+        inset 0 0 0 1px rgba(199,154,87,0.12),
+        0 16px 34px rgba(0,0,0,0.24);
+    }
+
+    .arcade-media::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      border-radius:18px;
+      background:linear-gradient(180deg, rgba(18,13,9,0.98), rgba(18,13,9,0.98));
+      box-shadow:inset 0 0 0 1px rgba(255,235,198,0.05);
+      z-index:0;
+    }
+
+    .arcade-grid{
+      position:absolute;
+      inset:32px;
+      display:grid;
+      grid-template-columns:repeat(3, 1fr);
+      grid-template-rows:repeat(2, 1fr);
+      gap:12px;
+      z-index:2;
+    }
+
+    .mini-panel{
+      border-radius:12px;
+      background:
+        linear-gradient(180deg, rgba(199,154,87,0.05), rgba(255,255,255,0.01)),
+        linear-gradient(160deg, #1b130e, #120d09);
+      border:1px solid rgba(199,154,87,0.10);
+      box-shadow:inset 0 1px 0 rgba(255,245,220,0.02);
+    }
+
+    .media-image-wrap{
+      position:absolute;
+      inset:18px;
+      border-radius:14px;
+      overflow:hidden;
+      z-index:2;
+      background:#120d09;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+
+    .media-image-wrap img{
+      width:100%;
+      height:100%;
+      object-fit:contain;
+      display:block;
+      background:#120d09;
+    }
+
+    .media-carousel{
+      position:absolute;
+      inset:18px;
+      border-radius:14px;
+      overflow:hidden;
+      z-index:2;
+      background:#120d09;
+    }
+
+    .media-slides{
+      position:relative;
+      width:100%;
+      height:100%;
+    }
+
+    .media-slide{
+      position:absolute;
+      inset:0;
+      opacity:0;
+      transition:opacity 0.28s ease;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background:#120d09;
+    }
+
+    .media-slide.active{
+      opacity:1;
+    }
+
+    .media-slide img{
+      width:100%;
+      height:100%;
+      object-fit:contain;
+      display:block;
+      background:#120d09;
+    }
+
+    .media-arrow{
+      position:absolute;
+      top:50%;
+      transform:translateY(-50%);
+      z-index:4;
+      width:38px;
+      height:38px;
+      border-radius:999px;
+      border:1px solid rgba(199,154,87,0.30);
+      background:rgba(18,13,9,0.90);
+      color:#f2dfbf;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      cursor:pointer;
+      font-size:1rem;
+      line-height:1;
+    }
+
+    .media-arrow.prev{ left:12px; }
+    .media-arrow.next{ right:12px; }
+
+    .bg6-header{
+      position:relative;
+      min-height:24vh;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:flex-end;
+      gap:10px;
+      padding:8vh 6vw 3vh;
+      text-align:center;
+      background:linear-gradient(180deg, #090705 0%, #0b0907 100%);
+    }
+
+    .bg6-title{
+      font-family:'Cormorant Garamond', serif;
+      font-size:clamp(2.6rem, 5vw, 4.8rem);
+      letter-spacing:0.08em;
+      text-transform:uppercase;
+      color:#f3dfb7;
+      text-shadow:0 10px 28px rgba(0,0,0,0.24), 0 0 22px rgba(215,182,117,0.14);
+      line-height:1;
+    }
+
+    .bg6-subtitle{
+      font-family:'Inter', sans-serif;
+      font-size:clamp(0.92rem, 1.4vw, 1.08rem);
+      letter-spacing:0.08em;
+      color:rgba(247,241,231,0.74);
+      line-height:1.5;
+    }
+
+    .arcade-badge{
+      position:absolute;
+      right:16px;
+      bottom:16px;
+      z-index:3;
+      padding:9px 12px;
+      border-radius:999px;
+      font-size:0.60rem;
+      letter-spacing:0.18em;
+      text-transform:uppercase;
+      color:#f2dfbf;
+      background:#130e0a;
+      border:1px solid rgba(199,154,87,0.20);
+    }
+
+    #bg6Stage{
+      z-index:18;
+    }
+
+    .bg6-stage{
+      display:flex;
+      align-items:center;
+      justify-content:flex-start;
+      background:#000;
+      position:relative;
+    }
+
+    .bg6-image{
+      position:absolute;
+      inset:0;
+      background:url("bg6.png") center center / cover no-repeat;
+    }
+
+    .bg6-stage::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:
+        linear-gradient(to right, rgba(0,0,0,0.72) 0%, rgba(0,0,0,0.28) 38%, rgba(0,0,0,0.12) 100%),
+        linear-gradient(to bottom, rgba(0,0,0,0.08), rgba(0,0,0,0.26));
+      z-index:1;
+    }
+
+    .bg6-shelf-layer{
+      position:absolute;
+      inset:0;
+      z-index:2;
+      pointer-events:none;
+    }
+
+    .shelf-item{
+      position:absolute;
+      z-index:3;
+      pointer-events:auto;
+      user-select:none;
+      -webkit-user-drag:none;
+      cursor:grab;
+      filter:drop-shadow(0 10px 18px rgba(0,0,0,0.34));
+      transition:transform 0.18s ease, filter 0.18s ease;
+      transform-origin:center center;
+      touch-action:none;
+    }
+
+    .shelf-item:hover{
+      transform:scale(1.03);
+      filter:drop-shadow(0 14px 24px rgba(0,0,0,0.42));
+    }
+
+    .shelf-item.dragging{
+      cursor:grabbing;
+      filter:drop-shadow(0 18px 30px rgba(0,0,0,0.50));
+    }
+
+    .bg6-copy{
+      position:relative;
+      z-index:2;
+      margin-left:7vw;
+      width:min(560px, 86vw);
+      padding:34px 30px;
+      border-radius:28px;
+      background:linear-gradient(180deg, rgba(18,12,8,0.56), rgba(10,8,7,0.36));
+      backdrop-filter:blur(4px);
+      -webkit-backdrop-filter:blur(4px);
+      box-shadow:
+        0 24px 60px rgba(0,0,0,0.28),
+        inset 0 1px 0 rgba(255,245,220,0.03);
+    }
+
+    .bg6-copy .mini{
+      font-size:0.72rem;
+      letter-spacing:0.34em;
+      text-transform:uppercase;
+      color:rgba(221,177,112,0.84);
+      margin-bottom:12px;
+    }
+
+    .bg6-copy h2{
+      font-size:clamp(2.4rem, 5vw, 4.4rem);
+      line-height:0.96;
+      color:#f3dfb7;
+      letter-spacing:0.06em;
+      text-shadow:0 10px 28px rgba(0,0,0,0.26);
+    }
+
+    .bg6-copy .bg6-line{
+      width:118px;
+      height:1px;
+      margin:18px 0 18px;
+      background:linear-gradient(to right, rgba(236,221,184,0.95), rgba(215,182,117,0.18));
+    }
+
+    .bg6-copy p{
+      font-size:1rem;
+      line-height:1.8;
+      color:rgba(247,241,231,0.84);
+      max-width:480px;
+    }
+
+    .gallery-panel{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      padding:8vh 6vw;
+      background:
+        radial-gradient(circle at top, rgba(215,182,117,0.08), transparent 32%),
+        linear-gradient(180deg, #090806 0%, #050505 100%);
+    }
+
+    .gallery-panel::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      pointer-events:none;
+      background:
+        linear-gradient(to bottom, rgba(255,255,255,0.02), transparent 18%),
+        linear-gradient(to top, rgba(215,182,117,0.04), transparent 22%);
+    }
+
+    .panel-card{
+      position:relative;
+      width:min(920px, 92vw);
+      padding:46px 42px;
+      border-radius:30px;
+      border:1px solid rgba(234,215,174,0.16);
+      background:linear-gradient(180deg, rgba(20,16,12,0.72), rgba(10,8,6,0.52));
+      backdrop-filter:blur(6px);
+      -webkit-backdrop-filter:blur(6px);
+      box-shadow:
+        0 30px 80px rgba(0,0,0,0.38),
+        inset 0 1px 0 rgba(255,245,220,0.04);
+    }
+
+    .panel-title{
+      font-size:clamp(2.2rem, 5vw, 4rem);
+      letter-spacing:0.12em;
+      color:#f2dfb8;
+      text-shadow:0 10px 30px rgba(0,0,0,0.35);
+    }
+
+    .panel-line{
+      width:120px;
+      height:1px;
+      margin:1rem auto 1.1rem;
+      background:linear-gradient(to right, transparent, rgba(236,221,184,0.95), transparent);
+      opacity:0.9;
+    }
+
+    .panel-copy{
+      max-width:650px;
+      margin:0 auto;
+      font-size:1rem;
+      line-height:1.75;
+      color:rgba(247,241,231,0.82);
+    }
+
+    .lets-work{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      padding:10vh 6vw;
+      background:
+        radial-gradient(circle at top, rgba(215,182,117,0.10), transparent 30%),
+        linear-gradient(180deg, #060505 0%, #030303 100%);
+    }
+
+    .lets-work-card{
+      width:min(980px, 94vw);
+      padding:54px 44px;
+      border-radius:32px;
+      border:1px solid rgba(234,215,174,0.18);
+      background:linear-gradient(180deg, rgba(18,15,11,0.84), rgba(7,6,5,0.72));
+      box-shadow:
+        0 30px 90px rgba(0,0,0,0.46),
+        inset 0 1px 0 rgba(255,245,220,0.04);
+    }
+
+    .lets-work h2{
+      font-size:clamp(2.4rem, 5.5vw, 4.4rem);
+      letter-spacing:0.08em;
+      color:#f4e3bc;
+      text-shadow:0 10px 30px rgba(0,0,0,0.32);
+    }
+
+    .lets-work p{
+      max-width:720px;
+      margin:1.2rem auto 0;
+      font-size:1rem;
+      line-height:1.8;
+      color:rgba(247,241,231,0.84);
+    }
+
+    @media (max-width: 1100px){
+      .arcade-card{
+        min-width:74vw;
+        max-width:760px;
+        height:48vh;
+      }
+    }
+
+    @media (max-width: 900px){
+      .foreground{
+        width:82vw;
+        min-width:0;
+      }
+
+      .arcade-card{
+        min-width:82vw;
+        height:auto;
+        min-height:60vh;
+        grid-template-columns:1fr;
+      }
+
+      .arcade-left{
+        padding:28px 22px 20px;
+      }
+
+      .arcade-right{
+        padding:0 14px 14px;
+      }
+
+      .arcade-media{
+        min-height:240px;
+      }
+    }
+
+    @media (max-width: 768px){
+      .museum-nav{
+        top:14px;
+        left:14px;
+        right:14px;
+      }
+
+      .museum-btn{
+        padding:12px 14px;
+        gap:10px;
+      }
+
+      .btn-label{
+        font-size:0.98rem;
+      }
+
+      .gallery-dropdown{
+        top:58px;
+        min-width:250px;
+      }
+
+      .museum-work-btn .btn-label{
+        max-width:130px;
+        overflow:hidden;
+        text-overflow:ellipsis;
+      }
+
+      .scene1-wrapper,
+      .canvas-wrap,
+      .bg4-stage,
+      .bg6-stage{
+        height:100svh;
+      }
+
+      .foreground{
+        width:92vw;
+      }
+
+      .bg2-content{
+        top:42%;
+        padding:22px 20px 20px;
+      }
+
+      .bg2-content h1{
+        font-size:clamp(2rem, 8vw, 3rem);
+        white-space:normal;
+      }
+
+      .text-plate{
+        border-radius:22px;
+      }
+
+      .bg2-content p{
+        font-size:0.92rem;
+      }
+
+      .freeform-inner img{
+        width:220px;
+      }
+
+      .freeform-title h1{
+        font-size:2.2rem;
+        letter-spacing:.14em;
+      }
+
+      .freeform-title p{
+        font-size:.78rem;
+      }
+
+      #torch{
+        width:56px;
+      }
+
+      .panel-card,
+      .lets-work-card,
+      .bg6-copy{
+        padding:34px 22px;
+      }
+
+      .arcade-track{
+        gap:18px;
+        padding:0 5vw;
+      }
+
+      .arcade-card{
+        min-width:90vw;
+        border-radius:20px;
+      }
+
+      .arcade-card::before{
+        border-radius:20px;
+      }
+
+      .arcade-card-title{
+        font-size:2rem;
+      }
+
+      .arcade-actions{
+        gap:8px;
+      }
+
+      .arcade-btn{
+        font-size:0.58rem;
+        padding:9px 11px;
+      }
+
+      .arcade-note{
+        top:5vh;
+        font-size:0.60rem;
+        letter-spacing:0.18em;
+      }
+
+      .bg6-stage{
+        justify-content:center;
+        padding:0 5vw;
+      }
+
+      .bg6-copy{
+        margin-left:0;
+        width:min(92vw, 560px);
+      }
+    }
+  </style>
+</head>
+<body class="scroll-locked">
+
+  <div class="museum-nav" id="museumNav">
+    <button class="museum-btn museum-menu-btn" id="galleryToggle" aria-label="Open galleries menu">
+      <span class="menu-icon" aria-hidden="true">
+        <span></span>
+        <span></span>
+        <span></span>
+      </span>
+      <span class="btn-label">Museum’s Galleries</span>
+    </button>
+
+    <div class="gallery-dropdown" id="galleryDropdown">
+      <a href="#canvasStudio" class="gallery-link">
+        <span class="gallery-kicker">Gallery I</span>
+        <span class="gallery-name">Canvas Studio</span>
+      </a>
+      <a href="#arcadeExhibits" class="gallery-link" id="galleryProjectArcade">
+        <span class="gallery-kicker">Gallery II</span>
+        <span class="gallery-name">Project Arcade</span>
+      </a>
+      <a href="#bg6Stage" class="gallery-link">
+        <span class="gallery-kicker">Gallery III</span>
+        <span class="gallery-name">Customization Co-op</span>
+      </a>
+      <a href="#directorsDome" class="gallery-link">
+        <span class="gallery-kicker">Gallery IV</span>
+        <span class="gallery-name">Director’s Dome</span>
+      </a>
+    </div>
+
+    <a href="#letsWorkSection" class="museum-btn museum-work-btn">
+      <span class="btn-label">Let’s Connect!</span>
+    </a>
+  </div>
+
+  <section class="scene1-wrapper" id="scene1">
+    <div class="scene">
+      <img src="bg1-sky.png" class="layer sky" id="sky" alt="sky">
+      <img src="bg1-mid.png" class="layer mid" id="mid" alt="mid">
+      <img src="bg1-front.PNG" class="layer front" id="front" alt="front">
+      <img src="bg1-foreground.PNG" class="foreground" id="foreground" alt="foreground">
+
+      <div id="darkness"></div>
+      <img id="torch" src="torchtm.png" alt="torch">
+    </div>
+
+    <div class="scene">
+      <img src="bg2-main.png" class="layer bg2" id="bg2" alt="bg2">
+
+      <div class="bg2-content" id="bg2Content">
+        <div class="text-plate"></div>
+        <h1>Hey there, Welcome!!</h1>
+        <div class="gold-line"></div>
+        <p>Step into my little world of creations</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="canvas-wrap" id="canvasStudio">
+    <div id="freeform">
+      <div class="freeform-title" id="freeformTitle">
+        <h1>Canvas Studio</h1>
+        <p>Drag & Explore :)</p>
+      </div>
+      <div class="freeform-inner" id="freeformInner"></div>
+    </div>
+  </section>
+
+  <section class="bg4-stage" id="projectArcade">
+    <div class="bg4-base" id="bg4Base"></div>
+    <div class="bg4-overlay" id="bg4Overlay"></div>
+
+    <div class="bg5-top" id="bg5Top"></div>
+    <div class="bg5-overlay" id="bg5Overlay"></div>
+
+    
+
+    <div id="projectsJourney">
+      <div class="arcade-note">Scroll through the exhibits</div>
+
+      <div class="arcade-shell" id="scrollShell">
+        <div class="arcade-track" id="track">
+
+          <article class="arcade-card">
+            <div class="arcade-left">
+              <div class="arcade-index">01</div>
+              <h2 class="arcade-card-title">Clay Creation</h2>
+              <p class="arcade-desc">
+                Sculptural forms, handcrafted surfaces, and tactile storytelling presented in a tighter, darker, more grounded arcade layout.
+              </p>
+
+              <div class="arcade-meta">
+                <span class="arcade-pill">UI / UX</span>
+                <span class="arcade-pill">Process</span>
+                <span class="arcade-pill">Tools</span>
+                <span class="arcade-pill">Craft</span>
+              </div>
+
+              <div class="arcade-actions">
+                <a href="#" class="arcade-btn">How It Was Made</a>
+                <a href="#" class="arcade-btn">UI UX</a>
+                <a href="#" class="arcade-btn">Tools Used</a>
+              </div>
+            </div>
+
+            <div class="arcade-right">
+              <div class="arcade-media">
+                <div class="media-carousel" data-carousel>
+                  <button class="media-arrow prev" type="button" aria-label="Previous image">‹</button>
+                  <div class="media-slides">
+                    <div class="media-slide active"><img src="nunnu.png" alt="Board Games preview 1"></div>
+                    <div class="media-slide"><img src="f1.png" alt="Board Games preview 2"></div>
+                  </div>
+                  <button class="media-arrow next" type="button" aria-label="Next image">›</button>
+                </div>
+                <div class="arcade-badge">Project Preview</div>
+              </div>
+            </div>
+          </article>
+
+          <article class="arcade-card">
+            <div class="arcade-left">
+              <div class="arcade-index">02</div>
+              <h2 class="arcade-card-title">Board Games</h2>
+              <p class="arcade-desc">
+                Social play, tactile systems, and tabletop interaction reimagined in a smaller premium gallery that fits the screen better.
+              </p>
+
+              <div class="arcade-meta">
+                <span class="arcade-pill">Interaction</span>
+                <span class="arcade-pill">Research</span>
+                <span class="arcade-pill">Prototyping</span>
+                <span class="arcade-pill">Testing</span>
+              </div>
+
+              <div class="arcade-actions">
+                <a href="#" class="arcade-btn">How It Was Made</a>
+                <a href="#" class="arcade-btn">UI UX</a>
+                <a href="#" class="arcade-btn">Tools Used</a>
+              </div>
+            </div>
+
+            <div class="arcade-right">
+              <div class="arcade-media">
+                <div class="arcade-grid">
+                  <div class="mini-panel"></div>
+                  <div class="mini-panel"></div>
+                  <div class="mini-panel"></div>
+                  <div class="mini-panel"></div>
+                  <div class="mini-panel"></div>
+                  <div class="mini-panel"></div>
+                </div>
+                <div class="arcade-badge">Project Preview</div>
+              </div>
+            </div>
+          </article>
+
+          <article class="arcade-card">
+            <div class="arcade-left">
+              <div class="arcade-index">03</div>
+              <h2 class="arcade-card-title">Interactive Work</h2>
+              <p class="arcade-desc">
+                Motion, interface thinking, and visual systems arranged into a cinematic showcase without any translucent full-screen background.
+              </p>
+
+              <div class="arcade-meta">
+                <span class="arcade-pill">Motion</span>
+                <span class="arcade-pill">UI Systems</span>
+                <span class="arcade-pill">Visual Design</span>
+                <span class="arcade-pill">Build</span>
+              </div>
+
+              <div class="arcade-actions">
+                <a href="#" class="arcade-btn">How It Was Made</a>
+                <a href="#" class="arcade-btn">UI UX</a>
+                <a href="#" class="arcade-btn">Tools Used</a>
+              </div>
+            </div>
+
+            <div class="arcade-right">
+              <div class="arcade-media">
+                <div class="arcade-grid">
+                  <div class="mini-panel"></div>
+                  <div class="mini-panel"></div>
+                  <div class="mini-panel"></div>
+                  <div class="mini-panel"></div>
+                  <div class="mini-panel"></div>
+                  <div class="mini-panel"></div>
+                </div>
+                <div class="arcade-badge">Project Preview</div>
+              </div>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="bg6-reveal" id="bg6Reveal"></div>
+    <div class="bg6-overlay" id="bg6Overlay"></div>
+  </section>
+
+  <section class="gallery-panel" id="bg6Stage">
+    <div class="panel-card">
+      <h2 class="panel-title">Customization Co-op</h2>
+      <div class="panel-line"></div>
+      <p class="panel-copy">
+        A flexible display space for personalization, interaction, and thoughtful arrangement.
+        This section can become your customization gallery, interactive shelf, or bespoke experience zone.
+      </p>
+    </div>
+  </section>
+
+  <section class="gallery-panel" id="directorsDome">
+    <div class="panel-card">
+      <h2 class="panel-title">Director’s Dome</h2>
+      <div class="panel-line"></div>
+      <p class="panel-copy">
+        The final chamber for highlights, featured work, and signature direction.
+        You can turn this into your premium portfolio or closing gallery section.
+      </p>
+    </div>
+  </section>
+
+  <section class="lets-work" id="letsWorkSection">
+    <div class="lets-work-card">
+      <h2>Let’s Connect!</h2>
+      <p>
+        Have an idea and want to bring it to life? I’d love to hear about it.
+        Whether it’s a creative collaboration, a design project, or something still taking shape,
+        let’s start the conversation and build something thoughtful together.
+      </p>
+      <p style="margin-top:1.5rem; font-size:0.98rem; line-height:1.9; color:rgba(247,241,231,0.88);">
+        <strong>Email:</strong> connect@example.com<br>
+        <strong>Instagram:</strong> @yourhandle
+      </p>
+    </div>
+  </section>
+
+  <script>
+    window.scrollTo(0, 0);
+    gsap.registerPlugin(ScrollTrigger);
+
+    let torchActive = true;
+    let introComplete = false;
+
+    function lockPageScroll() {
+      document.body.classList.add("scroll-locked");
+    }
+
+    function unlockPageScroll() {
+      document.body.classList.remove("scroll-locked");
+    }
+
+    function preventScroll(e) {
+      if (!introComplete || torchActive) {
+        e.preventDefault();
+      }
+    }
+
+    function keyBlocker(e) {
+      const blocked = ["Space","ArrowUp","ArrowDown","PageUp","PageDown","Home","End"];
+      if ((!introComplete || torchActive) && blocked.includes(e.code)) {
+        e.preventDefault();
+      }
+    }
+
+    window.addEventListener("wheel", preventScroll, { passive:false });
+    window.addEventListener("touchmove", preventScroll, { passive:false });
+    window.addEventListener("keydown", keyBlocker, { passive:false });
+
+    const root = document.documentElement;
+    const torch = document.getElementById("torch");
+    const darkness = document.getElementById("darkness");
+
+    document.addEventListener("mousemove", e => {
+      root.style.setProperty("--x", e.clientX + "px");
+      root.style.setProperty("--y", e.clientY + "px");
+
+      if (torchActive) {
+        torch.style.left = e.clientX + "px";
+        torch.style.top = e.clientY + "px";
+      }
+    });
+
+    setTimeout(() => {
+      darkness.style.opacity = 0;
+      torch.style.opacity = 0;
+
+      setTimeout(() => {
+        torchActive = false;
+        introComplete = true;
+        document.body.classList.add("torch-ended");
         unlockPageScroll();
         darkness.style.display = "none";
         torch.style.display = "none";
@@ -665,6 +1883,9 @@
     const bg4Overlay = document.getElementById("bg4Overlay");
     const bg5Top = document.getElementById("bg5Top");
     const bg5Overlay = document.getElementById("bg5Overlay");
+    const bg6Reveal = document.getElementById("bg6Reveal");
+    const bg6Overlay = document.getElementById("bg6Overlay");
+
     let currentX = 0;
     let targetX = 0;
 
@@ -844,7 +2065,17 @@
       .to(projectsJourney, {
         opacity: 0,
         ease: "power2.inOut"
-      }, 0.90);
+      }, 0.90)
+      .fromTo(bg6Reveal,
+        { opacity: 0, scale: 1.10 },
+        { opacity: 1, scale: 1, ease: "power2.out", duration: 0.75 },
+        0.93
+      )
+      .fromTo(bg6Overlay,
+        { opacity: 0 },
+        { opacity: 1, ease: "power2.out", duration: 0.7 },
+        0.94
+      );
 
     window.addEventListener("resize", () => {
       targetX = clampTrackX(targetX);
@@ -869,13 +2100,104 @@
       galleryProjectArcade.addEventListener("click", scrollToArcadeExhibits);
     }
 
-    
+    function enableShelfDragging(selector) {
+      document.querySelectorAll(selector).forEach(item => {
+        let dragging = false;
+        let rotating = false;
+        let startX = 0;
+        let startY = 0;
+        let initialLeft = 0;
+        let initialTop = 0;
+        let currentRotation = parseFloat(item.dataset.rotation || "0");
+
+        const applyTransform = () => {
+          item.style.transform = `rotate(${currentRotation}deg)`;
+        };
+        applyTransform();
+
+        const getPoint = (event) => {
+          if (event.touches && event.touches[0]) {
+            return { x: event.touches[0].clientX, y: event.touches[0].clientY };
+          }
+          return { x: event.clientX, y: event.clientY };
+        };
+
+        const startDrag = (event) => {
+          const point = getPoint(event);
+          dragging = true;
+          rotating = event.shiftKey === true;
+          item.classList.add("dragging");
+          startX = point.x;
+          startY = point.y;
+          initialLeft = item.offsetLeft;
+          initialTop = item.offsetTop;
+          if (event.cancelable) event.preventDefault();
+        };
+
+        const onMove = (event) => {
+          if (!dragging) return;
+          const point = getPoint(event);
+          const dx = point.x - startX;
+          const dy = point.y - startY;
+
+          if (rotating) {
+            currentRotation += dx * 0.35;
+            item.dataset.rotation = String(currentRotation);
+            applyTransform();
+            startX = point.x;
+          } else {
+            item.style.left = `${initialLeft + dx}px`;
+            item.style.top = `${initialTop + dy}px`;
+            applyTransform();
+          }
+
+          if (event.cancelable) event.preventDefault();
+        };
+
+        const endDrag = () => {
+          dragging = false;
+          rotating = false;
+          item.classList.remove("dragging");
+          applyTransform();
+        };
+
+        item.addEventListener("mousedown", startDrag);
+        item.addEventListener("touchstart", startDrag, { passive: false });
+        item.addEventListener("dblclick", () => {
+          currentRotation += 18;
+          item.dataset.rotation = String(currentRotation);
+          applyTransform();
+        });
+        window.addEventListener("mousemove", onMove);
+        window.addEventListener("touchmove", onMove, { passive: false });
+        window.addEventListener("mouseup", endDrag);
+        window.addEventListener("touchend", endDrag);
+      });
+    }
+
+    enableShelfDragging(".shelf-item");
 
     document.querySelectorAll("[data-carousel]").forEach(carousel => {
       const slides = Array.from(carousel.querySelectorAll(".media-slide"));
-      const plet index = 0;
+      const prev = carousel.querySelector(".prev");
+      const next = carousel.querySelector(".next");
+      let index = 0;
 
- ength;
+      function renderSlides() {
+        slides.forEach((slide, i) => {
+          slide.classList.toggle("active", i === index);
+        });
+      }
+
+      prev.addEventListener("click", (e) => {
+        e.stopPropagation();
+        index = (index - 1 + slides.length) % slides.length;
+        renderSlides();
+      });
+
+      next.addEventListener("click", (e) => {
+        e.stopPropagation();
+        index = (index + 1) % slides.length;
         renderSlides();
       });
 
