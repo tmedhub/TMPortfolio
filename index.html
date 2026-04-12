@@ -266,7 +266,7 @@
     .arcade-note{ position:absolute; top:12vh; left:50%; transform:translateX(-50%); z-index:50; font-size:0.95rem; letter-spacing:0.34em; text-transform:uppercase; color:#fff3d4; text-shadow:0 4px 18px rgba(0,0,0,0.95), 0 0 28px rgba(255,210,140,0.35); white-space:nowrap; pointer-events:none; opacity:1; }
     .arcade-shell{ position:absolute; inset:0; z-index:2; display:flex; align-items:center; overflow:hidden; cursor:grab; user-select:none; touch-action:pan-y; background:#090705; }
     .arcade-shell.dragging{ cursor:grabbing; }
-    .arcade-track{ display:flex; gap:1.6vw; padding:0 10vw; will-change:transform; transform:translate3d(0,0,0); }
+    .arcade-track{ display:flex; gap:1.6vw; padding:0 18vw 0 6vw; will-change:transform; transform:translate3d(0,0,0); }
 
     .arcade-card{ flex:0 0 64vw; max-width:860px; min-width:760px; height:52vh; position:relative; display:grid; grid-template-columns:0.92fr 1.08fr; border-radius:24px; overflow:hidden; background:linear-gradient(180deg, #1f140d, #120d09); box-shadow:0 24px 64px rgba(0,0,0,0.52), inset 0 1px 0 rgba(255,240,220,0.04); }
     .arcade-card::before{ content:""; position:absolute; inset:0; border-radius:24px; padding:1px; background:linear-gradient(135deg, rgba(96,62,31,0.95) 0%, rgba(199,154,87,0.95) 18%, rgba(125,83,43,0.92) 42%, rgba(74,48,27,0.96) 68%, rgba(199,154,87,0.82) 100%); -webkit-mask:linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); -webkit-mask-composite:xor; mask-composite:exclude; pointer-events:none; }
@@ -527,7 +527,7 @@
               <div class="arcade-index">01</div>
               <h2 class="arcade-card-title">Clay Creation</h2>
               <p class="arcade-desc">
-                Sculptural forms, handcrafted surfaces, and tactile storytelling presented in a tighter, darker, more grounded arcade layout.
+                Soft curves, earthy tones, and a little bit of magic shaped by hand.
               </p>
 
               <div class="arcade-meta">
@@ -546,8 +546,8 @@
 
             <div class="arcade-right">
               <div class="arcade-media">
-                <div class="media-image-wrap">
-                  <img src="clay.png" alt="Clay Creation preview">
+                <div class="media-image-wrap" style="position:absolute; inset:18px; border-radius:14px; overflow:hidden; z-index:3; background:#120d09; display:flex; align-items:center; justify-content:center;">
+                  <img src="clay.png" alt="Clay Creation preview" style="width:100%; height:100%; object-fit:contain; display:block; position:relative; z-index:4; background:#120d09;">
                 </div>
                 <div class="arcade-badge">Project Preview</div>
               </div>
@@ -557,9 +557,9 @@
           <article class="arcade-card">
             <div class="arcade-left">
               <div class="arcade-index">02</div>
-              <h2 class="arcade-card-title">Board Games</h2>
+              <h2 class="arcade-card-title">Personalized Games</h2>
               <p class="arcade-desc">
-                Social play, tactile systems, and tabletop interaction reimagined in a smaller premium gallery that fits the screen better.
+                Playful pieces made personal, because games are better when they feel like yours.
               </p>
 
               <div class="arcade-meta">
@@ -599,7 +599,7 @@
               <div class="arcade-index">03</div>
               <h2 class="arcade-card-title">Interactive Work</h2>
               <p class="arcade-desc">
-                Motion, interface thinking, and visual systems arranged into a cinematic showcase without any translucent full-screen background.
+                Clicks, motion, and tiny details doing the heavy lifting behind the scenes.
               </p>
 
               <div class="arcade-meta">
@@ -913,7 +913,7 @@
     let dragStartTargetX = 0;
 
     function getMinTrackX() { return Math.min(0, shell.clientWidth - track.scrollWidth - 40); }
-    function clampTrackX(x) { return Math.max(getMinTrackX(), Math.min(24, x)); }
+    function clampTrackX(x) { return Math.max(getMinTrackX(), Math.min(0, x)); }
 
     function animateTrack() {
       currentX += (targetX - currentX) * 0.09;
