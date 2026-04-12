@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Museumof Me</title>
+  <title>Museum of Me</title>
 
   <script>
     if ("scrollRestoration" in history) {
@@ -1404,7 +1404,7 @@
     </div>
 
     <a href="#letsWorkSection" class="museum-btn museum-work-btn">
-      <span class="btn-label">Let’s Work Together</span>
+      <span class="btn-label">Let’s Connect</span>
     </a>
   </div>
 
@@ -1577,12 +1577,10 @@
 
   <section class="bg6-header" id="bg6Header">
     <div class="bg6-title">Customization Co-op</div>
-    <div class="bg6-subtitle">Experiences can always be tailored to you.</div>
+    <div class="bg6-subtitle">Rearrange and customize your shelf :)</div>
   </section>
 
   <section class="bg6-stage" id="bg6Stage">
-    <div class="bg6-image"></div>
-
     <div class="bg6-shelf-layer" id="bg6ShelfLayer">
       <img src="vang.png" class="shelf-item" id="shelfItem1" alt="Vang asset" style="left:36%; top:24%; width:110px;" draggable="false">
       <img src="wed.png" class="shelf-item" id="shelfItem2" alt="Wed asset" style="left:64%; top:38%; width:112px;" draggable="false">
@@ -1602,7 +1600,7 @@
 
   <section class="lets-work" id="letsWorkSection">
     <div class="lets-work-card">
-      <h2>Let’s Work Together</h2>
+      <h2>Let’s Connect</h2>
       <p>
         If you’d like to build something immersive, polished, and memorable, this is where the next
         conversation begins. Add your form, email, contact links, or collaboration CTA here.
@@ -1907,7 +1905,7 @@
     animateTrack();
 
     function projectArcadeVisibleEnough() {
-      return gsap.getProperty(projectsJourney, "opacity") > 0.85;
+      return gsap.getProperty(projectsJourney, "opacity") > 0.6;
     }
 
     function beginTrackDrag(clientX) {
@@ -2063,16 +2061,16 @@
       .to(projectsJourney, {
         opacity: 0,
         ease: "power2.inOut"
-      }, 0.84)
+      }, 0.90)
       .fromTo(bg6Reveal,
         { opacity: 0, scale: 1.10 },
-        { opacity: 1, scale: 1, ease: "power2.out", duration: 0.9 },
-        0.76
+        { opacity: 1, scale: 1, ease: "power2.out", duration: 0.75 },
+        0.93
       )
       .fromTo(bg6Overlay,
         { opacity: 0 },
-        { opacity: 1, ease: "power2.out", duration: 0.8 },
-        0.78
+        { opacity: 1, ease: "power2.out", duration: 0.7 },
+        0.94
       );
 
     window.addEventListener("resize", () => {
@@ -2101,10 +2099,17 @@
     function enableShelfDragging(selector) {
       document.querySelectorAll(selector).forEach(item => {
         let dragging = false;
+        let rotating = false;
         let startX = 0;
         let startY = 0;
         let initialLeft = 0;
         let initialTop = 0;
+        let currentRotation = parseFloat(item.dataset.rotation || "0");
+
+        const applyTransform = () => {
+          item.style.transform = `rotate(${currentRotation}deg)`;
+        };
+        applyTransform();
 
         const getPoint = (event) => {
           if (event.touches && event.touches[0]) {
@@ -2116,6 +2121,7 @@
         const startDrag = (event) => {
           const point = getPoint(event);
           dragging = true;
+          rotating = event.shiftKey === true;
           item.classList.add("dragging");
           startX = point.x;
           startY = point.y;
@@ -2129,20 +2135,35 @@
           const point = getPoint(event);
           const dx = point.x - startX;
           const dy = point.y - startY;
-          item.style.left = `${initialLeft + dx}px`;
-          item.style.top = `${initialTop + dy}px`;
-          item.style.transform = "scale(1.06)";
+
+          if (rotating) {
+            currentRotation += dx * 0.35;
+            item.dataset.rotation = String(currentRotation);
+            applyTransform();
+            startX = point.x;
+          } else {
+            item.style.left = `${initialLeft + dx}px`;
+            item.style.top = `${initialTop + dy}px`;
+            applyTransform();
+          }
+
           if (event.cancelable) event.preventDefault();
         };
 
         const endDrag = () => {
           dragging = false;
+          rotating = false;
           item.classList.remove("dragging");
-          item.style.transform = "";
+          applyTransform();
         };
 
         item.addEventListener("mousedown", startDrag);
         item.addEventListener("touchstart", startDrag, { passive: false });
+        item.addEventListener("dblclick", () => {
+          currentRotation += 18;
+          item.dataset.rotation = String(currentRotation);
+          applyTransform();
+        });
         window.addEventListener("mousemove", onMove);
         window.addEventListener("touchmove", onMove, { passive: false });
         window.addEventListener("mouseup", endDrag);
