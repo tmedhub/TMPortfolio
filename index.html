@@ -551,7 +551,6 @@
       font-size:.9rem;
     }
 
-    /* PROJECT ARCADE */
     .bg4-stage{
       position:relative;
       height:100vh;
@@ -583,16 +582,18 @@
       background-position:center center;
       z-index:4;
       opacity:0;
-      transform:scale(1.035);
+      transform:scale(1.08);
     }
 
     .bg6-reveal{
       background-image:url("bg6.PNG");
       background-position:center center;
-      z-index:16;
+      background-size:cover;
+      z-index:18;
       opacity:0;
-      transform:scale(1.02);
+      transform:scale(1.08);
       pointer-events:none;
+      will-change:transform, opacity;
     }
 
     .bg4-overlay,
@@ -618,7 +619,7 @@
     }
 
     .bg6-overlay{
-      z-index:17;
+      z-index:19;
       background:linear-gradient(to bottom, rgba(0,0,0,0.10), rgba(0,0,0,0.24));
       opacity:0;
       pointer-events:none;
@@ -669,11 +670,14 @@
       top:4.2vh;
       left:50%;
       transform:translateX(-50%);
-      z-index:30;
-      font-size:0.62rem;
+      z-index:40;
+      font-size:0.78rem;
       letter-spacing:0.30em;
       text-transform:uppercase;
-      color:rgba(215,181,120,0.62);
+      color:rgba(255,236,200,0.96);
+      text-shadow:
+        0 2px 10px rgba(0,0,0,0.9),
+        0 0 22px rgba(215,181,120,0.22);
       white-space:nowrap;
       pointer-events:none;
       opacity:1;
@@ -1214,8 +1218,8 @@
 
       .arcade-note{
         top:5vh;
-        font-size:0.54rem;
-        letter-spacing:0.20em;
+        font-size:0.60rem;
+        letter-spacing:0.18em;
       }
 
       .bg6-stage{
@@ -1812,15 +1816,15 @@
       scrollTrigger: {
         trigger: "#projectArcade",
         start: "top top",
-        end: () => "+=" + (track.scrollWidth - shell.clientWidth + 3200),
+        end: () => "+=" + (track.scrollWidth - shell.clientWidth + 3400),
         scrub: 1,
         pin: true,
         invalidateOnRefresh: true,
         onUpdate: self => {
           const progress = self.progress;
 
-          const horizontalStart = 0.30;
-          const horizontalEnd = 0.82;
+          const horizontalStart = 0.34;
+          const horizontalEnd = 0.80;
 
           const moveProgress = gsap.utils.clamp(
             0,
@@ -1840,49 +1844,67 @@
 
     projectArcadeTimeline
       .fromTo(bg4Base,
-        { scale: 1, opacity: 1 },
-        { scale: 1.14, opacity: 1, ease: "none" },
+        { scale: 1, opacity: 1, xPercent: 0, yPercent: 0 },
+        {
+          scale: 1.24,
+          xPercent: -4,
+          yPercent: -2,
+          opacity: 1,
+          transformOrigin: "50% 50%",
+          ease: "none"
+        },
         0.00
       )
       .fromTo(bg4Overlay,
         { opacity: 1 },
-        { opacity: 0.22, ease: "none" },
+        { opacity: 0.14, ease: "none" },
         0.00
       )
       .fromTo(bg5Top,
-        { opacity: 0, scale: 1.02, xPercent: 0, yPercent: 0 },
-        { opacity: 1, scale: 1, xPercent: 0, yPercent: 0, ease: "power2.out" },
-        0.14
+        {
+          opacity: 0,
+          scale: 1.08,
+          xPercent: 0,
+          yPercent: 0,
+          transformOrigin: "50% 50%"
+        },
+        {
+          opacity: 1,
+          scale: 1.02,
+          xPercent: 0,
+          yPercent: 0,
+          ease: "power2.out"
+        },
+        0.12
       )
       .fromTo(bg5Overlay,
         { opacity: 0 },
         { opacity: 1, ease: "power2.out" },
-        0.14
+        0.12
       )
       .to(bg4Base, {
         opacity: 0,
         ease: "power2.out"
-      }, 0.24)
+      }, 0.22)
       .to(bg4Overlay, {
         opacity: 0,
         ease: "power2.out"
-      }, 0.24)
-      .to({}, { duration: 0.10 }, 0.30)
+      }, 0.22)
       .to(bg5Top, {
-        scale: 2.95,
-        xPercent: -16,
-        yPercent: -8,
-        transformOrigin: "50% 50%",
+        scale: 3.55,
+        xPercent: 21,
+        yPercent: -11,
+        transformOrigin: "20% 28%",
         ease: "power2.inOut"
-      }, 0.36)
+      }, 0.30)
       .to(bg5Overlay, {
-        opacity: 0.18,
+        opacity: 0.16,
         ease: "power2.inOut"
-      }, 0.36)
+      }, 0.30)
       .fromTo(projectsJourney,
         { opacity: 0 },
         { opacity: 1, ease: "power2.inOut" },
-        0.52
+        0.50
       )
       .to(bg5Top, {
         opacity: 0,
@@ -1895,20 +1917,20 @@
       .to(projectsJourney, {
         opacity: 1,
         ease: "none"
-      }, 0.82)
+      }, 0.80)
       .to(projectsJourney, {
         opacity: 0,
         ease: "power2.inOut"
-      }, 0.92)
+      }, 0.91)
       .fromTo(bg6Reveal,
-        { opacity: 0, scale: 1.02 },
+        { opacity: 0, scale: 1.08 },
         { opacity: 1, scale: 1, ease: "power2.out" },
-        0.94
+        0.90
       )
       .fromTo(bg6Overlay,
         { opacity: 0 },
         { opacity: 1, ease: "power2.out" },
-        0.95
+        0.91
       );
 
     window.addEventListener("resize", () => {
