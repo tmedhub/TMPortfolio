@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Museum of Me</title>
+  <title>Museumof Me</title>
 
   <script>
     if ("scrollRestoration" in history) {
@@ -923,7 +923,7 @@
     .bg6-image{
       position:absolute;
       inset:0;
-      background:url("bg6.PNG") center center / cover no-repeat;
+      background:url("bg6.png") center center / cover no-repeat;
     }
 
     .bg6-stage::before{
@@ -934,6 +934,36 @@
         linear-gradient(to right, rgba(0,0,0,0.72) 0%, rgba(0,0,0,0.28) 38%, rgba(0,0,0,0.12) 100%),
         linear-gradient(to bottom, rgba(0,0,0,0.08), rgba(0,0,0,0.26));
       z-index:1;
+    }
+
+    .bg6-shelf-layer{
+      position:absolute;
+      inset:0;
+      z-index:2;
+      pointer-events:none;
+    }
+
+    .shelf-item{
+      position:absolute;
+      z-index:3;
+      pointer-events:auto;
+      user-select:none;
+      -webkit-user-drag:none;
+      cursor:grab;
+      filter:drop-shadow(0 10px 18px rgba(0,0,0,0.34));
+      transition:transform 0.18s ease, filter 0.18s ease;
+      transform-origin:center center;
+      touch-action:none;
+    }
+
+    .shelf-item:hover{
+      transform:scale(1.03);
+      filter:drop-shadow(0 14px 24px rgba(0,0,0,0.42));
+    }
+
+    .shelf-item.dragging{
+      cursor:grabbing;
+      filter:drop-shadow(0 18px 30px rgba(0,0,0,0.50));
     }
 
     .bg6-copy{
@@ -1251,7 +1281,7 @@
         <span class="gallery-kicker">Gallery I</span>
         <span class="gallery-name">Canvas Studio</span>
       </a>
-      <a href="#projectArcade" class="gallery-link">
+      <a href="#arcadeExhibits" class="gallery-link" id="galleryProjectArcade">
         <span class="gallery-kicker">Gallery II</span>
         <span class="gallery-name">Project Arcade</span>
       </a>
@@ -1439,6 +1469,18 @@
 
   <section class="bg6-stage" id="bg6Stage">
     <div class="bg6-image"></div>
+
+    <div id="bg6Heading" style="position:absolute; top:10%; left:50%; transform:translateX(-50%); z-index:4; font-family:'Cormorant Garamond', serif; font-size:clamp(2.8rem,5vw,5rem); letter-spacing:0.08em; text-transform:uppercase; color:#f3dfb7; text-shadow:0 10px 28px rgba(0,0,0,0.34), 0 0 26px rgba(215,182,117,0.18); white-space:nowrap; pointer-events:none;">Customization Co-op</div>
+
+    <div class="bg6-image"></div>
+
+    <div id="bg6Heading" style="position:absolute; top:10%; left:50%; transform:translateX(-50%); z-index:4; font-family:'Cormorant Garamond', serif; font-size:clamp(2.8rem,5vw,5rem); letter-spacing:0.08em; text-transform:uppercase; color:#f3dfb7; text-shadow:0 10px 28px rgba(0,0,0,0.34), 0 0 26px rgba(215,182,117,0.18); white-space:nowrap; pointer-events:none;">Customization Co-op</div>
+
+    <div class="bg6-shelf-layer" id="bg6ShelfLayer">
+      <img src="vang.png" class="shelf-item" id="shelfItem1" alt="Vang asset" style="left:36%; top:24%; width:110px;" draggable="false">
+      <img src="wed.png" class="shelf-item" id="shelfItem2" alt="Wed asset" style="left:64%; top:38%; width:112px;" draggable="false">
+    </div>
+
     <div class="bg6-copy">
       <div class="mini">Gallery III</div>
       <h2>Customization Co-op</h2>
@@ -1894,10 +1936,10 @@
         ease: "power2.out"
       }, 0.22)
       .to(bg5Top, {
-        scale: 3.55,
-        xPercent: 21,
-        yPercent: -11,
-        transformOrigin: "20% 28%",
+        scale: 3.7,
+        xPercent: 15,
+        yPercent: -16,
+        transformOrigin: "16% 22%",
         ease: "power2.inOut"
       }, 0.30)
       .to(bg5Overlay, {
@@ -1924,22 +1966,94 @@
       .to(projectsJourney, {
         opacity: 0,
         ease: "power2.inOut"
-      }, 0.88)
+      }, 0.84)
       .fromTo(bg6Reveal,
-        { opacity: 0, scale: 1.08 },
-        { opacity: 1, scale: 1, ease: "power2.out", duration: 0.6 },
-        0.82
+        { opacity: 0, scale: 1.10 },
+        { opacity: 1, scale: 1, ease: "power2.out", duration: 0.9 },
+        0.76
       )
       .fromTo(bg6Overlay,
         { opacity: 0 },
-        { opacity: 1, ease: "power2.out" },
-        0.91
+        { opacity: 1, ease: "power2.out", duration: 0.8 },
+        0.78
       );
 
     window.addEventListener("resize", () => {
       targetX = clampTrackX(targetX);
       ScrollTrigger.refresh();
     });
+
+    const galleryProjectArcade = document.getElementById("galleryProjectArcade");
+
+    function getProjectArcadeScrollDistance() {
+      return Math.max(0, track.scrollWidth - shell.clientWidth + 3400);
+    }
+
+    function scrollToArcadeExhibits(e) {
+      if (e) e.preventDefault();
+      const baseTop = projectArcade.offsetTop;
+      const targetY = baseTop + getProjectArcadeScrollDistance() * 0.42;
+      window.scrollTo({ top: targetY, behavior: "smooth" });
+      galleryDropdown.classList.remove("open");
+    }
+
+    if (galleryProjectArcade) {
+      galleryProjectArcade.addEventListener("click", scrollToArcadeExhibits);
+    }
+
+    function enableShelfDragging(selector) {
+      document.querySelectorAll(selector).forEach(item => {
+        let dragging = false;
+        let startX = 0;
+        let startY = 0;
+        let initialLeft = 0;
+        let initialTop = 0;
+
+        const getPoint = (event) => {
+          if (event.touches && event.touches[0]) {
+            return { x: event.touches[0].clientX, y: event.touches[0].clientY };
+          }
+          return { x: event.clientX, y: event.clientY };
+        };
+
+        const startDrag = (event) => {
+          const point = getPoint(event);
+          dragging = true;
+          item.classList.add("dragging");
+          startX = point.x;
+          startY = point.y;
+          initialLeft = item.offsetLeft;
+          initialTop = item.offsetTop;
+          if (event.cancelable) event.preventDefault();
+        };
+
+        const onMove = (event) => {
+          if (!dragging) return;
+          const point = getPoint(event);
+          const dx = point.x - startX;
+          const dy = point.y - startY;
+          item.style.left = `${initialLeft + dx}px`;
+          item.style.top = `${initialTop + dy}px`;
+          item.style.transform = "scale(1.06)";
+          if (event.cancelable) event.preventDefault();
+        };
+
+        const endDrag = () => {
+          dragging = false;
+          item.classList.remove("dragging");
+          item.style.transform = "";
+        };
+
+        item.addEventListener("mousedown", startDrag);
+        item.addEventListener("touchstart", startDrag, { passive: false });
+        window.addEventListener("mousemove", onMove);
+        window.addEventListener("touchmove", onMove, { passive: false });
+        window.addEventListener("mouseup", endDrag);
+        window.addEventListener("touchend", endDrag);
+      });
+    }
+
+    enableShelfDragging(".shelf-item");
 
     ScrollTrigger.refresh();
   </script>
