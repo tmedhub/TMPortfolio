@@ -225,7 +225,7 @@
 
     #torch{ position:absolute; width:70px; pointer-events:none; transform:translate(-50%,-15%) rotate(-20deg); z-index:60; transition:opacity 2.2s ease; }
 
-    .canvas-wrap, .gallery-panel, .lets-work{ position:relative; min-height:100vh; overflow:hidden; }
+    .canvas-wrap, .gallery-panel, .lets-work, .customization-stage{ position:relative; min-height:100vh; overflow:hidden; }
 
     .canvas-wrap{ height:100vh; background:linear-gradient(to bottom, rgba(0,0,0,0.0), rgba(0,0,0,0.22) 18%, #000 46%), #000; }
     .canvas-wrap::before{ content:""; position:absolute; inset:0; pointer-events:none; z-index:2; background:linear-gradient(to bottom, rgba(245,217,166,0.03) 0%, rgba(0,0,0,0.00) 20%, rgba(0,0,0,0.00) 100%); }
@@ -237,7 +237,7 @@
     .freeform-inner img{ position:absolute; width:280px; opacity:1; box-shadow:0 30px 80px rgba(0,0,0,.95); z-index:20; pointer-events:none; user-select:none; transition:opacity 0.35s ease; }
 
     .freeform-title{ position:absolute; inset:0; display:flex; flex-direction:column; justify-content:center; align-items:center; pointer-events:none; z-index:5; text-align:center; opacity:0.82; transform:translateY(12px); will-change:opacity, transform; }
-    .freeform-title h1, .panel-title, .lets-work h2, .arcade-card-title{ font-family:"Cormorant Garamond", serif; text-transform:uppercase; }
+    .freeform-title h1, .panel-title, .lets-work h2, .arcade-card-title, .customization-title{ font-family:"Cormorant Garamond", serif; text-transform:uppercase; }
     .freeform-title h1{ font-size:3.4rem; letter-spacing:.35em; opacity:.45; color:#f5d9a6; }
     .freeform-title p{ margin-top:14px; opacity:.35; letter-spacing:.18em; color:#f5d9a6; text-transform:uppercase; font-size:.9rem; }
 
@@ -266,7 +266,7 @@
     .arcade-note{ position:absolute; top:12vh; left:50%; transform:translateX(-50%); z-index:50; font-size:0.95rem; letter-spacing:0.34em; text-transform:uppercase; color:#fff3d4; text-shadow:0 4px 18px rgba(0,0,0,0.95), 0 0 28px rgba(255,210,140,0.35); white-space:nowrap; pointer-events:none; opacity:1; }
     .arcade-shell{ position:absolute; inset:0; z-index:2; display:flex; align-items:center; overflow:hidden; cursor:grab; user-select:none; touch-action:pan-y; background:#090705; }
     .arcade-shell.dragging{ cursor:grabbing; }
-    .arcade-track{ display:flex; gap:1.6vw; padding:0 18vw 0 6vw; will-change:transform; transform:translate3d(0,0,0); }
+    .arcade-track{ display:flex; gap:1.6vw; padding:0 18vw 0 12vw; will-change:transform; transform:translate3d(0,0,0); }
 
     .arcade-card{ flex:0 0 64vw; max-width:860px; min-width:760px; height:52vh; position:relative; display:grid; grid-template-columns:0.92fr 1.08fr; border-radius:24px; overflow:hidden; background:linear-gradient(180deg, #1f140d, #120d09); box-shadow:0 24px 64px rgba(0,0,0,0.52), inset 0 1px 0 rgba(255,240,220,0.04); }
     .arcade-card::before{ content:""; position:absolute; inset:0; border-radius:24px; padding:1px; background:linear-gradient(135deg, rgba(96,62,31,0.95) 0%, rgba(199,154,87,0.95) 18%, rgba(125,83,43,0.92) 42%, rgba(74,48,27,0.96) 68%, rgba(199,154,87,0.82) 100%); -webkit-mask:linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); -webkit-mask-composite:xor; mask-composite:exclude; pointer-events:none; }
@@ -293,6 +293,110 @@
     .media-arrow{ position:absolute; top:50%; transform:translateY(-50%); z-index:4; width:38px; height:38px; border-radius:999px; border:1px solid rgba(199,154,87,0.30); background:rgba(18,13,9,0.90); color:#f2dfbf; display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:1rem; line-height:1; }
     .media-arrow.prev{ left:12px; } .media-arrow.next{ right:12px; }
     .arcade-badge{ position:absolute; right:16px; bottom:16px; z-index:3; padding:9px 12px; border-radius:999px; font-size:0.60rem; letter-spacing:0.18em; text-transform:uppercase; color:#f2dfbf; background:#130e0a; border:1px solid rgba(199,154,87,0.20); }
+
+    .customization-stage{
+      background:#000;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:0;
+      isolation:isolate;
+    }
+
+    .customization-bg{
+      position:absolute;
+      inset:0;
+      background:url("bg6.png") center center / cover no-repeat;
+      opacity:0.32;
+      transform:scale(1.02);
+      filter:brightness(0.8) saturate(0.9);
+    }
+
+    .customization-overlay{
+      position:absolute;
+      inset:0;
+      background:
+        radial-gradient(circle at top, rgba(215,182,117,0.12), transparent 28%),
+        linear-gradient(to bottom, rgba(0,0,0,0.62), rgba(0,0,0,0.78));
+      pointer-events:none;
+    }
+
+    .customization-intro{
+      position:absolute;
+      top:10vh;
+      left:50%;
+      transform:translateX(-50%);
+      z-index:6;
+      text-align:center;
+      width:min(92vw, 860px);
+      pointer-events:none;
+    }
+
+    .customization-title{
+      font-size:clamp(2.6rem, 5vw, 4.4rem);
+      letter-spacing:0.08em;
+      color:#f4e3bc;
+      text-shadow:0 10px 28px rgba(0,0,0,0.34);
+      white-space:nowrap;
+    }
+
+    .customization-sub{
+      margin-top:0.7rem;
+      font-size:0.96rem;
+      line-height:1.6;
+      letter-spacing:0.08em;
+      text-transform:uppercase;
+      color:rgba(247,241,231,0.78);
+    }
+
+    .customization-board{
+      position:relative;
+      z-index:5;
+      width:100%;
+      height:100vh;
+      overflow:hidden;
+      touch-action:none;
+    }
+
+    .custom-asset{
+      position:absolute;
+      user-select:none;
+      touch-action:none;
+      cursor:grab;
+      transform-origin:center center;
+      filter:drop-shadow(0 18px 30px rgba(0,0,0,0.45));
+      will-change:transform, left, top;
+    }
+
+    .custom-asset img{
+      width:100%;
+      height:100%;
+      object-fit:contain;
+      display:block;
+      pointer-events:none;
+    }
+
+    .custom-asset.active{ cursor:grabbing; }
+
+    .custom-hint{
+      position:absolute;
+      bottom:24px;
+      left:50%;
+      transform:translateX(-50%);
+      z-index:7;
+      padding:10px 14px;
+      border-radius:999px;
+      background:rgba(12,9,7,0.72);
+      border:1px solid rgba(234,215,174,0.18);
+      color:rgba(247,241,231,0.78);
+      font-size:0.74rem;
+      letter-spacing:0.14em;
+      text-transform:uppercase;
+      backdrop-filter:blur(10px);
+      -webkit-backdrop-filter:blur(10px);
+      pointer-events:none;
+      white-space:nowrap;
+    }
 
     .gallery-panel{ display:flex; align-items:center; justify-content:center; text-align:center; padding:8vh 6vw; background:radial-gradient(circle at top, rgba(215,182,117,0.08), transparent 32%), linear-gradient(180deg, #090806 0%, #050505 100%); }
     .gallery-panel::before{ content:""; position:absolute; inset:0; pointer-events:none; background:linear-gradient(to bottom, rgba(255,255,255,0.02), transparent 18%), linear-gradient(to top, rgba(215,182,117,0.04), transparent 22%); }
@@ -389,18 +493,6 @@
       background:rgba(215,182,117,0.08);
     }
 
-    .connect-meta{
-      position:relative;
-      z-index:1;
-      margin-top:1.4rem;
-      font-size:0.96rem;
-      line-height:1.9;
-      color:rgba(247,241,231,0.88);
-    }
-
-    .connect-meta strong{ color:#f4e3bc; }
-    .connect-meta a{ color:#ead7ae; text-decoration:none; border-bottom:1px solid rgba(234,215,174,0.24); }
-
     @media (max-width: 1100px){ .arcade-card{ min-width:74vw; max-width:760px; height:48vh; } }
 
     @media (max-width: 900px){
@@ -417,7 +509,7 @@
       .btn-label{ font-size:0.98rem; }
       .gallery-dropdown{ top:58px; min-width:250px; }
       .museum-work-btn .btn-label{ max-width:130px; overflow:hidden; text-overflow:ellipsis; }
-      .scene1-wrapper, .canvas-wrap, .bg4-stage{ height:100svh; }
+      .scene1-wrapper, .canvas-wrap, .bg4-stage, .customization-stage{ height:100svh; }
       .foreground{ width:92vw; }
       .bg2-content{ top:42%; padding:22px 20px 20px; }
       .bg2-content h1{ font-size:clamp(2rem, 8vw, 3rem); white-space:normal; }
@@ -437,6 +529,9 @@
       .arcade-note{ top:5vh; font-size:0.60rem; letter-spacing:0.18em; }
       .connect-links{ flex-direction:column; align-items:center; }
       .connect-btn{ width:min(320px, 100%); }
+      .customization-title{ white-space:normal; }
+      .customization-sub{ font-size:0.8rem; letter-spacing:0.04em; }
+      .custom-hint{ font-size:0.62rem; letter-spacing:0.08em; white-space:normal; text-align:center; width:min(90vw, 360px); }
     }
   </style>
 </head>
@@ -578,7 +673,6 @@
 
             <div class="arcade-right">
               <div class="arcade-media">
-                <div class="arcade-media">
                 <div class="media-carousel" data-carousel>
                   <button class="media-arrow prev" type="button">‹</button>
                   <div class="media-slides">
@@ -589,7 +683,6 @@
                   <button class="media-arrow next" type="button">›</button>
                 </div>
                 <div class="arcade-badge">Project Preview</div>
-              </div>
               </div>
             </div>
           </article>
@@ -636,15 +729,31 @@
     </div>
   </section>
 
-  <section class="gallery-panel" id="bg6Stage">
-    <div class="panel-card">
-      <h2 class="panel-title">Customization Co-op</h2>
-      <div class="panel-line"></div>
-      <p class="panel-copy">
-        A flexible display space for personalization, interaction, and thoughtful arrangement.
-        This section can become your customization gallery, interactive shelf, or bespoke experience zone.
-      </p>
+  <section class="customization-stage" id="bg6Stage">
+    <div class="customization-bg"></div>
+    <div class="customization-overlay"></div>
+
+    <div class="customization-intro">
+      <h2 class="customization-title">Customization Co-op</h2>
+      <p class="customization-sub">Rearrange and customize your shelf.</p>
     </div>
+
+    <div class="customization-board" id="customizationBoard">
+      <div class="custom-asset" data-asset style="width:260px; height:260px; left:12%; top:26%; transform:rotate(-8deg) scale(1);">
+        <img src="vang.png" alt="Van Gogh themed asset">
+      </div>
+      <div class="custom-asset" data-asset style="width:220px; height:220px; left:38%; top:48%; transform:rotate(6deg) scale(1);">
+        <img src="nunnu.png" alt="custom asset one">
+      </div>
+      <div class="custom-asset" data-asset style="width:210px; height:210px; left:62%; top:28%; transform:rotate(-4deg) scale(1);">
+        <img src="f1.png" alt="custom asset two">
+      </div>
+      <div class="custom-asset" data-asset style="width:230px; height:230px; left:74%; top:54%; transform:rotate(10deg) scale(1);">
+        <img src="jenga.png" alt="custom asset three">
+      </div>
+    </div>
+
+    <div class="custom-hint">Drag to move • Shift + drag to rotate • Scroll to resize</div>
   </section>
 
   <section class="gallery-panel" id="directorsDome">
@@ -671,8 +780,6 @@
         <a href="mailto:connect@example.com" class="connect-btn primary">Mail Me</a>
         <a href="https://instagram.com/yourhandle" target="_blank" rel="noopener noreferrer" class="connect-btn secondary">Instagram</a>
       </div>
-
-      
     </div>
   </section>
 
@@ -912,7 +1019,7 @@
     let dragStartX = 0;
     let dragStartTargetX = 0;
 
-    function getMinTrackX() { return Math.min(0, shell.clientWidth - track.scrollWidth - 40); }
+    function getMinTrackX() { return Math.min(0, shell.clientWidth - track.scrollWidth - 80); }
     function clampTrackX(x) { return Math.max(getMinTrackX(), Math.min(0, x)); }
 
     function animateTrack() {
@@ -956,17 +1063,17 @@
       scrollTrigger: {
         trigger: "#projectArcade",
         start: "top top",
-        end: () => "+=" + (track.scrollWidth - shell.clientWidth + 3400),
+        end: () => "+=" + (track.scrollWidth - shell.clientWidth + window.innerHeight * 4.8),
         scrub: 1,
         pin: true,
         invalidateOnRefresh: true,
         onUpdate: self => {
           const progress = self.progress;
-          const horizontalStart = 0.34;
-          const horizontalEnd = 0.80;
+          const horizontalStart = 0.28;
+          const horizontalEnd = 0.84;
           const moveProgress = gsap.utils.clamp(0, 1, (progress - horizontalStart) / (horizontalEnd - horizontalStart));
-          const maxX = Math.max(0, track.scrollWidth - shell.clientWidth);
-          const scrollDrivenX = clampTrackX(-maxX * moveProgress);
+          const maxX = Math.max(0, track.scrollWidth - shell.clientWidth + window.innerWidth * 0.08);
+          const scrollDrivenX = clampTrackX(-(maxX * moveProgress));
           if (!isDraggingTrack) targetX = scrollDrivenX;
         }
       }
@@ -975,17 +1082,17 @@
     projectArcadeTimeline
       .fromTo(bg4Base, { scale: 1, opacity: 1, xPercent: 0, yPercent: 0 }, { scale: 1.24, xPercent: -4, yPercent: -2, opacity: 1, transformOrigin: "50% 50%", ease: "none" }, 0.00)
       .fromTo(bg4Overlay, { opacity: 1 }, { opacity: 0.14, ease: "none" }, 0.00)
-      .fromTo(bg5Top, { opacity: 0, scale: 1.08, xPercent: 0, yPercent: 0, transformOrigin: "50% 50%" }, { opacity: 1, scale: 1.02, xPercent: 0, yPercent: 0, ease: "power2.out" }, 0.12)
-      .fromTo(bg5Overlay, { opacity: 0 }, { opacity: 1, ease: "power2.out" }, 0.12)
-      .to(bg4Base, { opacity: 0, ease: "power2.out" }, 0.22)
-      .to(bg4Overlay, { opacity: 0, ease: "power2.out" }, 0.22)
-      .to(bg5Top, { scale: 3.55, xPercent: 21, yPercent: -11, transformOrigin: "20% 28%", ease: "power2.inOut" }, 0.30)
-      .to(bg5Overlay, { opacity: 0.16, ease: "power2.inOut" }, 0.30)
-      .fromTo(projectsJourney, { opacity: 0 }, { opacity: 1, ease: "power2.inOut" }, 0.50)
-      .to(bg5Top, { opacity: 0, ease: "power2.out" }, 0.58)
-      .to(bg5Overlay, { opacity: 0, ease: "power2.out" }, 0.58)
-      .to(projectsJourney, { opacity: 1, ease: "none" }, 0.80)
-      .to(projectsJourney, { opacity: 0, ease: "power2.inOut" }, 0.90);
+      .fromTo(bg5Top, { opacity: 0, scale: 1.08, xPercent: 0, yPercent: 0, transformOrigin: "50% 50%" }, { opacity: 1, scale: 1.02, xPercent: 0, yPercent: 0, ease: "power2.out" }, 0.10)
+      .fromTo(bg5Overlay, { opacity: 0 }, { opacity: 1, ease: "power2.out" }, 0.10)
+      .to(bg4Base, { opacity: 0, ease: "power2.out" }, 0.20)
+      .to(bg4Overlay, { opacity: 0, ease: "power2.out" }, 0.20)
+      .to(bg5Top, { scale: 3.3, xPercent: 18, yPercent: -10, transformOrigin: "20% 28%", ease: "power2.inOut" }, 0.28)
+      .to(bg5Overlay, { opacity: 0.14, ease: "power2.inOut" }, 0.28)
+      .fromTo(projectsJourney, { opacity: 0 }, { opacity: 1, ease: "power2.inOut" }, 0.42)
+      .to(projectsJourney, { opacity: 1, ease: "none" }, 0.84)
+      .to(bg5Top, { opacity: 0, ease: "power2.out" }, 0.90)
+      .to(bg5Overlay, { opacity: 0, ease: "power2.out" }, 0.90)
+      .to(projectsJourney, { opacity: 0, ease: "power2.inOut" }, 0.97);
 
     window.addEventListener("resize", () => {
       targetX = clampTrackX(targetX);
@@ -995,13 +1102,13 @@
     const galleryProjectArcade = document.getElementById("galleryProjectArcade");
 
     function getProjectArcadeScrollDistance() {
-      return Math.max(0, track.scrollWidth - shell.clientWidth + 3400);
+      return Math.max(0, track.scrollWidth - shell.clientWidth + window.innerHeight * 4.8);
     }
 
     function scrollToArcadeExhibits(e) {
       if (e) e.preventDefault();
       const baseTop = projectArcade.offsetTop;
-      const targetY = baseTop + getProjectArcadeScrollDistance() * 0.42;
+      const targetY = baseTop + getProjectArcadeScrollDistance() * 0.44;
       window.scrollTo({ top: targetY, behavior: "smooth" });
       galleryDropdown.classList.remove("open");
     }
@@ -1031,6 +1138,93 @@
       });
 
       renderSlides();
+    });
+
+    const board = document.getElementById("customizationBoard");
+    const customAssets = Array.from(document.querySelectorAll("[data-asset]"));
+    let activeAsset = null;
+    let startPointer = { x: 0, y: 0 };
+    let startBox = { left: 0, top: 0 };
+    let startRotation = 0;
+    let zCounter = 20;
+
+    function getAssetState(asset) {
+      if (!asset.dataset.scale) asset.dataset.scale = "1";
+      if (!asset.dataset.rotation) {
+        const match = asset.style.transform.match(/rotate\((-?\d+(?:\.\d+)?)deg\)/);
+        asset.dataset.rotation = match ? match[1] : "0";
+      }
+      return {
+        scale: parseFloat(asset.dataset.scale || "1"),
+        rotation: parseFloat(asset.dataset.rotation || "0")
+      };
+    }
+
+    function applyAssetTransform(asset) {
+      const { scale, rotation } = getAssetState(asset);
+      asset.style.transform = `rotate(${rotation}deg) scale(${scale})`;
+    }
+
+    function clampToBoard(asset, left, top) {
+      const rect = board.getBoundingClientRect();
+      const assetRect = asset.getBoundingClientRect();
+      const maxLeft = rect.width - assetRect.width;
+      const maxTop = rect.height - assetRect.height;
+      return {
+        left: Math.min(Math.max(0, left), Math.max(0, maxLeft)),
+        top: Math.min(Math.max(80, top), Math.max(80, maxTop))
+      };
+    }
+
+    customAssets.forEach(asset => {
+      applyAssetTransform(asset);
+      asset.addEventListener("pointerdown", (e) => {
+        activeAsset = asset;
+        asset.classList.add("active");
+        asset.style.zIndex = ++zCounter;
+        startPointer = { x: e.clientX, y: e.clientY };
+        startBox = {
+          left: parseFloat(asset.style.left) / 100 * board.clientWidth || asset.offsetLeft,
+          top: parseFloat(asset.style.top) / 100 * board.clientHeight || asset.offsetTop
+        };
+        startRotation = parseFloat(asset.dataset.rotation || "0");
+        asset.setPointerCapture(e.pointerId);
+      });
+
+      asset.addEventListener("pointermove", (e) => {
+        if (!activeAsset || activeAsset !== asset) return;
+        const dx = e.clientX - startPointer.x;
+        const dy = e.clientY - startPointer.y;
+
+        if (e.shiftKey) {
+          asset.dataset.rotation = String(startRotation + dx * 0.25);
+          applyAssetTransform(asset);
+          return;
+        }
+
+        const next = clampToBoard(asset, startBox.left + dx, startBox.top + dy);
+        asset.style.left = `${next.left}px`;
+        asset.style.top = `${next.top}px`;
+      });
+
+      asset.addEventListener("pointerup", (e) => {
+        asset.classList.remove("active");
+        asset.releasePointerCapture(e.pointerId);
+        activeAsset = null;
+      });
+
+      asset.addEventListener("pointercancel", () => {
+        asset.classList.remove("active");
+        activeAsset = null;
+      });
+
+      asset.addEventListener("wheel", (e) => {
+        e.preventDefault();
+        const { scale } = getAssetState(asset);
+        const nextScale = Math.min(2.2, Math.max(0.45, scale + (e.deltaY < 0 ? 0.08 : -0.08)));
+        asset.dataset.scale = String(nextScale);
+        applyAssetTransform(asset);
+      }, { passive: false });
     });
 
     ScrollTrigger.refresh();
