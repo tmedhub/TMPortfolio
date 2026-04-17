@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Museumof Me</title>
+  <title>Museum of Me</title>
 
   <script>
     if ("scrollRestoration" in history) {
@@ -225,7 +225,7 @@
 
     #torch{ position:absolute; width:70px; pointer-events:none; transform:translate(-50%,-15%) rotate(-20deg); z-index:60; transition:opacity 2.2s ease; }
 
-    .canvas-wrap, .gallery-panel, .lets-work, .customization-stage{ position:relative; min-height:100vh; overflow:hidden; }
+    .canvas-wrap, .gallery-panel, .lets-work, .customization-heading, .customization-showcase{ position:relative; min-height:100vh; overflow:hidden; }
 
     .canvas-wrap{ height:100vh; background:linear-gradient(to bottom, rgba(0,0,0,0.0), rgba(0,0,0,0.22) 18%, #000 46%), #000; }
     .canvas-wrap::before{ content:""; position:absolute; inset:0; pointer-events:none; z-index:2; background:linear-gradient(to bottom, rgba(245,217,166,0.03) 0%, rgba(0,0,0,0.00) 20%, rgba(0,0,0,0.00) 100%); }
@@ -237,7 +237,7 @@
     .freeform-inner img{ position:absolute; width:280px; opacity:1; box-shadow:0 30px 80px rgba(0,0,0,.95); z-index:20; pointer-events:none; user-select:none; transition:opacity 0.35s ease; }
 
     .freeform-title{ position:absolute; inset:0; display:flex; flex-direction:column; justify-content:center; align-items:center; pointer-events:none; z-index:5; text-align:center; opacity:0.82; transform:translateY(12px); will-change:opacity, transform; }
-    .freeform-title h1, .panel-title, .lets-work h2, .arcade-card-title, .customization-title{ font-family:"Cormorant Garamond", serif; text-transform:uppercase; }
+    .freeform-title h1, .panel-title, .lets-work h2, .arcade-card-title, .customization-heading h2{ font-family:"Cormorant Garamond", serif; text-transform:uppercase; }
     .freeform-title h1{ font-size:3.4rem; letter-spacing:.35em; opacity:.45; color:#f5d9a6; }
     .freeform-title p{ margin-top:14px; opacity:.35; letter-spacing:.18em; color:#f5d9a6; text-transform:uppercase; font-size:.9rem; }
 
@@ -266,7 +266,7 @@
     .arcade-note{ position:absolute; top:12vh; left:50%; transform:translateX(-50%); z-index:50; font-size:0.95rem; letter-spacing:0.34em; text-transform:uppercase; color:#fff3d4; text-shadow:0 4px 18px rgba(0,0,0,0.95), 0 0 28px rgba(255,210,140,0.35); white-space:nowrap; pointer-events:none; opacity:1; }
     .arcade-shell{ position:absolute; inset:0; z-index:2; display:flex; align-items:center; overflow:hidden; cursor:grab; user-select:none; touch-action:pan-y; background:#090705; }
     .arcade-shell.dragging{ cursor:grabbing; }
-    .arcade-track{ display:flex; gap:1.6vw; padding:0 18vw 0 20vw; will-change:transform; transform:translate3d(0,0,0); }
+    .arcade-track{ display:flex; gap:1.6vw; padding:0 18vw 0 16vw; will-change:transform; transform:translate3d(0,0,0); }
 
     .arcade-card{ flex:0 0 64vw; max-width:860px; min-width:760px; height:52vh; position:relative; display:grid; grid-template-columns:0.92fr 1.08fr; border-radius:24px; overflow:hidden; background:linear-gradient(180deg, #1f140d, #120d09); box-shadow:0 24px 64px rgba(0,0,0,0.52), inset 0 1px 0 rgba(255,240,220,0.04); }
     .arcade-card::before{ content:""; position:absolute; inset:0; border-radius:24px; padding:1px; background:linear-gradient(135deg, rgba(96,62,31,0.95) 0%, rgba(199,154,87,0.95) 18%, rgba(125,83,43,0.92) 42%, rgba(74,48,27,0.96) 68%, rgba(199,154,87,0.82) 100%); -webkit-mask:linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); -webkit-mask-composite:xor; mask-composite:exclude; pointer-events:none; }
@@ -294,76 +294,47 @@
     .media-arrow.prev{ left:12px; } .media-arrow.next{ right:12px; }
     .arcade-badge{ position:absolute; right:16px; bottom:16px; z-index:3; padding:9px 12px; border-radius:999px; font-size:0.60rem; letter-spacing:0.18em; text-transform:uppercase; color:#f2dfbf; background:#130e0a; border:1px solid rgba(199,154,87,0.20); }
 
-    .customization-stage{
-      background:#000;
-      min-height:160vh;
-      padding:10vh 0 0;
-      isolation:isolate;
-    }
-
-    .customization-copy{
-      position:relative;
-      z-index:6;
+    .customization-heading{
+      min-height:auto;
+      padding:10vh 6vw 4vh;
+      display:flex;
+      align-items:flex-end;
+      justify-content:center;
       text-align:center;
-      width:min(92vw, 860px);
-      margin:0 auto 5vh;
-      padding:0 20px;
+      background:linear-gradient(180deg, #090806 0%, #050505 100%);
     }
-
-    .customization-title{
-      font-size:clamp(2.6rem, 5vw, 4.4rem);
-      letter-spacing:0.08em;
-      color:#f4e3bc;
-      text-shadow:0 10px 28px rgba(0,0,0,0.34);
-      white-space:nowrap;
-    }
-
-    .customization-sub{
-      margin-top:0.7rem;
-      font-size:0.96rem;
-      line-height:1.6;
-      letter-spacing:0.08em;
-      text-transform:uppercase;
-      color:rgba(247,241,231,0.78);
-    }
+    .customization-heading h2{ font-size:clamp(2.2rem, 5vw, 4rem); letter-spacing:0.12em; color:#f2dfb8; text-shadow:0 10px 30px rgba(0,0,0,0.35); }
+    .customization-heading p{ margin-top:0.8rem; font-size:0.95rem; line-height:1.7; color:rgba(247,241,231,0.82); }
 
     .customization-showcase{
-      position:relative;
-      width:100%;
-      height:100vh;
-      overflow:hidden;
+      min-height:100vh;
       background:#000;
     }
-
-    .customization-bg{
+    .customization-showcase::before{
+      content:"";
       position:absolute;
       inset:0;
       background:url("bg6.png") center center / cover no-repeat;
-      opacity:1;
-      transform:none;
-      filter:brightness(0.92) saturate(0.96);
       z-index:1;
     }
-
-    .customization-overlay{
+    .customization-showcase::after{
+      content:"";
       position:absolute;
       inset:0;
-      background:
-        radial-gradient(circle at top, rgba(215,182,117,0.08), transparent 26%),
-        linear-gradient(to bottom, rgba(0,0,0,0.18), rgba(0,0,0,0.38));
-      pointer-events:none;
       z-index:2;
+      pointer-events:none;
+      background:linear-gradient(to bottom, rgba(0,0,0,0.08), rgba(0,0,0,0.22));
     }
-
     .customization-board{
       position:relative;
-      z-index:5;
+      z-index:3;
       width:100%;
-      height:100%;
+      height:100vh;
       overflow:hidden;
+      cursor:grab;
       touch-action:none;
     }
-
+    .customization-board:active{ cursor:grabbing; }
     .custom-asset{
       position:absolute;
       user-select:none;
@@ -373,7 +344,7 @@
       filter:drop-shadow(0 18px 30px rgba(0,0,0,0.45));
       will-change:transform, left, top;
     }
-
+    .custom-asset.active{ cursor:grabbing; }
     .custom-asset img{
       width:100%;
       height:100%;
@@ -381,19 +352,16 @@
       display:block;
       pointer-events:none;
     }
-
-    .custom-asset.active{ cursor:grabbing; }
-
     .custom-hint{
       position:absolute;
-      bottom:24px;
       left:50%;
+      bottom:28px;
       transform:translateX(-50%);
-      z-index:7;
+      z-index:4;
       padding:10px 14px;
       border-radius:999px;
-      background:rgba(12,9,7,0.58);
       border:1px solid rgba(234,215,174,0.18);
+      background:rgba(12,9,7,0.58);
       color:rgba(247,241,231,0.82);
       font-size:0.74rem;
       letter-spacing:0.14em;
@@ -515,7 +483,7 @@
       .btn-label{ font-size:0.98rem; }
       .gallery-dropdown{ top:58px; min-width:250px; }
       .museum-work-btn .btn-label{ max-width:130px; overflow:hidden; text-overflow:ellipsis; }
-      .scene1-wrapper, .canvas-wrap, .bg4-stage{ height:100svh; }
+      .scene1-wrapper, .canvas-wrap, .bg4-stage, .customization-showcase{ height:100svh; }
       .foreground{ width:92vw; }
       .bg2-content{ top:42%; padding:22px 20px 20px; }
       .bg2-content h1{ font-size:clamp(2rem, 8vw, 3rem); white-space:normal; }
@@ -535,13 +503,7 @@
       .arcade-note{ top:5vh; font-size:0.60rem; letter-spacing:0.18em; }
       .connect-links{ flex-direction:column; align-items:center; }
       .connect-btn{ width:min(320px, 100%); }
-      .customization-stage{ min-height:auto; padding-top:8vh; }
-      .customization-copy{ margin-bottom:3.5vh; }
-      .customization-title{ white-space:normal; }
-      .customization-sub{ font-size:0.8rem; letter-spacing:0.04em; }
-      .customization-showcase{ height:78svh; }
-      .custom-hint{ font-size:0.62rem; letter-spacing:0.08em; white-space:normal; text-align:center; width:min(90vw, 360px); }
-    }
+      .customization-heading h2{ white-space:normal; }
       .custom-hint{ font-size:0.62rem; letter-spacing:0.08em; white-space:normal; text-align:center; width:min(90vw, 360px); }
     }
   </style>
@@ -684,6 +646,7 @@
 
             <div class="arcade-right">
               <div class="arcade-media">
+                <div class="arcade-media">
                 <div class="media-carousel" data-carousel>
                   <button class="media-arrow prev" type="button">‹</button>
                   <div class="media-slides">
@@ -694,6 +657,7 @@
                   <button class="media-arrow next" type="button">›</button>
                 </div>
                 <div class="arcade-badge">Project Preview</div>
+              </div>
               </div>
             </div>
           </article>
@@ -740,31 +704,27 @@
     </div>
   </section>
 
-  <section class="customization-stage" id="bg6Stage">
-    <div class="customization-copy">
-      <h2 class="customization-title">Customization Co-op</h2>
-      <p class="customization-sub">Rearrange and customize your shelf.</p>
+  <section class="customization-heading" id="bg6Stage">
+    <div>
+      <h2>Customization Co-op</h2>
+      <p>Rearrange and customize your shelf.</p>
     </div>
+  </section>
 
-    <div class="customization-showcase">
-      <div class="customization-bg"></div>
-      <div class="customization-overlay"></div>
-
-      <div class="customization-board" id="customizationBoard">
-        <div class="custom-asset" data-asset style="width:260px; height:260px; left:12%; top:26%; transform:rotate(-8deg) scale(1);">
-          <img src="vang.png" alt="Van Gogh themed asset">
-        </div>
-        <div class="custom-asset" data-asset style="width:220px; height:220px; left:38%; top:48%; transform:rotate(6deg) scale(1);">
-          <img src="nunnu.png" alt="custom asset one">
-        </div>
-        <div class="custom-asset" data-asset style="width:210px; height:210px; left:62%; top:28%; transform:rotate(-4deg) scale(1);">
-          <img src="f1.png" alt="custom asset two">
-        </div>
-        <div class="custom-asset" data-asset style="width:230px; height:230px; left:74%; top:54%; transform:rotate(10deg) scale(1);">
-          <img src="jenga.png" alt="custom asset three">
-        </div>
+  <section class="customization-showcase">
+    <div class="customization-board" id="customizationBoard">
+      <div class="custom-asset" data-asset style="width:260px; height:260px; left:12%; top:26%; transform:rotate(-8deg) scale(1);">
+        <img src="vang.png" alt="Van Gogh themed asset">
       </div>
-
+      <div class="custom-asset" data-asset style="width:220px; height:220px; left:38%; top:48%; transform:rotate(6deg) scale(1);">
+        <img src="nunnu.png" alt="custom asset one">
+      </div>
+      <div class="custom-asset" data-asset style="width:210px; height:210px; left:62%; top:28%; transform:rotate(-4deg) scale(1);">
+        <img src="f1.png" alt="custom asset two">
+      </div>
+      <div class="custom-asset" data-asset style="width:230px; height:230px; left:74%; top:54%; transform:rotate(10deg) scale(1);">
+        <img src="jenga.png" alt="custom asset three">
+      </div>
       <div class="custom-hint">Drag to move • Shift + drag to rotate • Scroll to resize</div>
     </div>
   </section>
@@ -1032,7 +992,7 @@
     let dragStartX = 0;
     let dragStartTargetX = 0;
 
-    function getMinTrackX() { return Math.min(0, shell.clientWidth - track.scrollWidth - 80); }
+    function getMinTrackX() { return Math.min(0, shell.clientWidth - track.scrollWidth - 40); }
     function clampTrackX(x) { return Math.max(getMinTrackX(), Math.min(0, x)); }
 
     function animateTrack() {
@@ -1076,17 +1036,17 @@
       scrollTrigger: {
         trigger: "#projectArcade",
         start: "top top",
-        end: () => "+=" + (track.scrollWidth - shell.clientWidth + window.innerHeight * 4.8),
+        end: () => "+=" + (track.scrollWidth - shell.clientWidth + 3400),
         scrub: 1,
         pin: true,
         invalidateOnRefresh: true,
         onUpdate: self => {
           const progress = self.progress;
-          const horizontalStart = 0.30;
-          const horizontalEnd = 0.84;
+          const horizontalStart = 0.38;
+          const horizontalEnd = 0.80;
           const moveProgress = gsap.utils.clamp(0, 1, (progress - horizontalStart) / (horizontalEnd - horizontalStart));
           const maxX = Math.max(0, track.scrollWidth - shell.clientWidth);
-          const scrollDrivenX = clampTrackX(-(maxX * moveProgress));
+          const scrollDrivenX = clampTrackX(-maxX * moveProgress);
           if (!isDraggingTrack) targetX = scrollDrivenX;
         }
       }
@@ -1095,17 +1055,17 @@
     projectArcadeTimeline
       .fromTo(bg4Base, { scale: 1, opacity: 1, xPercent: 0, yPercent: 0 }, { scale: 1.24, xPercent: -4, yPercent: -2, opacity: 1, transformOrigin: "50% 50%", ease: "none" }, 0.00)
       .fromTo(bg4Overlay, { opacity: 1 }, { opacity: 0.14, ease: "none" }, 0.00)
-      .fromTo(bg5Top, { opacity: 0, scale: 1.08, xPercent: 0, yPercent: 0, transformOrigin: "50% 50%" }, { opacity: 1, scale: 1.02, xPercent: 0, yPercent: 0, ease: "power2.out" }, 0.10)
-      .fromTo(bg5Overlay, { opacity: 0 }, { opacity: 1, ease: "power2.out" }, 0.10)
-      .to(bg4Base, { opacity: 0, ease: "power2.out" }, 0.20)
-      .to(bg4Overlay, { opacity: 0, ease: "power2.out" }, 0.20)
-      .to(bg5Top, { scale: 3.3, xPercent: 18, yPercent: -10, transformOrigin: "20% 28%", ease: "power2.inOut" }, 0.28)
-      .to(bg5Overlay, { opacity: 0.14, ease: "power2.inOut" }, 0.28)
-      .fromTo(projectsJourney, { opacity: 0 }, { opacity: 1, ease: "power2.inOut" }, 0.44)
-      .to(projectsJourney, { opacity: 1, ease: "none" }, 0.84)
-      .to(bg5Top, { opacity: 0, ease: "power2.out" }, 0.90)
-      .to(bg5Overlay, { opacity: 0, ease: "power2.out" }, 0.90)
-      .to(projectsJourney, { opacity: 0, ease: "power2.inOut" }, 0.97);
+      .fromTo(bg5Top, { opacity: 0, scale: 1.08, xPercent: 0, yPercent: 0, transformOrigin: "50% 50%" }, { opacity: 1, scale: 1.02, xPercent: 0, yPercent: 0, ease: "power2.out" }, 0.12)
+      .fromTo(bg5Overlay, { opacity: 0 }, { opacity: 1, ease: "power2.out" }, 0.12)
+      .to(bg4Base, { opacity: 0, ease: "power2.out" }, 0.22)
+      .to(bg4Overlay, { opacity: 0, ease: "power2.out" }, 0.22)
+      .to(bg5Top, { scale: 3.55, xPercent: 21, yPercent: -11, transformOrigin: "20% 28%", ease: "power2.inOut" }, 0.30)
+      .to(bg5Overlay, { opacity: 0.16, ease: "power2.inOut" }, 0.30)
+      .fromTo(projectsJourney, { opacity: 0 }, { opacity: 1, ease: "power2.inOut" }, 0.50)
+      .to(bg5Top, { opacity: 0, ease: "power2.out" }, 0.58)
+      .to(bg5Overlay, { opacity: 0, ease: "power2.out" }, 0.58)
+      .to(projectsJourney, { opacity: 1, ease: "none" }, 0.80)
+      .to(projectsJourney, { opacity: 0, ease: "power2.inOut" }, 0.90);
 
     window.addEventListener("resize", () => {
       targetX = clampTrackX(targetX);
@@ -1115,16 +1075,14 @@
     const galleryProjectArcade = document.getElementById("galleryProjectArcade");
 
     function getProjectArcadeScrollDistance() {
-      return Math.max(0, track.scrollWidth - shell.clientWidth + window.innerHeight * 4.8);
+      return Math.max(0, track.scrollWidth - shell.clientWidth + 3400);
     }
 
     function scrollToArcadeExhibits(e) {
       if (e) e.preventDefault();
       const baseTop = projectArcade.offsetTop;
-      const targetY = baseTop + getProjectArcadeScrollDistance() * 0.38;
+      const targetY = baseTop + getProjectArcadeScrollDistance() * 0.42;
       window.scrollTo({ top: targetY, behavior: "smooth" });
-      galleryDropdown.classList.remove("open");
-    });
       galleryDropdown.classList.remove("open");
     }
 
@@ -1187,7 +1145,7 @@
       const maxTop = rect.height - assetRect.height;
       return {
         left: Math.min(Math.max(0, left), Math.max(0, maxLeft)),
-        top: Math.min(Math.max(80, top), Math.max(80, maxTop))
+        top: Math.min(Math.max(0, top), Math.max(0, maxTop))
       };
     }
 
@@ -1199,8 +1157,8 @@
         asset.style.zIndex = ++zCounter;
         startPointer = { x: e.clientX, y: e.clientY };
         startBox = {
-          left: parseFloat(asset.style.left) / 100 * board.clientWidth || asset.offsetLeft,
-          top: parseFloat(asset.style.top) / 100 * board.clientHeight || asset.offsetTop
+          left: asset.offsetLeft,
+          top: asset.offsetTop
         };
         startRotation = parseFloat(asset.dataset.rotation || "0");
         asset.setPointerCapture(e.pointerId);
@@ -1224,7 +1182,7 @@
 
       asset.addEventListener("pointerup", (e) => {
         asset.classList.remove("active");
-        asset.releasePointerCapture(e.pointerId);
+        try { asset.releasePointerCapture(e.pointerId); } catch(err) {}
         activeAsset = null;
       });
 
