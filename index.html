@@ -266,7 +266,7 @@
     .arcade-note{ position:absolute; top:12vh; left:50%; transform:translateX(-50%); z-index:50; font-size:0.95rem; letter-spacing:0.34em; text-transform:uppercase; color:#fff3d4; text-shadow:0 4px 18px rgba(0,0,0,0.95), 0 0 28px rgba(255,210,140,0.35); white-space:nowrap; pointer-events:none; opacity:1; }
     .arcade-shell{ position:absolute; inset:0; z-index:2; display:flex; align-items:center; overflow:hidden; cursor:grab; user-select:none; touch-action:pan-y; background:#090705; }
     .arcade-shell.dragging{ cursor:grabbing; }
-    .arcade-track{ display:flex; gap:1.6vw; padding:0 18vw 0 12vw; will-change:transform; transform:translate3d(0,0,0); }
+    .arcade-track{ display:flex; gap:1.6vw; padding:0 18vw 0 20vw; will-change:transform; transform:translate3d(0,0,0); }
 
     .arcade-card{ flex:0 0 64vw; max-width:860px; min-width:760px; height:52vh; position:relative; display:grid; grid-template-columns:0.92fr 1.08fr; border-radius:24px; overflow:hidden; background:linear-gradient(180deg, #1f140d, #120d09); box-shadow:0 24px 64px rgba(0,0,0,0.52), inset 0 1px 0 rgba(255,240,220,0.04); }
     .arcade-card::before{ content:""; position:absolute; inset:0; border-radius:24px; padding:1px; background:linear-gradient(135deg, rgba(96,62,31,0.95) 0%, rgba(199,154,87,0.95) 18%, rgba(125,83,43,0.92) 42%, rgba(74,48,27,0.96) 68%, rgba(199,154,87,0.82) 100%); -webkit-mask:linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); -webkit-mask-composite:xor; mask-composite:exclude; pointer-events:none; }
@@ -296,40 +296,18 @@
 
     .customization-stage{
       background:#000;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding:0;
+      min-height:160vh;
+      padding:10vh 0 0;
       isolation:isolate;
     }
 
-    .customization-bg{
-      position:absolute;
-      inset:0;
-      background:url("bg6.png") center center / cover no-repeat;
-      opacity:0.32;
-      transform:scale(1.02);
-      filter:brightness(0.8) saturate(0.9);
-    }
-
-    .customization-overlay{
-      position:absolute;
-      inset:0;
-      background:
-        radial-gradient(circle at top, rgba(215,182,117,0.12), transparent 28%),
-        linear-gradient(to bottom, rgba(0,0,0,0.62), rgba(0,0,0,0.78));
-      pointer-events:none;
-    }
-
-    .customization-intro{
-      position:absolute;
-      top:10vh;
-      left:50%;
-      transform:translateX(-50%);
+    .customization-copy{
+      position:relative;
       z-index:6;
       text-align:center;
       width:min(92vw, 860px);
-      pointer-events:none;
+      margin:0 auto 5vh;
+      padding:0 20px;
     }
 
     .customization-title{
@@ -349,11 +327,39 @@
       color:rgba(247,241,231,0.78);
     }
 
+    .customization-showcase{
+      position:relative;
+      width:100%;
+      height:100vh;
+      overflow:hidden;
+      background:#000;
+    }
+
+    .customization-bg{
+      position:absolute;
+      inset:0;
+      background:url("bg6.png") center center / cover no-repeat;
+      opacity:1;
+      transform:none;
+      filter:brightness(0.92) saturate(0.96);
+      z-index:1;
+    }
+
+    .customization-overlay{
+      position:absolute;
+      inset:0;
+      background:
+        radial-gradient(circle at top, rgba(215,182,117,0.08), transparent 26%),
+        linear-gradient(to bottom, rgba(0,0,0,0.18), rgba(0,0,0,0.38));
+      pointer-events:none;
+      z-index:2;
+    }
+
     .customization-board{
       position:relative;
       z-index:5;
       width:100%;
-      height:100vh;
+      height:100%;
       overflow:hidden;
       touch-action:none;
     }
@@ -386,9 +392,9 @@
       z-index:7;
       padding:10px 14px;
       border-radius:999px;
-      background:rgba(12,9,7,0.72);
+      background:rgba(12,9,7,0.58);
       border:1px solid rgba(234,215,174,0.18);
-      color:rgba(247,241,231,0.78);
+      color:rgba(247,241,231,0.82);
       font-size:0.74rem;
       letter-spacing:0.14em;
       text-transform:uppercase;
@@ -509,7 +515,7 @@
       .btn-label{ font-size:0.98rem; }
       .gallery-dropdown{ top:58px; min-width:250px; }
       .museum-work-btn .btn-label{ max-width:130px; overflow:hidden; text-overflow:ellipsis; }
-      .scene1-wrapper, .canvas-wrap, .bg4-stage, .customization-stage{ height:100svh; }
+      .scene1-wrapper, .canvas-wrap, .bg4-stage{ height:100svh; }
       .foreground{ width:92vw; }
       .bg2-content{ top:42%; padding:22px 20px 20px; }
       .bg2-content h1{ font-size:clamp(2rem, 8vw, 3rem); white-space:normal; }
@@ -520,7 +526,7 @@
       .freeform-title p{ font-size:.78rem; }
       #torch{ width:56px; }
       .panel-card, .lets-work-card{ padding:34px 22px; }
-      .arcade-track{ gap:18px; padding:0 5vw; }
+      .arcade-track{ gap:18px; padding:0 5vw 0 10vw; }
       .arcade-card{ min-width:90vw; border-radius:20px; }
       .arcade-card::before{ border-radius:20px; }
       .arcade-card-title{ font-size:2rem; }
@@ -529,8 +535,13 @@
       .arcade-note{ top:5vh; font-size:0.60rem; letter-spacing:0.18em; }
       .connect-links{ flex-direction:column; align-items:center; }
       .connect-btn{ width:min(320px, 100%); }
+      .customization-stage{ min-height:auto; padding-top:8vh; }
+      .customization-copy{ margin-bottom:3.5vh; }
       .customization-title{ white-space:normal; }
       .customization-sub{ font-size:0.8rem; letter-spacing:0.04em; }
+      .customization-showcase{ height:78svh; }
+      .custom-hint{ font-size:0.62rem; letter-spacing:0.08em; white-space:normal; text-align:center; width:min(90vw, 360px); }
+    }
       .custom-hint{ font-size:0.62rem; letter-spacing:0.08em; white-space:normal; text-align:center; width:min(90vw, 360px); }
     }
   </style>
@@ -730,30 +741,32 @@
   </section>
 
   <section class="customization-stage" id="bg6Stage">
-    <div class="customization-bg"></div>
-    <div class="customization-overlay"></div>
-
-    <div class="customization-intro">
+    <div class="customization-copy">
       <h2 class="customization-title">Customization Co-op</h2>
       <p class="customization-sub">Rearrange and customize your shelf.</p>
     </div>
 
-    <div class="customization-board" id="customizationBoard">
-      <div class="custom-asset" data-asset style="width:260px; height:260px; left:12%; top:26%; transform:rotate(-8deg) scale(1);">
-        <img src="vang.png" alt="Van Gogh themed asset">
-      </div>
-      <div class="custom-asset" data-asset style="width:220px; height:220px; left:38%; top:48%; transform:rotate(6deg) scale(1);">
-        <img src="nunnu.png" alt="custom asset one">
-      </div>
-      <div class="custom-asset" data-asset style="width:210px; height:210px; left:62%; top:28%; transform:rotate(-4deg) scale(1);">
-        <img src="f1.png" alt="custom asset two">
-      </div>
-      <div class="custom-asset" data-asset style="width:230px; height:230px; left:74%; top:54%; transform:rotate(10deg) scale(1);">
-        <img src="jenga.png" alt="custom asset three">
-      </div>
-    </div>
+    <div class="customization-showcase">
+      <div class="customization-bg"></div>
+      <div class="customization-overlay"></div>
 
-    <div class="custom-hint">Drag to move • Shift + drag to rotate • Scroll to resize</div>
+      <div class="customization-board" id="customizationBoard">
+        <div class="custom-asset" data-asset style="width:260px; height:260px; left:12%; top:26%; transform:rotate(-8deg) scale(1);">
+          <img src="vang.png" alt="Van Gogh themed asset">
+        </div>
+        <div class="custom-asset" data-asset style="width:220px; height:220px; left:38%; top:48%; transform:rotate(6deg) scale(1);">
+          <img src="nunnu.png" alt="custom asset one">
+        </div>
+        <div class="custom-asset" data-asset style="width:210px; height:210px; left:62%; top:28%; transform:rotate(-4deg) scale(1);">
+          <img src="f1.png" alt="custom asset two">
+        </div>
+        <div class="custom-asset" data-asset style="width:230px; height:230px; left:74%; top:54%; transform:rotate(10deg) scale(1);">
+          <img src="jenga.png" alt="custom asset three">
+        </div>
+      </div>
+
+      <div class="custom-hint">Drag to move • Shift + drag to rotate • Scroll to resize</div>
+    </div>
   </section>
 
   <section class="gallery-panel" id="directorsDome">
@@ -1069,10 +1082,10 @@
         invalidateOnRefresh: true,
         onUpdate: self => {
           const progress = self.progress;
-          const horizontalStart = 0.28;
+          const horizontalStart = 0.30;
           const horizontalEnd = 0.84;
           const moveProgress = gsap.utils.clamp(0, 1, (progress - horizontalStart) / (horizontalEnd - horizontalStart));
-          const maxX = Math.max(0, track.scrollWidth - shell.clientWidth + window.innerWidth * 0.08);
+          const maxX = Math.max(0, track.scrollWidth - shell.clientWidth);
           const scrollDrivenX = clampTrackX(-(maxX * moveProgress));
           if (!isDraggingTrack) targetX = scrollDrivenX;
         }
@@ -1088,7 +1101,7 @@
       .to(bg4Overlay, { opacity: 0, ease: "power2.out" }, 0.20)
       .to(bg5Top, { scale: 3.3, xPercent: 18, yPercent: -10, transformOrigin: "20% 28%", ease: "power2.inOut" }, 0.28)
       .to(bg5Overlay, { opacity: 0.14, ease: "power2.inOut" }, 0.28)
-      .fromTo(projectsJourney, { opacity: 0 }, { opacity: 1, ease: "power2.inOut" }, 0.42)
+      .fromTo(projectsJourney, { opacity: 0 }, { opacity: 1, ease: "power2.inOut" }, 0.44)
       .to(projectsJourney, { opacity: 1, ease: "none" }, 0.84)
       .to(bg5Top, { opacity: 0, ease: "power2.out" }, 0.90)
       .to(bg5Overlay, { opacity: 0, ease: "power2.out" }, 0.90)
@@ -1108,8 +1121,10 @@
     function scrollToArcadeExhibits(e) {
       if (e) e.preventDefault();
       const baseTop = projectArcade.offsetTop;
-      const targetY = baseTop + getProjectArcadeScrollDistance() * 0.44;
+      const targetY = baseTop + getProjectArcadeScrollDistance() * 0.38;
       window.scrollTo({ top: targetY, behavior: "smooth" });
+      galleryDropdown.classList.remove("open");
+    });
       galleryDropdown.classList.remove("open");
     }
 
