@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Museum of Me</title>
+  <title>Museumof Me</title>
 
   <script>
     if ("scrollRestoration" in history) {
@@ -225,97 +225,22 @@
 
     #torch{ position:absolute; width:70px; pointer-events:none; transform:translate(-50%,-15%) rotate(-20deg); z-index:60; transition:opacity 2.2s ease; }
 
-    .canvas-wrap, .gallery-panel, .lets-work, .customization-heading, .customization-showcase{ position:relative; min-height:100vh; overflow:hidden; }
-
-    .canvas-wrap{ height:100vh; background:linear-gradient(to bottom, rgba(0,0,0,0.0), rgba(0,0,0,0.22) 18%, #000 46%), #000; }
-    .canvas-wrap::before{ content:""; position:absolute; inset:0; pointer-events:none; z-index:2; background:linear-gradient(to bottom, rgba(245,217,166,0.03) 0%, rgba(0,0,0,0.00) 20%, rgba(0,0,0,0.00) 100%); }
-
-    #freeform{ position:absolute; inset:0; background:black; overflow:hidden; cursor:default; z-index:100; opacity:0.92; transform:scale(1.01); will-change:opacity, transform; }
-    body.torch-ended #freeform{ cursor:grab; }
-    body.torch-ended #freeform:active, body.torch-ended #freeform.is-dragging{ cursor:grabbing; }
-    .freeform-inner{ position:absolute; left:0; top:0; }
-    .freeform-inner img{ position:absolute; width:280px; opacity:1; box-shadow:0 30px 80px rgba(0,0,0,.95); z-index:20; pointer-events:none; user-select:none; transition:opacity 0.35s ease; }
-
-    .freeform-title{ position:absolute; inset:0; display:flex; flex-direction:column; justify-content:center; align-items:center; pointer-events:none; z-index:5; text-align:center; opacity:0.82; transform:translateY(12px); will-change:opacity, transform; }
-    .freeform-title h1, .panel-title, .lets-work h2, .arcade-card-title, .customization-heading h2{ font-family:"Cormorant Garamond", serif; text-transform:uppercase; }
-    .freeform-title h1{ font-size:3.4rem; letter-spacing:.35em; opacity:.45; color:#f5d9a6; }
-    .freeform-title p{ margin-top:14px; opacity:.35; letter-spacing:.18em; color:#f5d9a6; text-transform:uppercase; font-size:.9rem; }
-
-    .bg4-stage{ position:relative; height:100vh; overflow:hidden; background:#000; isolation:isolate; }
-    .bg4-base, .bg5-top{ position:absolute; inset:0; background-repeat:no-repeat; background-size:cover; will-change:transform, opacity; }
-    .bg4-base{ background-image:url("bg4.jpeg"); background-position:center center; z-index:1; opacity:1; transform:scale(1); }
-    .bg5-top{ background-image:url("bg5.png"); background-position:center center; z-index:4; opacity:0; transform:scale(1.08); }
-    .bg4-overlay, .bg5-overlay{ position:absolute; inset:0; pointer-events:none; }
-    .bg4-overlay{ z-index:2; background:linear-gradient(to bottom, rgba(0,0,0,0.10), rgba(0,0,0,0.24)); opacity:1; }
-    .bg5-overlay{ z-index:5; background:radial-gradient(circle at 50% 20%, rgba(212,157,93,0.14), transparent 28%), linear-gradient(to bottom, rgba(0,0,0,0.14), rgba(0,0,0,0.28)); opacity:0; }
-
-    .bg4-stage::before{
-      content:"";
-      position:absolute;
-      top:0;
-      left:0;
-      right:0;
-      height:180px;
-      z-index:20;
-      pointer-events:none;
-      background:linear-gradient(to bottom, #000 0%, rgba(0,0,0,0.88) 14%, rgba(0,0,0,0.62) 38%, rgba(0,0,0,0.26) 66%, rgba(0,0,0,0) 100%);
-    }
-
-    #projectsJourney{ position:absolute; inset:0; z-index:10; opacity:0; overflow:hidden; background:#090705; pointer-events:auto; isolation:isolate; }
-    #projectsJourney::before{ content:""; position:absolute; inset:0; z-index:0; pointer-events:none; background:#090705; opacity:1; }
-    .arcade-note{ position:absolute; top:12vh; left:50%; transform:translateX(-50%); z-index:50; font-size:0.95rem; letter-spacing:0.34em; text-transform:uppercase; color:#fff3d4; text-shadow:0 4px 18px rgba(0,0,0,0.95), 0 0 28px rgba(255,210,140,0.35); white-space:nowrap; pointer-events:none; opacity:1; }
-    .arcade-shell{ position:absolute; inset:0; z-index:2; display:flex; align-items:center; overflow:hidden; cursor:grab; user-select:none; touch-action:pan-y; background:#090705; }
-    .arcade-shell.dragging{ cursor:grabbing; }
-    .arcade-track{ display:flex; gap:1.6vw; padding:0 18vw 0 16vw; will-change:transform; transform:translate3d(0,0,0); }
-
-    .arcade-card{ flex:0 0 64vw; max-width:860px; min-width:760px; height:52vh; position:relative; display:grid; grid-template-columns:0.92fr 1.08fr; border-radius:24px; overflow:hidden; background:linear-gradient(180deg, #1f140d, #120d09); box-shadow:0 24px 64px rgba(0,0,0,0.52), inset 0 1px 0 rgba(255,240,220,0.04); }
-    .arcade-card::before{ content:""; position:absolute; inset:0; border-radius:24px; padding:1px; background:linear-gradient(135deg, rgba(96,62,31,0.95) 0%, rgba(199,154,87,0.95) 18%, rgba(125,83,43,0.92) 42%, rgba(74,48,27,0.96) 68%, rgba(199,154,87,0.82) 100%); -webkit-mask:linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); -webkit-mask-composite:xor; mask-composite:exclude; pointer-events:none; }
-    .arcade-card::after{ content:""; position:absolute; inset:0; border-radius:24px; pointer-events:none; background:linear-gradient(135deg, rgba(255,245,230,0.02), transparent 18%, transparent 82%, rgba(255,220,170,0.02)), radial-gradient(circle at 15% 18%, rgba(215,150,83,0.04), transparent 18%); }
-    .arcade-left{ position:relative; z-index:2; padding:34px 26px 30px 32px; display:flex; flex-direction:column; justify-content:center; background:linear-gradient(180deg, #24170f, #16100b); }
-    .arcade-index{ font-family:"Cormorant Garamond", serif; font-size:0.82rem; letter-spacing:0.35em; color:rgba(215,181,120,0.78); margin-bottom:10px; }
-    .arcade-card-title{ font-size:clamp(2rem, 3vw, 3.2rem); line-height:0.92; letter-spacing:0.03em; color:#f3dfbf; margin-bottom:12px; text-shadow:0 6px 18px rgba(0,0,0,0.25); }
-    .arcade-desc{ max-width:320px; font-size:0.88rem; line-height:1.75; color:rgba(244,234,220,0.72); margin-bottom:18px; }
-    .arcade-meta{ display:flex; flex-wrap:wrap; gap:8px; margin-bottom:16px; }
-    .arcade-pill{ padding:8px 11px; border-radius:999px; font-size:0.64rem; letter-spacing:0.08em; color:rgba(244,234,220,0.78); background:#19110c; border:1px solid rgba(199,154,87,0.20); }
-    .arcade-actions{ display:flex; flex-wrap:wrap; gap:8px; }
-    .arcade-btn{ appearance:none; border:none; text-decoration:none; cursor:pointer; display:inline-flex; align-items:center; justify-content:center; padding:9px 12px; border-radius:999px; font-size:0.60rem; letter-spacing:0.14em; text-transform:uppercase; color:#ebdbc3; background:#18100b; border:1px solid rgba(199,154,87,0.26); transition:transform .22s ease, border-color .22s ease, background .22s ease; }
-    .arcade-btn:hover{ transform:translateY(-1px); border-color:rgba(199,154,87,0.48); background:#21160f; }
-    .arcade-right{ position:relative; z-index:2; padding:14px 14px 14px 0; display:flex; align-items:stretch; justify-content:stretch; }
-    .arcade-media{ position:relative; width:100%; height:100%; border-radius:18px; overflow:hidden; background:#120d09; box-shadow:inset 0 0 0 1px rgba(199,154,87,0.12), 0 16px 34px rgba(0,0,0,0.24); }
-    .arcade-media::before{ content:""; position:absolute; inset:0; border-radius:18px; background:linear-gradient(180deg, rgba(18,13,9,0.98), rgba(18,13,9,0.98)); box-shadow:inset 0 0 0 1px rgba(255,235,198,0.05); z-index:0; }
-    .arcade-grid{ position:absolute; inset:32px; display:grid; grid-template-columns:repeat(3, 1fr); grid-template-rows:repeat(2, 1fr); gap:12px; z-index:2; }
-    .mini-panel{ border-radius:12px; background:linear-gradient(180deg, rgba(199,154,87,0.05), rgba(255,255,255,0.01)), linear-gradient(160deg, #1b130e, #120d09); border:1px solid rgba(199,154,87,0.10); box-shadow:inset 0 1px 0 rgba(255,245,220,0.02); }
-    .media-carousel{ position:absolute; inset:18px; border-radius:14px; overflow:hidden; z-index:2; background:#120d09; }
-    .media-slides{ position:relative; width:100%; height:100%; }
-    .media-slide{ position:absolute; inset:0; opacity:0; transition:opacity 0.28s ease; display:flex; align-items:center; justify-content:center; background:#120d09; }
-    .media-slide.active{ opacity:1; }
-    .media-slide img{ width:100%; height:100%; object-fit:contain; display:block; background:#120d09; }
-    .media-arrow{ position:absolute; top:50%; transform:translateY(-50%); z-index:4; width:38px; height:38px; border-radius:999px; border:1px solid rgba(199,154,87,0.30); background:rgba(18,13,9,0.90); color:#f2dfbf; display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:1rem; line-height:1; }
-    .media-arrow.prev{ left:12px; } .media-arrow.next{ right:12px; }
-    .arcade-badge{ position:absolute; right:16px; bottom:16px; z-index:3; padding:9px 12px; border-radius:999px; font-size:0.60rem; letter-spacing:0.18em; text-transform:uppercase; color:#f2dfbf; background:#130e0a; border:1px solid rgba(199,154,87,0.20); }
-
-    .customization-heading{
-      min-height:auto;
-      padding:10vh 6vw 4vh;
-      display:flex;
-      align-items:flex-end;
-      justify-content:center;
-      text-align:center;
-      background:linear-gradient(180deg, #090806 0%, #050505 100%);
-    }
-    .customization-heading h2{ font-size:clamp(2.2rem, 5vw, 4rem); letter-spacing:0.12em; color:#f2dfb8; text-shadow:0 10px 30px rgba(0,0,0,0.35); }
-    .customization-heading p{ margin-top:0.8rem; font-size:0.95rem; line-height:1.7; color:rgba(247,241,231,0.82); }
-
-    .customization-showcase{
+    .canvas-wrap, .gallery-panel, .lets-work, .customization-heading, .customization-showcase{
       min-height:100vh;
+      height:100vh;
       background:#000;
+      display:flex;
+      align-items:stretch;
+      justify-content:center;
+      overflow:hidden;
     }
     .customization-showcase::before{
       content:"";
       position:absolute;
       inset:0;
-      background:url("bg6.png") center center / cover no-repeat;
+      background:url("bg6.png") center center / contain no-repeat;
       z-index:1;
+      transform:scale(0.98);
     }
     .customization-showcase::after{
       content:"";
@@ -323,12 +248,14 @@
       inset:0;
       z-index:2;
       pointer-events:none;
-      background:linear-gradient(to bottom, rgba(0,0,0,0.08), rgba(0,0,0,0.22));
+      background:
+        radial-gradient(circle at 50% 18%, rgba(247,223,184,0.12), transparent 24%),
+        linear-gradient(to bottom, rgba(0,0,0,0.04), rgba(0,0,0,0.18));
     }
     .customization-board{
       position:relative;
       z-index:3;
-      width:100%;
+      width:min(100vw, 1600px);
       height:100vh;
       overflow:hidden;
       cursor:grab;
@@ -370,6 +297,7 @@
       -webkit-backdrop-filter:blur(10px);
       pointer-events:none;
       white-space:nowrap;
+      box-shadow:0 8px 20px rgba(0,0,0,0.22);
     }
 
     .gallery-panel{ display:flex; align-items:center; justify-content:center; text-align:center; padding:8vh 6vw; background:radial-gradient(circle at top, rgba(215,182,117,0.08), transparent 32%), linear-gradient(180deg, #090806 0%, #050505 100%); }
@@ -504,6 +432,8 @@
       .connect-links{ flex-direction:column; align-items:center; }
       .connect-btn{ width:min(320px, 100%); }
       .customization-heading h2{ white-space:normal; }
+      .customization-showcase::before{ background-size:cover; background-position:center top; }
+      .customization-board{ width:100vw; }
       .custom-hint{ font-size:0.62rem; letter-spacing:0.08em; white-space:normal; text-align:center; width:min(90vw, 360px); }
     }
   </style>
@@ -1036,14 +966,14 @@
       scrollTrigger: {
         trigger: "#projectArcade",
         start: "top top",
-        end: () => "+=" + (track.scrollWidth - shell.clientWidth + 3400),
+        end: () => "+=" + (track.scrollWidth - shell.clientWidth + 3800),
         scrub: 1,
         pin: true,
         invalidateOnRefresh: true,
         onUpdate: self => {
           const progress = self.progress;
           const horizontalStart = 0.38;
-          const horizontalEnd = 0.80;
+          const horizontalEnd = 0.76;
           const moveProgress = gsap.utils.clamp(0, 1, (progress - horizontalStart) / (horizontalEnd - horizontalStart));
           const maxX = Math.max(0, track.scrollWidth - shell.clientWidth);
           const scrollDrivenX = clampTrackX(-maxX * moveProgress);
@@ -1062,10 +992,10 @@
       .to(bg5Top, { scale: 3.55, xPercent: 21, yPercent: -11, transformOrigin: "20% 28%", ease: "power2.inOut" }, 0.30)
       .to(bg5Overlay, { opacity: 0.16, ease: "power2.inOut" }, 0.30)
       .fromTo(projectsJourney, { opacity: 0 }, { opacity: 1, ease: "power2.inOut" }, 0.50)
-      .to(bg5Top, { opacity: 0, ease: "power2.out" }, 0.58)
-      .to(bg5Overlay, { opacity: 0, ease: "power2.out" }, 0.58)
       .to(projectsJourney, { opacity: 1, ease: "none" }, 0.80)
-      .to(projectsJourney, { opacity: 0, ease: "power2.inOut" }, 0.90);
+      .to(projectsJourney, { opacity: 0.28, ease: "power2.inOut" }, 0.90)
+      .to(bg5Overlay, { opacity: 0.04, ease: "power2.inOut" }, 0.90)
+      .to(projectsJourney, { opacity: 0, ease: "power2.inOut" }, 0.96);
 
     window.addEventListener("resize", () => {
       targetX = clampTrackX(targetX);
@@ -1075,7 +1005,7 @@
     const galleryProjectArcade = document.getElementById("galleryProjectArcade");
 
     function getProjectArcadeScrollDistance() {
-      return Math.max(0, track.scrollWidth - shell.clientWidth + 3400);
+      return Math.max(0, track.scrollWidth - shell.clientWidth + 3800);
     }
 
     function scrollToArcadeExhibits(e) {
@@ -1145,7 +1075,7 @@
       const maxTop = rect.height - assetRect.height;
       return {
         left: Math.min(Math.max(0, left), Math.max(0, maxLeft)),
-        top: Math.min(Math.max(0, top), Math.max(0, maxTop))
+        top: Math.min(Math.max(-20, top), Math.max(-20, maxTop))
       };
     }
 
