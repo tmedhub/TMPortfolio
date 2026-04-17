@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Museum of Me</title>
+  <title>Museumof Me</title>
 
   <script>
     if ("scrollRestoration" in history) {
@@ -392,6 +392,7 @@
       overflow:hidden;
       background:#000;
       isolation:isolate;
+      z-index:1;
     }
 
     .bg4-base, .bg5-top{
@@ -428,7 +429,9 @@
 
     .bg5-overlay{
       z-index:5;
-      background:radial-gradient(circle at 50% 20%, rgba(212,157,93,0.14), transparent 28%), linear-gradient(to bottom, rgba(0,0,0,0.14), rgba(0,0,0,0.28));
+      background:
+        radial-gradient(circle at 50% 20%, rgba(212,157,93,0.14), transparent 28%),
+        linear-gradient(to bottom, rgba(0,0,0,0.14), rgba(0,0,0,0.28));
       opacity:0;
     }
 
@@ -442,6 +445,24 @@
       z-index:20;
       pointer-events:none;
       background:linear-gradient(to bottom, #000 0%, rgba(0,0,0,0.88) 14%, rgba(0,0,0,0.62) 38%, rgba(0,0,0,0.26) 66%, rgba(0,0,0,0) 100%);
+    }
+
+    .bg4-stage::after{
+      content:"";
+      position:absolute;
+      left:0;
+      right:0;
+      bottom:0;
+      height:28vh;
+      z-index:25;
+      pointer-events:none;
+      background:
+        linear-gradient(to bottom,
+          rgba(0,0,0,0) 0%,
+          rgba(7,5,4,0.18) 24%,
+          rgba(10,8,6,0.44) 55%,
+          rgba(14,10,7,0.76) 78%,
+          rgba(17,12,8,0.92) 100%);
     }
 
     #projectsJourney{
@@ -461,7 +482,9 @@
       inset:0;
       z-index:0;
       pointer-events:none;
-      background:#090705;
+      background:
+        radial-gradient(circle at 50% 120%, rgba(204,156,84,0.10), transparent 35%),
+        #090705;
       opacity:1;
     }
 
@@ -748,6 +771,26 @@
       min-height:100vh;
       padding:0;
       isolation:isolate;
+      margin-top:-14vh;
+      z-index:12;
+    }
+
+    .customization-stage::before{
+      content:"";
+      position:absolute;
+      left:0;
+      right:0;
+      top:0;
+      height:30vh;
+      z-index:3;
+      pointer-events:none;
+      background:
+        linear-gradient(to bottom,
+          rgba(12,9,7,0) 0%,
+          rgba(16,11,8,0.18) 20%,
+          rgba(22,15,10,0.34) 38%,
+          rgba(28,19,12,0.52) 56%,
+          rgba(0,0,0,0) 100%);
     }
 
     .customization-showcase{
@@ -756,6 +799,9 @@
       height:100vh;
       overflow:hidden;
       background:#000;
+      border-top-left-radius:34px;
+      border-top-right-radius:34px;
+      box-shadow:0 -30px 70px rgba(0,0,0,0.34);
     }
 
     .customization-bg{
@@ -763,6 +809,7 @@
       inset:0;
       background:url("bg6.png") center center / cover no-repeat;
       z-index:1;
+      transform:scale(1.03);
     }
 
     .customization-overlay{
@@ -771,35 +818,61 @@
       z-index:2;
       pointer-events:none;
       background:
-        linear-gradient(to bottom, rgba(0,0,0,0.18), rgba(0,0,0,0.30)),
-        radial-gradient(circle at top, rgba(215,182,117,0.06), transparent 28%);
+        linear-gradient(to bottom, rgba(12,9,7,0.56) 0%, rgba(0,0,0,0.16) 18%, rgba(0,0,0,0.28) 100%),
+        radial-gradient(circle at 50% 0%, rgba(215,182,117,0.12), transparent 30%);
     }
 
     .customization-copy{
       position:absolute;
       top:0;
-      left:0;
-      width:100%;
+      left:50%;
+      transform:translateX(-50%);
+      width:min(92vw, 980px);
       z-index:6;
       text-align:center;
-      padding:5.5vh 20px 0;
+      padding:4.6vh 20px 0;
       background:none;
       pointer-events:none;
     }
 
+    .customization-header{
+      display:inline-flex;
+      flex-direction:column;
+      align-items:center;
+      gap:0.8rem;
+      padding:18px 28px 20px;
+      border-radius:999px;
+      background:linear-gradient(180deg, rgba(20,16,12,0.42), rgba(10,8,6,0.20));
+      border:1px solid rgba(234,215,174,0.16);
+      box-shadow:0 18px 40px rgba(0,0,0,0.22), inset 0 1px 0 rgba(255,245,220,0.04);
+      backdrop-filter:blur(6px);
+      -webkit-backdrop-filter:blur(6px);
+    }
+
+    .customization-kicker{
+      font-size:0.72rem;
+      letter-spacing:0.34em;
+      text-transform:uppercase;
+      color:rgba(232,207,150,0.92);
+      line-height:1;
+    }
+
     .customization-title{
-      font-size:clamp(2.6rem, 5vw, 4.4rem);
-      letter-spacing:0.08em;
+      font-size:clamp(2.2rem, 4.8vw, 4.2rem);
+      line-height:0.92;
+      letter-spacing:0.06em;
       color:#f4e3bc;
       text-shadow:0 10px 28px rgba(0,0,0,0.5);
-      white-space:nowrap;
+      white-space:normal;
+      max-width:12ch;
+      margin:0 auto;
     }
 
     .customization-sub{
-      margin-top:0.7rem;
-      font-size:0.96rem;
+      margin-top:0.15rem;
+      font-size:0.92rem;
       line-height:1.6;
-      letter-spacing:0.08em;
+      letter-spacing:0.14em;
       text-transform:uppercase;
       color:rgba(247,241,231,0.88);
       text-shadow:0 6px 18px rgba(0,0,0,0.45);
@@ -1048,10 +1121,35 @@
       .arcade-note{ top:5vh; font-size:0.60rem; letter-spacing:0.18em; }
       .connect-links{ flex-direction:column; align-items:center; }
       .connect-btn{ width:min(320px, 100%); }
-      .customization-copy{ padding:4.5vh 16px 0; }
-      .customization-title{ white-space:normal; }
-      .customization-sub{ font-size:0.8rem; letter-spacing:0.04em; }
-      .customization-showcase{ height:100svh; }
+
+      .customization-stage{
+        margin-top:-10vh;
+      }
+
+      .customization-copy{ padding:4vh 16px 0; }
+      .customization-header{
+        width:min(92vw, 430px);
+        border-radius:28px;
+        padding:16px 16px 18px;
+      }
+      .customization-title{
+        max-width:10ch;
+        font-size:clamp(2rem, 8vw, 3rem);
+      }
+      .customization-kicker{
+        letter-spacing:0.22em;
+      }
+      .customization-sub{
+        font-size:0.78rem;
+        letter-spacing:0.08em;
+      }
+
+      .customization-showcase{
+        height:100svh;
+        border-top-left-radius:26px;
+        border-top-right-radius:26px;
+      }
+
       .custom-hint{
         font-size:0.62rem;
         letter-spacing:0.08em;
@@ -1260,8 +1358,11 @@
       <div class="customization-overlay"></div>
 
       <div class="customization-copy">
-        <h2 class="customization-title">Customization Co-op</h2>
-        <p class="customization-sub">Rearrange and customize your shelf.</p>
+        <div class="customization-header">
+          <span class="customization-kicker">Gallery III</span>
+          <h2 class="customization-title">Customization Co-op</h2>
+          <p class="customization-sub">Rearrange and customize your shelf.</p>
+        </div>
       </div>
 
       <div class="customization-board" id="customizationBoard">
@@ -1611,14 +1712,14 @@
       scrollTrigger: {
         trigger: "#projectArcade",
         start: "top top",
-        end: () => "+=" + (track.scrollWidth - shell.clientWidth + window.innerHeight * 4.8),
+        end: () => "+=" + (track.scrollWidth - shell.clientWidth + window.innerHeight * 4.4),
         scrub: 1,
         pin: true,
         invalidateOnRefresh: true,
         onUpdate: self => {
           const progress = self.progress;
-          const horizontalStart = 0.30;
-          const horizontalEnd = 0.84;
+          const horizontalStart = 0.28;
+          const horizontalEnd = 0.86;
           const moveProgress = gsap.utils.clamp(0, 1, (progress - horizontalStart) / (horizontalEnd - horizontalStart));
           const maxX = Math.max(0, track.scrollWidth - shell.clientWidth);
           const scrollDrivenX = clampTrackX(-(maxX * moveProgress));
@@ -1635,12 +1736,59 @@
       .to(bg4Base, { opacity: 0, ease: "power2.out" }, 0.20)
       .to(bg4Overlay, { opacity: 0, ease: "power2.out" }, 0.20)
       .to(bg5Top, { scale: 3.3, xPercent: 18, yPercent: -10, transformOrigin: "20% 28%", ease: "power2.inOut" }, 0.28)
-      .to(bg5Overlay, { opacity: 0.14, ease: "power2.inOut" }, 0.28)
-      .fromTo(projectsJourney, { opacity: 0 }, { opacity: 1, ease: "power2.inOut" }, 0.44)
-      .to(projectsJourney, { opacity: 1, ease: "none" }, 0.84)
-      .to(bg5Top, { opacity: 0, ease: "power2.out" }, 0.90)
-      .to(bg5Overlay, { opacity: 0, ease: "power2.out" }, 0.90)
-      .to(projectsJourney, { opacity: 0, ease: "power2.inOut" }, 0.97);
+      .to(bg5Overlay, { opacity: 0.18, ease: "power2.inOut" }, 0.28)
+      .fromTo(projectsJourney, { opacity: 0 }, { opacity: 1, ease: "power2.inOut" }, 0.42)
+      .to(projectsJourney, { opacity: 1, ease: "none" }, 0.88)
+      .to(bg5Top, { opacity: 0.18, ease: "power2.out" }, 0.92)
+      .to(bg5Overlay, { opacity: 0.08, ease: "power2.out" }, 0.92)
+      .to(projectsJourney, { opacity: 0.24, ease: "power2.inOut" }, 1.00);
+
+    gsap.fromTo(
+      ".customization-showcase",
+      { yPercent: 8, opacity: 0.82 },
+      {
+        yPercent: 0,
+        opacity: 1,
+        ease: "none",
+        scrollTrigger: {
+          trigger: "#bg6Stage",
+          start: "top bottom",
+          end: "top 55%",
+          scrub: 1
+        }
+      }
+    );
+
+    gsap.fromTo(
+      ".customization-copy",
+      { y: 30, opacity: 0.4 },
+      {
+        y: 0,
+        opacity: 1,
+        ease: "none",
+        scrollTrigger: {
+          trigger: "#bg6Stage",
+          start: "top 88%",
+          end: "top 48%",
+          scrub: 1
+        }
+      }
+    );
+
+    gsap.fromTo(
+      ".customization-bg",
+      { scale: 1.06 },
+      {
+        scale: 1.0,
+        ease: "none",
+        scrollTrigger: {
+          trigger: "#bg6Stage",
+          start: "top bottom",
+          end: "bottom top",
+          scrub: 1
+        }
+      }
+    );
 
     window.addEventListener("resize", () => {
       targetX = clampTrackX(targetX);
@@ -1650,7 +1798,7 @@
     const galleryProjectArcade = document.getElementById("galleryProjectArcade");
 
     function getProjectArcadeScrollDistance() {
-      return Math.max(0, track.scrollWidth - shell.clientWidth + window.innerHeight * 4.8);
+      return Math.max(0, track.scrollWidth - shell.clientWidth + window.innerHeight * 4.4);
     }
 
     function scrollToArcadeExhibits(e) {
