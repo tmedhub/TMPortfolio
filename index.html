@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Museum of Me</title>
+  <title>Museumof Me</title>
 
   <script>
     if ("scrollRestoration" in history) {
@@ -257,13 +257,16 @@
     }
 
     .gold-line{
-      position:relative;
-      z-index:2;
       width:120px;
       height:1px;
       margin:1rem auto 0.95rem;
       background:linear-gradient(to right, transparent, rgba(236,221,184,0.95), transparent);
       opacity:0.95;
+    }
+
+    .bg2-content .gold-line{
+      position:relative;
+      z-index:2;
     }
 
     .bg2-content p{
@@ -453,16 +456,16 @@
       left:0;
       right:0;
       bottom:0;
-      height:28vh;
+      height:30vh;
       z-index:25;
       pointer-events:none;
       background:
         linear-gradient(to bottom,
           rgba(0,0,0,0) 0%,
-          rgba(7,5,4,0.18) 24%,
-          rgba(10,8,6,0.44) 55%,
-          rgba(14,10,7,0.76) 78%,
-          rgba(17,12,8,0.92) 100%);
+          rgba(7,5,4,0.16) 24%,
+          rgba(11,8,6,0.38) 52%,
+          rgba(18,12,8,0.68) 76%,
+          rgba(5,5,5,0.95) 100%);
     }
 
     #projectsJourney{
@@ -765,43 +768,91 @@
       border:1px solid rgba(199,154,87,0.20);
     }
 
+    /* ---------- CLEAN CUSTOMIZATION SECTION ---------- */
+
     .customization-stage{
       position:relative;
-      background:#000;
+      background:#050505;
       min-height:100vh;
-      padding:0;
+      padding:0 0 3vh;
       isolation:isolate;
-      margin-top:-10vh;
+      margin-top:-4vh;
       z-index:12;
     }
 
     .customization-stage::before{
       content:"";
       position:absolute;
+      top:0;
       left:0;
       right:0;
-      top:0;
-      height:24vh;
-      z-index:3;
+      height:26vh;
+      z-index:1;
       pointer-events:none;
-      background:linear-gradient(
-        to bottom,
-        rgba(18,12,8,0.00) 0%,
-        rgba(18,12,8,0.18) 22%,
-        rgba(18,12,8,0.34) 48%,
-        rgba(18,12,8,0.00) 100%
-      );
+      background:
+        linear-gradient(to bottom,
+          rgba(5,5,5,0.98) 0%,
+          rgba(5,5,5,0.82) 18%,
+          rgba(14,10,7,0.42) 48%,
+          rgba(14,10,7,0.0) 100%);
+    }
+
+    .customization-header-top{
+      position:relative;
+      z-index:10;
+      width:100%;
+      padding:7.5vh 20px 3.5vh;
+      text-align:center;
+      background:
+        linear-gradient(to bottom,
+          #050505 0%,
+          #050505 58%,
+          rgba(5,5,5,0.88) 76%,
+          rgba(5,5,5,0.0) 100%);
+    }
+
+    .customization-kicker{
+      display:block;
+      font-size:0.74rem;
+      letter-spacing:0.34em;
+      text-transform:uppercase;
+      color:rgba(232,207,150,0.84);
+    }
+
+    .customization-title{
+      font-size:clamp(1.95rem, 4vw, 3.2rem);
+      margin-top:12px;
+      line-height:0.96;
+      letter-spacing:0.045em;
+      color:#f4e3bc;
+      text-shadow:0 10px 24px rgba(0,0,0,0.36);
+    }
+
+    .customization-header-top .gold-line{
+      margin:1rem auto 0.9rem;
+    }
+
+    .customization-sub{
+      font-size:0.84rem;
+      letter-spacing:0.16em;
+      text-transform:uppercase;
+      color:rgba(247,241,231,0.76);
     }
 
     .customization-showcase{
       position:relative;
-      width:100%;
-      height:100vh;
+      width:min(96vw, 1840px);
+      height:82vh;
+      min-height:640px;
+      margin:0 auto;
       overflow:hidden;
       background:#000;
-      border-top-left-radius:28px;
-      border-top-right-radius:28px;
-      box-shadow:0 -24px 60px rgba(0,0,0,0.28);
+      border-radius:34px;
+      box-shadow:
+        0 -18px 40px rgba(0,0,0,0.14),
+        0 30px 90px rgba(0,0,0,0.36);
+      z-index:5;
+      transform:translateY(18px);
     }
 
     .customization-bg{
@@ -809,7 +860,7 @@
       inset:0;
       background:url("bg6.png") center center / cover no-repeat;
       z-index:1;
-      transform:scale(1.02);
+      transform:scale(1.03);
     }
 
     .customization-overlay{
@@ -818,66 +869,8 @@
       z-index:2;
       pointer-events:none;
       background:
-        linear-gradient(to bottom, rgba(10,7,5,0.22), rgba(0,0,0,0.22)),
-        radial-gradient(circle at 50% 8%, rgba(215,182,117,0.08), transparent 30%);
-    }
-
-    .customization-copy{
-      position:absolute;
-      top:4.5vh;
-      left:50%;
-      transform:translateX(-50%);
-      width:100%;
-      z-index:6;
-      display:flex;
-      justify-content:center;
-      padding:0 20px;
-      pointer-events:none;
-    }
-
-    .customization-header{
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      gap:9px;
-      padding:14px 22px 14px;
-      border-radius:22px;
-      background:linear-gradient(180deg, rgba(36,24,16,0.40), rgba(18,12,8,0.24));
-      border:1px solid rgba(234,215,174,0.12);
-      box-shadow:
-        0 10px 24px rgba(0,0,0,0.18),
-        inset 0 1px 0 rgba(255,245,220,0.04);
-      backdrop-filter:blur(8px);
-      -webkit-backdrop-filter:blur(8px);
-      max-width:min(92vw, 760px);
-    }
-
-    .customization-kicker{
-      font-size:0.62rem;
-      letter-spacing:0.28em;
-      text-transform:uppercase;
-      color:rgba(232,207,150,0.86);
-      line-height:1;
-    }
-
-    .customization-title{
-      font-size:clamp(2.08rem, 4.24vw, 3.84rem);
-      line-height:0.96;
-      letter-spacing:0.032em;
-      color:#f4e3bc;
-      text-shadow:0 8px 18px rgba(0,0,0,0.30);
-      white-space:nowrap;
-      margin:0;
-    }
-
-    .customization-sub{
-      margin:0;
-      font-size:0.76rem;
-      line-height:1.3;
-      letter-spacing:0.12em;
-      text-transform:uppercase;
-      color:rgba(247,241,231,0.84);
-      text-shadow:0 4px 12px rgba(0,0,0,0.30);
+        linear-gradient(to bottom, rgba(10,7,5,0.10), rgba(0,0,0,0.14)),
+        radial-gradient(circle at 50% 0%, rgba(215,182,117,0.05), transparent 34%);
     }
 
     .customization-board{
@@ -920,7 +913,7 @@
       background:rgba(12,9,7,0.58);
       border:1px solid rgba(234,215,174,0.18);
       color:rgba(247,241,231,0.82);
-      font-size:0.74rem;
+      font-size:0.72rem;
       letter-spacing:0.14em;
       text-transform:uppercase;
       backdrop-filter:blur(10px);
@@ -1095,6 +1088,11 @@
       .arcade-left{ padding:28px 22px 20px; }
       .arcade-right{ padding:0 14px 14px; }
       .arcade-media{ min-height:240px; }
+
+      .customization-showcase{
+        height:76vh;
+        min-height:560px;
+      }
     }
 
     @media (max-width: 768px){
@@ -1125,41 +1123,33 @@
       .connect-btn{ width:min(320px, 100%); }
 
       .customization-stage{
-        margin-top:-8vh;
+        margin-top:-2vh;
       }
 
-      .customization-showcase{
-        height:100svh;
-        border-top-left-radius:22px;
-        border-top-right-radius:22px;
-      }
-
-      .customization-copy{
-        top:3.5vh;
-        padding:0 14px;
-      }
-
-      .customization-header{
-        width:min(94vw, 500px);
-        padding:12px 14px 12px;
-        gap:8px;
-        border-radius:18px;
+      .customization-header-top{
+        padding:6.4vh 14px 2.6vh;
       }
 
       .customization-kicker{
-        font-size:0.56rem;
-        letter-spacing:0.20em;
+        font-size:0.62rem;
+        letter-spacing:0.22em;
       }
 
       .customization-title{
-        font-size:clamp(1.44rem, 5.6vw, 2.16rem);
-        white-space:nowrap;
-        letter-spacing:0.028em;
+        font-size:clamp(1.55rem, 7vw, 2.35rem);
+        letter-spacing:0.035em;
       }
 
       .customization-sub{
-        font-size:0.64rem;
-        letter-spacing:0.07em;
+        font-size:0.68rem;
+        letter-spacing:0.08em;
+      }
+
+      .customization-showcase{
+        width:94vw;
+        height:70svh;
+        min-height:500px;
+        border-radius:24px;
       }
 
       .custom-hint{
@@ -1365,17 +1355,16 @@
   </section>
 
   <section class="customization-stage" id="bg6Stage">
-    <div class="customization-showcase">
+    <div class="customization-header-top" id="customizationHeaderTop">
+      <span class="customization-kicker">Gallery III</span>
+      <h2 class="customization-title">Customization Co-op</h2>
+      <div class="gold-line"></div>
+      <p class="customization-sub">Rearrange and customize your shelf.</p>
+    </div>
+
+    <div class="customization-showcase" id="customizationShowcase">
       <div class="customization-bg"></div>
       <div class="customization-overlay"></div>
-
-      <div class="customization-copy">
-        <div class="customization-header">
-          <span class="customization-kicker">Gallery III</span>
-          <h2 class="customization-title">Customization Co-op</h2>
-          <p class="customization-sub">Rearrange and customize your shelf.</p>
-        </div>
-      </div>
 
       <div class="customization-board" id="customizationBoard">
         <div class="custom-asset" data-asset style="width:260px; height:260px; left:12%; top:26%; transform:rotate(-8deg) scale(1);">
@@ -1724,7 +1713,7 @@
       scrollTrigger: {
         trigger: "#projectArcade",
         start: "top top",
-        end: () => "+=" + (track.scrollWidth - shell.clientWidth + window.innerHeight * 4.4),
+        end: () => "+=" + (track.scrollWidth - shell.clientWidth + window.innerHeight * 4.2),
         scrub: 1,
         pin: true,
         invalidateOnRefresh: true,
@@ -1751,37 +1740,38 @@
       .to(bg5Overlay, { opacity: 0.18, ease: "power2.inOut" }, 0.28)
       .fromTo(projectsJourney, { opacity: 0 }, { opacity: 1, ease: "power2.inOut" }, 0.42)
       .to(projectsJourney, { opacity: 1, ease: "none" }, 0.88)
-      .to(bg5Top, { opacity: 0.18, ease: "power2.out" }, 0.92)
-      .to(bg5Overlay, { opacity: 0.08, ease: "power2.out" }, 0.92)
-      .to(projectsJourney, { opacity: 0.24, ease: "power2.inOut" }, 1.00);
+      .to(bg5Top, { opacity: 0.22, ease: "power2.out" }, 0.92)
+      .to(bg5Overlay, { opacity: 0.10, ease: "power2.out" }, 0.92)
+      .to(projectsJourney, { opacity: 0.18, ease: "power2.inOut" }, 1.00);
 
     gsap.fromTo(
-      ".customization-showcase",
-      { yPercent: 8, opacity: 0.82 },
+      "#customizationHeaderTop",
+      { y: 34, opacity: 0 },
       {
-        yPercent: 0,
+        y: 0,
         opacity: 1,
-        ease: "none",
+        ease: "power2.out",
         scrollTrigger: {
           trigger: "#bg6Stage",
-          start: "top bottom",
-          end: "top 55%",
+          start: "top 88%",
+          end: "top 52%",
           scrub: 1
         }
       }
     );
 
     gsap.fromTo(
-      ".customization-copy",
-      { y: 24, opacity: 0.45 },
+      "#customizationShowcase",
+      { y: 40, opacity: 0.72, scale: 0.985 },
       {
         y: 0,
         opacity: 1,
-        ease: "none",
+        scale: 1,
+        ease: "power2.out",
         scrollTrigger: {
           trigger: "#bg6Stage",
-          start: "top 88%",
-          end: "top 52%",
+          start: "top bottom",
+          end: "top 56%",
           scrub: 1
         }
       }
@@ -1810,7 +1800,7 @@
     const galleryProjectArcade = document.getElementById("galleryProjectArcade");
 
     function getProjectArcadeScrollDistance() {
-      return Math.max(0, track.scrollWidth - shell.clientWidth + window.innerHeight * 4.4);
+      return Math.max(0, track.scrollWidth - shell.clientWidth + window.innerHeight * 4.2);
     }
 
     function scrollToArcadeExhibits(e) {
