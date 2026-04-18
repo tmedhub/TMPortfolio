@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Museumof Me</title>
+  <title>Museum of Me</title>
 
   <script>
     if ("scrollRestoration" in history) {
@@ -69,7 +69,7 @@
       top:22px;
       left:24px;
       right:24px;
-      z-index:60;
+      z-index:80;
       display:flex;
       justify-content:space-between;
       align-items:flex-start;
@@ -256,7 +256,8 @@
       text-shadow:0 2px 10px rgba(0,0,0,0.32), 0 10px 28px rgba(0,0,0,0.24);
     }
 
-    .gold-line{
+    .gold-line,
+    .panel-line{
       width:120px;
       height:1px;
       margin:1rem auto 0.95rem;
@@ -264,10 +265,7 @@
       opacity:0.95;
     }
 
-    .bg2-content .gold-line{
-      position:relative;
-      z-index:2;
-    }
+    .bg2-content .gold-line{ position:relative; z-index:2; }
 
     .bg2-content p{
       position:relative;
@@ -300,7 +298,7 @@
       transition:opacity 2.2s ease;
     }
 
-    .canvas-wrap, .gallery-panel, .lets-work, .customization-stage, .bg7-stage{
+    .canvas-wrap, .customization-stage, .lens-archive-stage, .directors-dome-stage, .bg9-stage, .lets-work{
       position:relative;
       min-height:100vh;
       overflow:hidden;
@@ -365,10 +363,12 @@
     }
 
     .freeform-title h1,
-    .panel-title,
-    .lets-work h2,
     .arcade-card-title,
-    .customization-title{
+    .customization-title,
+    .lens-title,
+    .directors-title,
+    .sky-limit-title,
+    .lets-work h2{
       font-family:"Cormorant Garamond", serif;
       text-transform:uppercase;
     }
@@ -774,9 +774,8 @@
       position:relative;
       background:#050505;
       min-height:100vh;
-      padding:0 0 4vh;
+      padding:0 0 6vh;
       isolation:isolate;
-      margin-top:-2vh;
       z-index:12;
     }
 
@@ -797,7 +796,9 @@
           rgba(14,10,7,0.0) 100%);
     }
 
-    .customization-header-top{
+    .customization-header-top,
+    .lens-header,
+    .directors-header{
       position:relative;
       z-index:10;
       width:100%;
@@ -811,7 +812,10 @@
           rgba(5,5,5,0.0) 100%);
     }
 
-    .customization-kicker{
+    .customization-kicker,
+    .lens-kicker,
+    .directors-kicker,
+    .sky-limit-kicker{
       display:block;
       font-size:0.74rem;
       letter-spacing:0.34em;
@@ -819,7 +823,10 @@
       color:rgba(232,207,150,0.84);
     }
 
-    .customization-title{
+    .customization-title,
+    .lens-title,
+    .directors-title,
+    .sky-limit-title{
       font-size:clamp(1.95rem, 4vw, 3.2rem);
       margin-top:12px;
       line-height:0.96;
@@ -828,11 +835,9 @@
       text-shadow:0 10px 24px rgba(0,0,0,0.36);
     }
 
-    .customization-header-top .gold-line{
-      margin:1rem auto 0.9rem;
-    }
-
-    .customization-sub{
+    .customization-sub,
+    .lens-sub,
+    .directors-sub{
       font-size:0.84rem;
       letter-spacing:0.16em;
       text-transform:uppercase;
@@ -860,7 +865,7 @@
         0 30px 90px rgba(0,0,0,0.36);
       z-index:8;
       transform:translateY(18px);
-      will-change:transform, opacity, filter;
+      will-change:transform, opacity;
     }
 
     .customization-bg{
@@ -880,22 +885,6 @@
       background:
         linear-gradient(to bottom, rgba(10,7,5,0.04), rgba(0,0,0,0.10)),
         radial-gradient(circle at 50% 0%, rgba(215,182,117,0.04), transparent 40%);
-    }
-
-    .customization-showcase::after{
-      content:"";
-      position:absolute;
-      inset:0;
-      pointer-events:none;
-      z-index:7;
-      background:
-        linear-gradient(to right,
-          rgba(0,0,0,0.00) 0%,
-          rgba(0,0,0,0.00) 58%,
-          rgba(0,0,0,0.06) 72%,
-          rgba(0,0,0,0.18) 84%,
-          rgba(0,0,0,0.34) 100%);
-      opacity:1;
     }
 
     .customization-board{
@@ -947,105 +936,347 @@
       white-space:nowrap;
     }
 
-    /* ---------- BG7 ---------- */
+    /* ---------- LENS ARCHIVE ---------- */
 
-    .bg7-stage{
-      position:relative;
-      height:100vh;
-      background:#000;
-      margin-top:-100vh; /* same-screen overlap */
-      pointer-events:none;
-      z-index:14;
-      overflow:hidden;
+    .lens-archive-stage{
+      background:
+        radial-gradient(circle at 50% 0%, rgba(215,182,117,0.08), transparent 28%),
+        linear-gradient(180deg, #090806 0%, #040404 100%);
+      padding:0 0 10vh;
       isolation:isolate;
     }
 
-    .bg7-image{
-      position:absolute;
-      inset:0;
-      background:url("bg7.jpeg") center center / cover no-repeat;
-      transform:translateX(22%) scale(1.04);
-      opacity:0;
-      will-change:transform, opacity;
-      z-index:1;
-    }
-
-    .bg7-overlay{
-      position:absolute;
-      inset:0;
-      z-index:2;
-      pointer-events:none;
-      opacity:0;
-      background:
-        linear-gradient(to left,
-          rgba(0,0,0,0.76) 0%,
-          rgba(0,0,0,0.36) 18%,
-          rgba(0,0,0,0.12) 36%,
-          rgba(0,0,0,0.06) 56%,
-          rgba(0,0,0,0.20) 100%),
-        linear-gradient(to bottom, rgba(0,0,0,0.10), rgba(0,0,0,0.24));
-      will-change:opacity;
-    }
-
-    .gallery-panel{
+    .lens-stage-inner{
+      position:relative;
+      z-index:5;
+      width:min(1200px, 94vw);
+      margin:0 auto;
       display:flex;
+      flex-direction:column;
       align-items:center;
-      justify-content:center;
-      text-align:center;
-      padding:8vh 6vw;
-      background:radial-gradient(circle at top, rgba(215,182,117,0.08), transparent 32%), linear-gradient(180deg, #090806 0%, #050505 100%);
     }
 
-    .gallery-panel::before{
+    .magazine-shell{
+      width:min(1040px, 94vw);
+      min-height:72vh;
+      margin-top:2vh;
+      position:relative;
+      padding:26px;
+      border-radius:34px;
+      border:1px solid rgba(234,215,174,0.16);
+      background:linear-gradient(180deg, rgba(20,16,12,0.70), rgba(8,7,5,0.78));
+      box-shadow:0 34px 90px rgba(0,0,0,0.42), inset 0 1px 0 rgba(255,245,220,0.04);
+      overflow:hidden;
+    }
+
+    .magazine-shell::before{
       content:"";
       position:absolute;
       inset:0;
       pointer-events:none;
-      background:linear-gradient(to bottom, rgba(255,255,255,0.02), transparent 18%), linear-gradient(to top, rgba(215,182,117,0.04), transparent 22%);
+      background:
+        radial-gradient(circle at 50% 0%, rgba(255,220,160,0.06), transparent 20%),
+        linear-gradient(135deg, rgba(255,232,186,0.04), transparent 35%, rgba(215,182,117,0.05) 100%);
     }
 
-    .panel-card{
+    .magazine-stage{
       position:relative;
-      width:min(920px, 92vw);
-      padding:46px 42px;
-      border-radius:30px;
-      border:1px solid rgba(234,215,174,0.16);
-      background:linear-gradient(180deg, rgba(20,16,12,0.72), rgba(10,8,6,0.52));
-      backdrop-filter:blur(6px);
-      -webkit-backdrop-filter:blur(6px);
-      box-shadow:0 30px 80px rgba(0,0,0,0.38), inset 0 1px 0 rgba(255,245,220,0.04);
+      z-index:2;
+      width:100%;
+      min-height:62vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      perspective:2400px;
+      user-select:none;
     }
 
-    .panel-title{
-      font-size:clamp(2.2rem, 5vw, 4rem);
+    .magazine-book{
+      position:relative;
+      width:min(860px, 86vw);
+      height:min(560px, 64vw);
+      max-height:72vh;
+      transform-style:preserve-3d;
+      filter:drop-shadow(0 28px 70px rgba(0,0,0,0.55));
+    }
+
+    .magazine-spine-glow{
+      position:absolute;
+      left:50%;
+      top:2%;
+      bottom:2%;
+      width:3px;
+      transform:translateX(-50%);
+      background:linear-gradient(to bottom, rgba(255,233,192,0.24), rgba(215,182,117,0.34), rgba(255,233,192,0.18));
+      box-shadow:0 0 22px rgba(215,182,117,0.18);
+      z-index:20;
+      pointer-events:none;
+    }
+
+    .mag-page{
+      position:absolute;
+      top:0;
+      width:50%;
+      height:100%;
+      overflow:hidden;
+      border-radius:18px;
+      background:#120d09;
+      box-shadow:inset 0 0 0 1px rgba(255,244,220,0.06);
+      transition:transform 0.9s cubic-bezier(.2,.7,.1,1), box-shadow 0.9s ease, filter 0.9s ease;
+      backface-visibility:hidden;
+      transform-style:preserve-3d;
+    }
+
+    .mag-page img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+      pointer-events:none;
+    }
+
+    .mag-page::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      pointer-events:none;
+      background:
+        linear-gradient(135deg, rgba(255,255,255,0.08), transparent 18%, transparent 82%, rgba(0,0,0,0.10)),
+        linear-gradient(to bottom, rgba(255,255,255,0.03), rgba(0,0,0,0.04));
+    }
+
+    .mag-page.left{
+      left:0;
+      transform-origin:right center;
+      border-top-right-radius:8px;
+      border-bottom-right-radius:8px;
+    }
+
+    .mag-page.right{
+      left:50%;
+      transform-origin:left center;
+      border-top-left-radius:8px;
+      border-bottom-left-radius:8px;
+    }
+
+    .mag-page.left.active{
+      transform:rotateY(0deg) translateZ(0);
+      z-index:12;
+    }
+
+    .mag-page.right.active{
+      transform:rotateY(0deg) translateZ(0);
+      z-index:14;
+    }
+
+    .mag-page.left.next-left{
+      transform:rotateY(-10deg) translateX(-2px);
+      filter:brightness(0.92);
+      z-index:10;
+    }
+
+    .mag-page.right.next-right{
+      transform:rotateY(10deg) translateX(2px);
+      filter:brightness(0.92);
+      z-index:11;
+    }
+
+    .mag-page.left.prev-left{
+      transform:rotateY(-160deg) translateX(4px);
+      filter:brightness(0.85);
+      z-index:6;
+    }
+
+    .mag-page.right.prev-right{
+      transform:rotateY(160deg) translateX(-4px);
+      filter:brightness(0.85);
+      z-index:5;
+    }
+
+    .magazine-controls{
+      position:relative;
+      z-index:4;
+      margin-top:24px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:12px;
+      flex-wrap:wrap;
+    }
+
+    .mag-btn{
+      appearance:none;
+      border:none;
+      cursor:pointer;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding:12px 18px;
+      border-radius:999px;
+      background:linear-gradient(180deg, rgba(22,18,13,0.94), rgba(10,8,6,0.90));
+      border:1px solid rgba(234,215,174,0.22);
+      color:#f4e7c8;
       letter-spacing:0.12em;
-      color:#f2dfb8;
-      text-shadow:0 10px 30px rgba(0,0,0,0.35);
+      text-transform:uppercase;
+      font-size:0.72rem;
+      transition:transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
     }
 
-    .panel-line{
-      width:120px;
-      height:1px;
-      margin:1rem auto 1.1rem;
-      background:linear-gradient(to right, transparent, rgba(236,221,184,0.95), transparent);
-      opacity:0.9;
+    .mag-btn:hover{
+      transform:translateY(-1px);
+      border-color:rgba(234,215,174,0.42);
+      background:linear-gradient(180deg, rgba(28,22,16,0.96), rgba(12,10,8,0.94));
     }
 
-    .panel-copy{
-      max-width:650px;
-      margin:0 auto;
-      font-size:1rem;
-      line-height:1.75;
-      color:rgba(247,241,231,0.82);
+    .mag-indicator{
+      padding:11px 16px;
+      border-radius:999px;
+      background:rgba(255,255,255,0.03);
+      border:1px solid rgba(234,215,174,0.15);
+      color:rgba(247,241,231,0.80);
+      font-size:0.74rem;
+      letter-spacing:0.18em;
+      text-transform:uppercase;
     }
+
+    .magazine-tip{
+      margin-top:16px;
+      color:rgba(247,241,231,0.66);
+      font-size:0.76rem;
+      letter-spacing:0.14em;
+      text-transform:uppercase;
+      text-align:center;
+    }
+
+    /* ---------- DIRECTOR'S DOME ---------- */
+
+    .directors-dome-stage{
+      background:#000;
+      padding:0 0 0;
+      position:relative;
+      overflow:hidden;
+    }
+
+    .directors-bg{
+      position:absolute;
+      inset:0;
+      background:url("bg8.png") center center / cover no-repeat;
+      z-index:1;
+      transform:scale(1.03);
+    }
+
+    .directors-bg-overlay{
+      position:absolute;
+      inset:0;
+      z-index:2;
+      pointer-events:none;
+      background:
+        radial-gradient(circle at 50% 18%, rgba(215,182,117,0.14), transparent 26%),
+        linear-gradient(to bottom, rgba(0,0,0,0.28), rgba(0,0,0,0.52));
+    }
+
+    .directors-stage-inner{
+      position:relative;
+      z-index:5;
+      min-height:100vh;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      align-items:center;
+      padding:0 4vw 10vh;
+    }
+
+    .video-center-wrap{
+      width:min(1100px, 94vw);
+      margin:1.5vh auto 0;
+      display:flex;
+      flex-direction:column;
+      gap:22px;
+      align-items:center;
+    }
+
+    .video-frame-large,
+    .video-frame-small{
+      position:relative;
+      overflow:hidden;
+      border-radius:30px;
+      background:linear-gradient(180deg, rgba(18,15,11,0.84), rgba(7,6,5,0.80));
+      border:1px solid rgba(234,215,174,0.18);
+      box-shadow:0 28px 84px rgba(0,0,0,0.44), inset 0 1px 0 rgba(255,245,220,0.04);
+      padding:16px;
+      backdrop-filter:blur(4px);
+      -webkit-backdrop-filter:blur(4px);
+    }
+
+    .video-frame-large{
+      width:min(980px, 100%);
+    }
+
+    .video-row{
+      width:100%;
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:22px;
+    }
+
+    .video-frame-large::before,
+    .video-frame-small::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      pointer-events:none;
+      background:linear-gradient(135deg, rgba(255,232,186,0.04), transparent 35%, rgba(215,182,117,0.05) 100%);
+      z-index:1;
+    }
+
+    .video-frame-large video,
+    .video-frame-small video{
+      position:relative;
+      z-index:2;
+      width:100%;
+      display:block;
+      border-radius:20px;
+      background:#000;
+      aspect-ratio:16/9;
+      object-fit:cover;
+    }
+
+    /* ---------- BG9 FADE ---------- */
+
+    .bg9-stage{
+      height:70vh;
+      background:#000;
+      position:relative;
+    }
+
+    .bg9-image{
+      position:absolute;
+      inset:0;
+      background:url("bg9.jpeg") center center / cover no-repeat;
+      transform:scale(1.04);
+      will-change:transform, opacity;
+    }
+
+    .bg9-overlay{
+      position:absolute;
+      inset:0;
+      background:
+        linear-gradient(to bottom, rgba(0,0,0,0.10), rgba(0,0,0,0.34)),
+        radial-gradient(circle at 50% 20%, rgba(255,220,160,0.10), transparent 24%);
+      opacity:0.88;
+    }
+
+    /* ---------- LET'S CONNECT ---------- */
 
     .lets-work{
       display:flex;
       align-items:center;
       justify-content:center;
       text-align:center;
-      padding:10vh 6vw;
-      background:radial-gradient(circle at top, rgba(215,182,117,0.14), transparent 32%), linear-gradient(180deg, #060505 0%, #030303 100%);
+      padding:12vh 6vw;
+      background:
+        radial-gradient(circle at top, rgba(215,182,117,0.14), transparent 32%),
+        linear-gradient(180deg, #040404 0%, #020202 100%);
     }
 
     .lets-work::before{
@@ -1058,7 +1289,7 @@
 
     .lets-work-card{
       width:min(980px, 94vw);
-      padding:54px 44px;
+      padding:58px 44px;
       border-radius:32px;
       border:1px solid rgba(234,215,174,0.18);
       background:linear-gradient(180deg, rgba(18,15,11,0.84), rgba(7,6,5,0.72));
@@ -1075,13 +1306,20 @@
       pointer-events:none;
     }
 
-    .lets-work h2{
-      font-size:clamp(2.4rem, 5.5vw, 4.4rem);
+    .sky-limit-title{
+      font-size:clamp(2.6rem, 5.7vw, 4.6rem);
       letter-spacing:0.08em;
+      margin-top:12px;
+    }
+
+    .lets-work h2{
+      font-size:clamp(2rem, 4.6vw, 3.4rem);
+      letter-spacing:0.05em;
       color:#f4e3bc;
       text-shadow:0 10px 30px rgba(0,0,0,0.32);
       position:relative;
       z-index:1;
+      margin-top:10px;
     }
 
     .lets-work p{
@@ -1158,6 +1396,15 @@
         height:76vh;
         min-height:560px;
       }
+
+      .video-row{
+        grid-template-columns:1fr;
+      }
+
+      .magazine-book{
+        width:min(92vw, 760px);
+        height:min(500px, 68vw);
+      }
     }
 
     @media (max-width: 768px){
@@ -1176,7 +1423,6 @@
       .freeform-title h1{ font-size:2.2rem; letter-spacing:.14em; }
       .freeform-title p{ font-size:.78rem; }
       #torch{ width:56px; }
-      .panel-card, .lets-work-card{ padding:34px 22px; }
       .arcade-track{ gap:18px; padding:0 5vw 0 10vw; }
       .arcade-card{ min-width:90vw; border-radius:20px; }
       .arcade-card::before{ border-radius:20px; }
@@ -1187,25 +1433,35 @@
       .connect-links{ flex-direction:column; align-items:center; }
       .connect-btn{ width:min(320px, 100%); }
 
-      .customization-stage{
-        margin-top:-1vh;
-      }
-
-      .customization-header-top{
+      .customization-header-top,
+      .lens-header,
+      .directors-header{
         padding:6.4vh 14px 2.6vh;
       }
 
-      .customization-kicker{
+      .customization-kicker,
+      .lens-kicker,
+      .directors-kicker,
+      .sky-limit-kicker{
         font-size:0.62rem;
         letter-spacing:0.22em;
       }
 
-      .customization-title{
+      .customization-title,
+      .lens-title,
+      .directors-title,
+      .sky-limit-title{
         font-size:clamp(1.55rem, 7vw, 2.35rem);
         letter-spacing:0.035em;
       }
 
-      .customization-sub{
+      .lets-work h2{
+        font-size:clamp(1.7rem, 6vw, 2.5rem);
+      }
+
+      .customization-sub,
+      .lens-sub,
+      .directors-sub{
         font-size:0.68rem;
         letter-spacing:0.08em;
       }
@@ -1225,8 +1481,34 @@
         width:min(90vw, 360px);
       }
 
-      .bg7-stage{
-        margin-top:-70svh;
+      .magazine-shell{
+        padding:16px;
+        border-radius:24px;
+      }
+
+      .magazine-book{
+        width:min(94vw, 620px);
+        height:min(420px, 64vw);
+      }
+
+      .mag-btn,
+      .mag-indicator{
+        font-size:0.64rem;
+      }
+
+      .video-frame-large,
+      .video-frame-small{
+        padding:12px;
+        border-radius:22px;
+      }
+
+      .video-frame-large video,
+      .video-frame-small video{
+        border-radius:14px;
+      }
+
+      .lets-work-card{
+        padding:42px 22px;
       }
     }
   </style>
@@ -1256,9 +1538,9 @@
         <span class="gallery-kicker">Gallery III</span>
         <span class="gallery-name">Customization Co-op</span>
       </a>
-      <a href="#bg7Stage" class="gallery-link">
+      <a href="#lensArchive" class="gallery-link">
         <span class="gallery-kicker">Gallery IV</span>
-        <span class="gallery-name">Next Gallery</span>
+        <span class="gallery-name">Lens Archive</span>
       </a>
       <a href="#directorsDome" class="gallery-link">
         <span class="gallery-kicker">Gallery V</span>
@@ -1460,24 +1742,94 @@
     </div>
   </section>
 
-  <section class="bg7-stage" id="bg7Stage">
-    <div class="bg7-image" id="bg7Image"></div>
-    <div class="bg7-overlay" id="bg7Overlay"></div>
+  <section class="lens-archive-stage" id="lensArchive">
+    <div class="lens-header">
+      <span class="lens-kicker">Gallery IV</span>
+      <h2 class="lens-title">Lens Archive</h2>
+      <div class="gold-line"></div>
+      <p class="lens-sub">An interactive magazine of captured moments and designed pages.</p>
+    </div>
+
+    <div class="lens-stage-inner">
+      <div class="magazine-shell">
+        <div class="magazine-stage">
+          <div class="magazine-book" id="magazineBook">
+            <div class="magazine-spine-glow"></div>
+
+            <!-- Spread 1 -->
+            <div class="mag-page left" data-spread="0" data-side="left"><img src="art1.png" alt="Magazine page 1"></div>
+            <div class="mag-page right" data-spread="0" data-side="right"><img src="art2.png" alt="Magazine page 2"></div>
+
+            <!-- Spread 2 -->
+            <div class="mag-page left" data-spread="1" data-side="left"><img src="art3.png" alt="Magazine page 3"></div>
+            <div class="mag-page right" data-spread="1" data-side="right"><img src="art4.png" alt="Magazine page 4"></div>
+
+            <!-- Spread 3 -->
+            <div class="mag-page left" data-spread="2" data-side="left"><img src="art5.png" alt="Magazine page 5"></div>
+            <div class="mag-page right" data-spread="2" data-side="right"><img src="art6.png" alt="Magazine page 6"></div>
+
+            <!-- Spread 4 -->
+            <div class="mag-page left" data-spread="3" data-side="left"><img src="art7.png" alt="Magazine page 7"></div>
+            <div class="mag-page right" data-spread="3" data-side="right"><img src="art8.png" alt="Magazine page 8"></div>
+          </div>
+        </div>
+
+        <div class="magazine-controls">
+          <button class="mag-btn" id="magPrev" type="button">Previous</button>
+          <div class="mag-indicator" id="magIndicator">Spread 1 / 4</div>
+          <button class="mag-btn" id="magNext" type="button">Next</button>
+        </div>
+
+        <div class="magazine-tip">Use the buttons or arrow keys to flip through the archive.</div>
+      </div>
+    </div>
   </section>
 
-  <section class="gallery-panel" id="directorsDome">
-    <div class="panel-card">
-      <h2 class="panel-title">Director’s Dome</h2>
-      <div class="panel-line"></div>
-      <p class="panel-copy">
-        The final chamber for highlights, featured work, and signature direction.
-        You can turn this into your premium portfolio or closing gallery section.
-      </p>
+  <section class="directors-dome-stage" id="directorsDome">
+    <div class="directors-bg"></div>
+    <div class="directors-bg-overlay"></div>
+
+    <div class="directors-stage-inner">
+      <div class="directors-header">
+        <span class="directors-kicker">Gallery V</span>
+        <h2 class="directors-title">Director’s Dome</h2>
+        <div class="gold-line"></div>
+        <p class="directors-sub">Featured motion work, reels, and immersive visual storytelling.</p>
+      </div>
+
+      <div class="video-center-wrap">
+        <div class="video-frame-large">
+          <video controls playsinline preload="metadata" poster="bg8.png">
+            <source src="video1.mp4" type="video/mp4">
+          </video>
+        </div>
+
+        <div class="video-row">
+          <div class="video-frame-small">
+            <video controls playsinline preload="metadata" poster="bg8.png">
+              <source src="video2.mp4" type="video/mp4">
+            </video>
+          </div>
+
+          <div class="video-frame-small">
+            <video controls playsinline preload="metadata" poster="bg8.png">
+              <source src="video3.mp4" type="video/mp4">
+            </video>
+          </div>
+        </div>
+      </div>
     </div>
+  </section>
+
+  <section class="bg9-stage" id="bg9Stage">
+    <div class="bg9-image" id="bg9Image"></div>
+    <div class="bg9-overlay"></div>
   </section>
 
   <section class="lets-work" id="letsWorkSection">
     <div class="lets-work-card">
+      <span class="sky-limit-kicker">Final Gallery</span>
+      <h2 class="sky-limit-title">Sky Is The Limit</h2>
       <h2>Let’s Connect!</h2>
       <p>
         Have an idea and want to bring it to life? I’d love to hear about it.
@@ -1498,10 +1850,6 @@
 
     let torchActive = true;
     let introComplete = false;
-
-    function lockPageScroll() {
-      document.body.classList.add("scroll-locked");
-    }
 
     function unlockPageScroll() {
       document.body.classList.remove("scroll-locked");
@@ -1899,53 +2247,103 @@
       }
     );
 
-    /* SAME SCREEN CROSS TRANSITION: bg6 left, bg7 right */
+    /* Lens Archive */
     gsap.fromTo(
-      "#customizationShowcase",
-      { xPercent: 0, opacity: 1, scale: 1, filter: "blur(0px)" },
+      ".lens-stage-inner",
+      { y: 50, opacity: 0 },
       {
-        xPercent: -22,
-        opacity: 0.88,
-        scale: 0.985,
-        filter: "blur(1px)",
-        ease: "none",
+        y: 0,
+        opacity: 1,
+        ease: "power2.out",
         scrollTrigger: {
-          trigger: "#bg6Stage",
-          start: "top 35%",
-          end: "bottom top",
-          scrub: 1.15
+          trigger: "#lensArchive",
+          start: "top 82%",
+          end: "top 44%",
+          scrub: 1
+        }
+      }
+    );
+
+    /* Director's Dome */
+    gsap.fromTo(
+      ".directors-stage-inner",
+      { y: 50, opacity: 0 },
+      {
+        y: 0,
+        opacity: 1,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: "#directorsDome",
+          start: "top 82%",
+          end: "top 46%",
+          scrub: 1
         }
       }
     );
 
     gsap.fromTo(
-      "#bg7Image",
-      { xPercent: 22, opacity: 0, scale: 1.04 },
+      ".directors-bg",
+      { scale: 1.06 },
       {
-        xPercent: 0,
-        opacity: 1,
         scale: 1,
         ease: "none",
         scrollTrigger: {
-          trigger: "#bg6Stage",
-          start: "top 35%",
+          trigger: "#directorsDome",
+          start: "top bottom",
           end: "bottom top",
-          scrub: 1.15
+          scrub: 1
         }
       }
     );
 
     gsap.fromTo(
-      "#bg7Overlay",
-      { opacity: 0 },
+      ".video-frame-large, .video-frame-small",
+      { y: 42, opacity: 0, scale: 0.98 },
+      {
+        y: 0,
+        opacity: 1,
+        scale: 1,
+        stagger: 0.08,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: "#directorsDome",
+          start: "top 72%",
+          end: "top 34%",
+          scrub: 1
+        }
+      }
+    );
+
+    /* bg9 fade */
+    gsap.fromTo(
+      "#bg9Image",
+      { opacity: 0, scale: 1.08 },
       {
         opacity: 1,
-        ease: "none",
+        scale: 1,
+        ease: "power2.out",
         scrollTrigger: {
-          trigger: "#bg6Stage",
-          start: "top 35%",
-          end: "bottom top",
-          scrub: 1.15
+          trigger: "#bg9Stage",
+          start: "top 88%",
+          end: "top 30%",
+          scrub: 1
+        }
+      }
+    );
+
+    /* Lets connect */
+    gsap.fromTo(
+      ".lets-work-card",
+      { y: 50, opacity: 0 },
+      {
+        y: 0,
+        opacity: 1,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: "#letsWorkSection",
+          start: "top 82%",
+          end: "top 42%",
+          scrub: 1
         }
       }
     );
@@ -1998,6 +2396,7 @@
       renderSlides();
     });
 
+    /* Customization board */
     const board = document.getElementById("customizationBoard");
     const customAssets = Array.from(document.querySelectorAll("[data-asset]"));
     let activeAsset = null;
@@ -2099,6 +2498,67 @@
       selectedAsset.style.top = `${next.top}px`;
     }, { passive: false });
 
+    /* Magazine */
+    const spreads = 4;
+    let currentSpread = 0;
+    const magPages = Array.from(document.querySelectorAll(".mag-page"));
+    const magPrev = document.getElementById("magPrev");
+    const magNext = document.getElementById("magNext");
+    const magIndicator = document.getElementById("magIndicator");
+
+    function renderMagazine() {
+      magPages.forEach(page => {
+        const spread = Number(page.dataset.spread);
+        const side = page.dataset.side;
+
+        page.classList.remove("active", "next-left", "next-right", "prev-left", "prev-right");
+
+        if (spread === currentSpread) {
+          page.classList.add("active");
+        } else if (spread === currentSpread + 1) {
+          page.classList.add(side === "left" ? "next-left" : "next-right");
+        } else if (spread < currentSpread) {
+          page.classList.add(side === "left" ? "prev-left" : "prev-right");
+        } else if (spread > currentSpread + 1) {
+          page.classList.add(side === "left" ? "next-left" : "next-right");
+          if (side === "left") page.style.transform = "rotateY(-16deg)";
+          if (side === "right") page.style.transform = "rotateY(16deg)";
+        }
+      });
+
+      magIndicator.textContent = `Spread ${currentSpread + 1} / ${spreads}`;
+      magPrev.style.opacity = currentSpread === 0 ? "0.45" : "1";
+      magNext.style.opacity = currentSpread === spreads - 1 ? "0.45" : "1";
+      magPrev.disabled = currentSpread === 0;
+      magNext.disabled = currentSpread === spreads - 1;
+    }
+
+    magPrev.addEventListener("click", () => {
+      if (currentSpread > 0) {
+        currentSpread--;
+        renderMagazine();
+      }
+    });
+
+    magNext.addEventListener("click", () => {
+      if (currentSpread < spreads - 1) {
+        currentSpread++;
+        renderMagazine();
+      }
+    });
+
+    window.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowLeft" && currentSpread > 0) {
+        currentSpread--;
+        renderMagazine();
+      }
+      if (e.key === "ArrowRight" && currentSpread < spreads - 1) {
+        currentSpread++;
+        renderMagazine();
+      }
+    });
+
+    renderMagazine();
     ScrollTrigger.refresh();
   </script>
 </body>
