@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Museum of Me</title>
+  <title>Museumof Me</title>
 
   <script>
     if ("scrollRestoration" in history) {
@@ -887,15 +887,15 @@
       position:absolute;
       inset:0;
       pointer-events:none;
-      z-index:6;
+      z-index:7;
       background:
         linear-gradient(to right,
-          rgba(0,0,0,0) 0%,
-          rgba(0,0,0,0.02) 58%,
-          rgba(0,0,0,0.10) 72%,
-          rgba(0,0,0,0.24) 84%,
-          rgba(0,0,0,0.42) 100%);
-      opacity:0.88;
+          rgba(0,0,0,0.00) 0%,
+          rgba(0,0,0,0.00) 58%,
+          rgba(0,0,0,0.06) 72%,
+          rgba(0,0,0,0.18) 84%,
+          rgba(0,0,0,0.34) 100%);
+      opacity:1;
     }
 
     .customization-board{
@@ -953,7 +953,9 @@
       position:relative;
       height:100vh;
       background:#000;
-      margin-top:-2vh;
+      margin-top:-100vh; /* same-screen overlap */
+      pointer-events:none;
+      z-index:14;
       overflow:hidden;
       isolation:isolate;
     }
@@ -962,7 +964,7 @@
       position:absolute;
       inset:0;
       background:url("bg7.jpeg") center center / cover no-repeat;
-      transform:translateX(-14%) scale(1.04);
+      transform:translateX(22%) scale(1.04);
       opacity:0;
       will-change:transform, opacity;
       z-index:1;
@@ -971,17 +973,17 @@
     .bg7-overlay{
       position:absolute;
       inset:0;
-      pointer-events:none;
       z-index:2;
+      pointer-events:none;
       opacity:0;
       background:
-        linear-gradient(to right,
-          rgba(0,0,0,0.78) 0%,
-          rgba(0,0,0,0.42) 18%,
-          rgba(0,0,0,0.16) 36%,
-          rgba(0,0,0,0.10) 56%,
-          rgba(0,0,0,0.22) 100%),
-        linear-gradient(to bottom, rgba(0,0,0,0.14), rgba(0,0,0,0.28));
+        linear-gradient(to left,
+          rgba(0,0,0,0.76) 0%,
+          rgba(0,0,0,0.36) 18%,
+          rgba(0,0,0,0.12) 36%,
+          rgba(0,0,0,0.06) 56%,
+          rgba(0,0,0,0.20) 100%),
+        linear-gradient(to bottom, rgba(0,0,0,0.10), rgba(0,0,0,0.24));
       will-change:opacity;
     }
 
@@ -1221,6 +1223,10 @@
         white-space:normal;
         text-align:center;
         width:min(90vw, 360px);
+      }
+
+      .bg7-stage{
+        margin-top:-70svh;
       }
     }
   </style>
@@ -1893,28 +1899,28 @@
       }
     );
 
-    /* smooth bg6 -> bg7 transition */
+    /* SAME SCREEN CROSS TRANSITION: bg6 left, bg7 right */
     gsap.fromTo(
       "#customizationShowcase",
       { xPercent: 0, opacity: 1, scale: 1, filter: "blur(0px)" },
       {
-        xPercent: 18,
-        opacity: 0.94,
-        scale: 0.992,
-        filter: "blur(0.6px)",
+        xPercent: -22,
+        opacity: 0.88,
+        scale: 0.985,
+        filter: "blur(1px)",
         ease: "none",
         scrollTrigger: {
           trigger: "#bg6Stage",
-          start: "top top",
+          start: "top 35%",
           end: "bottom top",
-          scrub: 1.2
+          scrub: 1.15
         }
       }
     );
 
     gsap.fromTo(
       "#bg7Image",
-      { xPercent: -14, opacity: 0, scale: 1.04 },
+      { xPercent: 22, opacity: 0, scale: 1.04 },
       {
         xPercent: 0,
         opacity: 1,
@@ -1922,9 +1928,9 @@
         ease: "none",
         scrollTrigger: {
           trigger: "#bg6Stage",
-          start: "top 58%",
+          start: "top 35%",
           end: "bottom top",
-          scrub: 1.2
+          scrub: 1.15
         }
       }
     );
@@ -1937,9 +1943,9 @@
         ease: "none",
         scrollTrigger: {
           trigger: "#bg6Stage",
-          start: "top 58%",
+          start: "top 35%",
           end: "bottom top",
-          scrub: 1.2
+          scrub: 1.15
         }
       }
     );
