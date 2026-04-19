@@ -3,17 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Museum of Me</title>
+  <title>Museumof Me</title>
 
   <script>
-    if ("scrollRestoration" in history) {
-      history.scrollRestoration = "manual";
-    }
-
-    window.addEventListener("beforeunload", () => {
-      window.scrollTo(0, 0);
-    });
-
+    if ("scrollRestoration" in history) history.scrollRestoration = "manual";
+    window.addEventListener("beforeunload", () => window.scrollTo(0, 0));
     window.addEventListener("load", () => {
       window.scrollTo(0, 0);
       setTimeout(() => window.scrollTo(0, 0), 10);
@@ -33,11 +27,8 @@
       --gold-2:#ead7ae;
       --gold-3:#d7b675;
       --gold-4:#9b6a32;
-      --brown-1:#25170d;
-      --brown-2:#130d09;
       --text:#f7f1e7;
       --bg:#050505;
-
       --x:50%;
       --y:50%;
       --torchW:320px;
@@ -91,7 +82,7 @@
       box-shadow:0 10px 30px rgba(0,0,0,0.28), inset 0 1px 0 rgba(255,245,220,0.06);
       backdrop-filter:blur(8px);
       -webkit-backdrop-filter:blur(8px);
-      transition:transform 0.3s ease, border-color 0.3s ease, background 0.3s ease, box-shadow 0.3s ease, color 0.3s ease;
+      transition:transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, color 0.3s ease;
     }
 
     .museum-btn:hover{
@@ -165,12 +156,24 @@
       padding:12px 14px;
       border-radius:16px;
       text-decoration:none;
-      transition:background 0.25s ease, color 0.25s ease, transform 0.25s ease;
+      transition:background 0.25s ease, transform 0.25s ease;
     }
 
     .gallery-link:hover{ background:rgba(215,182,117,0.08); transform:translateX(3px); }
-    .gallery-kicker{ font-size:0.72rem; letter-spacing:0.22em; text-transform:uppercase; color:rgba(215,182,117,0.9); font-weight:500; }
-    .gallery-name{ font-family:"Cormorant Garamond", serif; font-size:1.15rem; color:rgba(247,241,231,0.92); letter-spacing:0.03em; }
+    .gallery-kicker{
+      font-size:0.72rem;
+      letter-spacing:0.22em;
+      text-transform:uppercase;
+      color:rgba(215,182,117,0.9);
+      font-weight:500;
+    }
+    .gallery-name{
+      font-family:"Cormorant Garamond", serif;
+      font-size:1.15rem;
+      color:rgba(247,241,231,0.92);
+      letter-spacing:0.03em;
+    }
+
     .museum-work-btn{ margin-left:auto; }
 
     .scene1-wrapper{
@@ -198,7 +201,18 @@
     .layer{ position:absolute; pointer-events:none; user-select:none; will-change:transform, opacity, filter; }
     .sky{ z-index:1; top:-6%; left:-4%; width:108%; height:112%; object-fit:cover; }
     .mid{ z-index:2; top:-8%; left:-5%; width:112%; height:122%; object-fit:cover; }
-    .front{ z-index:3; position:absolute; left:0; bottom:0; width:100%; height:auto; object-fit:contain; object-position:center bottom; transform-origin:center bottom; opacity:1; }
+    .front{
+      z-index:3;
+      position:absolute;
+      left:0;
+      bottom:0;
+      width:100%;
+      height:auto;
+      object-fit:contain;
+      object-position:center bottom;
+      transform-origin:center bottom;
+      opacity:1;
+    }
 
     .foreground{
       position:absolute;
@@ -214,7 +228,16 @@
       filter:brightness(1.02) contrast(0.98) saturate(0.94) drop-shadow(0 14px 28px rgba(0,0,0,0.32));
     }
 
-    .bg2{ z-index:5; top:-4%; left:-3%; width:106%; height:110%; object-fit:cover; opacity:0; transform:scale(1.02); }
+    .bg2{
+      z-index:5;
+      top:-4%;
+      left:-3%;
+      width:106%;
+      height:110%;
+      object-fit:cover;
+      opacity:0;
+      transform:scale(1.02);
+    }
 
     .bg2-content{
       position:absolute;
@@ -256,16 +279,13 @@
       text-shadow:0 2px 10px rgba(0,0,0,0.32), 0 10px 28px rgba(0,0,0,0.24);
     }
 
-    .gold-line,
-    .panel-line{
+    .gold-line{
       width:120px;
       height:1px;
       margin:1rem auto 0.95rem;
       background:linear-gradient(to right, transparent, rgba(236,221,184,0.95), transparent);
       opacity:0.95;
     }
-
-    .bg2-content .gold-line{ position:relative; z-index:2; }
 
     .bg2-content p{
       position:relative;
@@ -298,7 +318,7 @@
       transition:opacity 2.2s ease;
     }
 
-    .canvas-wrap, .customization-stage, .lens-archive-stage, .directors-dome-stage, .bg9-stage, .lets-work{
+    .canvas-wrap, .customization-stage, .lens-archive-stage, .directors-dome-stage, .bg9-stage, .lets-connect-stage{
       position:relative;
       min-height:100vh;
       overflow:hidden;
@@ -368,7 +388,7 @@
     .lens-title,
     .directors-title,
     .sky-limit-title,
-    .lets-work h2{
+    .lets-connect-title{
       font-family:"Cormorant Garamond", serif;
       text-transform:uppercase;
     }
@@ -488,7 +508,6 @@
       background:
         radial-gradient(circle at 50% 120%, rgba(204,156,84,0.10), transparent 35%),
         #090705;
-      opacity:1;
     }
 
     .arcade-note{
@@ -557,15 +576,6 @@
       pointer-events:none;
     }
 
-    .arcade-card::after{
-      content:"";
-      position:absolute;
-      inset:0;
-      border-radius:24px;
-      pointer-events:none;
-      background:linear-gradient(135deg, rgba(255,245,230,0.02), transparent 18%, transparent 82%, rgba(255,220,170,0.02)), radial-gradient(circle at 15% 18%, rgba(215,150,83,0.04), transparent 18%);
-    }
-
     .arcade-left{
       position:relative;
       z-index:2;
@@ -590,7 +600,6 @@
       letter-spacing:0.03em;
       color:#f3dfbf;
       margin-bottom:12px;
-      text-shadow:0 6px 18px rgba(0,0,0,0.25);
     }
 
     .arcade-desc{
@@ -643,12 +652,6 @@
       transition:transform .22s ease, border-color .22s ease, background .22s ease;
     }
 
-    .arcade-btn:hover{
-      transform:translateY(-1px);
-      border-color:rgba(199,154,87,0.48);
-      background:#21160f;
-    }
-
     .arcade-right{
       position:relative;
       z-index:2;
@@ -666,33 +669,6 @@
       overflow:hidden;
       background:#120d09;
       box-shadow:inset 0 0 0 1px rgba(199,154,87,0.12), 0 16px 34px rgba(0,0,0,0.24);
-    }
-
-    .arcade-media::before{
-      content:"";
-      position:absolute;
-      inset:0;
-      border-radius:18px;
-      background:linear-gradient(180deg, rgba(18,13,9,0.98), rgba(18,13,9,0.98));
-      box-shadow:inset 0 0 0 1px rgba(255,235,198,0.05);
-      z-index:0;
-    }
-
-    .arcade-grid{
-      position:absolute;
-      inset:32px;
-      display:grid;
-      grid-template-columns:repeat(3, 1fr);
-      grid-template-rows:repeat(2, 1fr);
-      gap:12px;
-      z-index:2;
-    }
-
-    .mini-panel{
-      border-radius:12px;
-      background:linear-gradient(180deg, rgba(199,154,87,0.05), rgba(255,255,255,0.01)), linear-gradient(160deg, #1b130e, #120d09);
-      border:1px solid rgba(199,154,87,0.10);
-      box-shadow:inset 0 1px 0 rgba(255,245,220,0.02);
     }
 
     .media-carousel{
@@ -768,8 +744,7 @@
       border:1px solid rgba(199,154,87,0.20);
     }
 
-    /* ---------- CUSTOMIZATION ---------- */
-
+    /* Gallery 3 */
     .customization-stage{
       position:relative;
       background:#050505;
@@ -788,12 +763,7 @@
       height:28vh;
       z-index:1;
       pointer-events:none;
-      background:
-        linear-gradient(to bottom,
-          rgba(5,5,5,0.98) 0%,
-          rgba(5,5,5,0.84) 18%,
-          rgba(14,10,7,0.38) 46%,
-          rgba(14,10,7,0.0) 100%);
+      background:linear-gradient(to bottom, rgba(5,5,5,0.98) 0%, rgba(5,5,5,0.84) 18%, rgba(14,10,7,0.38) 46%, rgba(14,10,7,0.0) 100%);
     }
 
     .customization-header-top,
@@ -804,12 +774,7 @@
       width:100%;
       padding:7.5vh 20px 3.2vh;
       text-align:center;
-      background:
-        linear-gradient(to bottom,
-          #050505 0%,
-          #050505 58%,
-          rgba(5,5,5,0.82) 78%,
-          rgba(5,5,5,0.0) 100%);
+      background:linear-gradient(to bottom, #050505 0%, #050505 58%, rgba(5,5,5,0.82) 78%, rgba(5,5,5,0.0) 100%);
     }
 
     .customization-kicker,
@@ -860,9 +825,7 @@
       overflow:hidden;
       background:#000;
       border-radius:34px;
-      box-shadow:
-        0 -18px 40px rgba(0,0,0,0.14),
-        0 30px 90px rgba(0,0,0,0.36);
+      box-shadow:0 -18px 40px rgba(0,0,0,0.14), 0 30px 90px rgba(0,0,0,0.36);
       z-index:8;
       transform:translateY(18px);
       will-change:transform, opacity;
@@ -936,13 +899,12 @@
       white-space:nowrap;
     }
 
-    /* ---------- LENS ARCHIVE ---------- */
-
+    /* Gallery 4 */
     .lens-archive-stage{
       background:
         radial-gradient(circle at 50% 0%, rgba(215,182,117,0.08), transparent 28%),
         linear-gradient(180deg, #090806 0%, #040404 100%);
-      padding:0 0 10vh;
+      padding:0 0 12vh;
       isolation:isolate;
     }
 
@@ -957,11 +919,11 @@
     }
 
     .magazine-shell{
-      width:min(1040px, 94vw);
-      min-height:72vh;
+      width:min(1100px, 96vw);
+      min-height:78vh;
       margin-top:2vh;
       position:relative;
-      padding:26px;
+      padding:24px;
       border-radius:34px;
       border:1px solid rgba(234,215,174,0.16);
       background:linear-gradient(180deg, rgba(20,16,12,0.70), rgba(8,7,5,0.78));
@@ -983,153 +945,215 @@
       position:relative;
       z-index:2;
       width:100%;
-      min-height:62vh;
+      min-height:66vh;
       display:flex;
       align-items:center;
       justify-content:center;
-      perspective:2400px;
+      perspective:2600px;
       user-select:none;
     }
 
     .magazine-book{
       position:relative;
-      width:min(860px, 86vw);
-      height:min(560px, 64vw);
-      max-height:72vh;
+      width:min(920px, 88vw);
+      height:min(600px, 68vw);
+      max-height:74vh;
       transform-style:preserve-3d;
-      filter:drop-shadow(0 28px 70px rgba(0,0,0,0.55));
+      transform:rotateX(6deg) rotateY(0deg);
+      transition:transform 0.25s ease;
+      filter:drop-shadow(0 38px 80px rgba(0,0,0,0.62));
     }
 
-    .magazine-spine-glow{
+    .book-base-shadow{
+      position:absolute;
+      left:10%;
+      right:10%;
+      bottom:-30px;
+      height:48px;
+      border-radius:50%;
+      background:radial-gradient(circle, rgba(0,0,0,0.44), rgba(0,0,0,0));
+      filter:blur(18px);
+      pointer-events:none;
+    }
+
+    .magazine-spine{
       position:absolute;
       left:50%;
       top:2%;
       bottom:2%;
-      width:3px;
-      transform:translateX(-50%);
-      background:linear-gradient(to bottom, rgba(255,233,192,0.24), rgba(215,182,117,0.34), rgba(255,233,192,0.18));
-      box-shadow:0 0 22px rgba(215,182,117,0.18);
-      z-index:20;
+      width:16px;
+      transform:translateX(-50%) translateZ(10px);
+      background:linear-gradient(to right, rgba(34,24,17,0.96), rgba(90,62,32,0.9), rgba(34,24,17,0.96));
+      box-shadow:0 0 22px rgba(215,182,117,0.22);
+      border-radius:10px;
+      z-index:80;
       pointer-events:none;
     }
 
-    .mag-page{
+    .spread{
+      position:absolute;
+      inset:0;
+      transform-style:preserve-3d;
+      pointer-events:none;
+    }
+
+    .paper{
       position:absolute;
       top:0;
       width:50%;
       height:100%;
-      overflow:hidden;
-      border-radius:18px;
       background:#120d09;
-      box-shadow:inset 0 0 0 1px rgba(255,244,220,0.06);
-      transition:transform 0.9s cubic-bezier(.2,.7,.1,1), box-shadow 0.9s ease, filter 0.9s ease;
+      overflow:hidden;
       backface-visibility:hidden;
-      transform-style:preserve-3d;
+      box-shadow:inset 0 0 0 1px rgba(255,244,220,0.06);
     }
 
-    .mag-page img{
+    .paper img{
       width:100%;
       height:100%;
       object-fit:cover;
       display:block;
       pointer-events:none;
+      user-select:none;
     }
 
-    .mag-page::after{
+    .paper::after{
       content:"";
       position:absolute;
       inset:0;
       pointer-events:none;
       background:
-        linear-gradient(135deg, rgba(255,255,255,0.08), transparent 18%, transparent 82%, rgba(0,0,0,0.10)),
-        linear-gradient(to bottom, rgba(255,255,255,0.03), rgba(0,0,0,0.04));
+        linear-gradient(135deg, rgba(255,255,255,0.06), transparent 22%, transparent 78%, rgba(0,0,0,0.08)),
+        linear-gradient(to bottom, rgba(255,255,255,0.03), rgba(0,0,0,0.05));
     }
 
-    .mag-page.left{
+    .paper.left{
       left:0;
       transform-origin:right center;
+      border-top-left-radius:18px;
+      border-bottom-left-radius:18px;
       border-top-right-radius:8px;
       border-bottom-right-radius:8px;
     }
 
-    .mag-page.right{
+    .paper.right{
       left:50%;
       transform-origin:left center;
+      border-top-right-radius:18px;
+      border-bottom-right-radius:18px;
       border-top-left-radius:8px;
       border-bottom-left-radius:8px;
     }
 
-    .mag-page.left.active{
-      transform:rotateY(0deg) translateZ(0);
+    .paper-shadow-left,
+    .paper-shadow-right{
+      position:absolute;
+      top:0;
+      bottom:0;
+      width:50%;
+      pointer-events:none;
+      z-index:70;
+    }
+
+    .paper-shadow-left{
+      left:0;
+      background:linear-gradient(to right, rgba(0,0,0,0.14), rgba(0,0,0,0.02), transparent);
+    }
+
+    .paper-shadow-right{
+      right:0;
+      background:linear-gradient(to left, rgba(0,0,0,0.18), rgba(0,0,0,0.03), transparent);
+    }
+
+    .spread.active .paper.left{
+      transform:rotateY(0deg) translateZ(4px);
+      z-index:30;
+      pointer-events:auto;
+    }
+
+    .spread.active .paper.right{
+      transform:rotateY(0deg) translateZ(4px);
+      z-index:32;
+      pointer-events:auto;
+    }
+
+    .spread.before .paper.left{
+      transform:rotateY(-178deg) translateZ(0);
+      z-index:8;
+      filter:brightness(0.85);
+    }
+
+    .spread.before .paper.right{
+      transform:rotateY(178deg) translateZ(0);
+      z-index:7;
+      filter:brightness(0.82);
+    }
+
+    .spread.after .paper.left{
+      transform:rotateY(-8deg) translateZ(0);
       z-index:12;
-    }
-
-    .mag-page.right.active{
-      transform:rotateY(0deg) translateZ(0);
-      z-index:14;
-    }
-
-    .mag-page.left.next-left{
-      transform:rotateY(-10deg) translateX(-2px);
       filter:brightness(0.92);
-      z-index:10;
     }
 
-    .mag-page.right.next-right{
-      transform:rotateY(10deg) translateX(2px);
+    .spread.after .paper.right{
+      transform:rotateY(8deg) translateZ(0);
+      z-index:13;
       filter:brightness(0.92);
-      z-index:11;
     }
 
-    .mag-page.left.prev-left{
-      transform:rotateY(-160deg) translateX(4px);
-      filter:brightness(0.85);
-      z-index:6;
+    .spread.turn-next .paper.right{
+      transform:rotateY(-178deg) translateZ(0);
+      transition:transform 0.9s cubic-bezier(.2,.75,.1,1), filter 0.9s ease;
     }
 
-    .mag-page.right.prev-right{
-      transform:rotateY(160deg) translateX(-4px);
-      filter:brightness(0.85);
-      z-index:5;
+    .spread.turn-prev .paper.left{
+      transform:rotateY(178deg) translateZ(0);
+      transition:transform 0.9s cubic-bezier(.2,.75,.1,1), filter 0.9s ease;
     }
 
-    .magazine-controls{
-      position:relative;
-      z-index:4;
-      margin-top:24px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      gap:12px;
-      flex-wrap:wrap;
+    .paper.left,
+    .paper.right{
+      transition:transform 0.9s cubic-bezier(.2,.75,.1,1), filter 0.9s ease, box-shadow 0.9s ease;
     }
 
-    .mag-btn{
-      appearance:none;
-      border:none;
+    .mag-hover-zone{
+      position:absolute;
+      top:8%;
+      bottom:8%;
+      width:18%;
+      z-index:120;
       cursor:pointer;
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      padding:12px 18px;
-      border-radius:999px;
-      background:linear-gradient(180deg, rgba(22,18,13,0.94), rgba(10,8,6,0.90));
-      border:1px solid rgba(234,215,174,0.22);
-      color:#f4e7c8;
+    }
+
+    .mag-hover-zone.left{ left:3%; }
+    .mag-hover-zone.right{ right:3%; }
+
+    .mag-hover-label{
+      position:absolute;
+      bottom:18px;
+      left:50%;
+      transform:translateX(-50%);
+      font-size:0.72rem;
       letter-spacing:0.12em;
       text-transform:uppercase;
-      font-size:0.72rem;
-      transition:transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+      color:rgba(247,241,231,0.62);
+      text-align:center;
+      width:100%;
+      pointer-events:none;
     }
 
-    .mag-btn:hover{
-      transform:translateY(-1px);
-      border-color:rgba(234,215,174,0.42);
-      background:linear-gradient(180deg, rgba(28,22,16,0.96), rgba(12,10,8,0.94));
+    .magazine-tip{
+      margin-top:18px;
+      color:rgba(247,241,231,0.66);
+      font-size:0.76rem;
+      letter-spacing:0.14em;
+      text-transform:uppercase;
+      text-align:center;
     }
 
-    .mag-indicator{
-      padding:11px 16px;
+    .mag-spread-indicator{
+      margin-top:16px;
+      padding:10px 16px;
       border-radius:999px;
       background:rgba(255,255,255,0.03);
       border:1px solid rgba(234,215,174,0.15);
@@ -1139,22 +1163,12 @@
       text-transform:uppercase;
     }
 
-    .magazine-tip{
-      margin-top:16px;
-      color:rgba(247,241,231,0.66);
-      font-size:0.76rem;
-      letter-spacing:0.14em;
-      text-transform:uppercase;
-      text-align:center;
-    }
-
-    /* ---------- DIRECTOR'S DOME ---------- */
-
+    /* Gallery 5 */
     .directors-dome-stage{
       background:#000;
-      padding:0 0 0;
       position:relative;
       overflow:hidden;
+      min-height:100vh;
     }
 
     .directors-bg{
@@ -1172,7 +1186,7 @@
       pointer-events:none;
       background:
         radial-gradient(circle at 50% 18%, rgba(215,182,117,0.14), transparent 26%),
-        linear-gradient(to bottom, rgba(0,0,0,0.28), rgba(0,0,0,0.52));
+        linear-gradient(to bottom, rgba(0,0,0,0.18), rgba(0,0,0,0.44));
     }
 
     .directors-stage-inner{
@@ -1186,41 +1200,59 @@
       padding:0 4vw 10vh;
     }
 
-    .video-center-wrap{
-      width:min(1100px, 94vw);
-      margin:1.5vh auto 0;
+    .video-carousel-wrap{
+      width:min(520px, 74vw);
+      margin-top:2vh;
+      position:relative;
       display:flex;
-      flex-direction:column;
-      gap:22px;
       align-items:center;
+      justify-content:center;
     }
 
-    .video-frame-large,
-    .video-frame-small{
+    .video-arrow{
+      position:absolute;
+      top:50%;
+      transform:translateY(-50%);
+      z-index:10;
+      width:44px;
+      height:44px;
+      border-radius:999px;
+      border:1px solid rgba(234,215,174,0.28);
+      background:rgba(14,10,8,0.82);
+      color:#f4e3bc;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:1.1rem;
+      cursor:pointer;
+      transition:transform .2s ease, border-color .2s ease, background .2s ease;
+      backdrop-filter:blur(8px);
+      -webkit-backdrop-filter:blur(8px);
+    }
+
+    .video-arrow:hover{
+      transform:translateY(-50%) scale(1.04);
+      border-color:rgba(234,215,174,0.44);
+      background:rgba(20,15,11,0.92);
+    }
+
+    .video-arrow.prev{ left:-60px; }
+    .video-arrow.next{ right:-60px; }
+
+    .video-frame-single{
+      width:100%;
       position:relative;
       overflow:hidden;
-      border-radius:30px;
+      border-radius:26px;
       background:linear-gradient(180deg, rgba(18,15,11,0.84), rgba(7,6,5,0.80));
       border:1px solid rgba(234,215,174,0.18);
       box-shadow:0 28px 84px rgba(0,0,0,0.44), inset 0 1px 0 rgba(255,245,220,0.04);
-      padding:16px;
+      padding:12px;
       backdrop-filter:blur(4px);
       -webkit-backdrop-filter:blur(4px);
     }
 
-    .video-frame-large{
-      width:min(980px, 100%);
-    }
-
-    .video-row{
-      width:100%;
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:22px;
-    }
-
-    .video-frame-large::before,
-    .video-frame-small::before{
+    .video-frame-single::before{
       content:"";
       position:absolute;
       inset:0;
@@ -1229,22 +1261,29 @@
       z-index:1;
     }
 
-    .video-frame-large video,
-    .video-frame-small video{
+    .video-frame-single video{
       position:relative;
       z-index:2;
       width:100%;
       display:block;
-      border-radius:20px;
+      border-radius:16px;
       background:#000;
       aspect-ratio:16/9;
       object-fit:cover;
     }
 
-    /* ---------- BG9 FADE ---------- */
+    .video-counter{
+      margin-top:18px;
+      color:rgba(247,241,231,0.74);
+      font-size:0.74rem;
+      letter-spacing:0.18em;
+      text-transform:uppercase;
+      text-align:center;
+    }
 
+    /* bg9 */
     .bg9-stage{
-      height:70vh;
+      height:68vh;
       background:#000;
       position:relative;
     }
@@ -1266,70 +1305,68 @@
       opacity:0.88;
     }
 
-    /* ---------- LET'S CONNECT ---------- */
-
-    .lets-work{
+    /* lets connect on bg10 */
+    .lets-connect-stage{
+      min-height:100vh;
+      position:relative;
       display:flex;
       align-items:center;
       justify-content:center;
-      text-align:center;
-      padding:12vh 6vw;
+      padding:10vh 6vw;
+      background:#000;
+      isolation:isolate;
+    }
+
+    .lets-connect-bg{
+      position:absolute;
+      inset:0;
+      background:url("bg10.jpeg") center center / cover no-repeat;
+      z-index:1;
+      transform:scale(1.03);
+    }
+
+    .lets-connect-overlay{
+      position:absolute;
+      inset:0;
+      z-index:2;
+      pointer-events:none;
       background:
-        radial-gradient(circle at top, rgba(215,182,117,0.14), transparent 32%),
-        linear-gradient(180deg, #040404 0%, #020202 100%);
+        linear-gradient(to bottom, rgba(0,0,0,0.28), rgba(0,0,0,0.34)),
+        radial-gradient(circle at 50% 16%, rgba(255,220,160,0.08), transparent 24%);
     }
 
-    .lets-work::before{
-      content:"";
-      position:absolute;
-      inset:0;
-      pointer-events:none;
-      background:radial-gradient(circle at center top, rgba(255,215,140,0.08), transparent 28%);
-    }
-
-    .lets-work-card{
-      width:min(980px, 94vw);
-      padding:58px 44px;
-      border-radius:32px;
-      border:1px solid rgba(234,215,174,0.18);
-      background:linear-gradient(180deg, rgba(18,15,11,0.84), rgba(7,6,5,0.72));
-      box-shadow:0 30px 90px rgba(0,0,0,0.46), inset 0 1px 0 rgba(255,245,220,0.04);
+    .lets-connect-content{
       position:relative;
-      overflow:hidden;
-    }
-
-    .lets-work-card::before{
-      content:"";
-      position:absolute;
-      inset:0;
-      background:linear-gradient(135deg, rgba(255,232,186,0.06), transparent 35%, rgba(215,182,117,0.05) 100%);
-      pointer-events:none;
+      z-index:5;
+      width:min(1000px, 92vw);
+      text-align:center;
     }
 
     .sky-limit-title{
-      font-size:clamp(2.6rem, 5.7vw, 4.6rem);
+      font-size:clamp(2.6rem, 5.7vw, 4.8rem);
       letter-spacing:0.08em;
       margin-top:12px;
+      color:#f4e3bc;
+      text-shadow:0 12px 34px rgba(0,0,0,0.46);
     }
 
-    .lets-work h2{
+    .lets-connect-title{
       font-size:clamp(2rem, 4.6vw, 3.4rem);
       letter-spacing:0.05em;
-      color:#f4e3bc;
-      text-shadow:0 10px 30px rgba(0,0,0,0.32);
+      color:#fff4d8;
+      text-shadow:0 12px 32px rgba(0,0,0,0.54);
       position:relative;
       z-index:1;
       margin-top:10px;
     }
 
-    .lets-work p{
-      max-width:720px;
+    .lets-connect-copy{
+      max-width:760px;
       margin:1.2rem auto 0;
       font-size:1rem;
       line-height:1.8;
-      color:rgba(247,241,231,0.84);
-      position:relative;
-      z-index:1;
+      color:rgba(255,248,236,0.92);
+      text-shadow:0 6px 18px rgba(0,0,0,0.56);
     }
 
     .connect-links{
@@ -1370,9 +1407,11 @@
 
     .connect-btn.secondary{
       color:#f4e7c8;
-      background:rgba(255,255,255,0.03);
-      border:1px solid rgba(234,215,174,0.22);
+      background:rgba(255,255,255,0.04);
+      border:1px solid rgba(234,215,174,0.24);
       box-shadow:inset 0 1px 0 rgba(255,245,220,0.04);
+      backdrop-filter:blur(8px);
+      -webkit-backdrop-filter:blur(8px);
     }
 
     .connect-btn.secondary:hover{
@@ -1391,20 +1430,9 @@
       .arcade-left{ padding:28px 22px 20px; }
       .arcade-right{ padding:0 14px 14px; }
       .arcade-media{ min-height:240px; }
-
-      .customization-showcase{
-        height:76vh;
-        min-height:560px;
-      }
-
-      .video-row{
-        grid-template-columns:1fr;
-      }
-
-      .magazine-book{
-        width:min(92vw, 760px);
-        height:min(500px, 68vw);
-      }
+      .customization-showcase{ height:76vh; min-height:560px; }
+      .magazine-book{ width:min(94vw, 760px); height:min(500px, 68vw); }
+      .video-carousel-wrap{ width:min(460px, 80vw); }
     }
 
     @media (max-width: 768px){
@@ -1423,12 +1451,10 @@
       .freeform-title h1{ font-size:2.2rem; letter-spacing:.14em; }
       .freeform-title p{ font-size:.78rem; }
       #torch{ width:56px; }
+
       .arcade-track{ gap:18px; padding:0 5vw 0 10vw; }
       .arcade-card{ min-width:90vw; border-radius:20px; }
-      .arcade-card::before{ border-radius:20px; }
       .arcade-card-title{ font-size:2rem; }
-      .arcade-actions{ gap:8px; }
-      .arcade-btn{ font-size:0.58rem; padding:9px 11px; }
       .arcade-note{ top:5vh; font-size:0.60rem; letter-spacing:0.18em; }
       .connect-links{ flex-direction:column; align-items:center; }
       .connect-btn{ width:min(320px, 100%); }
@@ -1455,7 +1481,7 @@
         letter-spacing:0.035em;
       }
 
-      .lets-work h2{
+      .lets-connect-title{
         font-size:clamp(1.7rem, 6vw, 2.5rem);
       }
 
@@ -1491,24 +1517,15 @@
         height:min(420px, 64vw);
       }
 
-      .mag-btn,
-      .mag-indicator{
-        font-size:0.64rem;
+      .video-carousel-wrap{
+        width:min(360px, 84vw);
       }
 
-      .video-frame-large,
-      .video-frame-small{
-        padding:12px;
-        border-radius:22px;
-      }
+      .video-arrow.prev{ left:-18px; }
+      .video-arrow.next{ right:-18px; }
 
-      .video-frame-large video,
-      .video-frame-small video{
-        border-radius:14px;
-      }
-
-      .lets-work-card{
-        padding:42px 22px;
+      .lets-connect-stage{
+        padding:10vh 5vw;
       }
     }
   </style>
@@ -1518,9 +1535,7 @@
   <div class="museum-nav" id="museumNav">
     <button class="museum-btn museum-menu-btn" id="galleryToggle" aria-label="Open galleries menu">
       <span class="menu-icon" aria-hidden="true">
-        <span></span>
-        <span></span>
-        <span></span>
+        <span></span><span></span><span></span>
       </span>
       <span class="btn-label">Museum’s Galleries</span>
     </button>
@@ -1548,7 +1563,7 @@
       </a>
     </div>
 
-    <a href="#letsWorkSection" class="museum-btn museum-work-btn">
+    <a href="#letsConnectSection" class="museum-btn museum-work-btn">
       <span class="btn-label">Let’s Connect!</span>
     </a>
   </div>
@@ -1587,7 +1602,6 @@
   <section class="bg4-stage" id="projectArcade">
     <div class="bg4-base" id="bg4Base"></div>
     <div class="bg4-overlay" id="bg4Overlay"></div>
-
     <div class="bg5-top" id="bg5Top"></div>
     <div class="bg5-overlay" id="bg5Overlay"></div>
 
@@ -1596,14 +1610,11 @@
 
       <div class="arcade-shell" id="scrollShell">
         <div class="arcade-track" id="track">
-
           <article class="arcade-card">
             <div class="arcade-left">
               <div class="arcade-index">01</div>
               <h2 class="arcade-card-title">Clay Creation</h2>
-              <p class="arcade-desc">
-                Soft curves, earthy tones, and a little bit of magic shaped by hand.
-              </p>
+              <p class="arcade-desc">Soft curves, earthy tones, and a little bit of magic shaped by hand.</p>
 
               <div class="arcade-meta">
                 <span class="arcade-pill">UI / UX</span>
@@ -1633,9 +1644,7 @@
             <div class="arcade-left">
               <div class="arcade-index">02</div>
               <h2 class="arcade-card-title">Personalized Games</h2>
-              <p class="arcade-desc">
-                Playful pieces made personal, because games are better when they feel like yours.
-              </p>
+              <p class="arcade-desc">Playful pieces made personal, because games are better when they feel like yours.</p>
 
               <div class="arcade-meta">
                 <span class="arcade-pill">Interaction</span>
@@ -1671,9 +1680,7 @@
             <div class="arcade-left">
               <div class="arcade-index">03</div>
               <h2 class="arcade-card-title">Interactive Work</h2>
-              <p class="arcade-desc">
-                Clicks, motion, and tiny details doing the heavy lifting behind the scenes.
-              </p>
+              <p class="arcade-desc">Clicks, motion, and tiny details doing the heavy lifting behind the scenes.</p>
 
               <div class="arcade-meta">
                 <span class="arcade-pill">Motion</span>
@@ -1690,20 +1697,12 @@
             </div>
 
             <div class="arcade-right">
-              <div class="arcade-media">
-                <div class="arcade-grid">
-                  <div class="mini-panel"></div>
-                  <div class="mini-panel"></div>
-                  <div class="mini-panel"></div>
-                  <div class="mini-panel"></div>
-                  <div class="mini-panel"></div>
-                  <div class="mini-panel"></div>
-                </div>
+              <div class="arcade-media" style="display:flex; align-items:center; justify-content:center;">
+                <img src="art1.png" alt="Interactive preview" style="max-width:86%; max-height:82%; object-fit:contain;">
                 <div class="arcade-badge">Project Preview</div>
               </div>
             </div>
           </article>
-
         </div>
       </div>
     </div>
@@ -1737,7 +1736,7 @@
           </div>
         </div>
 
-        <div class="custom-hint">Drag to move • Shift + drag to rotate • Zoom selected to resize</div>
+        <div class="custom-hint">Drag to move • Shift + drag to rotate • Scroll on asset to resize</div>
       </div>
     </div>
   </section>
@@ -1747,40 +1746,50 @@
       <span class="lens-kicker">Gallery IV</span>
       <h2 class="lens-title">Lens Archive</h2>
       <div class="gold-line"></div>
-      <p class="lens-sub">An interactive magazine of captured moments and designed pages.</p>
+      <p class="lens-sub">Hover left or right to flip through the magazine.</p>
     </div>
 
     <div class="lens-stage-inner">
       <div class="magazine-shell">
         <div class="magazine-stage">
           <div class="magazine-book" id="magazineBook">
-            <div class="magazine-spine-glow"></div>
+            <div class="book-base-shadow"></div>
+            <div class="magazine-spine"></div>
 
-            <!-- Spread 1 -->
-            <div class="mag-page left" data-spread="0" data-side="left"><img src="art1.png" alt="Magazine page 1"></div>
-            <div class="mag-page right" data-spread="0" data-side="right"><img src="art2.png" alt="Magazine page 2"></div>
+            <div class="spread active" data-spread="0">
+              <div class="paper left"><img src="art1.png" alt="Spread 1 left"></div>
+              <div class="paper right"><img src="art2.png" alt="Spread 1 right"></div>
+            </div>
 
-            <!-- Spread 2 -->
-            <div class="mag-page left" data-spread="1" data-side="left"><img src="art3.png" alt="Magazine page 3"></div>
-            <div class="mag-page right" data-spread="1" data-side="right"><img src="art4.png" alt="Magazine page 4"></div>
+            <div class="spread after" data-spread="1">
+              <div class="paper left"><img src="art3.png" alt="Spread 2 left"></div>
+              <div class="paper right"><img src="art4.png" alt="Spread 2 right"></div>
+            </div>
 
-            <!-- Spread 3 -->
-            <div class="mag-page left" data-spread="2" data-side="left"><img src="art5.png" alt="Magazine page 5"></div>
-            <div class="mag-page right" data-spread="2" data-side="right"><img src="art6.png" alt="Magazine page 6"></div>
+            <div class="spread after" data-spread="2">
+              <div class="paper left"><img src="art5.png" alt="Spread 3 left"></div>
+              <div class="paper right"><img src="art6.png" alt="Spread 3 right"></div>
+            </div>
 
-            <!-- Spread 4 -->
-            <div class="mag-page left" data-spread="3" data-side="left"><img src="art7.png" alt="Magazine page 7"></div>
-            <div class="mag-page right" data-spread="3" data-side="right"><img src="art8.png" alt="Magazine page 8"></div>
+            <div class="spread after" data-spread="3">
+              <div class="paper left"><img src="art7.png" alt="Spread 4 left"></div>
+              <div class="paper right"><img src="art8.png" alt="Spread 4 right"></div>
+            </div>
+
+            <div class="paper-shadow-left"></div>
+            <div class="paper-shadow-right"></div>
+
+            <div class="mag-hover-zone left" id="magHoverPrev">
+              <div class="mag-hover-label">Hover for previous</div>
+            </div>
+            <div class="mag-hover-zone right" id="magHoverNext">
+              <div class="mag-hover-label">Hover for next</div>
+            </div>
           </div>
         </div>
 
-        <div class="magazine-controls">
-          <button class="mag-btn" id="magPrev" type="button">Previous</button>
-          <div class="mag-indicator" id="magIndicator">Spread 1 / 4</div>
-          <button class="mag-btn" id="magNext" type="button">Next</button>
-        </div>
-
-        <div class="magazine-tip">Use the buttons or arrow keys to flip through the archive.</div>
+        <div class="mag-spread-indicator" id="magSpreadIndicator">Spread 1 / 4</div>
+        <div class="magazine-tip">Move your mouse over the book for tilt and page interaction.</div>
       </div>
     </div>
   </section>
@@ -1794,30 +1803,22 @@
         <span class="directors-kicker">Gallery V</span>
         <h2 class="directors-title">Director’s Dome</h2>
         <div class="gold-line"></div>
-        <p class="directors-sub">Featured motion work, reels, and immersive visual storytelling.</p>
+        <p class="directors-sub">A compact showcase of featured motion work.</p>
       </div>
 
-      <div class="video-center-wrap">
-        <div class="video-frame-large">
-          <video controls playsinline preload="metadata" poster="bg8.png">
+      <div class="video-carousel-wrap">
+        <button class="video-arrow prev" id="videoPrev" type="button">‹</button>
+
+        <div class="video-frame-single">
+          <video id="featureVideo" controls playsinline preload="metadata" poster="bg8.png">
             <source src="video1.mp4" type="video/mp4">
           </video>
         </div>
 
-        <div class="video-row">
-          <div class="video-frame-small">
-            <video controls playsinline preload="metadata" poster="bg8.png">
-              <source src="video2.mp4" type="video/mp4">
-            </video>
-          </div>
-
-          <div class="video-frame-small">
-            <video controls playsinline preload="metadata" poster="bg8.png">
-              <source src="video3.mp4" type="video/mp4">
-            </video>
-          </div>
-        </div>
+        <button class="video-arrow next" id="videoNext" type="button">›</button>
       </div>
+
+      <div class="video-counter" id="videoCounter">Video 1 / 3</div>
     </div>
   </section>
 
@@ -1826,12 +1827,16 @@
     <div class="bg9-overlay"></div>
   </section>
 
-  <section class="lets-work" id="letsWorkSection">
-    <div class="lets-work-card">
+  <section class="lets-connect-stage" id="letsConnectSection">
+    <div class="lets-connect-bg"></div>
+    <div class="lets-connect-overlay"></div>
+
+    <div class="lets-connect-content">
       <span class="sky-limit-kicker">Final Gallery</span>
       <h2 class="sky-limit-title">Sky Is The Limit</h2>
-      <h2>Let’s Connect!</h2>
-      <p>
+      <h2 class="lets-connect-title">Let’s Connect!</h2>
+
+      <p class="lets-connect-copy">
         Have an idea and want to bring it to life? I’d love to hear about it.
         Whether it’s a creative collaboration, a design project, or something still taking shape,
         let’s start the conversation and build something thoughtful together.
@@ -1957,7 +1962,6 @@
     function getSpawnPosition(range, edgePad = 180){
       const side = Math.floor(Math.random() * 4);
       let x = 0, y = 0;
-
       if (side === 0) {
         x = -VIEW_LIMIT_X - edgePad - Math.random() * 180;
         y = (Math.random() * range) - range / 2;
@@ -1971,7 +1975,6 @@
         x = (Math.random() * range) - range / 2;
         y = VIEW_LIMIT_Y + edgePad + Math.random() * 160;
       }
-
       return { x, y };
     }
 
@@ -1989,7 +1992,6 @@
           if (f === frame) return true;
           return Math.hypot(f.x - candidate.x, f.y - candidate.y) > minDist;
         });
-
         tries++;
       }
 
@@ -2048,7 +2050,6 @@
         frames.forEach(f => {
           const screenX = f.x + posX;
           const screenY = f.y + posY;
-
           if (!f.opacity) f.opacity = 0;
 
           const visible = screenX > -260 && screenX < window.innerWidth + 80 && screenY > -260 && screenY < window.innerHeight + 80;
@@ -2056,7 +2057,6 @@
           f.opacity += (target - f.opacity) * 0.08;
 
           const outOfRange = screenX > RESPAWN_LIMIT_X || screenX < -RESPAWN_LIMIT_X || screenY > RESPAWN_LIMIT_Y || screenY < -RESPAWN_LIMIT_Y;
-
           if (outOfRange) {
             place(f, 2600, 340, true);
             f.opacity = 0;
@@ -2247,7 +2247,6 @@
       }
     );
 
-    /* Lens Archive */
     gsap.fromTo(
       ".lens-stage-inner",
       { y: 50, opacity: 0 },
@@ -2264,7 +2263,6 @@
       }
     );
 
-    /* Director's Dome */
     gsap.fromTo(
       ".directors-stage-inner",
       { y: 50, opacity: 0 },
@@ -2297,25 +2295,6 @@
     );
 
     gsap.fromTo(
-      ".video-frame-large, .video-frame-small",
-      { y: 42, opacity: 0, scale: 0.98 },
-      {
-        y: 0,
-        opacity: 1,
-        scale: 1,
-        stagger: 0.08,
-        ease: "power2.out",
-        scrollTrigger: {
-          trigger: "#directorsDome",
-          start: "top 72%",
-          end: "top 34%",
-          scrub: 1
-        }
-      }
-    );
-
-    /* bg9 fade */
-    gsap.fromTo(
       "#bg9Image",
       { opacity: 0, scale: 1.08 },
       {
@@ -2331,16 +2310,15 @@
       }
     );
 
-    /* Lets connect */
     gsap.fromTo(
-      ".lets-work-card",
+      ".lets-connect-content",
       { y: 50, opacity: 0 },
       {
         y: 0,
         opacity: 1,
         ease: "power2.out",
         scrollTrigger: {
-          trigger: "#letsWorkSection",
+          trigger: "#letsConnectSection",
           start: "top 82%",
           end: "top 42%",
           scrub: 1
@@ -2354,11 +2332,9 @@
     });
 
     const galleryProjectArcade = document.getElementById("galleryProjectArcade");
-
     function getProjectArcadeScrollDistance() {
       return Math.max(0, track.scrollWidth - shell.clientWidth + window.innerHeight * 4.2);
     }
-
     function scrollToArcadeExhibits(e) {
       if (e) e.preventDefault();
       const baseTop = projectArcade.offsetTop;
@@ -2366,10 +2342,7 @@
       window.scrollTo({ top: targetY, behavior: "smooth" });
       galleryDropdown.classList.remove("open");
     }
-
-    if (galleryProjectArcade) {
-      galleryProjectArcade.addEventListener("click", scrollToArcadeExhibits);
-    }
+    if (galleryProjectArcade) galleryProjectArcade.addEventListener("click", scrollToArcadeExhibits);
 
     document.querySelectorAll("[data-carousel]").forEach(carousel => {
       const slides = Array.from(carousel.querySelectorAll(".media-slide"));
@@ -2396,11 +2369,12 @@
       renderSlides();
     });
 
-    /* Customization board */
+    /* Gallery 3 fix: scroll only resizes hovered asset */
     const board = document.getElementById("customizationBoard");
     const customAssets = Array.from(document.querySelectorAll("[data-asset]"));
     let activeAsset = null;
     let selectedAsset = null;
+    let hoveredAsset = null;
     let startPointer = { x: 0, y: 0 };
     let startBox = { left: 0, top: 0 };
     let startRotation = 0;
@@ -2437,17 +2411,20 @@
     customAssets.forEach(asset => {
       applyAssetTransform(asset);
 
+      asset.addEventListener("pointerenter", () => { hoveredAsset = asset; });
+      asset.addEventListener("pointerleave", () => {
+        if (hoveredAsset === asset) hoveredAsset = null;
+      });
+
       asset.addEventListener("pointerdown", (e) => {
         activeAsset = asset;
         selectedAsset = asset;
+        hoveredAsset = asset;
         asset.classList.add("active");
         asset.style.zIndex = ++zCounter;
 
         startPointer = { x: e.clientX, y: e.clientY };
-        startBox = {
-          left: asset.offsetLeft,
-          top: asset.offsetTop
-        };
+        startBox = { left: asset.offsetLeft, top: asset.offsetTop };
         startRotation = parseFloat(asset.dataset.rotation || "0");
 
         asset.setPointerCapture(e.pointerId);
@@ -2472,9 +2449,7 @@
 
       asset.addEventListener("pointerup", (e) => {
         asset.classList.remove("active");
-        if (asset.hasPointerCapture(e.pointerId)) {
-          asset.releasePointerCapture(e.pointerId);
-        }
+        if (asset.hasPointerCapture(e.pointerId)) asset.releasePointerCapture(e.pointerId);
         activeAsset = null;
       });
 
@@ -2482,83 +2457,135 @@
         asset.classList.remove("active");
         activeAsset = null;
       });
+
+      asset.addEventListener("wheel", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        selectedAsset = asset;
+
+        const { scale } = getAssetState(asset);
+        const nextScale = Math.min(2.2, Math.max(0.45, scale + (e.deltaY < 0 ? 0.08 : -0.08)));
+        asset.dataset.scale = String(nextScale);
+        applyAssetTransform(asset);
+
+        const next = clampToBoard(asset, asset.offsetLeft, asset.offsetTop);
+        asset.style.left = `${next.left}px`;
+        asset.style.top = `${next.top}px`;
+      }, { passive: false });
     });
 
-    board.addEventListener("wheel", (e) => {
-      if (!selectedAsset) return;
-      e.preventDefault();
-
-      const { scale } = getAssetState(selectedAsset);
-      const nextScale = Math.min(2.2, Math.max(0.45, scale + (e.deltaY < 0 ? 0.08 : -0.08)));
-      selectedAsset.dataset.scale = String(nextScale);
-      applyAssetTransform(selectedAsset);
-
-      const next = clampToBoard(selectedAsset, selectedAsset.offsetLeft, selectedAsset.offsetTop);
-      selectedAsset.style.left = `${next.left}px`;
-      selectedAsset.style.top = `${next.top}px`;
-    }, { passive: false });
-
-    /* Magazine */
-    const spreads = 4;
+    /* Lens Archive actual 3D hover-flip */
+    const magazineBook = document.getElementById("magazineBook");
+    const spreads = Array.from(document.querySelectorAll(".spread"));
+    const magHoverPrev = document.getElementById("magHoverPrev");
+    const magHoverNext = document.getElementById("magHoverNext");
+    const magSpreadIndicator = document.getElementById("magSpreadIndicator");
     let currentSpread = 0;
-    const magPages = Array.from(document.querySelectorAll(".mag-page"));
-    const magPrev = document.getElementById("magPrev");
-    const magNext = document.getElementById("magNext");
-    const magIndicator = document.getElementById("magIndicator");
+    let flipCooldown = false;
+    let hoverTimer = null;
 
-    function renderMagazine() {
-      magPages.forEach(page => {
-        const spread = Number(page.dataset.spread);
-        const side = page.dataset.side;
+    function updateSpreads(direction = null) {
+      spreads.forEach((spread, index) => {
+        spread.classList.remove("active", "before", "after", "turn-next", "turn-prev");
 
-        page.classList.remove("active", "next-left", "next-right", "prev-left", "prev-right");
-
-        if (spread === currentSpread) {
-          page.classList.add("active");
-        } else if (spread === currentSpread + 1) {
-          page.classList.add(side === "left" ? "next-left" : "next-right");
-        } else if (spread < currentSpread) {
-          page.classList.add(side === "left" ? "prev-left" : "prev-right");
-        } else if (spread > currentSpread + 1) {
-          page.classList.add(side === "left" ? "next-left" : "next-right");
-          if (side === "left") page.style.transform = "rotateY(-16deg)";
-          if (side === "right") page.style.transform = "rotateY(16deg)";
-        }
+        if (index < currentSpread) spread.classList.add("before");
+        else if (index === currentSpread) spread.classList.add("active");
+        else spread.classList.add("after");
       });
 
-      magIndicator.textContent = `Spread ${currentSpread + 1} / ${spreads}`;
-      magPrev.style.opacity = currentSpread === 0 ? "0.45" : "1";
-      magNext.style.opacity = currentSpread === spreads - 1 ? "0.45" : "1";
-      magPrev.disabled = currentSpread === 0;
-      magNext.disabled = currentSpread === spreads - 1;
+      if (direction === "next" && spreads[currentSpread - 1]) {
+        spreads[currentSpread - 1].classList.add("turn-next");
+      }
+      if (direction === "prev" && spreads[currentSpread + 1]) {
+        spreads[currentSpread + 1].classList.add("turn-prev");
+      }
+
+      magSpreadIndicator.textContent = `Spread ${currentSpread + 1} / ${spreads.length}`;
     }
 
-    magPrev.addEventListener("click", () => {
-      if (currentSpread > 0) {
-        currentSpread--;
-        renderMagazine();
-      }
+    function flipNext() {
+      if (flipCooldown || currentSpread >= spreads.length - 1) return;
+      flipCooldown = true;
+      currentSpread += 1;
+      updateSpreads("next");
+      setTimeout(() => { flipCooldown = false; updateSpreads(); }, 950);
+    }
+
+    function flipPrev() {
+      if (flipCooldown || currentSpread <= 0) return;
+      flipCooldown = true;
+      currentSpread -= 1;
+      updateSpreads("prev");
+      setTimeout(() => { flipCooldown = false; updateSpreads(); }, 950);
+    }
+
+    function startHoverFlip(dir) {
+      clearTimeout(hoverTimer);
+      hoverTimer = setTimeout(() => {
+        if (dir === "next") flipNext();
+        if (dir === "prev") flipPrev();
+      }, 220);
+    }
+
+    function stopHoverFlip() {
+      clearTimeout(hoverTimer);
+    }
+
+    magHoverNext.addEventListener("mouseenter", () => startHoverFlip("next"));
+    magHoverPrev.addEventListener("mouseenter", () => startHoverFlip("prev"));
+    magHoverNext.addEventListener("mouseleave", stopHoverFlip);
+    magHoverPrev.addEventListener("mouseleave", stopHoverFlip);
+
+    magazineBook.addEventListener("mousemove", (e) => {
+      const rect = magazineBook.getBoundingClientRect();
+      const x = (e.clientX - rect.left) / rect.width;
+      const y = (e.clientY - rect.top) / rect.height;
+      const rotateY = (x - 0.5) * 14;
+      const rotateX = (0.5 - y) * 10;
+      magazineBook.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
     });
 
-    magNext.addEventListener("click", () => {
-      if (currentSpread < spreads - 1) {
-        currentSpread++;
-        renderMagazine();
-      }
+    magazineBook.addEventListener("mouseleave", () => {
+      magazineBook.style.transform = `rotateX(6deg) rotateY(0deg)`;
+      stopHoverFlip();
     });
 
-    window.addEventListener("keydown", (e) => {
-      if (e.key === "ArrowLeft" && currentSpread > 0) {
-        currentSpread--;
-        renderMagazine();
-      }
-      if (e.key === "ArrowRight" && currentSpread < spreads - 1) {
-        currentSpread++;
-        renderMagazine();
-      }
+    updateSpreads();
+
+    /* Director's Dome one small video with arrows */
+    const featureVideo = document.getElementById("featureVideo");
+    const videoPrev = document.getElementById("videoPrev");
+    const videoNext = document.getElementById("videoNext");
+    const videoCounter = document.getElementById("videoCounter");
+
+    const domeVideos = [
+      { src: "video1.mp4", poster: "bg8.png" },
+      { src: "video2.mp4", poster: "bg8.png" },
+      { src: "video3.mp4", poster: "bg8.png" }
+    ];
+
+    let currentVideoIndex = 0;
+
+    function renderFeatureVideo() {
+      const item = domeVideos[currentVideoIndex];
+      featureVideo.pause();
+      featureVideo.setAttribute("poster", item.poster);
+      featureVideo.innerHTML = `<source src="${item.src}" type="video/mp4">`;
+      featureVideo.load();
+      videoCounter.textContent = `Video ${currentVideoIndex + 1} / ${domeVideos.length}`;
+    }
+
+    videoPrev.addEventListener("click", () => {
+      currentVideoIndex = (currentVideoIndex - 1 + domeVideos.length) % domeVideos.length;
+      renderFeatureVideo();
     });
 
-    renderMagazine();
+    videoNext.addEventListener("click", () => {
+      currentVideoIndex = (currentVideoIndex + 1) % domeVideos.length;
+      renderFeatureVideo();
+    });
+
+    renderFeatureVideo();
     ScrollTrigger.refresh();
   </script>
 </body>
