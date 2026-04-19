@@ -33,6 +33,12 @@
       --y:50%;
       --torchW:320px;
       --torchH:480px;
+
+      --blue-1:#0f2746;
+      --blue-2:#173963;
+      --blue-3:#214d84;
+      --blue-4:#d9e8ff;
+      --connect-accent:#9fd6ff;
     }
 
     *{ margin:0; padding:0; box-sizing:border-box; }
@@ -60,7 +66,7 @@
       top:22px;
       left:24px;
       right:24px;
-      z-index:90;
+      z-index:100;
       display:flex;
       justify-content:space-between;
       align-items:flex-start;
@@ -160,6 +166,7 @@
     }
 
     .gallery-link:hover{ background:rgba(215,182,117,0.08); transform:translateX(3px); }
+
     .gallery-kicker{
       font-size:0.72rem;
       letter-spacing:0.22em;
@@ -167,6 +174,7 @@
       color:rgba(215,182,117,0.9);
       font-weight:500;
     }
+
     .gallery-name{
       font-family:"Cormorant Garamond", serif;
       font-size:1.15rem;
@@ -773,8 +781,7 @@
       background:linear-gradient(to bottom, #050505 0%, #050505 58%, rgba(5,5,5,0.82) 78%, rgba(5,5,5,0.0) 100%);
     }
 
-    .customization-kicker,
-    .directors-kicker{
+    .customization-kicker{
       display:block;
       font-size:0.74rem;
       letter-spacing:0.34em;
@@ -783,7 +790,6 @@
     }
 
     .customization-title,
-    .directors-title,
     .sky-limit-title{
       font-size:clamp(1.95rem, 4vw, 3.2rem);
       margin-top:12px;
@@ -793,8 +799,7 @@
       text-shadow:0 10px 24px rgba(0,0,0,0.36);
     }
 
-    .customization-sub,
-    .directors-sub{
+    .customization-sub{
       font-size:0.84rem;
       letter-spacing:0.16em;
       text-transform:uppercase;
@@ -891,7 +896,7 @@
       white-space:nowrap;
     }
 
-    /* Directors dome */
+    /* Directors Dome */
     .directors-dome-stage{
       height:220vh;
       background:#000;
@@ -923,31 +928,31 @@
       width:min(1200px, 92vw);
     }
 
+    .directors-kicker{
+      display:block;
+      font-size:0.58rem;
+      letter-spacing:0.30em;
+      text-transform:uppercase;
+      color:rgba(232,207,150,0.9);
+      margin-bottom:12px;
+    }
+
     .directors-title{
       font-family:"Cormorant Garamond", serif;
       text-transform:uppercase;
-      font-size:clamp(2.8rem, 6vw, 5.8rem);
+      font-size:clamp(1.5rem, 3vw, 2.9rem);
       line-height:0.95;
       letter-spacing:0.02em;
       color:#f3dfbf;
       text-shadow:0 12px 30px rgba(0,0,0,0.42);
     }
 
-    .directors-kicker{
-      display:block;
-      font-size:0.82rem;
-      letter-spacing:0.42em;
-      text-transform:uppercase;
-      color:rgba(232,207,150,0.9);
-      margin-bottom:18px;
-    }
-
     .directors-sub{
-      font-size:0.92rem;
-      letter-spacing:0.20em;
+      font-size:0.66rem;
+      letter-spacing:0.14em;
       text-transform:uppercase;
       color:rgba(247,241,231,0.72);
-      margin-top:10px;
+      margin-top:8px;
     }
 
     .directors-media-window{
@@ -1010,13 +1015,13 @@
     }
 
     .video-carousel-wrap{
-      width:min(560px, 68vw);
+      width:min(280px, 38vw);
       position:relative;
       display:flex;
       align-items:center;
       justify-content:center;
       pointer-events:auto;
-      margin-top:-2vh;
+      margin-top:-1.6vh;
     }
 
     .video-arrow{
@@ -1024,8 +1029,8 @@
       top:50%;
       transform:translateY(-50%);
       z-index:10;
-      width:44px;
-      height:44px;
+      width:34px;
+      height:34px;
       border-radius:999px;
       border:1px solid rgba(234,215,174,0.28);
       background:rgba(14,10,8,0.56);
@@ -1033,7 +1038,7 @@
       display:flex;
       align-items:center;
       justify-content:center;
-      font-size:1.1rem;
+      font-size:0.9rem;
       cursor:pointer;
       transition:transform .2s ease, border-color .2s ease, background .2s ease;
       backdrop-filter:blur(6px);
@@ -1046,8 +1051,8 @@
       background:rgba(20,15,11,0.72);
     }
 
-    .video-arrow.prev{ left:-62px; }
-    .video-arrow.next{ right:-62px; }
+    .video-arrow.prev{ left:-46px; }
+    .video-arrow.next{ right:-46px; }
 
     .video-frame-single{
       width:100%;
@@ -1060,18 +1065,18 @@
     .video-frame-single video{
       width:100%;
       display:block;
-      border-radius:16px;
+      border-radius:12px;
       background:#000;
       aspect-ratio:16/10;
       object-fit:cover;
-      box-shadow:0 24px 60px rgba(0,0,0,0.34);
+      box-shadow:0 18px 40px rgba(0,0,0,0.28);
     }
 
     .video-counter{
-      margin-top:18px;
+      margin-top:12px;
       color:rgba(247,241,231,0.74);
-      font-size:0.74rem;
-      letter-spacing:0.18em;
+      font-size:0.58rem;
+      letter-spacing:0.16em;
       text-transform:uppercase;
       text-align:center;
       position:relative;
@@ -1079,6 +1084,7 @@
       pointer-events:none;
     }
 
+    /* Lets connect */
     .lets-connect-stage{
       min-height:100vh;
       position:relative;
@@ -1096,7 +1102,7 @@
       inset:0;
       background:url("bg10.jpeg") center center / cover no-repeat;
       z-index:1;
-      transform:scale(1.16);
+      transform:scale(1.22);
       opacity:0.88;
       will-change:transform, opacity;
     }
@@ -1122,7 +1128,7 @@
       font-size:clamp(2.4rem, 5vw, 4.2rem);
       letter-spacing:0.08em;
       margin-top:0;
-      color:#f4e3bc;
+      color:var(--connect-accent);
       text-shadow:0 12px 34px rgba(0,0,0,0.46);
     }
 
@@ -1131,7 +1137,7 @@
       text-transform:uppercase;
       font-size:clamp(1.7rem, 3.9vw, 2.7rem);
       letter-spacing:0.05em;
-      color:#fff4d8;
+      color:#d4c3ff;
       text-shadow:0 12px 32px rgba(0,0,0,0.54);
       margin-top:10px;
     }
@@ -1163,35 +1169,24 @@
       font-size:0.92rem;
       letter-spacing:0.08em;
       text-transform:uppercase;
-      transition:transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease, background 0.25s ease;
+      transition:transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease, background 0.25s ease, color 0.25s ease;
     }
 
-    .connect-btn.primary{
-      color:#1a120a;
-      background:linear-gradient(135deg, #f9ebc8 0%, #e3bf74 45%, #b7792f 100%);
-      border:1px solid rgba(255,226,164,0.7);
-      box-shadow:0 14px 32px rgba(181,127,47,0.22), inset 0 1px 0 rgba(255,250,236,0.55);
+    .connect-btn.primary,
+    .connect-btn.secondary{
+      color:var(--blue-4);
+      background:linear-gradient(135deg, var(--blue-1) 0%, var(--blue-2) 52%, var(--blue-3) 100%);
+      border:1px solid rgba(159,214,255,0.26);
+      box-shadow:0 14px 32px rgba(8,18,42,0.32), inset 0 1px 0 rgba(210,230,255,0.08);
       font-weight:600;
     }
 
-    .connect-btn.primary:hover{
-      transform:translateY(-2px) scale(1.01);
-      box-shadow:0 20px 42px rgba(181,127,47,0.3), inset 0 1px 0 rgba(255,250,236,0.7);
-    }
-
-    .connect-btn.secondary{
-      color:#f4e7c8;
-      background:rgba(255,255,255,0.04);
-      border:1px solid rgba(234,215,174,0.24);
-      box-shadow:inset 0 1px 0 rgba(255,245,220,0.04);
-      backdrop-filter:blur(8px);
-      -webkit-backdrop-filter:blur(8px);
-    }
-
+    .connect-btn.primary:hover,
     .connect-btn.secondary:hover{
-      transform:translateY(-2px);
-      border-color:rgba(234,215,174,0.4);
-      background:rgba(215,182,117,0.08);
+      transform:translateY(-2px) scale(1.01);
+      background:linear-gradient(135deg, #13325a 0%, #1c4678 52%, #285d9d 100%);
+      border-color:rgba(159,214,255,0.42);
+      box-shadow:0 18px 42px rgba(8,18,42,0.42), inset 0 1px 0 rgba(210,230,255,0.12);
     }
 
     @media (max-width: 1100px){
@@ -1205,8 +1200,6 @@
       .arcade-right{ padding:0 14px 14px; }
       .arcade-media{ min-height:240px; }
       .customization-showcase{ height:76vh; min-height:560px; }
-      .video-carousel-wrap{ width:min(450px, 76vw); }
-      .directors-title{ font-size:clamp(2.4rem, 5vw, 4.6rem); }
     }
 
     @media (max-width: 768px){
@@ -1237,8 +1230,7 @@
         padding:6.4vh 14px 2.6vh;
       }
 
-      .customization-kicker,
-      .directors-kicker{
+      .customization-kicker{
         font-size:0.62rem;
         letter-spacing:0.22em;
       }
@@ -1249,17 +1241,11 @@
         letter-spacing:0.035em;
       }
 
-      .directors-title{
-        font-size:clamp(2rem, 7vw, 3.2rem);
-        letter-spacing:0.03em;
-      }
-
       .lets-connect-title{
         font-size:clamp(1.45rem, 5vw, 2.1rem);
       }
 
-      .customization-sub,
-      .directors-sub{
+      .customization-sub{
         font-size:0.68rem;
         letter-spacing:0.08em;
       }
@@ -1279,6 +1265,21 @@
         width:min(90vw, 360px);
       }
 
+      .directors-title{
+        font-size:clamp(1.5rem, 5.4vw, 2.2rem);
+        letter-spacing:0.03em;
+      }
+
+      .directors-kicker{
+        font-size:0.54rem;
+        letter-spacing:0.20em;
+      }
+
+      .directors-sub{
+        font-size:0.56rem;
+        letter-spacing:0.07em;
+      }
+
       .directors-top{
         height:32vh;
       }
@@ -1288,11 +1289,15 @@
       }
 
       .video-carousel-wrap{
-        width:min(340px, 84vw);
+        width:min(220px, 62vw);
       }
 
-      .video-arrow.prev{ left:-18px; }
-      .video-arrow.next{ right:-18px; }
+      .video-arrow.prev{ left:-16px; }
+      .video-arrow.next{ right:-16px; }
+
+      .video-counter{
+        font-size:0.52rem;
+      }
 
       .lets-connect-stage{
         padding:10vh 5vw;
@@ -1521,7 +1526,7 @@
             <button class="video-arrow prev" id="videoPrev" type="button">‹</button>
 
             <div class="video-frame-single">
-              <video id="featureVideo" controls playsinline preload="metadata" poster="https://placehold.co/1280x800/111111/e7d3ab?text=Director%27s+Dome+Video">
+              <video id="featureVideo" controls playsinline preload="metadata" poster="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1280 800'><defs><linearGradient id='g' x1='0' x2='1'><stop stop-color='%230b1220'/><stop offset='1' stop-color='%231d3658'/></linearGradient></defs><rect width='1280' height='800' fill='url(%23g)'/><circle cx='640' cy='400' r='86' fill='rgba(255,255,255,0.12)'/><polygon points='615,350 615,450 700,400' fill='%23e8d7b4'/><text x='640' y='560' text-anchor='middle' fill='%23e8d7b4' font-size='42' font-family='Arial, sans-serif' letter-spacing='6'>VIDEO PLACEHOLDER</text></svg>">
                 <source src="video1.mp4" type="video/mp4">
               </video>
             </div>
@@ -1549,8 +1554,8 @@
       </p>
 
       <div class="connect-links">
-        <a href="mailto:connect@example.com" class="connect-btn primary">Mail Me</a>
-        <a href="https://instagram.com/yourhandle" target="_blank" rel="noopener noreferrer" class="connect-btn secondary">Instagram</a>
+        <a href="mailto:tmedhub@gmail.com" class="connect-btn primary">Mail Me</a>
+        <a href="https://instagram.com/lill.artttt" target="_blank" rel="noopener noreferrer" class="connect-btn secondary">Instagram</a>
       </div>
     </div>
   </section>
@@ -1964,26 +1969,25 @@
     });
 
     domeTl
-      .fromTo("#directorsTitleBlock", { opacity: 1, y: 0 }, { opacity: 0.92, y: -6, ease: "none" }, 0)
-      .fromTo("#directorsMediaContent", { opacity: 1, y: 0 }, { opacity: 1, y: 0, ease: "none" }, 0)
-      .to("#directorsBg", { scale: 1.14, ease: "none" }, 0.18)
-      .to("#directorsMediaContent", { opacity: 0, ease: "none" }, 0.46)
-      .to("#bg9Inside", { opacity: 1, scale: 1, ease: "none" }, 0.52)
-      .to("#bg9InsideOverlay", { opacity: 1, ease: "none" }, 0.56)
-      .to("#bg9Inside", { scale: 1.08, ease: "none" }, 0.78);
+      .fromTo("#directorsTitleBlock", { opacity: 1, y: 0 }, { opacity: 0.9, y: -8, ease: "none" }, 0)
+      .to("#directorsBg", { scale: 1.18, ease: "none" }, 0.12)
+      .to("#directorsMediaContent", { opacity: 0, ease: "none" }, 0.34)
+      .to("#bg9Inside", { opacity: 1, scale: 1.02, ease: "none" }, 0.42)
+      .to("#bg9InsideOverlay", { opacity: 1, ease: "none" }, 0.46)
+      .to("#bg9Inside", { scale: 1.12, ease: "none" }, 0.78);
 
     gsap.fromTo(
       "#bg10Image",
-      { opacity: 0.82, scale: 1.18 },
+      { opacity: 0.7, scale: 1.22 },
       {
         opacity: 1,
         scale: 1,
-        ease: "power2.out",
+        ease: "none",
         scrollTrigger: {
           trigger: "#letsConnectSection",
-          start: "top 96%",
-          end: "top 14%",
-          scrub: 1.2
+          start: "top bottom",
+          end: "top 18%",
+          scrub: 1.35
         }
       }
     );
@@ -2149,10 +2153,14 @@
     const videoNext = document.getElementById("videoNext");
     const videoCounter = document.getElementById("videoCounter");
 
+    const poster1 = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1280 800'><defs><linearGradient id='g' x1='0' x2='1'><stop stop-color='%230b1220'/><stop offset='1' stop-color='%231d3658'/></linearGradient></defs><rect width='1280' height='800' fill='url(%23g)'/><circle cx='640' cy='400' r='86' fill='rgba(255,255,255,0.12)'/><polygon points='615,350 615,450 700,400' fill='%23e8d7b4'/><text x='640' y='560' text-anchor='middle' fill='%23e8d7b4' font-size='42' font-family='Arial, sans-serif' letter-spacing='6'>VIDEO PLACEHOLDER 1</text></svg>";
+    const poster2 = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1280 800'><defs><linearGradient id='g' x1='0' x2='1'><stop stop-color='%23101622'/><stop offset='1' stop-color='%23324d72'/></linearGradient></defs><rect width='1280' height='800' fill='url(%23g)'/><circle cx='640' cy='400' r='86' fill='rgba(255,255,255,0.12)'/><polygon points='615,350 615,450 700,400' fill='%23e8d7b4'/><text x='640' y='560' text-anchor='middle' fill='%23e8d7b4' font-size='42' font-family='Arial, sans-serif' letter-spacing='6'>VIDEO PLACEHOLDER 2</text></svg>";
+    const poster3 = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1280 800'><defs><linearGradient id='g' x1='0' x2='1'><stop stop-color='%23111927'/><stop offset='1' stop-color='%23425f89'/></linearGradient></defs><rect width='1280' height='800' fill='url(%23g)'/><circle cx='640' cy='400' r='86' fill='rgba(255,255,255,0.12)'/><polygon points='615,350 615,450 700,400' fill='%23e8d7b4'/><text x='640' y='560' text-anchor='middle' fill='%23e8d7b4' font-size='42' font-family='Arial, sans-serif' letter-spacing='6'>VIDEO PLACEHOLDER 3</text></svg>";
+
     const domeVideos = [
-      { src: "video1.mp4", poster: "https://placehold.co/1280x800/111111/e7d3ab?text=Video+Placeholder+1" },
-      { src: "video2.mp4", poster: "https://placehold.co/1280x800/161616/e7d3ab?text=Video+Placeholder+2" },
-      { src: "video3.mp4", poster: "https://placehold.co/1280x800/1d1d1d/e7d3ab?text=Video+Placeholder+3" }
+      { src: "video1.mp4", poster: poster1 },
+      { src: "video2.mp4", poster: poster2 },
+      { src: "video3.mp4", poster: poster3 }
     ];
 
     let currentVideoIndex = 0;
