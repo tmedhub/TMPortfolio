@@ -69,7 +69,7 @@
       top:22px;
       left:24px;
       right:24px;
-      z-index:140;
+      z-index:130;
       display:flex;
       justify-content:space-between;
       align-items:flex-start;
@@ -601,4 +601,1586 @@
       font-size:0.82rem;
       letter-spacing:0.35em;
       color:rgba(215,181,120,0.78);
-     
+      margin-bottom:10px;
+    }
+
+    .arcade-card-title{
+      font-size:clamp(2rem, 3vw, 3.2rem);
+      line-height:0.92;
+      letter-spacing:0.03em;
+      color:#f3dfbf;
+      margin-bottom:12px;
+    }
+
+    .arcade-desc{
+      max-width:320px;
+      font-size:0.88rem;
+      line-height:1.75;
+      color:rgba(244,234,220,0.72);
+      margin-bottom:18px;
+    }
+
+    .arcade-meta{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      margin-bottom:16px;
+    }
+
+    .arcade-pill{
+      padding:8px 11px;
+      border-radius:999px;
+      font-size:0.64rem;
+      letter-spacing:0.08em;
+      color:rgba(244,234,220,0.78);
+      background:#19110c;
+      border:1px solid rgba(199,154,87,0.20);
+    }
+
+    .arcade-actions{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+    }
+
+    .arcade-btn{
+      appearance:none;
+      border:none;
+      text-decoration:none;
+      cursor:pointer;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding:9px 12px;
+      border-radius:999px;
+      font-size:0.60rem;
+      letter-spacing:0.14em;
+      text-transform:uppercase;
+      color:#ebdbc3;
+      background:#18100b;
+      border:1px solid rgba(199,154,87,0.26);
+      transition:transform .22s ease, border-color .22s ease, background .22s ease;
+    }
+
+    .arcade-right{
+      position:relative;
+      z-index:2;
+      padding:14px 14px 14px 0;
+      display:flex;
+      align-items:stretch;
+      justify-content:stretch;
+    }
+
+    .arcade-media{
+      position:relative;
+      width:100%;
+      height:100%;
+      border-radius:18px;
+      overflow:hidden;
+      background:#120d09;
+      box-shadow:inset 0 0 0 1px rgba(199,154,87,0.12), 0 16px 34px rgba(0,0,0,0.24);
+    }
+
+    .media-carousel{
+      position:absolute;
+      inset:18px;
+      border-radius:14px;
+      overflow:hidden;
+      z-index:2;
+      background:#120d09;
+    }
+
+    .media-slides{
+      position:relative;
+      width:100%;
+      height:100%;
+    }
+
+    .media-slide{
+      position:absolute;
+      inset:0;
+      opacity:0;
+      transition:opacity 0.28s ease;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background:#120d09;
+    }
+
+    .media-slide.active{ opacity:1; }
+
+    .media-slide img{
+      width:100%;
+      height:100%;
+      object-fit:contain;
+      display:block;
+      background:#120d09;
+    }
+
+    .media-arrow{
+      position:absolute;
+      top:50%;
+      transform:translateY(-50%);
+      z-index:4;
+      width:38px;
+      height:38px;
+      border-radius:999px;
+      border:1px solid rgba(199,154,87,0.30);
+      background:rgba(18,13,9,0.90);
+      color:#f2dfbf;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      cursor:pointer;
+      font-size:1rem;
+      line-height:1;
+    }
+
+    .media-arrow.prev{ left:12px; }
+    .media-arrow.next{ right:12px; }
+
+    .arcade-badge{
+      position:absolute;
+      right:16px;
+      bottom:16px;
+      z-index:3;
+      padding:9px 12px;
+      border-radius:999px;
+      font-size:0.60rem;
+      letter-spacing:0.18em;
+      text-transform:uppercase;
+      color:#f2dfbf;
+      background:#130e0a;
+      border:1px solid rgba(199,154,87,0.20);
+    }
+
+    .customization-stage{
+      position:relative;
+      background:#050505;
+      min-height:100vh;
+      padding:0 0 6vh;
+      isolation:isolate;
+      z-index:12;
+    }
+
+    .customization-stage::before{
+      content:"";
+      position:absolute;
+      top:0;
+      left:0;
+      right:0;
+      height:28vh;
+      z-index:1;
+      pointer-events:none;
+      background:linear-gradient(to bottom, rgba(5,5,5,0.98) 0%, rgba(5,5,5,0.84) 18%, rgba(14,10,7,0.38) 46%, rgba(14,10,7,0.0) 100%);
+    }
+
+    .customization-header-top{
+      position:relative;
+      z-index:10;
+      width:100%;
+      padding:7.5vh 20px 3.2vh;
+      text-align:center;
+      background:linear-gradient(to bottom, #050505 0%, #050505 58%, rgba(5,5,5,0.82) 78%, rgba(5,5,5,0.0) 100%);
+    }
+
+    .customization-kicker{
+      display:block;
+      font-size:0.74rem;
+      letter-spacing:0.34em;
+      text-transform:uppercase;
+      color:rgba(232,207,150,0.84);
+    }
+
+    .customization-title{
+      font-size:clamp(1.95rem, 4vw, 3.2rem);
+      margin-top:12px;
+      line-height:0.96;
+      letter-spacing:0.045em;
+      color:#f4e3bc;
+      text-shadow:0 10px 24px rgba(0,0,0,0.36);
+    }
+
+    .customization-sub{
+      font-size:0.84rem;
+      letter-spacing:0.16em;
+      text-transform:uppercase;
+      color:rgba(247,241,231,0.76);
+    }
+
+    .customization-showcase-wrap{
+      position:relative;
+      width:100%;
+      overflow:hidden;
+      z-index:5;
+    }
+
+    .customization-showcase{
+      position:relative;
+      width:min(96vw, 1840px);
+      height:82vh;
+      min-height:640px;
+      margin:0 auto;
+      overflow:hidden;
+      background:#000;
+      border-radius:34px;
+      box-shadow:0 -18px 40px rgba(0,0,0,0.14), 0 30px 90px rgba(0,0,0,0.36);
+      z-index:8;
+      transform:translateY(18px);
+      will-change:transform, opacity;
+    }
+
+    .customization-bg{
+      position:absolute;
+      inset:0;
+      background:url("bg6.png") center center / cover no-repeat;
+      z-index:1;
+      transform:scale(1.03);
+      will-change:transform;
+    }
+
+    .customization-overlay{
+      position:absolute;
+      inset:0;
+      z-index:2;
+      pointer-events:none;
+      background:
+        linear-gradient(to bottom, rgba(10,7,5,0.04), rgba(0,0,0,0.10)),
+        radial-gradient(circle at 50% 0%, rgba(215,182,117,0.04), transparent 40%);
+    }
+
+    .customization-board{
+      position:relative;
+      z-index:5;
+      width:100%;
+      height:100%;
+      overflow:hidden;
+      touch-action:none;
+    }
+
+    .custom-asset{
+      position:absolute;
+      user-select:none;
+      touch-action:none;
+      cursor:grab;
+      transform-origin:center center;
+      filter:drop-shadow(0 18px 30px rgba(0,0,0,0.45));
+      will-change:transform, left, top;
+    }
+
+    .custom-asset img{
+      width:100%;
+      height:100%;
+      object-fit:contain;
+      display:block;
+      pointer-events:none;
+    }
+
+    .custom-asset.active{ cursor:grabbing; }
+
+    .custom-hint{
+      position:absolute;
+      bottom:24px;
+      left:50%;
+      transform:translateX(-50%);
+      z-index:7;
+      padding:10px 14px;
+      border-radius:999px;
+      background:rgba(12,9,7,0.58);
+      border:1px solid rgba(234,215,174,0.18);
+      color:rgba(247,241,231,0.82);
+      font-size:0.72rem;
+      letter-spacing:0.14em;
+      text-transform:uppercase;
+      backdrop-filter:blur(10px);
+      -webkit-backdrop-filter:blur(10px);
+      pointer-events:none;
+      white-space:nowrap;
+    }
+
+    /* DIRECTOR'S DOME */
+    .directors-dome-stage{
+      height:220vh;
+      background:#000;
+      position:relative;
+      isolation:isolate;
+    }
+
+    .directors-sticky{
+      position:sticky;
+      top:0;
+      height:100vh;
+      overflow:hidden;
+      background:#000;
+    }
+
+    .directors-top{
+      position:absolute;
+      top:0;
+      left:0;
+      right:0;
+      z-index:20;
+      height:27vh;
+      background:linear-gradient(to bottom, rgba(0,0,0,1), rgba(0,0,0,0.88), rgba(0,0,0,0));
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      padding:4vh 20px 2vh;
+      pointer-events:none;
+      will-change:opacity, transform;
+    }
+
+    .directors-title-block{
+      width:min(1200px, 92vw);
+    }
+
+    .directors-kicker{
+      display:block;
+      font-size:0.76rem;
+      letter-spacing:0.38em;
+      text-transform:uppercase;
+      color:rgba(232,207,150,0.9);
+      margin-bottom:14px;
+    }
+
+    .directors-title{
+      font-family:"Cormorant Garamond", serif;
+      text-transform:uppercase;
+      font-size:clamp(2rem, 4vw, 3.9rem);
+      line-height:0.95;
+      letter-spacing:0.02em;
+      color:#f3dfbf;
+      text-shadow:0 12px 30px rgba(0,0,0,0.42);
+    }
+
+    .directors-sub{
+      font-size:0.82rem;
+      letter-spacing:0.18em;
+      text-transform:uppercase;
+      color:rgba(247,241,231,0.72);
+      margin-top:10px;
+    }
+
+    .directors-stage{
+      position:absolute;
+      inset:0;
+      z-index:1;
+      background:#000;
+    }
+
+    .bg8-full,
+    .bg9-full{
+      position:absolute;
+      inset:0;
+      background-repeat:no-repeat;
+      background-position:center center;
+      background-size:cover;
+      background-color:#000;
+      will-change:transform, opacity, filter;
+    }
+
+    .bg8-full{
+      background-image:url("bg8.png");
+      z-index:1;
+      opacity:1;
+      transform:scale(1);
+      background-position:center center;
+    }
+
+    .bg9-full{
+      background-image:url("bg9.jpeg");
+      z-index:2;
+      opacity:0;
+      transform:scale(1.14);
+      background-position:center center;
+    }
+
+    .directors-dark-overlay{
+      position:absolute;
+      inset:0;
+      z-index:6;
+      pointer-events:none;
+      background:
+        linear-gradient(to bottom, rgba(0,0,0,0.06), rgba(0,0,0,0.14)),
+        radial-gradient(circle at 50% 12%, rgba(255,220,160,0.05), transparent 26%);
+    }
+
+    .directors-media-content{
+      position:absolute;
+      inset:0;
+      z-index:10;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      padding:14vh 4vw 8vh;
+      pointer-events:none;
+      will-change:opacity, transform;
+    }
+
+    .video-carousel-wrap{
+      width:min(500px, 60vw);
+      position:relative;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      pointer-events:auto;
+      margin-top:12vh;
+    }
+
+    .video-arrow{
+      position:absolute;
+      top:50%;
+      transform:translateY(-50%);
+      z-index:10;
+      width:40px;
+      height:40px;
+      border-radius:999px;
+      border:1px solid rgba(234,215,174,0.28);
+      background:rgba(14,10,8,0.56);
+      color:#f4e3bc;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:1rem;
+      cursor:pointer;
+      transition:transform .2s ease, border-color .2s ease, background .2s ease;
+      backdrop-filter:blur(6px);
+      -webkit-backdrop-filter:blur(6px);
+    }
+
+    .video-arrow:hover{
+      transform:translateY(-50%) scale(1.04);
+      border-color:rgba(234,215,174,0.44);
+      background:rgba(20,15,11,0.72);
+    }
+
+    .video-arrow.prev{ left:-56px; }
+    .video-arrow.next{ right:-56px; }
+
+    .video-frame-single{
+      width:100%;
+      background:transparent;
+      border:none;
+      box-shadow:none;
+      padding:0;
+    }
+
+    .video-frame-single video{
+      width:100%;
+      display:block;
+      border-radius:16px;
+      background:#000;
+      aspect-ratio:16/10;
+      object-fit:cover;
+      box-shadow:0 24px 50px rgba(0,0,0,0.35);
+    }
+
+    .video-counter{
+      margin-top:14px;
+      color:rgba(247,241,231,0.74);
+      font-size:0.62rem;
+      letter-spacing:0.16em;
+      text-transform:uppercase;
+      text-align:center;
+      position:relative;
+      z-index:10;
+      pointer-events:none;
+    }
+
+    /* FINAL SECTION */
+    .lets-connect-stage{
+      min-height:100vh;
+      position:relative;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:10vh 6vw;
+      background:#000;
+      isolation:isolate;
+      overflow:hidden;
+    }
+
+    .lets-connect-bg{
+      position:absolute;
+      inset:0;
+      background:url("bg10.jpeg") center center / cover no-repeat;
+      background-color:#000;
+      z-index:1;
+      transform:scale(1.12);
+      opacity:1;
+      will-change:transform, opacity;
+    }
+
+    .lets-connect-overlay{
+      position:absolute;
+      inset:0;
+      z-index:2;
+      pointer-events:none;
+      background:
+        linear-gradient(to bottom, rgba(0,0,0,0.16), rgba(0,0,0,0.30)),
+        radial-gradient(circle at 50% 20%, rgba(255,220,160,0.08), transparent 28%);
+    }
+
+    .lets-connect-content{
+      position:relative;
+      z-index:5;
+      width:min(1000px, 92vw);
+      text-align:center;
+    }
+
+    .sky-limit-title{
+      font-family:"Cormorant Garamond", serif;
+      text-transform:uppercase;
+      font-size:clamp(2.8rem, 5.4vw, 4.8rem);
+      letter-spacing:0.08em;
+      color:var(--connect-gold-3);
+      text-shadow:0 14px 36px rgba(0,0,0,0.5);
+    }
+
+    .lets-connect-title{
+      font-family:"Cormorant Garamond", serif;
+      text-transform:uppercase;
+      font-size:clamp(2rem, 4.2vw, 3.2rem);
+      letter-spacing:0.05em;
+      color:var(--connect-gold);
+      text-shadow:0 12px 30px rgba(0,0,0,0.46);
+      margin-top:12px;
+    }
+
+    .lets-connect-copy{
+      max-width:760px;
+      margin:1.35rem auto 0;
+      font-size:1rem;
+      line-height:1.8;
+      color:rgba(255,248,236,0.94);
+      text-shadow:0 6px 18px rgba(0,0,0,0.56);
+    }
+
+    .connect-links{
+      margin-top:2rem;
+      display:flex;
+      gap:14px;
+      justify-content:center;
+      flex-wrap:wrap;
+    }
+
+    .connect-btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding:14px 22px;
+      border-radius:999px;
+      text-decoration:none;
+      font-size:0.92rem;
+      letter-spacing:0.08em;
+      text-transform:uppercase;
+      transition:transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease, background 0.25s ease, color 0.25s ease;
+    }
+
+    .connect-btn.primary,
+    .connect-btn.secondary{
+      color:var(--blue-4);
+      background:linear-gradient(135deg, var(--blue-1) 0%, var(--blue-2) 52%, var(--blue-3) 100%);
+      border:1px solid rgba(159,214,255,0.26);
+      box-shadow:0 14px 32px rgba(8,18,42,0.32), inset 0 1px 0 rgba(210,230,255,0.08);
+      font-weight:600;
+    }
+
+    .connect-btn.primary:hover,
+    .connect-btn.secondary:hover{
+      transform:translateY(-2px) scale(1.01);
+      background:linear-gradient(135deg, #13325a 0%, #1c4678 52%, #285d9d 100%);
+      border-color:rgba(159,214,255,0.42);
+      box-shadow:0 18px 42px rgba(8,18,42,0.42), inset 0 1px 0 rgba(210,230,255,0.12);
+    }
+
+    @media (max-width: 1100px){
+      .arcade-card{ min-width:74vw; max-width:760px; height:48vh; }
+    }
+
+    @media (max-width: 900px){
+      .foreground{ width:82vw; min-width:0; }
+      .arcade-card{ min-width:82vw; height:auto; min-height:60vh; grid-template-columns:1fr; }
+      .arcade-left{ padding:28px 22px 20px; }
+      .arcade-right{ padding:0 14px 14px; }
+      .arcade-media{ min-height:240px; }
+      .customization-showcase{ height:76vh; min-height:560px; }
+    }
+
+    @media (max-width: 768px){
+      .museum-nav{ top:14px; left:14px; right:14px; }
+      .museum-btn{ padding:12px 14px; gap:10px; }
+      .btn-label{ font-size:0.98rem; }
+      .gallery-dropdown{ top:58px; min-width:250px; }
+      .museum-work-btn .btn-label{ max-width:130px; overflow:hidden; text-overflow:ellipsis; }
+      .scene1-wrapper, .canvas-wrap, .bg4-stage{ height:100svh; }
+      .foreground{ width:92vw; }
+      .bg2-content{ top:42%; padding:22px 20px 20px; }
+      .bg2-content h1{ font-size:clamp(2rem, 8vw, 3rem); white-space:normal; }
+      .text-plate{ border-radius:22px; }
+      .bg2-content p{ font-size:0.92rem; }
+      .freeform-inner img{ width:220px; }
+      .freeform-title h1{ font-size:2.2rem; letter-spacing:.14em; }
+      .freeform-title p{ font-size:.78rem; }
+      #torch{ width:56px; }
+
+      .arcade-track{ gap:18px; padding:0 5vw 0 10vw; }
+      .arcade-card{ min-width:90vw; border-radius:20px; }
+      .arcade-card-title{ font-size:2rem; }
+      .arcade-note{ top:5vh; font-size:0.60rem; letter-spacing:0.18em; }
+      .connect-links{ flex-direction:column; align-items:center; }
+      .connect-btn{ width:min(320px, 100%); }
+
+      .customization-header-top{
+        padding:6.4vh 14px 2.6vh;
+      }
+
+      .customization-kicker{
+        font-size:0.62rem;
+        letter-spacing:0.22em;
+      }
+
+      .customization-title{
+        font-size:clamp(1.55rem, 7vw, 2.35rem);
+        letter-spacing:0.035em;
+      }
+
+      .customization-sub{
+        font-size:0.68rem;
+        letter-spacing:0.08em;
+      }
+
+      .customization-showcase{
+        width:94vw;
+        height:70svh;
+        min-height:500px;
+        border-radius:24px;
+      }
+
+      .custom-hint{
+        font-size:0.62rem;
+        letter-spacing:0.08em;
+        white-space:normal;
+        text-align:center;
+        width:min(90vw, 360px);
+      }
+
+      .directors-kicker{
+        font-size:0.58rem;
+        letter-spacing:0.22em;
+      }
+
+      .directors-title{
+        font-size:clamp(1.8rem, 6vw, 2.7rem);
+      }
+
+      .directors-sub{
+        font-size:0.60rem;
+        letter-spacing:0.08em;
+      }
+
+      .video-carousel-wrap{
+        width:min(280px, 72vw);
+      }
+
+      .video-arrow.prev{ left:-16px; }
+      .video-arrow.next{ right:-16px; }
+
+      .video-counter{
+        font-size:0.52rem;
+      }
+
+      .sky-limit-title{
+        font-size:clamp(1.9rem, 7vw, 2.8rem);
+      }
+
+      .lets-connect-title{
+        font-size:clamp(1.4rem, 5.5vw, 2rem);
+      }
+
+      .lets-connect-stage{
+        padding:10vh 5vw;
+      }
+    }
+  </style>
+</head>
+<body class="scroll-locked">
+
+  <div class="museum-nav" id="museumNav">
+    <button class="museum-btn museum-menu-btn" id="galleryToggle" aria-label="Open galleries menu">
+      <span class="menu-icon" aria-hidden="true">
+        <span></span><span></span><span></span>
+      </span>
+      <span class="btn-label">Museum’s Galleries</span>
+    </button>
+
+    <div class="gallery-dropdown" id="galleryDropdown">
+      <a href="#canvasStudio" class="gallery-link">
+        <span class="gallery-kicker">Gallery I</span>
+        <span class="gallery-name">Canvas Studio</span>
+      </a>
+      <a href="#arcadeExhibits" class="gallery-link" id="galleryProjectArcade">
+        <span class="gallery-kicker">Gallery II</span>
+        <span class="gallery-name">Project Arcade</span>
+      </a>
+      <a href="#bg6Stage" class="gallery-link">
+        <span class="gallery-kicker">Gallery III</span>
+        <span class="gallery-name">Customization Co-op</span>
+      </a>
+      <a href="#directorsDome" class="gallery-link">
+        <span class="gallery-kicker">Gallery IV</span>
+        <span class="gallery-name">Director’s Dome</span>
+      </a>
+    </div>
+
+    <a href="#letsConnectSection" class="museum-btn museum-work-btn">
+      <span class="btn-label">Let’s Connect!</span>
+    </a>
+  </div>
+
+  <section class="scene1-wrapper" id="scene1">
+    <div class="scene">
+      <img src="bg1-sky.png" class="layer sky" id="sky" alt="sky">
+      <img src="bg1-mid.png" class="layer mid" id="mid" alt="mid">
+      <img src="bg1-front.PNG" class="layer front" id="front" alt="front">
+      <img src="bg1-foreground.PNG" class="foreground" id="foreground" alt="foreground">
+      <div id="darkness"></div>
+      <img id="torch" src="torchtm.png" alt="torch">
+    </div>
+
+    <div class="scene">
+      <img src="bg2-main.png" class="layer bg2" id="bg2" alt="bg2">
+      <div class="bg2-content" id="bg2Content">
+        <div class="text-plate"></div>
+        <h1>Hey there, Welcome!!</h1>
+        <div class="gold-line"></div>
+        <p>Step into my little world of creations</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="canvas-wrap" id="canvasStudio">
+    <div id="freeform">
+      <div class="freeform-title" id="freeformTitle">
+        <h1>Canvas Studio</h1>
+        <p>Drag & Explore :)</p>
+      </div>
+      <div class="freeform-inner" id="freeformInner"></div>
+    </div>
+  </section>
+
+  <section class="bg4-stage" id="projectArcade">
+    <div class="bg4-base" id="bg4Base"></div>
+    <div class="bg4-overlay" id="bg4Overlay"></div>
+    <div class="bg5-top" id="bg5Top"></div>
+    <div class="bg5-overlay" id="bg5Overlay"></div>
+
+    <div id="projectsJourney">
+      <div class="arcade-note">Scroll through the exhibits</div>
+
+      <div class="arcade-shell" id="scrollShell">
+        <div class="arcade-track" id="track">
+          <article class="arcade-card">
+            <div class="arcade-left">
+              <div class="arcade-index">01</div>
+              <h2 class="arcade-card-title">Clay Creation</h2>
+              <p class="arcade-desc">Soft curves, earthy tones, and a little bit of magic shaped by hand.</p>
+              <div class="arcade-meta">
+                <span class="arcade-pill">UI / UX</span>
+                <span class="arcade-pill">Process</span>
+                <span class="arcade-pill">Tools</span>
+                <span class="arcade-pill">Craft</span>
+              </div>
+              <div class="arcade-actions">
+                <a href="#" class="arcade-btn">How It Was Made</a>
+                <a href="#" class="arcade-btn">UI UX</a>
+                <a href="#" class="arcade-btn">Tools Used</a>
+              </div>
+            </div>
+            <div class="arcade-right">
+              <div class="arcade-media">
+                <div class="media-image-wrap" style="position:absolute; inset:18px; border-radius:14px; overflow:hidden; z-index:3; background:#120d09; display:flex; align-items:center; justify-content:center;">
+                  <img src="clay.png" alt="Clay Creation preview" style="width:100%; height:100%; object-fit:contain; display:block; position:relative; z-index:4; background:#120d09;">
+                </div>
+                <div class="arcade-badge">Project Preview</div>
+              </div>
+            </div>
+          </article>
+
+          <article class="arcade-card">
+            <div class="arcade-left">
+              <div class="arcade-index">02</div>
+              <h2 class="arcade-card-title">Personalized Games</h2>
+              <p class="arcade-desc">Playful pieces made personal, because games are better when they feel like yours.</p>
+              <div class="arcade-meta">
+                <span class="arcade-pill">Interaction</span>
+                <span class="arcade-pill">Research</span>
+                <span class="arcade-pill">Prototyping</span>
+                <span class="arcade-pill">Testing</span>
+              </div>
+              <div class="arcade-actions">
+                <a href="#" class="arcade-btn">How It Was Made</a>
+                <a href="#" class="arcade-btn">UI UX</a>
+                <a href="#" class="arcade-btn">Tools Used</a>
+              </div>
+            </div>
+            <div class="arcade-right">
+              <div class="arcade-media">
+                <div class="media-carousel" data-carousel>
+                  <button class="media-arrow prev" type="button">‹</button>
+                  <div class="media-slides">
+                    <div class="media-slide active"><img src="nunnu.png" alt="preview 1"></div>
+                    <div class="media-slide"><img src="f1.png" alt="preview 2"></div>
+                    <div class="media-slide"><img src="jenga.png" alt="preview 3"></div>
+                  </div>
+                  <button class="media-arrow next" type="button">›</button>
+                </div>
+                <div class="arcade-badge">Project Preview</div>
+              </div>
+            </div>
+          </article>
+
+          <article class="arcade-card">
+            <div class="arcade-left">
+              <div class="arcade-index">03</div>
+              <h2 class="arcade-card-title">Interactive Work</h2>
+              <p class="arcade-desc">Clicks, motion, and tiny details doing the heavy lifting behind the scenes.</p>
+              <div class="arcade-meta">
+                <span class="arcade-pill">Motion</span>
+                <span class="arcade-pill">UI Systems</span>
+                <span class="arcade-pill">Visual Design</span>
+                <span class="arcade-pill">Build</span>
+              </div>
+              <div class="arcade-actions">
+                <a href="#" class="arcade-btn">How It Was Made</a>
+                <a href="#" class="arcade-btn">UI UX</a>
+                <a href="#" class="arcade-btn">Tools Used</a>
+              </div>
+            </div>
+            <div class="arcade-right">
+              <div class="arcade-media" style="display:flex; align-items:center; justify-content:center;">
+                <img src="art1.png" alt="Interactive preview" style="max-width:86%; max-height:82%; object-fit:contain;">
+                <div class="arcade-badge">Project Preview</div>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="customization-stage" id="bg6Stage">
+    <div class="customization-header-top" id="customizationHeaderTop">
+      <span class="customization-kicker">Gallery III</span>
+      <h2 class="customization-title">Customization Co-op</h2>
+      <div class="gold-line"></div>
+      <p class="customization-sub">Rearrange and customize your shelf.</p>
+    </div>
+
+    <div class="customization-showcase-wrap">
+      <div class="customization-showcase" id="customizationShowcase">
+        <div class="customization-bg"></div>
+        <div class="customization-overlay"></div>
+
+        <div class="customization-board" id="customizationBoard">
+          <div class="custom-asset" data-asset style="width:260px; height:260px; left:12%; top:10%; transform:rotate(-8deg) scale(1);">
+            <img src="vang.png" alt="Van Gogh themed asset">
+          </div>
+          <div class="custom-asset" data-asset style="width:220px; height:220px; left:38%; top:38%; transform:rotate(6deg) scale(1);">
+            <img src="nunnu.png" alt="custom asset one">
+          </div>
+          <div class="custom-asset" data-asset style="width:210px; height:210px; left:62%; top:14%; transform:rotate(-4deg) scale(1);">
+            <img src="f1.png" alt="custom asset two">
+          </div>
+          <div class="custom-asset" data-asset style="width:230px; height:230px; left:74%; top:42%; transform:rotate(10deg) scale(1);">
+            <img src="jenga.png" alt="custom asset three">
+          </div>
+        </div>
+
+        <div class="custom-hint">Drag to move • Shift + drag to rotate • Scroll on asset to resize</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="directors-dome-stage" id="directorsDome">
+    <div class="directors-sticky">
+      <div class="directors-top" id="directorsTop">
+        <div class="directors-title-block">
+          <span class="directors-kicker">Gallery IV</span>
+          <h2 class="directors-title">Director’s Dome</h2>
+          <div class="gold-line"></div>
+          <p class="directors-sub">Featured motion work and cinematic highlights.</p>
+        </div>
+      </div>
+
+      <div class="directors-stage">
+        <div class="bg8-full" id="bg8Full"></div>
+        <div class="bg9-full" id="bg9Full"></div>
+        <div class="directors-dark-overlay"></div>
+
+        <div class="directors-media-content" id="directorsMediaContent">
+          <div class="video-carousel-wrap">
+            <button class="video-arrow prev" id="videoPrev" type="button">‹</button>
+
+            <div class="video-frame-single">
+              <video id="featureVideo" controls playsinline preload="metadata" poster="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1280 800'><defs><linearGradient id='g' x1='0' x2='1'><stop stop-color='%230b1220'/><stop offset='1' stop-color='%231d3658'/></linearGradient></defs><rect width='1280' height='800' fill='url(%23g)'/><circle cx='640' cy='400' r='86' fill='rgba(255,255,255,0.12)'/><polygon points='615,350 615,450 700,400' fill='%23e8d7b4'/><text x='640' y='560' text-anchor='middle' fill='%23e8d7b4' font-size='42' font-family='Arial, sans-serif' letter-spacing='6'>VIDEO PLACEHOLDER 1</text></svg>">
+                <source src="video1.mp4" type="video/mp4">
+              </video>
+            </div>
+
+            <button class="video-arrow next" id="videoNext" type="button">›</button>
+          </div>
+
+          <div class="video-counter" id="videoCounter">Video 1 / 3</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="lets-connect-stage" id="letsConnectSection">
+    <div class="lets-connect-bg" id="letsConnectBg"></div>
+    <div class="lets-connect-overlay"></div>
+
+    <div class="lets-connect-content">
+      <h2 class="sky-limit-title">Sky Is The Limit</h2>
+      <h2 class="lets-connect-title">Let’s Connect!</h2>
+      <p class="lets-connect-copy">
+        Have an idea and want to bring it to life? I’d love to hear about it.
+        Whether it’s a creative collaboration, a design project, or something still taking shape,
+        let’s start the conversation and build something thoughtful together.
+      </p>
+
+      <div class="connect-links">
+        <a href="mailto:tmedhub@gmail.com" class="connect-btn primary">Mail Me</a>
+        <a href="https://instagram.com/lill.artttt" target="_blank" rel="noopener noreferrer" class="connect-btn secondary">Instagram</a>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    window.scrollTo(0, 0);
+    gsap.registerPlugin(ScrollTrigger);
+
+    let torchActive = true;
+    let introComplete = false;
+
+    function unlockPageScroll() {
+      document.body.classList.remove("scroll-locked");
+    }
+
+    function preventScroll(e) {
+      if (!introComplete || torchActive) e.preventDefault();
+    }
+
+    function keyBlocker(e) {
+      const blocked = ["Space","ArrowUp","ArrowDown","PageUp","PageDown","Home","End"];
+      if ((!introComplete || torchActive) && blocked.includes(e.code)) e.preventDefault();
+    }
+
+    window.addEventListener("wheel", preventScroll, { passive:false });
+    window.addEventListener("touchmove", preventScroll, { passive:false });
+    window.addEventListener("keydown", keyBlocker, { passive:false });
+
+    const root = document.documentElement;
+    const torch = document.getElementById("torch");
+    const darkness = document.getElementById("darkness");
+
+    document.addEventListener("mousemove", e => {
+      root.style.setProperty("--x", e.clientX + "px");
+      root.style.setProperty("--y", e.clientY + "px");
+
+      if (torchActive) {
+        torch.style.left = e.clientX + "px";
+        torch.style.top = e.clientY + "px";
+      }
+    });
+
+    setTimeout(() => {
+      darkness.style.opacity = 0;
+      torch.style.opacity = 0;
+
+      setTimeout(() => {
+        torchActive = false;
+        introComplete = true;
+        document.body.classList.add("torch-ended");
+        unlockPageScroll();
+        darkness.style.display = "none";
+        torch.style.display = "none";
+      }, 2200);
+    }, 5000);
+
+    const galleryToggle = document.getElementById("galleryToggle");
+    const galleryDropdown = document.getElementById("galleryDropdown");
+
+    galleryToggle.addEventListener("click", (e) => {
+      e.stopPropagation();
+      galleryDropdown.classList.toggle("open");
+    });
+
+    document.addEventListener("click", (e) => {
+      if (!galleryDropdown.contains(e.target) && !galleryToggle.contains(e.target)) {
+        galleryDropdown.classList.remove("open");
+      }
+    });
+
+    document.querySelectorAll(".gallery-link").forEach(link => {
+      link.addEventListener("click", () => galleryDropdown.classList.remove("open"));
+    });
+
+    const tl = gsap.timeline({
+      scrollTrigger:{
+        trigger:"#scene1",
+        start:"top top",
+        end:"+=2000",
+        scrub:1.15,
+        pin:true
+      }
+    });
+
+    tl.to("#sky",{ y:22, scale:1.015 },0)
+      .to("#mid",{ y:36, scale:1.02 },0)
+      .to("#front",{ y:42, scale:1.015 },0)
+      .to("#foreground",{ y:78, scale:1.045, x:0 },0)
+      .to("#bg2",{ opacity:1, scale:1, duration:0.82, ease:"power2.out" },0.40)
+      .to("#bg2Content",{ opacity:1, y:-1, duration:0.58, ease:"power1.out" },0.46)
+      .to("#foreground",{ opacity:0 },0.50)
+      .to("#mid",{ opacity:0 },0.56)
+      .to("#front",{ opacity:0 },0.60)
+      .to("#sky",{ opacity:0.08 },0.66);
+
+    gsap.timeline({
+      scrollTrigger:{ trigger:"#canvasStudio", start:"top bottom", end:"top 55%", scrub:1 }
+    })
+    .fromTo("#freeform", { opacity:0.90, scale:1.012 }, { opacity:1, scale:1, ease:"none" }, 0)
+    .fromTo("#freeformTitle", { opacity:0.65, y:18 }, { opacity:1, y:0, ease:"none" }, 0.08);
+
+    const freeform = document.getElementById("freeform");
+    const inner = document.getElementById("freeformInner");
+
+    let canvasBuilt = false;
+    let frames = [];
+    let posX = 0, posY = 0, velX = 0, velY = 0;
+    let dragging = false;
+
+    const VIEW_LIMIT_X = 980;
+    const VIEW_LIMIT_Y = 760;
+    const RESPAWN_LIMIT_X = 1120;
+    const RESPAWN_LIMIT_Y = 860;
+
+    function getSpawnPosition(range, edgePad = 180){
+      const side = Math.floor(Math.random() * 4);
+      let x = 0, y = 0;
+      if (side === 0) {
+        x = -VIEW_LIMIT_X - edgePad - Math.random() * 180;
+        y = (Math.random() * range) - range / 2;
+      } else if (side === 1) {
+        x = VIEW_LIMIT_X + edgePad + Math.random() * 180;
+        y = (Math.random() * range) - range / 2;
+      } else if (side === 2) {
+        x = (Math.random() * range) - range / 2;
+        y = -VIEW_LIMIT_Y - edgePad - Math.random() * 160;
+      } else {
+        x = (Math.random() * range) - range / 2;
+        y = VIEW_LIMIT_Y + edgePad + Math.random() * 160;
+      }
+      return { x, y };
+    }
+
+    function place(frame, range, minDist, preferEdge = false){
+      let candidate = { x: 0, y: 0 };
+      let ok = false;
+      let tries = 0;
+
+      while(!ok && tries < 140){
+        candidate = preferEdge
+          ? getSpawnPosition(range)
+          : { x: Math.random() * range - range / 2, y: Math.random() * range - range / 2 };
+
+        ok = frames.every(f => {
+          if (f === frame) return true;
+          return Math.hypot(f.x - candidate.x, f.y - candidate.y) > minDist;
+        });
+        tries++;
+      }
+
+      frame.x = candidate.x;
+      frame.y = candidate.y;
+    }
+
+    function buildFreeform(){
+      if (canvasBuilt) return;
+      canvasBuilt = true;
+
+      inner.innerHTML = "";
+      frames = [];
+
+      const COUNT = 8;
+      const RANGE = 2600;
+      const MIN_DIST = 340;
+      const imgs = [...Array(8)].map((_,i)=>`art${i+1}.png`);
+
+      for(let i=0;i<COUNT;i++){
+        const img = document.createElement("img");
+        img.src = imgs[i];
+        img.alt = `Artwork ${i+1}`;
+        inner.appendChild(img);
+
+        const frame = { img, x:0, y:0, id:i, opacity:0 };
+        place(frame, RANGE, MIN_DIST, i > 2);
+        frames.push(frame);
+      }
+
+      freeform.onmousedown = () => {
+        dragging = true;
+        freeform.classList.add("is-dragging");
+      };
+
+      window.addEventListener("mouseup", () => {
+        dragging = false;
+        freeform.classList.remove("is-dragging");
+      });
+
+      window.addEventListener("mousemove", e => {
+        if (dragging) {
+          velX += e.movementX * 0.12;
+          velY += e.movementY * 0.12;
+        }
+      });
+
+      (function loop(){
+        if (!dragging) velX += 0.028;
+
+        posX += velX;
+        posY += velY;
+        velX *= 0.92;
+        velY *= 0.92;
+
+        frames.forEach(f => {
+          const screenX = f.x + posX;
+          const screenY = f.y + posY;
+          if (!f.opacity) f.opacity = 0;
+
+          const visible = screenX > -260 && screenX < window.innerWidth + 80 && screenY > -260 && screenY < window.innerHeight + 80;
+          const target = visible ? 1 : 0;
+          f.opacity += (target - f.opacity) * 0.08;
+
+          const outOfRange = screenX > RESPAWN_LIMIT_X || screenX < -RESPAWN_LIMIT_X || screenY > RESPAWN_LIMIT_Y || screenY < -RESPAWN_LIMIT_Y;
+          if (outOfRange) {
+            place(f, 2600, 340, true);
+            f.opacity = 0;
+          }
+
+          f.img.style.left = (f.x + posX) + "px";
+          f.img.style.top = (f.y + posY) + "px";
+          f.img.style.opacity = f.opacity;
+        });
+
+        requestAnimationFrame(loop);
+      })();
+    }
+
+    ScrollTrigger.create({
+      trigger: "#canvasStudio",
+      start: "top top",
+      onEnter: () => { buildFreeform(); }
+    });
+
+    const shell = document.getElementById("scrollShell");
+    const track = document.getElementById("track");
+    const projectsJourney = document.getElementById("projectsJourney");
+    const bg4Base = document.getElementById("bg4Base");
+    const bg4Overlay = document.getElementById("bg4Overlay");
+    const bg5Top = document.getElementById("bg5Top");
+    const bg5Overlay = document.getElementById("bg5Overlay");
+    const projectArcade = document.getElementById("projectArcade");
+
+    let currentX = 0;
+    let targetX = 0;
+    let isDraggingTrack = false;
+    let dragStartX = 0;
+    let dragStartTargetX = 0;
+
+    function getMinTrackX() {
+      return Math.min(0, shell.clientWidth - track.scrollWidth - 80);
+    }
+
+    function clampTrackX(x) {
+      return Math.max(getMinTrackX(), Math.min(0, x));
+    }
+
+    function animateTrack() {
+      currentX += (targetX - currentX) * 0.09;
+      track.style.transform = `translate3d(${currentX}px,0,0)`;
+      requestAnimationFrame(animateTrack);
+    }
+    animateTrack();
+
+    function projectArcadeVisibleEnough() {
+      return gsap.getProperty(projectsJourney, "opacity") > 0.6;
+    }
+
+    function beginTrackDrag(clientX) {
+      if (!projectArcadeVisibleEnough()) return;
+      isDraggingTrack = true;
+      dragStartX = clientX;
+      dragStartTargetX = targetX;
+      shell.classList.add("dragging");
+    }
+
+    function moveTrackDrag(clientX) {
+      if (!isDraggingTrack) return;
+      const dx = clientX - dragStartX;
+      targetX = clampTrackX(dragStartTargetX + dx);
+    }
+
+    function endTrackDrag() {
+      isDraggingTrack = false;
+      shell.classList.remove("dragging");
+    }
+
+    shell.addEventListener("mousedown", (e) => beginTrackDrag(e.clientX));
+    window.addEventListener("mousemove", (e) => moveTrackDrag(e.clientX));
+    window.addEventListener("mouseup", () => endTrackDrag());
+    shell.addEventListener("touchstart", (e) => beginTrackDrag(e.touches[0].clientX), { passive: true });
+    window.addEventListener("touchmove", (e) => moveTrackDrag(e.touches[0].clientX), { passive: true });
+    window.addEventListener("touchend", () => endTrackDrag());
+
+    const projectArcadeTimeline = gsap.timeline({
+      scrollTrigger: {
+        trigger: "#projectArcade",
+        start: "top top",
+        end: () => "+=" + (track.scrollWidth - shell.clientWidth + window.innerHeight * 4.2),
+        scrub: 1,
+        pin: true,
+        invalidateOnRefresh: true,
+        onUpdate: self => {
+          const progress = self.progress;
+          const horizontalStart = 0.28;
+          const horizontalEnd = 0.86;
+          const moveProgress = gsap.utils.clamp(0, 1, (progress - horizontalStart) / (horizontalEnd - horizontalStart));
+          const maxX = Math.max(0, track.scrollWidth - shell.clientWidth);
+          const scrollDrivenX = clampTrackX(-(maxX * moveProgress));
+          if (!isDraggingTrack) targetX = scrollDrivenX;
+        }
+      }
+    });
+
+    projectArcadeTimeline
+      .fromTo(bg4Base, { scale: 1, opacity: 1, xPercent: 0, yPercent: 0 }, { scale: 1.24, xPercent: -4, yPercent: -2, opacity: 1, transformOrigin: "50% 50%", ease: "none" }, 0.00)
+      .fromTo(bg4Overlay, { opacity: 1 }, { opacity: 0.14, ease: "none" }, 0.00)
+      .fromTo(bg5Top, { opacity: 0, scale: 1.08, xPercent: 0, yPercent: 0, transformOrigin: "50% 50%" }, { opacity: 1, scale: 1.02, xPercent: 0, yPercent: 0, ease: "power2.out" }, 0.10)
+      .fromTo(bg5Overlay, { opacity: 0 }, { opacity: 1, ease: "power2.out" }, 0.10)
+      .to(bg4Base, { opacity: 0, ease: "power2.out" }, 0.20)
+      .to(bg4Overlay, { opacity: 0, ease: "power2.out" }, 0.20)
+      .to(bg5Top, { scale: 3.3, xPercent: 18, yPercent: -10, transformOrigin: "20% 28%", ease: "power2.inOut" }, 0.28)
+      .to(bg5Overlay, { opacity: 0.18, ease: "power2.inOut" }, 0.28)
+      .fromTo(projectsJourney, { opacity: 0 }, { opacity: 1, ease: "power2.inOut" }, 0.42)
+      .to(projectsJourney, { opacity: 1, ease: "none" }, 0.88)
+      .to(bg5Top, { opacity: 0.22, ease: "power2.out" }, 0.92)
+      .to(bg5Overlay, { opacity: 0.10, ease: "power2.out" }, 0.92)
+      .to(projectsJourney, { opacity: 0.18, ease: "power2.inOut" }, 1.00);
+
+    gsap.fromTo(
+      "#customizationHeaderTop",
+      { y: 34, opacity: 0 },
+      {
+        y: 0,
+        opacity: 1,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: "#bg6Stage",
+          start: "top 88%",
+          end: "top 52%",
+          scrub: 1
+        }
+      }
+    );
+
+    gsap.fromTo(
+      "#bg6Stage",
+      { opacity: 0, y: 60 },
+      {
+        opacity: 1,
+        y: 0,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: "#bg6Stage",
+          start: "top 90%",
+          end: "top 55%",
+          scrub: 1
+        }
+      }
+    );
+
+    gsap.to("#projectsJourney", {
+      opacity: 0,
+      ease: "power2.out",
+      scrollTrigger: {
+        trigger: "#bg6Stage",
+        start: "top 75%",
+        end: "top 40%",
+        scrub: 1
+      }
+    });
+
+    gsap.fromTo(
+      "#customizationShowcase",
+      { y: 40, opacity: 0.72, scale: 0.985 },
+      {
+        y: 0,
+        opacity: 1,
+        scale: 1,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: "#bg6Stage",
+          start: "top bottom",
+          end: "top 56%",
+          scrub: 1
+        }
+      }
+    );
+
+    gsap.fromTo(
+      ".customization-bg",
+      { scale: 1.06 },
+      {
+        scale: 1.0,
+        ease: "none",
+        scrollTrigger: {
+          trigger: "#bg6Stage",
+          start: "top bottom",
+          end: "bottom top",
+          scrub: 1
+        }
+      }
+    );
+
+    const domeTl = gsap.timeline({
+      scrollTrigger: {
+        trigger: "#directorsDome",
+        start: "top top",
+        end: "bottom bottom",
+        scrub: 1.18,
+        pin: ".directors-sticky"
+      }
+    });
+
+    domeTl
+      .to("#bg8Full", { scale: 1.05, ease: "none" }, 0.06)
+      .to("#directorsMediaContent", { opacity: 0, y: 20, ease: "none" }, 0.28)
+      .to("#bg9Full", { opacity: 1, scale: 1.02, ease: "none" }, 0.42)
+      .to("#directorsTop", { opacity: 0, y: -18, ease: "none" }, 0.55)
+      .to("#bg9Full", { scale: 1.08, ease: "none" }, 0.74);
+
+    gsap.fromTo(
+      "#letsConnectBg",
+      { opacity: 0.92, scale: 1.12 },
+      {
+        opacity: 1,
+        scale: 1,
+        ease: "none",
+        scrollTrigger: {
+          trigger: "#letsConnectSection",
+          start: "top bottom",
+          end: "top 16%",
+          scrub: 1.25
+        }
+      }
+    );
+
+    gsap.fromTo(
+      ".lets-connect-content",
+      { y: 50, opacity: 0 },
+      {
+        y: 0,
+        opacity: 1,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: "#letsConnectSection",
+          start: "top 82%",
+          end: "top 42%",
+          scrub: 1
+        }
+      }
+    );
+
+    window.addEventListener("resize", () => {
+      targetX = clampTrackX(targetX);
+      ScrollTrigger.refresh();
+    });
+
+    const galleryProjectArcade = document.getElementById("galleryProjectArcade");
+    function getProjectArcadeScrollDistance() {
+      return Math.max(0, track.scrollWidth - shell.clientWidth + window.innerHeight * 4.2);
+    }
+    function scrollToArcadeExhibits(e) {
+      if (e) e.preventDefault();
+      const baseTop = projectArcade.offsetTop;
+      const targetY = baseTop + getProjectArcadeScrollDistance() * 0.38;
+      window.scrollTo({ top: targetY, behavior: "smooth" });
+      galleryDropdown.classList.remove("open");
+    }
+    if (galleryProjectArcade) galleryProjectArcade.addEventListener("click", scrollToArcadeExhibits);
+
+    document.querySelectorAll("[data-carousel]").forEach(carousel => {
+      const slides = Array.from(carousel.querySelectorAll(".media-slide"));
+      const prev = carousel.querySelector(".prev");
+      const next = carousel.querySelector(".next");
+      let index = 0;
+
+      function renderSlides() {
+        slides.forEach((slide, i) => slide.classList.toggle("active", i === index));
+      }
+
+      prev.addEventListener("click", (e) => {
+        e.stopPropagation();
+        index = (index - 1 + slides.length) % slides.length;
+        renderSlides();
+      });
+
+      next.addEventListener("click", (e) => {
+        e.stopPropagation();
+        index = (index + 1) % slides.length;
+        renderSlides();
+      });
+
+      renderSlides();
+    });
+
+    const board = document.getElementById("customizationBoard");
+    const customAssets = Array.from(document.querySelectorAll("[data-asset]"));
+    let activeAsset = null;
+    let startPointer = { x: 0, y: 0 };
+    let startBox = { left: 0, top: 0 };
+    let startRotation = 0;
+    let zCounter = 20;
+
+    function getAssetState(asset) {
+      if (!asset.dataset.scale) asset.dataset.scale = "1";
+      if (!asset.dataset.rotation) {
+        const match = asset.style.transform.match(/rotate\((-?\d+(?:\.\d+)?)deg\)/);
+        asset.dataset.rotation = match ? match[1] : "0";
+      }
+      return {
+        scale: parseFloat(asset.dataset.scale || "1"),
+        rotation: parseFloat(asset.dataset.rotation || "0")
+      };
+    }
+
+    function applyAssetTransform(asset) {
+      const { scale, rotation } = getAssetState(asset);
+      asset.style.transform = `rotate(${rotation}deg) scale(${scale})`;
+    }
+
+    function clampToBoard(asset, left, top) {
+      const rect = board.getBoundingClientRect();
+      const assetRect = asset.getBoundingClientRect();
+      const maxLeft = rect.width - assetRect.width;
+      const maxTop = rect.height - assetRect.height;
+      return {
+        left: Math.min(Math.max(0, left), Math.max(0, maxLeft)),
+        top: Math.min(Math.max(0, top), Math.max(0, maxTop))
+      };
+    }
+
+    customAssets.forEach(asset => {
+      applyAssetTransform(asset);
+
+      asset.addEventListener("pointerdown", (e) => {
+        activeAsset = asset;
+        asset.classList.add("active");
+        asset.style.zIndex = ++zCounter;
+
+        startPointer = { x: e.clientX, y: e.clientY };
+        startBox = { left: asset.offsetLeft, top: asset.offsetTop };
+        startRotation = parseFloat(asset.dataset.rotation || "0");
+
+        asset.setPointerCapture(e.pointerId);
+      });
+
+      asset.addEventListener("pointermove", (e) => {
+        if (!activeAsset || activeAsset !== asset) return;
+
+        const dx = e.clientX - startPointer.x;
+        const dy = e.clientY - startPointer.y;
+
+        if (e.shiftKey) {
+          asset.dataset.rotation = String(startRotation + dx * 0.25);
+          applyAssetTransform(asset);
+          return;
+        }
+
+        const next = clampToBoard(asset, startBox.left + dx, startBox.top + dy);
+        asset.style.left = `${next.left}px`;
+        asset.style.top = `${next.top}px`;
+      });
+
+      asset.addEventListener("pointerup", (e) => {
+        asset.classList.remove("active");
+        if (asset.hasPointerCapture(e.pointerId)) asset.releasePointerCapture(e.pointerId);
+        activeAsset = null;
+      });
+
+      asset.addEventListener("pointercancel", () => {
+        asset.classList.remove("active");
+        activeAsset = null;
+      });
+
+      asset.addEventListener("wheel", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+
+        const { scale } = getAssetState(asset);
+        const nextScale = Math.min(2.2, Math.max(0.45, scale + (e.deltaY < 0 ? 0.08 : -0.08)));
+        asset.dataset.scale = String(nextScale);
+        applyAssetTransform(asset);
+
+        const next = clampToBoard(asset, asset.offsetLeft, asset.offsetTop);
+        asset.style.left = `${next.left}px`;
+        asset.style.top = `${next.top}px`;
+      }, { passive: false });
+    });
+
+    const featureVideo = document.getElementById("featureVideo");
+    const videoPrev = document.getElementById("videoPrev");
+    const videoNext = document.getElementById("videoNext");
+    const videoCounter = document.getElementById("videoCounter");
+
+    const poster1 = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1280 800'><defs><linearGradient id='g' x1='0' x2='1'><stop stop-color='%230b1220'/><stop offset='1' stop-color='%231d3658'/></linearGradient></defs><rect width='1280' height='800' fill='url(%23g)'/><circle cx='640' cy='400' r='86' fill='rgba(255,255,255,0.12)'/><polygon points='615,350 615,450 700,400' fill='%23e8d7b4'/><text x='640' y='560' text-anchor='middle' fill='%23e8d7b4' font-size='42' font-family='Arial, sans-serif' letter-spacing='6'>VIDEO PLACEHOLDER 1</text></svg>";
+    const poster2 = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1280 800'><defs><linearGradient id='g' x1='0' x2='1'><stop stop-color='%23101622'/><stop offset='1' stop-color='%23324d72'/></linearGradient></defs><rect width='1280' height='800' fill='url(%23g)'/><circle cx='640' cy='400' r='86' fill='rgba(255,255,255,0.12)'/><polygon points='615,350 615,450 700,400' fill='%23e8d7b4'/><text x='640' y='560' text-anchor='middle' fill='%23e8d7b4' font-size='42' font-family='Arial, sans-serif' letter-spacing='6'>VIDEO PLACEHOLDER 2</text></svg>";
+    const poster3 = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1280 800'><defs><linearGradient id='g' x1='0' x2='1'><stop stop-color='%23111927'/><stop offset='1' stop-color='%23425f89'/></linearGradient></defs><rect width='1280' height='800' fill='url(%23g)'/><circle cx='640' cy='400' r='86' fill='rgba(255,255,255,0.12)'/><polygon points='615,350 615,450 700,400' fill='%23e8d7b4'/><text x='640' y='560' text-anchor='middle' fill='%23e8d7b4' font-size='42' font-family='Arial, sans-serif' letter-spacing='6'>VIDEO PLACEHOLDER 3</text></svg>";
+
+    const domeVideos = [
+      { src: "video1.mp4", poster: poster1 },
+      { src: "video2.mp4", poster: poster2 },
+      { src: "video3.mp4", poster: poster3 }
+    ];
+
+    let currentVideoIndex = 0;
+
+    function renderFeatureVideo() {
+      const item = domeVideos[currentVideoIndex];
+      featureVideo.pause();
+      featureVideo.setAttribute("poster", item.poster);
+      featureVideo.innerHTML = `<source src="${item.src}" type="video/mp4">`;
+      featureVideo.load();
+      videoCounter.textContent = `Video ${currentVideoIndex + 1} / ${domeVideos.length}`;
+    }
+
+    videoPrev.addEventListener("click", () => {
+      currentVideoIndex = (currentVideoIndex - 1 + domeVideos.length) % domeVideos.length;
+      renderFeatureVideo();
+    });
+
+    videoNext.addEventListener("click", () => {
+      currentVideoIndex = (currentVideoIndex + 1) % domeVideos.length;
+      renderFeatureVideo();
+    });
+
+    renderFeatureVideo();
+    ScrollTrigger.refresh();
+  </script>
+</body>
+</html>
