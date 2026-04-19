@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Museumof Me</title>
+  <title>Museum of Me</title>
 
   <script>
     if ("scrollRestoration" in history) history.scrollRestoration = "manual";
@@ -577,13 +577,17 @@
     }
 
     .arcade-left{
-      position:relative;
+      position:absolute;
       z-index:2;
       padding:34px 26px 30px 32px;
       display:flex;
       flex-direction:column;
       justify-content:center;
       background:linear-gradient(180deg, #24170f, #16100b);
+    }
+
+    .arcade-left{
+      position:relative;
     }
 
     .arcade-index{
@@ -744,7 +748,6 @@
       border:1px solid rgba(199,154,87,0.20);
     }
 
-    /* Gallery 3 */
     .customization-stage{
       position:relative;
       background:#050505;
@@ -779,8 +782,7 @@
 
     .customization-kicker,
     .lens-kicker,
-    .directors-kicker,
-    .sky-limit-kicker{
+    .directors-kicker{
       display:block;
       font-size:0.74rem;
       letter-spacing:0.34em;
@@ -899,7 +901,6 @@
       white-space:nowrap;
     }
 
-    /* Gallery 4 */
     .lens-archive-stage{
       background:
         radial-gradient(circle at 50% 0%, rgba(215,182,117,0.08), transparent 28%),
@@ -953,11 +954,81 @@
       user-select:none;
     }
 
-    .magazine-book{
+    .book-wrap{
       position:relative;
       width:min(920px, 88vw);
       height:min(600px, 68vw);
       max-height:74vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+
+    .book-closed{
+      position:absolute;
+      width:54%;
+      height:92%;
+      border-radius:18px 24px 24px 18px;
+      background:
+        linear-gradient(180deg, rgba(37,24,16,0.94), rgba(16,11,8,0.96)),
+        url("https://placehold.co/700x1000/2b1a12/d7b675?text=Lens+Archive+Cover") center/cover no-repeat;
+      box-shadow:
+        0 30px 70px rgba(0,0,0,0.58),
+        inset 0 1px 0 rgba(255,245,220,0.08);
+      transform:rotateY(-10deg) rotateX(8deg);
+      transition:transform .7s ease, opacity .55s ease;
+      border:1px solid rgba(234,215,174,0.16);
+      overflow:hidden;
+      cursor:pointer;
+      z-index:20;
+    }
+
+    .book-closed::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:
+        linear-gradient(135deg, rgba(255,255,255,0.10), transparent 28%, transparent 70%, rgba(0,0,0,0.18)),
+        linear-gradient(to right, rgba(0,0,0,0.22), rgba(0,0,0,0.02) 18%, transparent 30%);
+    }
+
+    .book-closed-label{
+      position:absolute;
+      left:50%;
+      bottom:28px;
+      transform:translateX(-50%);
+      font-family:"Cormorant Garamond", serif;
+      font-size:clamp(1.3rem, 2vw, 2rem);
+      letter-spacing:0.12em;
+      text-transform:uppercase;
+      color:#f7ead0;
+      text-shadow:0 8px 20px rgba(0,0,0,0.44);
+      white-space:nowrap;
+    }
+
+    .book-open{
+      position:absolute;
+      inset:0;
+      opacity:0;
+      pointer-events:none;
+      transition:opacity .55s ease;
+    }
+
+    .book-open.visible{
+      opacity:1;
+      pointer-events:auto;
+    }
+
+    .book-closed.hidden{
+      opacity:0;
+      pointer-events:none;
+      transform:rotateY(-28deg) rotateX(10deg) scale(0.94);
+    }
+
+    .magazine-book{
+      position:relative;
+      width:100%;
+      height:100%;
       transform-style:preserve-3d;
       transform:rotateX(6deg) rotateY(0deg);
       transition:transform 0.25s ease;
@@ -1142,6 +1213,37 @@
       pointer-events:none;
     }
 
+    .book-actions{
+      margin-top:18px;
+      display:flex;
+      justify-content:center;
+      gap:12px;
+      flex-wrap:wrap;
+      position:relative;
+      z-index:4;
+    }
+
+    .book-action-btn{
+      appearance:none;
+      border:none;
+      cursor:pointer;
+      padding:12px 18px;
+      border-radius:999px;
+      background:linear-gradient(180deg, rgba(22,18,13,0.94), rgba(10,8,6,0.90));
+      border:1px solid rgba(234,215,174,0.22);
+      color:#f4e7c8;
+      letter-spacing:0.12em;
+      text-transform:uppercase;
+      font-size:0.72rem;
+      transition:transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+    }
+
+    .book-action-btn:hover{
+      transform:translateY(-1px);
+      border-color:rgba(234,215,174,0.42);
+      background:linear-gradient(180deg, rgba(28,22,16,0.96), rgba(12,10,8,0.94));
+    }
+
     .magazine-tip{
       margin-top:18px;
       color:rgba(247,241,231,0.66);
@@ -1163,7 +1265,6 @@
       text-transform:uppercase;
     }
 
-    /* Gallery 5 */
     .directors-dome-stage{
       background:#000;
       position:relative;
@@ -1186,7 +1287,7 @@
       pointer-events:none;
       background:
         radial-gradient(circle at 50% 18%, rgba(215,182,117,0.14), transparent 26%),
-        linear-gradient(to bottom, rgba(0,0,0,0.18), rgba(0,0,0,0.44));
+        linear-gradient(to bottom, rgba(0,0,0,0.18), rgba(0,0,0,0.40));
     }
 
     .directors-stage-inner{
@@ -1195,18 +1296,25 @@
       min-height:100vh;
       display:flex;
       flex-direction:column;
-      justify-content:center;
+      justify-content:flex-start;
       align-items:center;
       padding:0 4vw 10vh;
     }
 
+    .directors-header{
+      margin-top:2.8vh;
+      padding-top:5.8vh;
+      padding-bottom:1.8vh;
+    }
+
     .video-carousel-wrap{
-      width:min(520px, 74vw);
-      margin-top:2vh;
+      width:min(420px, 62vw);
+      margin-top:0.4vh;
       position:relative;
       display:flex;
       align-items:center;
       justify-content:center;
+      transform:translateY(-2.1cm);
     }
 
     .video-arrow{
@@ -1218,7 +1326,7 @@
       height:44px;
       border-radius:999px;
       border:1px solid rgba(234,215,174,0.28);
-      background:rgba(14,10,8,0.82);
+      background:rgba(14,10,8,0.56);
       color:#f4e3bc;
       display:flex;
       align-items:center;
@@ -1226,14 +1334,14 @@
       font-size:1.1rem;
       cursor:pointer;
       transition:transform .2s ease, border-color .2s ease, background .2s ease;
-      backdrop-filter:blur(8px);
-      -webkit-backdrop-filter:blur(8px);
+      backdrop-filter:blur(6px);
+      -webkit-backdrop-filter:blur(6px);
     }
 
     .video-arrow:hover{
       transform:translateY(-50%) scale(1.04);
       border-color:rgba(234,215,174,0.44);
-      background:rgba(20,15,11,0.92);
+      background:rgba(20,15,11,0.72);
     }
 
     .video-arrow.prev{ left:-60px; }
@@ -1242,23 +1350,18 @@
     .video-frame-single{
       width:100%;
       position:relative;
-      overflow:hidden;
-      border-radius:26px;
-      background:linear-gradient(180deg, rgba(18,15,11,0.84), rgba(7,6,5,0.80));
-      border:1px solid rgba(234,215,174,0.18);
-      box-shadow:0 28px 84px rgba(0,0,0,0.44), inset 0 1px 0 rgba(255,245,220,0.04);
-      padding:12px;
-      backdrop-filter:blur(4px);
-      -webkit-backdrop-filter:blur(4px);
+      overflow:visible;
+      border-radius:0;
+      background:transparent;
+      border:none;
+      box-shadow:none;
+      padding:0;
+      backdrop-filter:none;
+      -webkit-backdrop-filter:none;
     }
 
     .video-frame-single::before{
-      content:"";
-      position:absolute;
-      inset:0;
-      pointer-events:none;
-      background:linear-gradient(135deg, rgba(255,232,186,0.04), transparent 35%, rgba(215,182,117,0.05) 100%);
-      z-index:1;
+      content:none;
     }
 
     .video-frame-single video{
@@ -1266,14 +1369,15 @@
       z-index:2;
       width:100%;
       display:block;
-      border-radius:16px;
-      background:#000;
+      border-radius:14px;
+      background:transparent;
       aspect-ratio:16/9;
       object-fit:cover;
+      box-shadow:0 24px 60px rgba(0,0,0,0.34);
     }
 
     .video-counter{
-      margin-top:18px;
+      margin-top:-1.35cm;
       color:rgba(247,241,231,0.74);
       font-size:0.74rem;
       letter-spacing:0.18em;
@@ -1281,18 +1385,19 @@
       text-align:center;
     }
 
-    /* bg9 */
     .bg9-stage{
       height:68vh;
       background:#000;
       position:relative;
+      overflow:hidden;
     }
 
     .bg9-image{
       position:absolute;
       inset:0;
       background:url("bg9.jpeg") center center / cover no-repeat;
-      transform:scale(1.04);
+      transform:scale(1.14);
+      opacity:0.88;
       will-change:transform, opacity;
     }
 
@@ -1305,7 +1410,6 @@
       opacity:0.88;
     }
 
-    /* lets connect on bg10 */
     .lets-connect-stage{
       min-height:100vh;
       position:relative;
@@ -1315,6 +1419,7 @@
       padding:10vh 6vw;
       background:#000;
       isolation:isolate;
+      overflow:hidden;
     }
 
     .lets-connect-bg{
@@ -1322,7 +1427,9 @@
       inset:0;
       background:url("bg10.jpeg") center center / cover no-repeat;
       z-index:1;
-      transform:scale(1.03);
+      transform:scale(1.14);
+      opacity:0.9;
+      will-change:transform, opacity;
     }
 
     .lets-connect-overlay{
@@ -1331,7 +1438,7 @@
       z-index:2;
       pointer-events:none;
       background:
-        linear-gradient(to bottom, rgba(0,0,0,0.28), rgba(0,0,0,0.34)),
+        linear-gradient(to bottom, rgba(0,0,0,0.24), rgba(0,0,0,0.30)),
         radial-gradient(circle at 50% 16%, rgba(255,220,160,0.08), transparent 24%);
     }
 
@@ -1343,20 +1450,18 @@
     }
 
     .sky-limit-title{
-      font-size:clamp(2.6rem, 5.7vw, 4.8rem);
+      font-size:clamp(2.4rem, 5vw, 4.2rem);
       letter-spacing:0.08em;
-      margin-top:12px;
+      margin-top:0;
       color:#f4e3bc;
       text-shadow:0 12px 34px rgba(0,0,0,0.46);
     }
 
     .lets-connect-title{
-      font-size:clamp(2rem, 4.6vw, 3.4rem);
+      font-size:clamp(1.7rem, 3.9vw, 2.7rem);
       letter-spacing:0.05em;
       color:#fff4d8;
       text-shadow:0 12px 32px rgba(0,0,0,0.54);
-      position:relative;
-      z-index:1;
       margin-top:10px;
     }
 
@@ -1431,8 +1536,8 @@
       .arcade-right{ padding:0 14px 14px; }
       .arcade-media{ min-height:240px; }
       .customization-showcase{ height:76vh; min-height:560px; }
-      .magazine-book{ width:min(94vw, 760px); height:min(500px, 68vw); }
-      .video-carousel-wrap{ width:min(460px, 80vw); }
+      .book-wrap{ width:min(94vw, 760px); height:min(500px, 68vw); }
+      .video-carousel-wrap{ width:min(380px, 70vw); }
     }
 
     @media (max-width: 768px){
@@ -1467,8 +1572,7 @@
 
       .customization-kicker,
       .lens-kicker,
-      .directors-kicker,
-      .sky-limit-kicker{
+      .directors-kicker{
         font-size:0.62rem;
         letter-spacing:0.22em;
       }
@@ -1482,7 +1586,7 @@
       }
 
       .lets-connect-title{
-        font-size:clamp(1.7rem, 6vw, 2.5rem);
+        font-size:clamp(1.45rem, 5vw, 2.1rem);
       }
 
       .customization-sub,
@@ -1512,17 +1616,27 @@
         border-radius:24px;
       }
 
-      .magazine-book{
+      .book-wrap{
         width:min(94vw, 620px);
         height:min(420px, 64vw);
       }
 
+      .book-closed{
+        width:68%;
+        height:88%;
+      }
+
       .video-carousel-wrap{
-        width:min(360px, 84vw);
+        width:min(320px, 82vw);
+        transform:translateY(-0.9cm);
       }
 
       .video-arrow.prev{ left:-18px; }
       .video-arrow.next{ right:-18px; }
+
+      .video-counter{
+        margin-top:-0.5cm;
+      }
 
       .lets-connect-stage{
         padding:10vh 5vw;
@@ -1615,21 +1729,18 @@
               <div class="arcade-index">01</div>
               <h2 class="arcade-card-title">Clay Creation</h2>
               <p class="arcade-desc">Soft curves, earthy tones, and a little bit of magic shaped by hand.</p>
-
               <div class="arcade-meta">
                 <span class="arcade-pill">UI / UX</span>
                 <span class="arcade-pill">Process</span>
                 <span class="arcade-pill">Tools</span>
                 <span class="arcade-pill">Craft</span>
               </div>
-
               <div class="arcade-actions">
                 <a href="#" class="arcade-btn">How It Was Made</a>
                 <a href="#" class="arcade-btn">UI UX</a>
                 <a href="#" class="arcade-btn">Tools Used</a>
               </div>
             </div>
-
             <div class="arcade-right">
               <div class="arcade-media">
                 <div class="media-image-wrap" style="position:absolute; inset:18px; border-radius:14px; overflow:hidden; z-index:3; background:#120d09; display:flex; align-items:center; justify-content:center;">
@@ -1645,21 +1756,18 @@
               <div class="arcade-index">02</div>
               <h2 class="arcade-card-title">Personalized Games</h2>
               <p class="arcade-desc">Playful pieces made personal, because games are better when they feel like yours.</p>
-
               <div class="arcade-meta">
                 <span class="arcade-pill">Interaction</span>
                 <span class="arcade-pill">Research</span>
                 <span class="arcade-pill">Prototyping</span>
                 <span class="arcade-pill">Testing</span>
               </div>
-
               <div class="arcade-actions">
                 <a href="#" class="arcade-btn">How It Was Made</a>
                 <a href="#" class="arcade-btn">UI UX</a>
                 <a href="#" class="arcade-btn">Tools Used</a>
               </div>
             </div>
-
             <div class="arcade-right">
               <div class="arcade-media">
                 <div class="media-carousel" data-carousel>
@@ -1681,21 +1789,18 @@
               <div class="arcade-index">03</div>
               <h2 class="arcade-card-title">Interactive Work</h2>
               <p class="arcade-desc">Clicks, motion, and tiny details doing the heavy lifting behind the scenes.</p>
-
               <div class="arcade-meta">
                 <span class="arcade-pill">Motion</span>
                 <span class="arcade-pill">UI Systems</span>
                 <span class="arcade-pill">Visual Design</span>
                 <span class="arcade-pill">Build</span>
               </div>
-
               <div class="arcade-actions">
                 <a href="#" class="arcade-btn">How It Was Made</a>
                 <a href="#" class="arcade-btn">UI UX</a>
                 <a href="#" class="arcade-btn">Tools Used</a>
               </div>
             </div>
-
             <div class="arcade-right">
               <div class="arcade-media" style="display:flex; align-items:center; justify-content:center;">
                 <img src="art1.png" alt="Interactive preview" style="max-width:86%; max-height:82%; object-fit:contain;">
@@ -1746,50 +1851,63 @@
       <span class="lens-kicker">Gallery IV</span>
       <h2 class="lens-title">Lens Archive</h2>
       <div class="gold-line"></div>
-      <p class="lens-sub">Hover left or right to flip through the magazine.</p>
+      <p class="lens-sub">Open, close, and flip through the magazine.</p>
     </div>
 
     <div class="lens-stage-inner">
       <div class="magazine-shell">
         <div class="magazine-stage">
-          <div class="magazine-book" id="magazineBook">
-            <div class="book-base-shadow"></div>
-            <div class="magazine-spine"></div>
-
-            <div class="spread active" data-spread="0">
-              <div class="paper left"><img src="art1.png" alt="Spread 1 left"></div>
-              <div class="paper right"><img src="art2.png" alt="Spread 1 right"></div>
+          <div class="book-wrap">
+            <div class="book-closed" id="bookClosed">
+              <div class="book-closed-label">Lens Archive</div>
             </div>
 
-            <div class="spread after" data-spread="1">
-              <div class="paper left"><img src="art3.png" alt="Spread 2 left"></div>
-              <div class="paper right"><img src="art4.png" alt="Spread 2 right"></div>
-            </div>
+            <div class="book-open" id="bookOpen">
+              <div class="magazine-book" id="magazineBook">
+                <div class="book-base-shadow"></div>
+                <div class="magazine-spine"></div>
 
-            <div class="spread after" data-spread="2">
-              <div class="paper left"><img src="art5.png" alt="Spread 3 left"></div>
-              <div class="paper right"><img src="art6.png" alt="Spread 3 right"></div>
-            </div>
+                <div class="spread active" data-spread="0">
+                  <div class="paper left"><img src="https://placehold.co/700x1000/1c120d/f3dfbf?text=Page+1" alt="Spread 1 left"></div>
+                  <div class="paper right"><img src="https://placehold.co/700x1000/24160f/e8d2a0?text=Page+2" alt="Spread 1 right"></div>
+                </div>
 
-            <div class="spread after" data-spread="3">
-              <div class="paper left"><img src="art7.png" alt="Spread 4 left"></div>
-              <div class="paper right"><img src="art8.png" alt="Spread 4 right"></div>
-            </div>
+                <div class="spread after" data-spread="1">
+                  <div class="paper left"><img src="https://placehold.co/700x1000/2a1a12/f6ead2?text=Page+3" alt="Spread 2 left"></div>
+                  <div class="paper right"><img src="https://placehold.co/700x1000/302015/e1bf7b?text=Page+4" alt="Spread 2 right"></div>
+                </div>
 
-            <div class="paper-shadow-left"></div>
-            <div class="paper-shadow-right"></div>
+                <div class="spread after" data-spread="2">
+                  <div class="paper left"><img src="https://placehold.co/700x1000/23170f/ead7ae?text=Page+5" alt="Spread 3 left"></div>
+                  <div class="paper right"><img src="https://placehold.co/700x1000/1a120d/f7f1e7?text=Page+6" alt="Spread 3 right"></div>
+                </div>
 
-            <div class="mag-hover-zone left" id="magHoverPrev">
-              <div class="mag-hover-label">Hover for previous</div>
-            </div>
-            <div class="mag-hover-zone right" id="magHoverNext">
-              <div class="mag-hover-label">Hover for next</div>
+                <div class="spread after" data-spread="3">
+                  <div class="paper left"><img src="https://placehold.co/700x1000/362417/d7b675?text=Page+7" alt="Spread 4 left"></div>
+                  <div class="paper right"><img src="https://placehold.co/700x1000/2b1a12/fff4d8?text=Page+8" alt="Spread 4 right"></div>
+                </div>
+
+                <div class="paper-shadow-left"></div>
+                <div class="paper-shadow-right"></div>
+
+                <div class="mag-hover-zone left" id="magHoverPrev">
+                  <div class="mag-hover-label">Hover for previous</div>
+                </div>
+                <div class="mag-hover-zone right" id="magHoverNext">
+                  <div class="mag-hover-label">Hover for next</div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
 
+        <div class="book-actions">
+          <button class="book-action-btn" id="openBookBtn" type="button">Open Book</button>
+          <button class="book-action-btn" id="closeBookBtn" type="button">Close Book</button>
+        </div>
+
         <div class="mag-spread-indicator" id="magSpreadIndicator">Spread 1 / 4</div>
-        <div class="magazine-tip">Move your mouse over the book for tilt and page interaction.</div>
+        <div class="magazine-tip">Replace the placeholder page images with your own assets later.</div>
       </div>
     </div>
   </section>
@@ -1828,11 +1946,10 @@
   </section>
 
   <section class="lets-connect-stage" id="letsConnectSection">
-    <div class="lets-connect-bg"></div>
+    <div class="lets-connect-bg" id="bg10Image"></div>
     <div class="lets-connect-overlay"></div>
 
     <div class="lets-connect-content">
-      <span class="sky-limit-kicker">Final Gallery</span>
       <h2 class="sky-limit-title">Sky Is The Limit</h2>
       <h2 class="lets-connect-title">Let’s Connect!</h2>
 
@@ -2296,16 +2413,32 @@
 
     gsap.fromTo(
       "#bg9Image",
-      { opacity: 0, scale: 1.08 },
+      { opacity: 0.78, scale: 1.18 },
       {
         opacity: 1,
         scale: 1,
         ease: "power2.out",
         scrollTrigger: {
           trigger: "#bg9Stage",
-          start: "top 88%",
-          end: "top 30%",
-          scrub: 1
+          start: "top 94%",
+          end: "top 20%",
+          scrub: 1.2
+        }
+      }
+    );
+
+    gsap.fromTo(
+      "#bg10Image",
+      { opacity: 0.8, scale: 1.16 },
+      {
+        opacity: 1,
+        scale: 1,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: "#letsConnectSection",
+          start: "top 94%",
+          end: "top 18%",
+          scrub: 1.2
         }
       }
     );
@@ -2369,12 +2502,11 @@
       renderSlides();
     });
 
-    /* Gallery 3 fix: scroll only resizes hovered asset */
+    /* Gallery 3 fix */
     const board = document.getElementById("customizationBoard");
     const customAssets = Array.from(document.querySelectorAll("[data-asset]"));
     let activeAsset = null;
     let selectedAsset = null;
-    let hoveredAsset = null;
     let startPointer = { x: 0, y: 0 };
     let startBox = { left: 0, top: 0 };
     let startRotation = 0;
@@ -2411,15 +2543,9 @@
     customAssets.forEach(asset => {
       applyAssetTransform(asset);
 
-      asset.addEventListener("pointerenter", () => { hoveredAsset = asset; });
-      asset.addEventListener("pointerleave", () => {
-        if (hoveredAsset === asset) hoveredAsset = null;
-      });
-
       asset.addEventListener("pointerdown", (e) => {
         activeAsset = asset;
         selectedAsset = asset;
-        hoveredAsset = asset;
         asset.classList.add("active");
         asset.style.zIndex = ++zCounter;
 
@@ -2474,7 +2600,11 @@
       }, { passive: false });
     });
 
-    /* Lens Archive actual 3D hover-flip */
+    /* 3D Book */
+    const bookClosed = document.getElementById("bookClosed");
+    const bookOpen = document.getElementById("bookOpen");
+    const openBookBtn = document.getElementById("openBookBtn");
+    const closeBookBtn = document.getElementById("closeBookBtn");
     const magazineBook = document.getElementById("magazineBook");
     const spreads = Array.from(document.querySelectorAll(".spread"));
     const magHoverPrev = document.getElementById("magHoverPrev");
@@ -2483,6 +2613,13 @@
     let currentSpread = 0;
     let flipCooldown = false;
     let hoverTimer = null;
+    let bookIsOpen = false;
+
+    function setBookState(open) {
+      bookIsOpen = open;
+      bookClosed.classList.toggle("hidden", open);
+      bookOpen.classList.toggle("visible", open);
+    }
 
     function updateSpreads(direction = null) {
       spreads.forEach((spread, index) => {
@@ -2504,7 +2641,7 @@
     }
 
     function flipNext() {
-      if (flipCooldown || currentSpread >= spreads.length - 1) return;
+      if (!bookIsOpen || flipCooldown || currentSpread >= spreads.length - 1) return;
       flipCooldown = true;
       currentSpread += 1;
       updateSpreads("next");
@@ -2512,7 +2649,7 @@
     }
 
     function flipPrev() {
-      if (flipCooldown || currentSpread <= 0) return;
+      if (!bookIsOpen || flipCooldown || currentSpread <= 0) return;
       flipCooldown = true;
       currentSpread -= 1;
       updateSpreads("prev");
@@ -2520,6 +2657,7 @@
     }
 
     function startHoverFlip(dir) {
+      if (!bookIsOpen) return;
       clearTimeout(hoverTimer);
       hoverTimer = setTimeout(() => {
         if (dir === "next") flipNext();
@@ -2531,12 +2669,17 @@
       clearTimeout(hoverTimer);
     }
 
+    bookClosed.addEventListener("click", () => setBookState(true));
+    openBookBtn.addEventListener("click", () => setBookState(true));
+    closeBookBtn.addEventListener("click", () => setBookState(false));
+
     magHoverNext.addEventListener("mouseenter", () => startHoverFlip("next"));
     magHoverPrev.addEventListener("mouseenter", () => startHoverFlip("prev"));
     magHoverNext.addEventListener("mouseleave", stopHoverFlip);
     magHoverPrev.addEventListener("mouseleave", stopHoverFlip);
 
     magazineBook.addEventListener("mousemove", (e) => {
+      if (!bookIsOpen) return;
       const rect = magazineBook.getBoundingClientRect();
       const x = (e.clientX - rect.left) / rect.width;
       const y = (e.clientY - rect.top) / rect.height;
@@ -2551,8 +2694,9 @@
     });
 
     updateSpreads();
+    setBookState(false);
 
-    /* Director's Dome one small video with arrows */
+    /* Director's Dome */
     const featureVideo = document.getElementById("featureVideo");
     const videoPrev = document.getElementById("videoPrev");
     const videoNext = document.getElementById("videoNext");
