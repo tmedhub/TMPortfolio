@@ -898,7 +898,6 @@
       white-space:nowrap;
     }
 
-    /* DIRECTOR'S DOME */
     .directors-dome-stage{
       height:300vh;
       background:#000;
@@ -1180,12 +1179,13 @@
 
     .mail-fallback{
       margin-top:14px;
-      font-size:0.9rem;
+      font-size:0.95rem;
       color:rgba(255,248,236,0.9);
       opacity:0;
       transform:translateY(8px);
       transition:opacity 0.25s ease, transform 0.25s ease;
       pointer-events:none;
+      min-height:24px;
     }
 
     .mail-fallback.show{
@@ -1193,10 +1193,9 @@
       transform:translateY(0);
     }
 
-    .mail-fallback a{
+    #mailText{
       color:#fff1c8;
-      text-decoration:none;
-      border-bottom:1px solid rgba(255,241,200,0.45);
+      letter-spacing:0.04em;
     }
 
     @media (max-width: 1100px){
@@ -1557,7 +1556,7 @@
             </div>
 
             <div class="mail-fallback" id="mailFallback">
-              Mail: <a href="mailto:tmedhub@gmail.com">tmedhub@gmail.com</a>
+              <span id="mailText">Mail</span>
             </div>
           </div>
         </div>
@@ -2159,16 +2158,11 @@
 
     const mailMeBtn = document.getElementById("mailMeBtn");
     const mailFallback = document.getElementById("mailFallback");
+    const mailText = document.getElementById("mailText");
 
     mailMeBtn.addEventListener("click", () => {
-      mailFallback.classList.remove("show");
-
-      const mailto = "mailto:tmedhub@gmail.com?subject=" + encodeURIComponent("Hello") + "&body=" + encodeURIComponent("");
-      const opened = window.open(mailto, "_self");
-
-      setTimeout(() => {
-        mailFallback.classList.add("show");
-      }, 700);
+      mailText.textContent = "tmedhub@gmail.com";
+      mailFallback.classList.add("show");
     });
 
     renderFeatureVideo();
