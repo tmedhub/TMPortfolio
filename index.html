@@ -562,7 +562,7 @@
       position:absolute;
       inset:0;
       z-index:10;
-      opacity:1;
+      opacity:0;
       overflow:hidden;
       background:#000;
       pointer-events:auto;
@@ -1648,7 +1648,7 @@
       }
 
       .video-carousel-wrap{
-        width:min(90vw, 360px);
+        width:min(94vw, 420px);
       }
 
       .sky-limit-title{
@@ -1909,9 +1909,11 @@
               <video
                 id="featureVideo"
                 controls
+                autoplay
+                muted
+                loop
                 playsinline
-                preload="metadata"
-                poster="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1280 800'><defs><linearGradient id='g' x1='0' x2='1'><stop stop-color='%230b1220'/><stop offset='1' stop-color='%231d3658'/></linearGradient></defs><rect width='1280' height='800' fill='url(%23g)'/><circle cx='640' cy='400' r='86' fill='rgba(255,255,255,0.12)'/><polygon points='615,350 615,450 700,400' fill='%23e8d7b4'/><text x='640' y='560' text-anchor='middle' fill='%23e8d7b4' font-size='42' font-family='Arial, sans-serif' letter-spacing='6'>VIDEO PLACEHOLDER</text></svg>"
+                preload="auto"
               >
                 <source src="work2.mp4" type="video/mp4">
               </video>
@@ -2306,7 +2308,7 @@
         invalidateOnRefresh: true,
         onUpdate: self => {
           const progress = self.progress;
-          const horizontalStart = 0.42;
+          const horizontalStart = 0.50;
           const horizontalEnd = 0.86;
           const moveProgress = gsap.utils.clamp(0, 1, (progress - horizontalStart) / (horizontalEnd - horizontalStart));
           const maxX = Math.max(0, track.scrollWidth - shell.clientWidth);
@@ -2319,9 +2321,9 @@
       .fromTo(bg4Overlay, { opacity: 1 }, { opacity: 1, ease: "none" }, 0.00)
       .fromTo(bg5Top, { opacity: 0, scale: 1.08 }, { opacity: 1, scale: 1.02, ease: "power2.out" }, 0.10)
       .fromTo(bg5Overlay, { opacity: 0 }, { opacity: 1, ease: "power2.out" }, 0.10)
-      .to(bg4Base, { opacity: 0, ease: "power2.out" }, 0.20)
-      .to(bg4Overlay, { opacity: 1, ease: "power2.out" }, 0.20)
-      .set("#projectsJourney", { opacity: 1 }, 0.00);
+       .to(bg4Base, { opacity: 0, ease: "power2.out" }, 0.30)
+       .to(bg4Overlay, { opacity: 1, ease: "power2.out" }, 0.30)
+      .set("#projectsJourney", { opacity: 1 }, 0.34);
 
     document.querySelectorAll("[data-carousel]").forEach(carousel => {
       const slides = [...carousel.querySelectorAll(".media-slide")];
