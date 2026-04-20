@@ -576,8 +576,8 @@
       z-index:0;
       pointer-events:none;
       background:
-        radial-gradient(circle at 50% 120%, rgba(204,156,84,0.08), transparent 35%),
-        #000;
+        radial-gradient(circle at 50% 120%, rgba(204,156,84,0.10), transparent 35%),
+        #090705;
     }
 
     .arcade-note{
@@ -608,7 +608,7 @@
       cursor:grab;
       user-select:none;
       touch-action:pan-y;
-      background:#000;
+      background:#090705;
     }
 
     .arcade-shell.dragging{ cursor:grabbing; }
@@ -616,7 +616,7 @@
     .arcade-track{
       display:flex;
       gap:clamp(16px, 2vw, 24px);
-      padding:0 10vw 0 2.8vw;
+      padding:0 8vw 0 4vw;
       will-change:transform;
       transform:translate3d(0,0,0);
       align-items:center;
@@ -1278,7 +1278,7 @@
     @media (max-width: 900px){
       .arcade-track{
         gap:16px;
-        padding:0 6vw 0 4vw;
+        padding:0 7vw 0 8vw;
       }
 
       .arcade-card{
@@ -1424,7 +1424,7 @@
 
       .arcade-track{
         gap:14px;
-        padding:0 4vw 0 3vw;
+        padding:0 5vw 0 5vw;
       }
 
       .arcade-card{
@@ -2306,8 +2306,8 @@
         invalidateOnRefresh: true,
         onUpdate: self => {
           const progress = self.progress;
-          const horizontalStart = 0.43;
-          const horizontalEnd = 0.90;
+          const horizontalStart = 0.42;
+          const horizontalEnd = 0.86;
           const moveProgress = gsap.utils.clamp(0, 1, (progress - horizontalStart) / (horizontalEnd - horizontalStart));
           const maxX = Math.max(0, track.scrollWidth - shell.clientWidth);
           const scrollDrivenX = clampTrackX(-(maxX * moveProgress));
@@ -2321,7 +2321,7 @@
       .fromTo(bg5Overlay, { opacity: 0 }, { opacity: 1, ease: "power2.out" }, 0.10)
       .to(bg4Base, { opacity: 0, ease: "power2.out" }, 0.20)
       .to(bg4Overlay, { opacity: 1, ease: "power2.out" }, 0.20)
-      ;
+      .set("#projectsJourney", { opacity: 1 }, 0.00);
 
     document.querySelectorAll("[data-carousel]").forEach(carousel => {
       const slides = [...carousel.querySelectorAll(".media-slide")];
@@ -2561,7 +2561,6 @@
       }
     })
       .to("#bg8Full", { scale:1.05, opacity:0.42, ease:"none" }, 0.00)
-      .to("#directorsTop", { opacity:0, y:-36, ease:"none" }, 0.16)
       .to("#bg9Full", { opacity:1, scale:1.02, ease:"none" }, 0.18)
       .to("#directorsMediaContent", { opacity:0, y:-10, ease:"none" }, 0.18)
       .to("#bg9Full", { opacity:0.22, scale:1.08, ease:"none" }, 0.56)
