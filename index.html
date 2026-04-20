@@ -329,7 +329,7 @@
       transition:opacity 2.2s ease;
     }
 
-    .canvas-wrap, .customization-stage, .directors-dome-stage, .lets-connect-stage{
+    .canvas-wrap, .customization-stage, .directors-dome-stage{
       position:relative;
       min-height:100vh;
       overflow:hidden;
@@ -900,7 +900,7 @@
 
     /* DIRECTOR'S DOME */
     .directors-dome-stage{
-      height:220vh;
+      height:300vh;
       background:#000;
       position:relative;
       isolation:isolate;
@@ -954,14 +954,6 @@
       text-shadow:0 12px 30px rgba(0,0,0,0.42);
     }
 
-    .directors-sub{
-      font-size:0.82rem;
-      letter-spacing:0.18em;
-      text-transform:uppercase;
-      color:rgba(247,241,231,0.72);
-      margin-top:10px;
-    }
-
     .directors-stage{
       position:absolute;
       inset:0;
@@ -970,7 +962,8 @@
     }
 
     .bg8-full,
-    .bg9-full{
+    .bg9-full,
+    .bg10-full{
       position:absolute;
       inset:0;
       background-repeat:no-repeat;
@@ -996,13 +989,21 @@
       background-position:center center;
     }
 
+    .bg10-full{
+      background-image:url("bg10.jpeg");
+      z-index:3;
+      opacity:0;
+      transform:scale(1.14);
+      background-position:center center;
+    }
+
     .directors-dark-overlay{
       position:absolute;
       inset:0;
       z-index:6;
       pointer-events:none;
       background:
-        linear-gradient(to bottom, rgba(0,0,0,0.06), rgba(0,0,0,0.14)),
+        linear-gradient(to bottom, rgba(0,0,0,0.06), rgba(0,0,0,0.18)),
         radial-gradient(circle at 50% 12%, rgba(255,220,160,0.05), transparent 26%);
     }
 
@@ -1014,7 +1015,7 @@
       flex-direction:column;
       align-items:center;
       justify-content:center;
-      padding:14vh 4vw 8vh;
+      padding:11vh 4vw 8vh;
       pointer-events:none;
       will-change:opacity, transform;
     }
@@ -1026,7 +1027,7 @@
       align-items:center;
       justify-content:center;
       pointer-events:auto;
-      margin-top:12vh;
+      margin-top:9vh;
     }
 
     .video-arrow{
@@ -1089,38 +1090,17 @@
       pointer-events:none;
     }
 
-    /* FINAL SECTION */
-    .lets-connect-stage{
-      min-height:100vh;
-      position:relative;
+    .lets-connect-panel{
+      position:absolute;
+      inset:0;
+      z-index:12;
       display:flex;
       align-items:center;
       justify-content:center;
       padding:10vh 6vw;
-      background:#000;
-      isolation:isolate;
-      overflow:hidden;
-    }
-
-    .lets-connect-bg{
-      position:absolute;
-      inset:0;
-      background:url("bg10.jpeg") center center / cover no-repeat;
-      background-color:#000;
-      z-index:1;
-      transform:scale(1.12);
-      opacity:1;
-      will-change:transform, opacity;
-    }
-
-    .lets-connect-overlay{
-      position:absolute;
-      inset:0;
-      z-index:2;
+      opacity:0;
       pointer-events:none;
-      background:
-        linear-gradient(to bottom, rgba(0,0,0,0.16), rgba(0,0,0,0.30)),
-        radial-gradient(circle at 50% 20%, rgba(255,220,160,0.08), transparent 28%);
+      will-change:opacity, transform;
     }
 
     .lets-connect-content{
@@ -1186,6 +1166,7 @@
       border:1px solid rgba(159,214,255,0.26);
       box-shadow:0 14px 32px rgba(8,18,42,0.32), inset 0 1px 0 rgba(210,230,255,0.08);
       font-weight:600;
+      pointer-events:auto;
     }
 
     .connect-btn.primary:hover,
@@ -1230,6 +1211,7 @@
       .arcade-card{ min-width:90vw; border-radius:20px; }
       .arcade-card-title{ font-size:2rem; }
       .arcade-note{ top:5vh; font-size:0.60rem; letter-spacing:0.18em; }
+
       .connect-links{ flex-direction:column; align-items:center; }
       .connect-btn{ width:min(320px, 100%); }
 
@@ -1276,13 +1258,9 @@
         font-size:clamp(1.8rem, 6vw, 2.7rem);
       }
 
-      .directors-sub{
-        font-size:0.60rem;
-        letter-spacing:0.08em;
-      }
-
       .video-carousel-wrap{
         width:min(280px, 72vw);
+        margin-top:6vh;
       }
 
       .video-arrow.prev{ left:-16px; }
@@ -1300,7 +1278,7 @@
         font-size:clamp(1.4rem, 5.5vw, 2rem);
       }
 
-      .lets-connect-stage{
+      .lets-connect-panel{
         padding:10vh 5vw;
       }
     }
@@ -1335,7 +1313,7 @@
       </a>
     </div>
 
-    <a href="#letsConnectSection" class="museum-btn museum-work-btn">
+    <a href="#letsConnectPanel" class="museum-btn museum-work-btn">
       <span class="btn-label">Let’s Connect!</span>
     </a>
   </div>
@@ -1511,13 +1489,13 @@
           <span class="directors-kicker">Gallery IV</span>
           <h2 class="directors-title">Director’s Dome</h2>
           <div class="gold-line"></div>
-          <p class="directors-sub">Featured motion work and cinematic highlights.</p>
         </div>
       </div>
 
       <div class="directors-stage">
         <div class="bg8-full" id="bg8Full"></div>
         <div class="bg9-full" id="bg9Full"></div>
+        <div class="bg10-full" id="bg10Full"></div>
         <div class="directors-dark-overlay"></div>
 
         <div class="directors-media-content" id="directorsMediaContent">
@@ -1535,26 +1513,23 @@
 
           <div class="video-counter" id="videoCounter">Video 1 / 3</div>
         </div>
-      </div>
-    </div>
-  </section>
 
-  <section class="lets-connect-stage" id="letsConnectSection">
-    <div class="lets-connect-bg" id="letsConnectBg"></div>
-    <div class="lets-connect-overlay"></div>
+        <div class="lets-connect-panel" id="letsConnectPanel">
+          <div class="lets-connect-content">
+            <h2 class="sky-limit-title">Sky Is The Limit</h2>
+            <h2 class="lets-connect-title">Let’s Connect!</h2>
+            <p class="lets-connect-copy">
+              Have an idea and want to bring it to life? I’d love to hear about it.
+              Whether it’s a creative collaboration, a design project, or something still taking shape,
+              let’s start the conversation and build something thoughtful together.
+            </p>
 
-    <div class="lets-connect-content">
-      <h2 class="sky-limit-title">Sky Is The Limit</h2>
-      <h2 class="lets-connect-title">Let’s Connect!</h2>
-      <p class="lets-connect-copy">
-        Have an idea and want to bring it to life? I’d love to hear about it.
-        Whether it’s a creative collaboration, a design project, or something still taking shape,
-        let’s start the conversation and build something thoughtful together.
-      </p>
-
-      <div class="connect-links">
-        <a href="mailto:tmedhub@gmail.com" class="connect-btn primary">Mail Me</a>
-        <a href="https://instagram.com/lill.artttt" target="_blank" rel="noopener noreferrer" class="connect-btn secondary">Instagram</a>
+            <div class="connect-links">
+              <a href="mailto:tmedhub@gmail.com" class="connect-btn primary">Mail Me</a>
+              <a href="https://instagram.com/lill.artttt" target="_blank" rel="noopener noreferrer" class="connect-btn secondary">Instagram</a>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -1968,43 +1943,23 @@
     });
 
     domeTl
-      .to("#bg8Full", { scale: 1.05, ease: "none" }, 0.06)
-      .to("#directorsMediaContent", { opacity: 0, y: 20, ease: "none" }, 0.28)
-      .to("#bg9Full", { opacity: 1, scale: 1.02, ease: "none" }, 0.42)
-      .to("#directorsTop", { opacity: 0, y: -18, ease: "none" }, 0.55)
-      .to("#bg9Full", { scale: 1.08, ease: "none" }, 0.74);
+      .to("#bg8Full", { scale: 1.05, ease: "none" }, 0.05)
 
-    gsap.fromTo(
-      "#letsConnectBg",
-      { opacity: 0.92, scale: 1.12 },
-      {
-        opacity: 1,
-        scale: 1,
-        ease: "none",
-        scrollTrigger: {
-          trigger: "#letsConnectSection",
-          start: "top bottom",
-          end: "top 16%",
-          scrub: 1.25
-        }
-      }
-    );
+      /* video disappears before bg9 */
+      .to("#directorsMediaContent", { opacity: 0, y: -22, ease: "power2.out" }, 0.22)
 
-    gsap.fromTo(
-      ".lets-connect-content",
-      { y: 50, opacity: 0 },
-      {
-        y: 0,
-        opacity: 1,
-        ease: "power2.out",
-        scrollTrigger: {
-          trigger: "#letsConnectSection",
-          start: "top 82%",
-          end: "top 42%",
-          scrub: 1
-        }
-      }
-    );
+      /* bg8 -> bg9 */
+      .to("#bg9Full", { opacity: 1, scale: 1.02, ease: "power2.inOut" }, 0.38)
+      .to("#bg8Full", { opacity: 0.14, scale: 1.10, ease: "power2.inOut" }, 0.38)
+      .to("#directorsTop", { opacity: 0, y: -18, ease: "power2.out" }, 0.45)
+
+      /* bg9 -> bg10 same smooth style */
+      .to("#bg10Full", { opacity: 1, scale: 1.02, ease: "power2.inOut" }, 0.68)
+      .to("#bg9Full", { opacity: 0.12, scale: 1.10, ease: "power2.inOut" }, 0.68)
+
+      /* text appears only on bg10 */
+      .to("#letsConnectPanel", { opacity: 1, ease: "power2.out" }, 0.78)
+      .to("#bg10Full", { scale: 1.08, ease: "none" }, 0.88);
 
     window.addEventListener("resize", () => {
       targetX = clampTrackX(targetX);
