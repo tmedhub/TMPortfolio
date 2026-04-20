@@ -1840,7 +1840,7 @@
                 <div class="media-carousel" style="inset:18px;">
                   <div class="media-slides">
                     <div class="media-slide active">
-                      <video src="work.mp4" controls playsinline preload="metadata"></video>
+                      <video src="work1.mp4" controls playsinline preload="metadata"></video>
                     </div>
                   </div>
                 </div>
@@ -2549,24 +2549,23 @@
       featureVideo.load();
     }
 
-    gsap.timeline({
-      scrollTrigger:{
-        trigger:"#directorsDome",
-        start:"top top",
-        end:"+=2600",
-        scrub:1,
-        pin:true,
-        anticipatePin:1,
-        invalidateOnRefresh:true
-      }
-    })
-      .to("#bg8Full", { scale:1.05, opacity:0.42, ease:"none" }, 0.00)
-      .to("#bg9Full", { opacity:1, scale:1.02, ease:"none" }, 0.18)
-      .to("#directorsMediaContent", { opacity:1, y:0, ease:"none" }, 0.20)
-      .to("#bg9Full", { opacity:0.22, scale:1.08, ease:"none" }, 0.56)
-      .to("#bg10Full", { opacity:1, scale:1.01, ease:"none" }, 0.66)
-      .to("#directorsMediaContent", { opacity:0.08, y:-18, ease:"none" }, 0.76)
-      .to("#letsConnectPanel", { opacity:1, pointerEvents:"auto", ease:"none" }, 0.82);
+   gsap.timeline({
+  scrollTrigger:{
+    trigger:"#directorsDome",
+    start:"top top",
+    end:"+=2600",
+    scrub:1,
+    pin:true,
+    anticipatePin:1,
+    invalidateOnRefresh:true
+  }
+})
+  .to("#bg8Full", { scale:1.05, opacity:0.42, ease:"none" }, 0.00)
+  .to("#bg9Full", { opacity:1, scale:1.02, ease:"none" }, 0.18)
+  .to("#directorsMediaContent", { opacity:0, y:-10, ease:"none" }, 0.18)
+  .to("#bg9Full", { opacity:0.22, scale:1.08, ease:"none" }, 0.56)
+  .to("#bg10Full", { opacity:1, scale:1.01, ease:"none" }, 0.66)
+  .to("#letsConnectPanel", { opacity:1, pointerEvents:"auto", ease:"none" }, 0.82);
 
     const mailMeBtn = document.getElementById("mailMeBtn");
     const mailFallback = document.getElementById("mailFallback");
