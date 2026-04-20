@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Museumof Me</title>
+  <title>Museum of Me</title>
 
   <script>
     if ("scrollRestoration" in history) history.scrollRestoration = "manual";
@@ -920,13 +920,13 @@
       left:0;
       right:0;
       z-index:20;
-      height:27vh;
-      background:linear-gradient(to bottom, rgba(0,0,0,1), rgba(0,0,0,0.88), rgba(0,0,0,0));
+      height:16vh;
+      background:linear-gradient(to bottom, rgba(0,0,0,0.95), rgba(0,0,0,0.55), rgba(0,0,0,0));
       display:flex;
-      align-items:center;
+      align-items:flex-start;
       justify-content:center;
       text-align:center;
-      padding:4vh 20px 2vh;
+      padding:2vh 20px 0;
       pointer-events:none;
       will-change:opacity, transform;
     }
@@ -941,17 +941,17 @@
       letter-spacing:0.38em;
       text-transform:uppercase;
       color:rgba(232,207,150,0.9);
-      margin-bottom:14px;
+      margin-bottom:10px;
     }
 
     .directors-title{
       font-family:"Cormorant Garamond", serif;
       text-transform:uppercase;
-      font-size:clamp(2rem, 4vw, 3.9rem);
+      font-size:clamp(1.8rem, 3.2vw, 3.2rem);
       line-height:0.95;
       letter-spacing:0.02em;
       color:#f3dfbf;
-      text-shadow:0 12px 30px rgba(0,0,0,0.42);
+      text-shadow:0 10px 22px rgba(0,0,0,0.36);
     }
 
     .directors-stage{
@@ -1003,8 +1003,8 @@
       z-index:6;
       pointer-events:none;
       background:
-        linear-gradient(to bottom, rgba(0,0,0,0.06), rgba(0,0,0,0.18)),
-        radial-gradient(circle at 50% 12%, rgba(255,220,160,0.05), transparent 26%);
+        linear-gradient(to bottom, rgba(0,0,0,0.02), rgba(0,0,0,0.14)),
+        radial-gradient(circle at 50% 12%, rgba(255,220,160,0.04), transparent 26%);
     }
 
     .directors-media-content{
@@ -1014,8 +1014,8 @@
       display:flex;
       flex-direction:column;
       align-items:center;
-      justify-content:center;
-      padding:11vh 4vw 8vh;
+      justify-content:flex-start;
+      padding:7vh 4vw 8vh;
       pointer-events:none;
       will-change:opacity, transform;
     }
@@ -1027,7 +1027,7 @@
       align-items:center;
       justify-content:center;
       pointer-events:auto;
-      margin-top:9vh;
+      margin-top:7vh;
     }
 
     .video-arrow{
@@ -1157,6 +1157,7 @@
       letter-spacing:0.08em;
       text-transform:uppercase;
       transition:transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease, background 0.25s ease, color 0.25s ease;
+      cursor:pointer;
     }
 
     .connect-btn.primary,
@@ -1175,6 +1176,27 @@
       background:linear-gradient(135deg, #13325a 0%, #1c4678 52%, #285d9d 100%);
       border-color:rgba(159,214,255,0.42);
       box-shadow:0 18px 42px rgba(8,18,42,0.42), inset 0 1px 0 rgba(210,230,255,0.12);
+    }
+
+    .mail-fallback{
+      margin-top:14px;
+      font-size:0.9rem;
+      color:rgba(255,248,236,0.9);
+      opacity:0;
+      transform:translateY(8px);
+      transition:opacity 0.25s ease, transform 0.25s ease;
+      pointer-events:none;
+    }
+
+    .mail-fallback.show{
+      opacity:1;
+      transform:translateY(0);
+    }
+
+    .mail-fallback a{
+      color:#fff1c8;
+      text-decoration:none;
+      border-bottom:1px solid rgba(255,241,200,0.45);
     }
 
     @media (max-width: 1100px){
@@ -1249,18 +1271,23 @@
         width:min(90vw, 360px);
       }
 
+      .directors-top{
+        height:13vh;
+        padding-top:1.2vh;
+      }
+
       .directors-kicker{
         font-size:0.58rem;
         letter-spacing:0.22em;
       }
 
       .directors-title{
-        font-size:clamp(1.8rem, 6vw, 2.7rem);
+        font-size:clamp(1.5rem, 5.5vw, 2.2rem);
       }
 
       .video-carousel-wrap{
         width:min(280px, 72vw);
-        margin-top:6vh;
+        margin-top:5vh;
       }
 
       .video-arrow.prev{ left:-16px; }
@@ -1525,8 +1552,12 @@
             </p>
 
             <div class="connect-links">
-              <a href="mailto:tmedhub@gmail.com" class="connect-btn primary">Mail Me</a>
+              <button type="button" class="connect-btn primary" id="mailMeBtn">Mail Me</button>
               <a href="https://instagram.com/lill.artttt" target="_blank" rel="noopener noreferrer" class="connect-btn secondary">Instagram</a>
+            </div>
+
+            <div class="mail-fallback" id="mailFallback">
+              Mail: <a href="mailto:tmedhub@gmail.com">tmedhub@gmail.com</a>
             </div>
           </div>
         </div>
@@ -1944,20 +1975,12 @@
 
     domeTl
       .to("#bg8Full", { scale: 1.05, ease: "none" }, 0.05)
-
-      /* video disappears before bg9 */
       .to("#directorsMediaContent", { opacity: 0, y: -22, ease: "power2.out" }, 0.22)
-
-      /* bg8 -> bg9 */
       .to("#bg9Full", { opacity: 1, scale: 1.02, ease: "power2.inOut" }, 0.38)
       .to("#bg8Full", { opacity: 0.14, scale: 1.10, ease: "power2.inOut" }, 0.38)
-      .to("#directorsTop", { opacity: 0, y: -18, ease: "power2.out" }, 0.45)
-
-      /* bg9 -> bg10 same smooth style */
+      .to("#directorsTop", { opacity: 0, y: -22, ease: "power2.out" }, 0.45)
       .to("#bg10Full", { opacity: 1, scale: 1.02, ease: "power2.inOut" }, 0.68)
       .to("#bg9Full", { opacity: 0.12, scale: 1.10, ease: "power2.inOut" }, 0.68)
-
-      /* text appears only on bg10 */
       .to("#letsConnectPanel", { opacity: 1, ease: "power2.out" }, 0.78)
       .to("#bg10Full", { scale: 1.08, ease: "none" }, 0.88);
 
@@ -2132,6 +2155,20 @@
     videoNext.addEventListener("click", () => {
       currentVideoIndex = (currentVideoIndex + 1) % domeVideos.length;
       renderFeatureVideo();
+    });
+
+    const mailMeBtn = document.getElementById("mailMeBtn");
+    const mailFallback = document.getElementById("mailFallback");
+
+    mailMeBtn.addEventListener("click", () => {
+      mailFallback.classList.remove("show");
+
+      const mailto = "mailto:tmedhub@gmail.com?subject=" + encodeURIComponent("Hello") + "&body=" + encodeURIComponent("");
+      const opened = window.open(mailto, "_self");
+
+      setTimeout(() => {
+        mailFallback.classList.add("show");
+      }, 700);
     });
 
     renderFeatureVideo();
