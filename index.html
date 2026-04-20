@@ -2304,14 +2304,13 @@
         trigger: "#projectArcade",
         start: "top top",
         end: () => "+=" + (track.scrollWidth - shell.clientWidth + window.innerHeight * 4.2),
-        scrub: 1.15,
+        scrub: 1,
         pin: true,
-        anticipatePin: 1,
         invalidateOnRefresh: true,
         onUpdate: self => {
           const progress = self.progress;
-          const horizontalStart = 0.56;
-          const horizontalEnd = 0.90;
+          const horizontalStart = 0.28;
+          const horizontalEnd = 0.86;
           const moveProgress = gsap.utils.clamp(0, 1, (progress - horizontalStart) / (horizontalEnd - horizontalStart));
           const maxX = Math.max(0, track.scrollWidth - shell.clientWidth);
           const scrollDrivenX = clampTrackX(-(maxX * moveProgress));
@@ -2321,11 +2320,11 @@
     })
       .fromTo(bg4Base, { scale: 1, opacity: 1, xPercent: 0, yPercent: 0 }, { scale: 1.24, xPercent: -4, yPercent: -2, opacity: 1, transformOrigin: "50% 50%", ease: "none" }, 0.00)
       .fromTo(bg4Overlay, { opacity: 1 }, { opacity: 1, ease: "none" }, 0.00)
-      .fromTo(bg5Top, { opacity: 0, scale: 1.08 }, { opacity: 1, scale: 1.01, ease: "power2.out" }, 0.12)
-      .fromTo(bg5Overlay, { opacity: 0 }, { opacity: 1, ease: "power2.out" }, 0.12)
-      .to(bg4Base, { opacity: 0, ease: "power2.out" }, 0.34)
-      .to(bg4Overlay, { opacity: 1, ease: "power2.out" }, 0.34)
-      .set("#projectsJourney", { opacity: 1 }, 0.46);
+      .fromTo(bg5Top, { opacity: 0, scale: 1.08 }, { opacity: 1, scale: 1.02, ease: "power2.out" }, 0.10)
+      .fromTo(bg5Overlay, { opacity: 0 }, { opacity: 1, ease: "power2.out" }, 0.10)
+      .to(bg4Base, { opacity: 0, ease: "power2.out" }, 0.20)
+      .to(bg4Overlay, { opacity: 1, ease: "power2.out" }, 0.20)
+      .to("#projectsJourney", { opacity: 1, ease: "power2.out" }, 0.26);
 
     document.querySelectorAll("[data-carousel]").forEach(carousel => {
       const slides = [...carousel.querySelectorAll(".media-slide")];
