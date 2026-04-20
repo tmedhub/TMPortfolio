@@ -1229,6 +1229,7 @@
     .mail-card{
       display:inline-flex;
       align-items:center;
+      justify-content:center;
       gap:10px;
       max-width:min(92vw, 520px);
       padding:10px 14px;
@@ -1939,7 +1940,7 @@
             <div class="mail-fallback" id="mailFallback">
               <div class="mail-card">
                 <span id="mailText">tmedhub@gmail.com</span>
-                <button type="button" class="copy-mail-btn" id="copyMailBtn">Copy</button>
+                
               </div>
             </div>
           </div>
@@ -2303,8 +2304,9 @@
         trigger: "#projectArcade",
         start: "top top",
         end: () => "+=" + (track.scrollWidth - shell.clientWidth + window.innerHeight * 4.2),
-        scrub: 1,
+        scrub: 1.15,
         pin: true,
+        anticipatePin: 1,
         invalidateOnRefresh: true,
         onUpdate: self => {
           const progress = self.progress;
@@ -2317,13 +2319,13 @@
         }
       }
     })
-      .fromTo(bg4Base, { scale: 1, opacity: 1, xPercent: 0, yPercent: 0 }, { scale: 1.24, xPercent: -4, yPercent: -2, opacity: 1, transformOrigin: "50% 50%", ease: "none" }, 0.00)
+      .fromTo(bg4Base, { scale: 1, opacity: 1, xPercent: 0, yPercent: 0 }, { scale: 1.18, xPercent: -3, yPercent: -2, opacity: 1, transformOrigin: "50% 50%", ease: "none" }, 0.00)
       .fromTo(bg4Overlay, { opacity: 1 }, { opacity: 1, ease: "none" }, 0.00)
-      .fromTo(bg5Top, { opacity: 0, scale: 1.08 }, { opacity: 1, scale: 1.02, ease: "power2.out" }, 0.10)
-      .fromTo(bg5Overlay, { opacity: 0 }, { opacity: 1, ease: "power2.out" }, 0.10)
-       .to(bg4Base, { opacity: 0, ease: "power2.out" }, 0.30)
-       .to(bg4Overlay, { opacity: 1, ease: "power2.out" }, 0.30)
-      .set("#projectsJourney", { opacity: 1 }, 0.34);
+      .fromTo(bg5Top, { opacity: 0, scale: 1.10 }, { opacity: 1, scale: 1.04, ease: "power2.out" }, 0.18)
+      .fromTo(bg5Overlay, { opacity: 0 }, { opacity: 1, ease: "power2.out" }, 0.18)
+      .to(bg4Base, { opacity: 0, ease: "power2.out" }, 0.36)
+      .to(bg4Overlay, { opacity: 1, ease: "power2.out" }, 0.36)
+      .set("#projectsJourney", { opacity: 1 }, 0.40);
 
     document.querySelectorAll("[data-carousel]").forEach(carousel => {
       const slides = [...carousel.querySelectorAll(".media-slide")];
@@ -2545,12 +2547,6 @@
 
     const featureVideo = document.getElementById("featureVideo");
 
-    function setVideo(){
-      featureVideo.pause();
-      featureVideo.innerHTML = `<source src="work2.mp4" type="video/mp4">`;
-      featureVideo.load();
-    }
-
     gsap.timeline({
       scrollTrigger:{
         trigger:"#directorsDome",
@@ -2564,14 +2560,15 @@
     })
       .to("#bg8Full", { scale:1.05, opacity:0.42, ease:"none" }, 0.00)
       .to("#bg9Full", { opacity:1, scale:1.02, ease:"none" }, 0.18)
+      .to("#directorsTop", { opacity:0, y:-40, ease:"none" }, 0.18)
       .to("#directorsMediaContent", { opacity:0, y:-10, ease:"none" }, 0.18)
       .to("#bg9Full", { opacity:0.22, scale:1.08, ease:"none" }, 0.56)
       .to("#bg10Full", { opacity:1, scale:1.01, ease:"none" }, 0.66)
+      .to("#directorsTop", { opacity:0, ease:"none" }, 0.66)
       .to("#letsConnectPanel", { opacity:1, pointerEvents:"auto", ease:"none" }, 0.82);
 
     const mailMeBtn = document.getElementById("mailMeBtn");
     const mailFallback = document.getElementById("mailFallback");
-    const copyMailBtn = document.getElementById("copyMailBtn");
     const mailText = document.getElementById("mailText");
     let mailTimer;
 
@@ -2583,20 +2580,7 @@
       }, 10000);
     });
 
-    copyMailBtn.addEventListener("click", async () => {
-      try {
-        await navigator.clipboard.writeText(mailText.textContent.trim());
-        copyMailBtn.textContent = "Copied";
-        setTimeout(() => {
-          copyMailBtn.textContent = "Copy";
-        }, 1400);
-      } catch (e) {
-        copyMailBtn.textContent = "Copy";
-      }
-    });
-
     normalizeAssetsForViewport();
-    setVideo();
 
     let resizeTimer;
     window.addEventListener("resize", () => {
