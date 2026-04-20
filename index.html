@@ -969,16 +969,20 @@
     }
 
     .directors-dome-stage{
-      height:210svh;
+      min-height:100svh;
+      height:100svh;
       background:#000;
       position:relative;
       isolation:isolate;
+      overflow:hidden;
     }
 
     .directors-sticky{
-      position:sticky;
-      top:0;
+      position:relative;
+      width:100%;
+      height:100%;
       background:#000;
+      overflow:hidden;
     }
 
     .directors-top{
@@ -1024,6 +1028,7 @@
       inset:0;
       z-index:1;
       background:#000;
+      overflow:hidden;
     }
 
     .bg8-full,
@@ -1077,50 +1082,27 @@
       flex-direction:column;
       align-items:center;
       justify-content:flex-start;
-      padding:17vh 4vw 8vh;
+      padding:18.5vh 4vw 8vh;
       pointer-events:none;
       will-change:opacity, transform;
     }
 
     .video-carousel-wrap{
-      width:min(260px, 22vw);
+      width:min(720px, 52vw);
       position:relative;
       display:flex;
       align-items:center;
       justify-content:center;
       pointer-events:auto;
-      margin-top:2vh;
+      margin-top:0.6vh;
     }
 
-    .video-arrow{
-      position:absolute;
-      top:50%;
-      transform:translateY(-50%);
-      z-index:10;
-      width:34px;
-      height:34px;
-      border-radius:999px;
-      border:1px solid rgba(234,215,174,0.28);
-      background:rgba(14,10,8,0.56);
-      color:#f4e3bc;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      font-size:0.95rem;
-      cursor:pointer;
-      transition:transform .2s ease, border-color .2s ease, background .2s ease;
-      backdrop-filter:blur(6px);
-      -webkit-backdrop-filter:blur(6px);
-    }
+    .video-arrow{ display:none; }
 
-    .video-arrow:hover{
-      transform:translateY(-50%) scale(1.04);
-      border-color:rgba(234,215,174,0.44);
-      background:rgba(20,15,11,0.72);
-    }
+    .video-arrow:hover{ display:none; }
 
-    .video-arrow.prev{ left:-42px; }
-    .video-arrow.next{ right:-42px; }
+    .video-arrow.prev{ display:none; }
+    .video-arrow.next{ display:none; }
 
     .video-frame-single{
       width:100%;
@@ -1133,23 +1115,15 @@
     .video-frame-single video{
       width:100%;
       display:block;
-      border-radius:18px;
+      border-radius:22px;
       background:#000;
-      aspect-ratio:16/10;
+      aspect-ratio:16/9;
       object-fit:cover;
-      box-shadow:0 18px 32px rgba(0,0,0,0.28);
+      box-shadow:0 24px 42px rgba(0,0,0,0.36);
     }
 
     .video-counter{
-      margin-top:10px;
-      color:rgba(247,241,231,0.74);
-      font-size:0.56rem;
-      letter-spacing:0.15em;
-      text-transform:uppercase;
-      text-align:center;
-      position:relative;
-      z-index:10;
-      pointer-events:none;
+      display:none;
     }
 
     .lets-connect-panel{
@@ -1555,7 +1529,8 @@
       }
 
       .directors-dome-stage{
-        height:190svh;
+        min-height:100svh;
+        height:100svh;
       }
 
       .directors-kicker{
@@ -1568,25 +1543,21 @@
       }
 
       .directors-media-content{
-        padding:15.5vh 5vw 10vh;
+        padding:15.5vh 4vw 9vh;
       }
 
       .video-carousel-wrap{
-        width:min(160px, 42vw);
-        margin-top:1.5vh;
+        width:min(92vw, 420px);
+        margin-top:0.8vh;
       }
 
-      .video-arrow{
-        width:28px;
-        height:28px;
-        font-size:0.8rem;
-      }
+      .video-arrow{ display:none; }
 
-      .video-arrow.prev{ left:-30px; }
-      .video-arrow.next{ right:-30px; }
+      .video-arrow.prev{ display:none; }
+      .video-arrow.next{ display:none; }
 
       .video-frame-single video{
-        border-radius:12px;
+        border-radius:16px;
       }
 
       .video-counter{
@@ -1780,6 +1751,7 @@
                 <div class="media-carousel" data-carousel>
                   <button class="media-arrow prev" type="button">‹</button>
                   <div class="media-slides">
+                    <div class="media-slide active"><img src="clay.png" alt="clay"></div>
                     <div class="media-slide active"><img src="magnet.png" alt="magnet"></div>
                     <div class="media-slide"><img src="keychain.png" alt="keychain"></div>
                     <div class="media-slide"><img src="keychain2.png" alt="keychain 2"></div>
@@ -1825,7 +1797,7 @@
             <div class="arcade-left">
               <div class="arcade-index">03</div>
               <h2 class="arcade-card-title">Events</h2>
-              <p class="arcade-desc">On building experiences.</p>
+              <p class="arcade-desc">Where stories, suspense, and celebration come alive</p>
               <div class="arcade-meta">
                 <span class="arcade-pill">Treasure Hunts</span>
                 <span class="arcade-pill">Murder Mysteries</span>
@@ -1906,7 +1878,7 @@
             <img src="c3.png" alt="custom asset 3">
           </div>
           <div class="custom-asset" data-asset style="width:230px; height:230px; left:74%; top:42%; transform:rotate(10deg) scale(1);">
-            <img src="wed.png" alt="custom asset 4">
+            <img src="vang.png" alt="custom asset 4">
           </div>
         </div>
 
@@ -1933,9 +1905,7 @@
 
         <div class="directors-media-content" id="directorsMediaContent">
           <div class="video-carousel-wrap">
-            <button class="video-arrow prev" id="videoPrev" type="button">‹</button>
-
-            <div class="video-frame-single">
+<div class="video-frame-single">
               <video
                 id="featureVideo"
                 controls
@@ -1946,12 +1916,8 @@
                 <source src="work2.mp4" type="video/mp4">
               </video>
             </div>
-
-            <button class="video-arrow next" id="videoNext" type="button">›</button>
-          </div>
-
-          <div class="video-counter" id="videoCounter">Video 1 / 1</div>
-        </div>
+</div>
+</div>
 
         <div class="lets-connect-panel" id="letsConnectPanel">
           <div class="lets-connect-content">
@@ -2383,6 +2349,7 @@
     let activeAsset = null;
     let dragOffsetX = 0;
     let dragOffsetY = 0;
+    let touchGesture = null;
 
     function clamp(num, min, max){
       return Math.min(Math.max(num, min), max);
@@ -2400,6 +2367,22 @@
       asset.style.transform = `rotate(${getRotation(asset)}deg) scale(${getScale(asset)})`;
     }
 
+    function getAssetBounds(asset){
+      const boardRect = customizationBoard.getBoundingClientRect();
+      const rect = asset.getBoundingClientRect();
+      return { boardRect, rect };
+    }
+
+    function keepAssetInsideBoard(asset){
+      const { boardRect, rect } = getAssetBounds(asset);
+      const leftPx = (parseFloat(asset.style.left || "0") / 100) * boardRect.width;
+      const topPx = (parseFloat(asset.style.top || "0") / 100) * boardRect.height;
+      const clampedLeft = clamp(leftPx, 0, Math.max(0, boardRect.width - rect.width));
+      const clampedTop = clamp(topPx, 0, Math.max(0, boardRect.height - rect.height));
+      asset.style.left = `${(clampedLeft / boardRect.width) * 100}%`;
+      asset.style.top = `${(clampedTop / boardRect.height) * 100}%`;
+    }
+
     function normalizeAssetsForViewport(){
       const mobile = window.innerWidth <= 768;
 
@@ -2407,13 +2390,20 @@
         if (!asset.dataset.rotation) asset.dataset.rotation = "0";
         if (!asset.dataset.scale) asset.dataset.scale = "1";
 
-        if (mobile) {
-          const presets = [
-            { w: 112, h: 112, l: 10, t: 14, r: -8 },
-            { w: 102, h: 102, l: 34, t: 50, r: 6 },
-            { w: 96, h: 96, l: 60, t: 18, r: -4 },
-            { w: 104, h: 104, l: 72, t: 54, r: 10 }
-          ];
+        if (!asset.dataset.initialized) {
+          const presets = mobile
+            ? [
+                { w: 112, h: 112, l: 10, t: 14, r: -8 },
+                { w: 102, h: 102, l: 34, t: 50, r: 6 },
+                { w: 96, h: 96, l: 60, t: 18, r: -4 },
+                { w: 104, h: 104, l: 72, t: 54, r: 10 }
+              ]
+            : [
+                { w: 260, h: 260, l: 12, t: 10, r: -8 },
+                { w: 220, h: 220, l: 38, t: 38, r: 6 },
+                { w: 210, h: 210, l: 62, t: 14, r: -4 },
+                { w: 230, h: 230, l: 74, t: 42, r: 10 }
+              ];
           const p = presets[index];
           if (p) {
             asset.style.width = p.w + "px";
@@ -2422,51 +2412,64 @@
             asset.style.top = p.t + "%";
             asset.dataset.rotation = p.r;
             asset.dataset.scale = 1;
-            asset.style.transform = `rotate(${p.r}deg) scale(1)`;
+            asset.dataset.initialized = "true";
           }
-        } else {
-          const desktopPresets = [
-            { w: 260, h: 260, l: 12, t: 10, r: -8 },
-            { w: 220, h: 220, l: 38, t: 38, r: 6 },
-            { w: 210, h: 210, l: 62, t: 14, r: -4 },
-            { w: 230, h: 230, l: 74, t: 42, r: 10 }
-          ];
-          const p = desktopPresets[index];
-          if (p) {
-            asset.style.width = p.w + "px";
-            asset.style.height = p.h + "px";
-            asset.style.left = p.l + "%";
-            asset.style.top = p.t + "%";
-            asset.dataset.rotation = p.r;
-            asset.dataset.scale = 1;
-            asset.style.transform = `rotate(${p.r}deg) scale(1)`;
-          }
+        } else if (mobile) {
+          const width = clamp(parseFloat(asset.style.width) || 100, 84, 170);
+          const height = clamp(parseFloat(asset.style.height) || width, 84, 170);
+          asset.style.width = width + "px";
+          asset.style.height = height + "px";
         }
+
+        applyTransform(asset);
+        keepAssetInsideBoard(asset);
       });
+    }
+
+    function bringAssetToFront(asset){
+      asset.style.zIndex = String(Date.now() % 100000);
+    }
+
+    function activate(asset, pointerX, pointerY){
+      activeAsset = asset;
+      asset.classList.add("active");
+      bringAssetToFront(asset);
+      const assetRect = asset.getBoundingClientRect();
+      dragOffsetX = pointerX - assetRect.left;
+      dragOffsetY = pointerY - assetRect.top;
+    }
+
+    function startTouchGesture(asset, touches){
+      if (touches.length < 2) return;
+      const [a, b] = [touches[0], touches[1]];
+      touchGesture = {
+        asset,
+        startAngle: Math.atan2(b.clientY - a.clientY, b.clientX - a.clientX) * 180 / Math.PI,
+        startDistance: Math.hypot(b.clientX - a.clientX, b.clientY - a.clientY),
+        startRotation: getRotation(asset),
+        startScale: getScale(asset)
+      };
+      activeAsset = asset;
+      asset.classList.add("active");
+      bringAssetToFront(asset);
     }
 
     assets.forEach((asset, idx) => {
       asset.style.zIndex = 20 + idx;
 
-      function activate(pointerX, pointerY){
-        activeAsset = asset;
-        asset.classList.add("active");
-        asset.style.zIndex = String(Date.now() % 100000);
-
-        const assetRect = asset.getBoundingClientRect();
-        dragOffsetX = pointerX - assetRect.left;
-        dragOffsetY = pointerY - assetRect.top;
-      }
-
       asset.addEventListener("mousedown", e => {
         e.preventDefault();
-        activate(e.clientX, e.clientY);
+        activate(asset, e.clientX, e.clientY);
       });
 
       asset.addEventListener("touchstart", e => {
+        if (e.touches.length >= 2) {
+          startTouchGesture(asset, e.touches);
+          return;
+        }
         const t = e.touches[0];
         if (!t) return;
-        activate(t.clientX, t.clientY);
+        activate(asset, t.clientX, t.clientY);
       }, { passive:true });
 
       asset.addEventListener("wheel", e => {
@@ -2475,90 +2478,95 @@
         const next = clamp(current + (e.deltaY < 0 ? 0.04 : -0.04), 0.55, 1.8);
         asset.dataset.scale = next.toFixed(2);
         applyTransform(asset);
+        keepAssetInsideBoard(asset);
       }, { passive:false });
+
+      asset.addEventListener("dblclick", e => {
+        e.preventDefault();
+        asset.dataset.rotation = (getRotation(asset) + 20).toFixed(2);
+        applyTransform(asset);
+      });
     });
 
     function moveAsset(pointerX, pointerY, shiftRotate = false){
       if (!activeAsset) return;
 
       if (shiftRotate) {
-        const currentRot = getRotation(activeAsset);
-        activeAsset.dataset.rotation = (currentRot + 2.2).toFixed(2);
+        activeAsset.dataset.rotation = (getRotation(activeAsset) + 2.2).toFixed(2);
         applyTransform(activeAsset);
         return;
       }
 
       const boardRect = customizationBoard.getBoundingClientRect();
       const rect = activeAsset.getBoundingClientRect();
-
       let newLeft = pointerX - boardRect.left - dragOffsetX;
       let newTop = pointerY - boardRect.top - dragOffsetY;
 
-      newLeft = clamp(newLeft, 0, boardRect.width - rect.width);
-      newTop = clamp(newTop, 0, boardRect.height - rect.height);
+      newLeft = clamp(newLeft, 0, Math.max(0, boardRect.width - rect.width));
+      newTop = clamp(newTop, 0, Math.max(0, boardRect.height - rect.height));
 
       activeAsset.style.left = `${(newLeft / boardRect.width) * 100}%`;
       activeAsset.style.top = `${(newTop / boardRect.height) * 100}%`;
     }
 
     function releaseAsset(){
-      if (!activeAsset) return;
-      activeAsset.classList.remove("active");
+      if (activeAsset) activeAsset.classList.remove("active");
       activeAsset = null;
+      touchGesture = null;
     }
 
     window.addEventListener("mousemove", e => moveAsset(e.clientX, e.clientY, e.shiftKey));
     window.addEventListener("mouseup", releaseAsset);
     window.addEventListener("touchmove", e => {
+      if (touchGesture && e.touches.length >= 2) {
+        const [a, b] = [e.touches[0], e.touches[1]];
+        const angle = Math.atan2(b.clientY - a.clientY, b.clientX - a.clientX) * 180 / Math.PI;
+        const distance = Math.hypot(b.clientX - a.clientX, b.clientY - a.clientY);
+        const rotationDelta = angle - touchGesture.startAngle;
+        const nextScale = clamp(touchGesture.startScale * (distance / touchGesture.startDistance), 0.55, 1.8);
+        touchGesture.asset.dataset.rotation = (touchGesture.startRotation + rotationDelta).toFixed(2);
+        touchGesture.asset.dataset.scale = nextScale.toFixed(2);
+        applyTransform(touchGesture.asset);
+        keepAssetInsideBoard(touchGesture.asset);
+        return;
+      }
+
       if (!activeAsset) return;
       const t = e.touches[0];
       if (!t) return;
       moveAsset(t.clientX, t.clientY, false);
     }, { passive:true });
-    window.addEventListener("touchend", releaseAsset);
+    window.addEventListener("touchend", e => {
+      if (e.touches.length >= 2 && touchGesture) return;
+      releaseAsset();
+    });
 
     const featureVideo = document.getElementById("featureVideo");
-    const videoCounter = document.getElementById("videoCounter");
-    const videoPrev = document.getElementById("videoPrev");
-    const videoNext = document.getElementById("videoNext");
 
-    const videoItems = [
-      {
-        src:"work2.mp4",
-        poster:"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1280 800'><defs><linearGradient id='g1' x1='0' x2='1'><stop stop-color='%230b1220'/><stop offset='1' stop-color='%231d3658'/></linearGradient></defs><rect width='1280' height='800' fill='url(%23g1)'/><circle cx='640' cy='400' r='86' fill='rgba(255,255,255,0.12)'/><polygon points='615,350 615,450 700,400' fill='%23e8d7b4'/><text x='640' y='560' text-anchor='middle' fill='%23e8d7b4' font-size='42' font-family='Arial, sans-serif' letter-spacing='6'>VIDEO PLACEHOLDER</text></svg>"
-      }
-    ];
-
-    let videoIndex = 0;
-
-    function setVideo(index){
-      videoIndex = (index + videoItems.length) % videoItems.length;
-      const item = videoItems[videoIndex];
+    function setVideo(){
       featureVideo.pause();
-      featureVideo.setAttribute("poster", item.poster);
-      featureVideo.innerHTML = `<source src="${item.src}" type="video/mp4">`;
+      featureVideo.innerHTML = `<source src="work2.mp4" type="video/mp4">`;
       featureVideo.load();
-      videoCounter.textContent = `Video ${videoIndex + 1} / ${videoItems.length}`;
     }
-
-    videoPrev.addEventListener("click", () => setVideo(videoIndex - 1));
-    videoNext.addEventListener("click", () => setVideo(videoIndex + 1));
 
     gsap.timeline({
       scrollTrigger:{
         trigger:"#directorsDome",
         start:"top top",
-        end:"bottom bottom",
-        scrub:1
+        end:"+=2600",
+        scrub:1,
+        pin:true,
+        anticipatePin:1,
+        invalidateOnRefresh:true
       }
     })
-      .to("#bg8Full", { scale:1.08, opacity:0.45, ease:"none" }, 0.00)
-      .to("#bg9Full", { opacity:1, scale:1.02, ease:"none" }, 0.16)
-      .to("#directorsMediaContent", { opacity:1, y:0, ease:"none" }, 0.18)
-      .to("#bg9Full", { opacity:0.3, scale:1.08, ease:"none" }, 0.48)
-      .to("#bg10Full", { opacity:1, scale:1.02, ease:"none" }, 0.55)
-      .to("#directorsMediaContent", { opacity:0.15, y:-18, ease:"none" }, 0.72)
-      .to("#letsConnectPanel", { opacity:1, pointerEvents:"auto", ease:"none" }, 0.78);
+      .to("#bg8Full", { scale:1.05, opacity:0.42, ease:"none" }, 0.00)
+      .to("#bg9Full", { opacity:1, scale:1.02, ease:"none" }, 0.18)
+      .to("#directorsMediaContent", { opacity:1, y:0, ease:"none" }, 0.20)
+      .to("#bg9Full", { opacity:0.22, scale:1.08, ease:"none" }, 0.56)
+      .to("#bg10Full", { opacity:1, scale:1.01, ease:"none" }, 0.66)
+      .to("#directorsMediaContent", { opacity:0.08, y:-18, ease:"none" }, 0.76)
+      .to("#letsConnectPanel", { opacity:1, pointerEvents:"auto", ease:"none" }, 0.82);
 
     const mailMeBtn = document.getElementById("mailMeBtn");
     const mailFallback = document.getElementById("mailFallback");
@@ -2587,7 +2595,7 @@
     });
 
     normalizeAssetsForViewport();
-    setVideo(0);
+    setVideo();
 
     let resizeTimer;
     window.addEventListener("resize", () => {
