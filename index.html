@@ -52,11 +52,16 @@
 
       --safeTop: env(safe-area-inset-top, 0px);
       --safeBottom: env(safe-area-inset-bottom, 0px);
+
       --navPad: clamp(12px, 2vw, 24px);
-      --sectionPad: clamp(14px, 3vw, 32px);
-      --contentMax: min(96vw, 1840px);
-      --radius-lg: clamp(20px, 2.2vw, 34px);
-      --radius-md: clamp(16px, 1.6vw, 24px);
+      --radius-xl: clamp(22px, 2.4vw, 36px);
+      --radius-lg: clamp(18px, 2vw, 28px);
+      --radius-md: clamp(14px, 1.5vw, 22px);
+      --radius-sm: 14px;
+
+      --sectionMax: min(96vw, 1840px);
+      --soft-shadow: 0 18px 45px rgba(0,0,0,0.34);
+      --deep-shadow: 0 28px 70px rgba(0,0,0,0.46);
     }
 
     *{
@@ -116,7 +121,7 @@
       min-height:44px;
       border-radius:999px;
       border:1px solid rgba(234,215,174,0.22);
-      background:linear-gradient(180deg, rgba(22,18,13,0.82), rgba(10,8,6,0.72));
+      background:linear-gradient(180deg, rgba(22,18,13,0.84), rgba(10,8,6,0.74));
       color:#f3e7cd;
       text-decoration:none;
       box-shadow:0 10px 30px rgba(0,0,0,0.28), inset 0 1px 0 rgba(255,245,220,0.06);
@@ -257,6 +262,7 @@
     }
 
     .scene{ position:absolute; inset:0; }
+
     .layer{
       position:absolute;
       pointer-events:none;
@@ -435,6 +441,7 @@
       pointer-events:none;
       user-select:none;
       transition:opacity 0.35s ease;
+      border-radius:10px;
     }
 
     .freeform-title{
@@ -579,12 +586,12 @@
 
     .arcade-note{
       position:absolute;
-      top:12vh;
+      top:11vh;
       left:50%;
       transform:translateX(-50%);
       z-index:50;
-      font-size:0.95rem;
-      letter-spacing:0.34em;
+      font-size:0.9rem;
+      letter-spacing:0.28em;
       text-transform:uppercase;
       color:#fff3d4;
       text-shadow:0 4px 18px rgba(0,0,0,0.95), 0 0 28px rgba(255,210,140,0.35);
@@ -612,21 +619,22 @@
 
     .arcade-track{
       display:flex;
-      gap:clamp(14px, 2vw, 24px);
+      gap:clamp(16px, 2vw, 24px);
       padding:0 10vw 0 12vw;
       will-change:transform;
       transform:translate3d(0,0,0);
+      align-items:center;
     }
 
     .arcade-card{
-      flex:0 0 min(78vw, 860px);
-      width:min(78vw, 860px);
-      min-width:min(78vw, 860px);
-      height:min(52vh, 560px);
+      flex:0 0 min(76vw, 840px);
+      width:min(76vw, 840px);
+      min-width:min(76vw, 840px);
+      height:min(54vh, 590px);
       position:relative;
       display:grid;
-      grid-template-columns:0.92fr 1.08fr;
-      border-radius:24px;
+      grid-template-columns:0.94fr 1.06fr;
+      border-radius:28px;
       overflow:hidden;
       background:linear-gradient(180deg, #1f140d, #120d09);
       box-shadow:0 24px 64px rgba(0,0,0,0.52), inset 0 1px 0 rgba(255,240,220,0.04);
@@ -636,7 +644,7 @@
       content:"";
       position:absolute;
       inset:0;
-      border-radius:24px;
+      border-radius:28px;
       padding:1px;
       background:linear-gradient(135deg, rgba(96,62,31,0.95) 0%, rgba(199,154,87,0.95) 18%, rgba(125,83,43,0.92) 42%, rgba(74,48,27,0.96) 68%, rgba(199,154,87,0.82) 100%);
       -webkit-mask:linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
@@ -648,7 +656,7 @@
     .arcade-left{
       position:relative;
       z-index:2;
-      padding:34px 26px 30px 32px;
+      padding:34px 28px 30px 34px;
       display:flex;
       flex-direction:column;
       justify-content:center;
@@ -664,7 +672,7 @@
     }
 
     .arcade-card-title{
-      font-size:clamp(2rem, 3vw, 3.2rem);
+      font-size:clamp(2rem, 3vw, 3.1rem);
       line-height:0.92;
       letter-spacing:0.03em;
       color:#f3dfbf;
@@ -672,10 +680,10 @@
     }
 
     .arcade-desc{
-      max-width:320px;
-      font-size:0.88rem;
-      line-height:1.75;
-      color:rgba(244,234,220,0.72);
+      max-width:330px;
+      font-size:0.9rem;
+      line-height:1.72;
+      color:rgba(244,234,220,0.74);
       margin-bottom:18px;
     }
 
@@ -740,7 +748,7 @@
       position:relative;
       width:100%;
       height:100%;
-      border-radius:18px;
+      border-radius:22px;
       overflow:hidden;
       background:#120d09;
       box-shadow:inset 0 0 0 1px rgba(199,154,87,0.12), 0 16px 34px rgba(0,0,0,0.24);
@@ -749,7 +757,7 @@
     .media-carousel{
       position:absolute;
       inset:18px;
-      border-radius:14px;
+      border-radius:16px;
       overflow:hidden;
       z-index:2;
       background:#120d09;
@@ -822,7 +830,7 @@
     .customization-stage{
       background:#050505;
       min-height:100svh;
-      padding:0 0 6vh;
+      padding:0 0 7vh;
       isolation:isolate;
       z-index:12;
     }
@@ -843,7 +851,7 @@
       position:relative;
       z-index:10;
       width:100%;
-      padding:calc(7.5vh + var(--safeTop)) 20px 3.2vh;
+      padding:calc(8vh + var(--safeTop)) 20px 3.4vh;
       text-align:center;
       background:linear-gradient(to bottom, #050505 0%, #050505 58%, rgba(5,5,5,0.82) 78%, rgba(5,5,5,0.0) 100%);
     }
@@ -882,15 +890,15 @@
     .customization-showcase{
       position:relative;
       width:min(96vw, 1840px);
-      height:min(82svh, 880px);
-      min-height:520px;
+      height:min(83svh, 900px);
+      min-height:540px;
       margin:0 auto;
       overflow:hidden;
       background:#000;
-      border-radius:var(--radius-lg);
+      border-radius:var(--radius-xl);
       box-shadow:0 -18px 40px rgba(0,0,0,0.14), 0 30px 90px rgba(0,0,0,0.36);
       z-index:8;
-      transform:translateY(18px);
+      transform:translateY(10px);
       will-change:transform, opacity;
     }
 
@@ -944,13 +952,13 @@
 
     .custom-hint{
       position:absolute;
-      bottom:24px;
+      bottom:22px;
       left:50%;
       transform:translateX(-50%);
       z-index:7;
       padding:10px 14px;
       border-radius:999px;
-      background:rgba(12,9,7,0.58);
+      background:rgba(12,9,7,0.60);
       border:1px solid rgba(234,215,174,0.18);
       color:rgba(247,241,231,0.82);
       font-size:0.72rem;
@@ -1072,7 +1080,7 @@
       flex-direction:column;
       align-items:center;
       justify-content:flex-start;
-      padding:16vh 4vw 8vh;
+      padding:17vh 4vw 8vh;
       pointer-events:none;
       will-change:opacity, transform;
     }
@@ -1084,7 +1092,7 @@
       align-items:center;
       justify-content:center;
       pointer-events:auto;
-      margin-top:4vh;
+      margin-top:2vh;
     }
 
     .video-arrow{
@@ -1128,7 +1136,7 @@
     .video-frame-single video{
       width:100%;
       display:block;
-      border-radius:16px;
+      border-radius:18px;
       background:#000;
       aspect-ratio:16/10;
       object-fit:cover;
@@ -1289,12 +1297,17 @@
 
     @media (max-width: 1100px){
       .foreground{ width:82vw; }
+      .arcade-card{
+        flex-basis:min(80vw, 780px);
+        width:min(80vw, 780px);
+        min-width:min(80vw, 780px);
+      }
     }
 
     @media (max-width: 900px){
       .arcade-track{
         gap:16px;
-        padding:0 6vw 0 8vw;
+        padding:0 7vw 0 8vw;
       }
 
       .arcade-card{
@@ -1304,11 +1317,11 @@
         height:auto;
         min-height:unset;
         grid-template-columns:1fr;
-        border-radius:20px;
+        border-radius:22px;
       }
 
       .arcade-left{
-        padding:22px 18px 14px;
+        padding:24px 18px 16px;
       }
 
       .arcade-right{
@@ -1316,13 +1329,14 @@
       }
 
       .arcade-card-title{
-        font-size:clamp(1.45rem, 6vw, 2rem);
+        font-size:clamp(1.55rem, 6vw, 2.15rem);
+        line-height:0.95;
       }
 
       .arcade-desc{
         max-width:none;
         font-size:0.84rem;
-        line-height:1.6;
+        line-height:1.62;
       }
 
       .arcade-meta{
@@ -1343,13 +1357,19 @@
         padding:8px 10px;
       }
 
-      .arcade-media{ min-height:220px; }
+      .arcade-media{
+        min-height:240px;
+        border-radius:18px;
+      }
 
-      .media-carousel{ inset:12px; border-radius:12px; }
+      .media-carousel{
+        inset:12px;
+        border-radius:12px;
+      }
 
       .customization-showcase{
-        height:72svh;
-        min-height:460px;
+        height:74svh;
+        min-height:480px;
       }
     }
 
@@ -1418,61 +1438,122 @@
       }
 
       .freeform-inner img{
-        width:clamp(120px, 32vw, 180px);
+        width:clamp(118px, 32vw, 174px);
       }
 
       .arcade-note{
         top:8vh;
-        font-size:0.60rem;
-        letter-spacing:0.18em;
+        font-size:0.58rem;
+        letter-spacing:0.16em;
         white-space:normal;
+        width:min(84vw, 260px);
+        line-height:1.45;
+      }
+
+      .arcade-track{
+        gap:14px;
+        padding:0 5vw 0 5vw;
+      }
+
+      .arcade-card{
+        flex:0 0 90vw;
+        width:90vw;
+        min-width:90vw;
+        border-radius:20px;
+      }
+
+      .arcade-left{
+        padding:20px 16px 14px;
+      }
+
+      .arcade-index{
+        font-size:0.72rem;
+        margin-bottom:8px;
+      }
+
+      .arcade-card-title{
+        font-size:clamp(1.35rem, 7vw, 1.9rem);
+      }
+
+      .arcade-desc{
+        font-size:0.8rem;
+        line-height:1.58;
+        margin-bottom:14px;
+      }
+
+      .arcade-meta{
+        gap:5px;
+      }
+
+      .arcade-pill{
+        font-size:0.54rem;
+        padding:6px 9px;
+      }
+
+      .arcade-actions{
+        gap:5px;
+      }
+
+      .arcade-btn{
+        font-size:0.52rem;
+        letter-spacing:0.08em;
+        padding:7px 9px;
+      }
+
+      .arcade-media{
+        min-height:220px;
       }
 
       .media-arrow{
-        width:34px;
-        height:34px;
+        width:32px;
+        height:32px;
       }
 
       .media-arrow.prev{ left:8px; }
       .media-arrow.next{ right:8px; }
 
+      .arcade-badge{
+        right:12px;
+        bottom:12px;
+        font-size:0.52rem;
+        letter-spacing:0.12em;
+        padding:7px 10px;
+      }
+
       .customization-header-top{
-        padding:calc(5.4vh + var(--safeTop)) 14px 2.2vh;
+        padding:calc(5.6vh + var(--safeTop)) 14px 2.2vh;
       }
 
       .customization-kicker{
-        font-size:0.62rem;
+        font-size:0.6rem;
         letter-spacing:0.22em;
       }
 
       .customization-title{
-        font-size:clamp(1.4rem, 7vw, 2.1rem);
+        font-size:clamp(1.42rem, 7vw, 2.06rem);
         letter-spacing:0.03em;
       }
 
       .customization-sub{
-        font-size:0.64rem;
-        letter-spacing:0.06em;
+        font-size:0.62rem;
+        letter-spacing:0.07em;
       }
 
       .customization-showcase{
         width:94vw;
         height:68svh;
-        min-height:440px;
+        min-height:430px;
+        border-radius:24px;
       }
 
       .custom-hint{
-        bottom:14px;
-        font-size:0.58rem;
-        letter-spacing:0.08em;
+        bottom:12px;
+        font-size:0.56rem;
+        letter-spacing:0.06em;
         white-space:normal;
-        line-height:1.4;
-        width:min(88vw, 300px);
+        line-height:1.35;
+        width:min(88vw, 280px);
         padding:8px 12px;
-      }
-
-      .directors-title{
-        font-size:clamp(1.3rem, 5.8vw, 2rem);
       }
 
       .directors-kicker{
@@ -1480,13 +1561,17 @@
         letter-spacing:0.22em;
       }
 
+      .directors-title{
+        font-size:clamp(1.28rem, 5.8vw, 2rem);
+      }
+
       .directors-media-content{
-        padding:16vh 5vw 10vh;
+        padding:15.5vh 5vw 10vh;
       }
 
       .video-carousel-wrap{
-        width:min(86vw, 420px);
-        margin-top:2.5vh;
+        width:min(88vw, 390px);
+        margin-top:1.5vh;
       }
 
       .video-arrow{
@@ -1495,8 +1580,8 @@
         font-size:0.9rem;
       }
 
-      .video-arrow.prev{ left:-8px; }
-      .video-arrow.next{ right:-8px; }
+      .video-arrow.prev{ left:-6px; }
+      .video-arrow.next{ right:-6px; }
 
       .video-frame-single video{
         border-radius:14px;
@@ -1509,26 +1594,26 @@
       }
 
       .lets-connect-panel{
-        padding:12vh 5vw calc(24px + var(--safeBottom));
+        padding:11vh 5vw calc(24px + var(--safeBottom));
       }
 
       .sky-limit-title{
-        font-size:clamp(1.6rem, 8vw, 2.4rem);
+        font-size:clamp(1.55rem, 8vw, 2.3rem);
         letter-spacing:0.05em;
       }
 
       .lets-connect-title{
-        font-size:clamp(1.2rem, 6vw, 1.8rem);
+        font-size:clamp(1.18rem, 6vw, 1.8rem);
       }
 
       .lets-connect-copy{
-        font-size:0.9rem;
-        line-height:1.7;
+        font-size:0.88rem;
+        line-height:1.68;
         margin-top:1rem;
       }
 
       .connect-links{
-        margin-top:1.5rem;
+        margin-top:1.4rem;
         flex-direction:column;
         align-items:center;
         gap:10px;
@@ -1537,7 +1622,7 @@
       .connect-btn{
         width:min(320px, 92vw);
         padding:13px 18px;
-        font-size:0.82rem;
+        font-size:0.8rem;
       }
 
       .mail-card{
@@ -1551,6 +1636,50 @@
         white-space:normal;
         word-break:break-all;
         text-align:center;
+      }
+    }
+
+    @media (max-width: 480px){
+      .museum-btn{
+        padding:9px 11px;
+      }
+
+      .btn-label{
+        font-size:0.86rem;
+      }
+
+      .gallery-name{
+        font-size:1rem;
+      }
+
+      .bg2-content{
+        width:min(94vw, 960px);
+      }
+
+      .freeform-title h1{
+        font-size:1.4rem;
+      }
+
+      .arcade-card{
+        flex-basis:92vw;
+        width:92vw;
+        min-width:92vw;
+      }
+
+      .arcade-media{
+        min-height:205px;
+      }
+
+      .customization-showcase{
+        min-height:400px;
+      }
+
+      .video-carousel-wrap{
+        width:min(90vw, 360px);
+      }
+
+      .sky-limit-title{
+        font-size:1.42rem;
       }
     }
   </style>
@@ -1570,7 +1699,7 @@
         <span class="gallery-kicker">Gallery I</span>
         <span class="gallery-name">Canvas Studio</span>
       </a>
-      <a href="#projectArcade" class="gallery-link" id="galleryProjectArcade">
+      <a href="#projectArcade" class="gallery-link">
         <span class="gallery-kicker">Gallery II</span>
         <span class="gallery-name">Project Arcade</span>
       </a>
@@ -1863,10 +1992,7 @@
       }
     }
 
-    document.addEventListener("mousemove", e => {
-      moveTorch(e.clientX, e.clientY);
-    });
-
+    document.addEventListener("mousemove", e => moveTorch(e.clientX, e.clientY));
     document.addEventListener("touchmove", e => {
       const t = e.touches[0];
       if (!t) return;
@@ -1880,7 +2006,6 @@
     setTimeout(() => {
       darkness.style.opacity = 0;
       torch.style.opacity = 0;
-
       setTimeout(() => {
         torchActive = false;
         introComplete = true;
@@ -2210,30 +2335,6 @@
       return Math.min(Math.max(num, min), max);
     }
 
-    function normalizeAssetsForViewport(){
-      const mobile = window.innerWidth <= 768;
-      if (!mobile) return;
-
-      const presets = [
-        { w: 120, h: 120, l: 8,  t: 12, r: -8 },
-        { w: 108, h: 108, l: 34, t: 44, r: 6 },
-        { w: 104, h: 104, l: 62, t: 14, r: -4 },
-        { w: 112, h: 112, l: 70, t: 52, r: 10 }
-      ];
-
-      assets.forEach((asset, index) => {
-        const p = presets[index];
-        if (!p) return;
-        asset.style.width = p.w + "px";
-        asset.style.height = p.h + "px";
-        asset.style.left = p.l + "%";
-        asset.style.top = p.t + "%";
-        asset.dataset.rotation = p.r;
-        asset.dataset.scale = 1;
-        asset.style.transform = `rotate(${p.r}deg) scale(1)`;
-      });
-    }
-
     function getScale(asset){
       return parseFloat(asset.dataset.scale || "1");
     }
@@ -2246,9 +2347,52 @@
       asset.style.transform = `rotate(${getRotation(asset)}deg) scale(${getScale(asset)})`;
     }
 
+    function normalizeAssetsForViewport(){
+      const mobile = window.innerWidth <= 768;
+
+      assets.forEach((asset, index) => {
+        if (!asset.dataset.rotation) asset.dataset.rotation = "0";
+        if (!asset.dataset.scale) asset.dataset.scale = "1";
+
+        if (mobile) {
+          const presets = [
+            { w: 112, h: 112, l: 10, t: 14, r: -8 },
+            { w: 102, h: 102, l: 34, t: 50, r: 6 },
+            { w: 96, h: 96, l: 60, t: 18, r: -4 },
+            { w: 104, h: 104, l: 72, t: 54, r: 10 }
+          ];
+          const p = presets[index];
+          if (p) {
+            asset.style.width = p.w + "px";
+            asset.style.height = p.h + "px";
+            asset.style.left = p.l + "%";
+            asset.style.top = p.t + "%";
+            asset.dataset.rotation = p.r;
+            asset.dataset.scale = 1;
+            asset.style.transform = `rotate(${p.r}deg) scale(1)`;
+          }
+        } else {
+          const desktopPresets = [
+            { w: 260, h: 260, l: 12, t: 10, r: -8 },
+            { w: 220, h: 220, l: 38, t: 38, r: 6 },
+            { w: 210, h: 210, l: 62, t: 14, r: -4 },
+            { w: 230, h: 230, l: 74, t: 42, r: 10 }
+          ];
+          const p = desktopPresets[index];
+          if (p) {
+            asset.style.width = p.w + "px";
+            asset.style.height = p.h + "px";
+            asset.style.left = p.l + "%";
+            asset.style.top = p.t + "%";
+            asset.dataset.rotation = p.r;
+            asset.dataset.scale = 1;
+            asset.style.transform = `rotate(${p.r}deg) scale(1)`;
+          }
+        }
+      });
+    }
+
     assets.forEach((asset, idx) => {
-      if (!asset.dataset.rotation) asset.dataset.rotation = "0";
-      if (!asset.dataset.scale) asset.dataset.scale = "1";
       asset.style.zIndex = 20 + idx;
 
       function activate(pointerX, pointerY){
@@ -2256,16 +2400,9 @@
         asset.classList.add("active");
         asset.style.zIndex = String(Date.now() % 100000);
 
-        const boardRect = customizationBoard.getBoundingClientRect();
         const assetRect = asset.getBoundingClientRect();
-
         dragOffsetX = pointerX - assetRect.left;
         dragOffsetY = pointerY - assetRect.top;
-
-        const currentLeftPx = asset.offsetLeft;
-        const currentTopPx = asset.offsetTop;
-        asset.dataset.leftPx = currentLeftPx;
-        asset.dataset.topPx = currentTopPx;
       }
 
       asset.addEventListener("mousedown", e => {
@@ -2302,7 +2439,7 @@
       const rect = activeAsset.getBoundingClientRect();
 
       let newLeft = pointerX - boardRect.left - dragOffsetX;
-      let newTop  = pointerY - boardRect.top - dragOffsetY;
+      let newTop = pointerY - boardRect.top - dragOffsetY;
 
       newLeft = clamp(newLeft, 0, boardRect.width - rect.width);
       newTop = clamp(newTop, 0, boardRect.height - rect.height);
