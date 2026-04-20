@@ -2310,7 +2310,7 @@
         invalidateOnRefresh: true,
         onUpdate: self => {
           const progress = self.progress;
-          const horizontalStart = 0.50;
+          const horizontalStart = 0.42;
           const horizontalEnd = 0.86;
           const moveProgress = gsap.utils.clamp(0, 1, (progress - horizontalStart) / (horizontalEnd - horizontalStart));
           const maxX = Math.max(0, track.scrollWidth - shell.clientWidth);
@@ -2319,13 +2319,13 @@
         }
       }
     })
-      .fromTo(bg4Base, { scale: 1, opacity: 1, xPercent: 0, yPercent: 0 }, { scale: 1.18, xPercent: -3, yPercent: -2, opacity: 1, transformOrigin: "50% 50%", ease: "none" }, 0.00)
+      .fromTo(bg4Base, { scale: 1, opacity: 1, xPercent: 0, yPercent: 0 }, { scale: 1.24, xPercent: -4, yPercent: -2, opacity: 1, transformOrigin: "50% 50%", ease: "none" }, 0.00)
       .fromTo(bg4Overlay, { opacity: 1 }, { opacity: 1, ease: "none" }, 0.00)
-      .fromTo(bg5Top, { opacity: 0, scale: 1.10 }, { opacity: 1, scale: 1.04, ease: "power2.out" }, 0.18)
-      .fromTo(bg5Overlay, { opacity: 0 }, { opacity: 1, ease: "power2.out" }, 0.18)
-      .to(bg4Base, { opacity: 0, ease: "power2.out" }, 0.36)
-      .to(bg4Overlay, { opacity: 1, ease: "power2.out" }, 0.36)
-      .set("#projectsJourney", { opacity: 1 }, 0.40);
+      .fromTo(bg5Top, { opacity: 0, scale: 1.08 }, { opacity: 1, scale: 1.02, ease: "power2.out" }, 0.10)
+      .fromTo(bg5Overlay, { opacity: 0 }, { opacity: 1, ease: "power2.out" }, 0.10)
+      .to(bg4Base, { opacity: 0, ease: "power2.out" }, 0.24)
+      .to(bg4Overlay, { opacity: 1, ease: "power2.out" }, 0.24)
+      .set("#projectsJourney", { opacity: 1 }, 0.30);
 
     document.querySelectorAll("[data-carousel]").forEach(carousel => {
       const slides = [...carousel.querySelectorAll(".media-slide")];
@@ -2570,14 +2570,9 @@
     const mailMeBtn = document.getElementById("mailMeBtn");
     const mailFallback = document.getElementById("mailFallback");
     const mailText = document.getElementById("mailText");
-    let mailTimer;
 
     mailMeBtn.addEventListener("click", () => {
-      mailFallback.classList.add("show");
-      clearTimeout(mailTimer);
-      mailTimer = setTimeout(() => {
-        mailFallback.classList.remove("show");
-      }, 10000);
+      mailFallback.classList.toggle("show");
     });
 
     normalizeAssetsForViewport();
