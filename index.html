@@ -2268,7 +2268,7 @@
     }
 
     function animateTrack() {
-      currentX += (targetX - currentX) * 0.09;
+      currentX += (targetX - currentX) * 0.065;
       track.style.transform = `translate3d(${currentX}px,0,0)`;
       requestAnimationFrame(animateTrack);
     }
@@ -2311,14 +2311,14 @@
       scrollTrigger: {
         trigger: "#projectArcade",
         start: "top top",
-        end: () => "+=" + (track.scrollWidth - shell.clientWidth + window.innerHeight * 10.2),
+        end: () => "+=" + (track.scrollWidth - shell.clientWidth + window.innerHeight * 11.1),
         scrub: 1,
         pin: true,
         invalidateOnRefresh: true,
         onUpdate: self => {
           const progress = self.progress;
-          const horizontalStart = 0.70;
-          const horizontalEnd = 0.89;
+          const horizontalStart = 0.64;
+          const horizontalEnd = 0.94;
           const moveProgress = gsap.utils.clamp(0, 1, (progress - horizontalStart) / (horizontalEnd - horizontalStart));
           const maxX = Math.max(0, track.scrollWidth - shell.clientWidth);
           const scrollDrivenX = clampTrackX(-(maxX * moveProgress));
@@ -2332,9 +2332,9 @@
       .set(bg5Overlay, { opacity: 0 }, 0.10)
       .to(bg4Base, { opacity: 0, ease: "power2.out" }, 0.18)
       .to(bg4Overlay, { opacity: 0, ease: "power2.out" }, 0.18)
-      .to("#projectsJourney", { opacity: 1, ease: "power2.out" }, 0.55)
-      .to(bg5Overlay, { opacity: 1, ease: "power2.out" }, 0.55)
-      .to(bg4Overlay, { opacity: 1, ease: "power2.out" }, 0.55);
+      .to("#projectsJourney", { opacity: 1, ease: "power2.out" }, 0.46)
+      .to(bg5Overlay, { opacity: 1, ease: "power2.out" }, 0.46)
+      .to(bg4Overlay, { opacity: 1, ease: "power2.out" }, 0.46);
 
     document.querySelectorAll("[data-carousel]").forEach(carousel => {
       const slides = [...carousel.querySelectorAll(".media-slide")];
