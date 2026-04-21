@@ -2317,7 +2317,7 @@
         invalidateOnRefresh: true,
         onUpdate: self => {
           const progress = self.progress;
-          const horizontalStart = 0.50;
+          const horizontalStart = 0.47;
           const horizontalEnd = 0.94;
           const moveProgress = gsap.utils.clamp(0, 1, (progress - horizontalStart) / (horizontalEnd - horizontalStart));
           const maxX = Math.max(0, track.scrollWidth - shell.clientWidth);
@@ -2332,7 +2332,7 @@
       .fromTo(bg5Overlay, { opacity: 0 }, { opacity: 1, ease: "power2.out" }, 0.04)
       .to(bg4Base, { opacity: 0, ease: "power2.out" }, 0.16)
       .to(bg4Overlay, { opacity: 1, ease: "power2.out" }, 0.16)
-      .to("#projectsJourney", { opacity: 1, ease: "power2.out" }, 0.10);
+      .to("#projectsJourney", { opacity: 1, ease: "power2.out" }, 0.14);
 
     document.querySelectorAll("[data-carousel]").forEach(carousel => {
       const slides = [...carousel.querySelectorAll(".media-slide")];
