@@ -6,7 +6,7 @@
     name="viewport"
     content="width=device-width, initial-scale=1, viewport-fit=cover"
   />
-  <title>Museum of Me</title>
+  <title>Museumof Me</title>
 
   <script>
     if ("scrollRestoration" in history) history.scrollRestoration = "manual";
@@ -2319,8 +2319,8 @@
         invalidateOnRefresh: true,
         onUpdate: self => {
           const progress = self.progress;
-          const horizontalStart = 0.64;
-          const horizontalEnd = 0.94;
+          const horizontalStart = 0.60;
+          const horizontalEnd = 0.92;
           const moveProgress = gsap.utils.clamp(0, 1, (progress - horizontalStart) / (horizontalEnd - horizontalStart));
           const maxX = Math.max(0, track.scrollWidth - shell.clientWidth);
           const scrollDrivenX = clampTrackX(-(maxX * moveProgress));
@@ -2334,8 +2334,8 @@
       .set(bg5Overlay, { opacity: 0 }, 0.06)
       .to(bg4Base, { opacity: 0, ease: "power2.out" }, 0.18)
       .to(bg4Overlay, { opacity: 0, ease: "power2.out" }, 0.18)
-      .to("#projectsJourney", { opacity: 1, ease: "power2.out" }, 0.46)
-      .to(bg5Overlay, { opacity: 1, duration: 0.6, ease: "power2.out" }, 0.28)
+      .to("#projectsJourney", { opacity: 1, duration: 0.22, ease: "power2.out" }, 0.40)
+      .to(bg5Overlay, { opacity: 1, duration: 0.32, ease: "power3.out" }, 0.34)
       .to(bg4Overlay, { opacity: 1, ease: "power2.out" }, 0.46);
 
     document.querySelectorAll("[data-carousel]").forEach(carousel => {
