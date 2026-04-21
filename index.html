@@ -1118,17 +1118,17 @@
       padding:0;
     }
 
-.video-frame-single video{
-  width:100%;
-  display:block;
-  border-radius:22px;
-  background:#000;
-  aspect-ratio:16/9;
-  object-fit:cover;
-  box-shadow:0 24px 42px rgba(0,0,0,0.36);
-  transform:scale(0.93); /* subtle shrink */
-  transform-origin:center;
-}
+    .video-frame-single video{
+      width:100%;
+      display:block;
+      border-radius:22px;
+      background:#000;
+      aspect-ratio:16/9;
+      object-fit:cover;
+      box-shadow:0 24px 42px rgba(0,0,0,0.36);
+      transform:scale(0.92);
+      transform-origin:center;
+    }
 
     .video-counter{
       display:none;
@@ -1558,7 +1558,7 @@
       }
 
       .video-carousel-wrap{
-        width:min(92vw, 420px);
+        width:min(88vw, 380px);
         margin-top:0.8vh;
       }
 
@@ -1659,7 +1659,7 @@
       }
 
       .video-carousel-wrap{
-        width:min(94vw, 420px);
+        width:min(90vw, 360px);
       }
 
       .sky-limit-title{
@@ -2335,7 +2335,7 @@
       .to(bg4Base, { opacity: 0, ease: "power2.out" }, 0.18)
       .to(bg4Overlay, { opacity: 0, ease: "power2.out" }, 0.18)
       .to("#projectsJourney", { opacity: 1, ease: "power2.out" }, 0.46)
-      .to(bg5Overlay, { opacity: 1, ease: "power2.out" }, 0.46)
+      .to(bg5Overlay, { opacity: 1, ease: "power2.out" }, 0.40)
       .to(bg4Overlay, { opacity: 1, ease: "power2.out" }, 0.46);
 
     document.querySelectorAll("[data-carousel]").forEach(carousel => {
