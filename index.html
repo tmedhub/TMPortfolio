@@ -523,8 +523,8 @@
     .bg5-overlay{
       z-index:5;
       background:
-        radial-gradient(circle at 50% 20%, rgba(212,157,93,0.10), transparent 32%),
-        linear-gradient(to bottom, rgba(0,0,0,0.08), rgba(0,0,0,0.18));
+        radial-gradient(circle at 50% 20%, rgba(212,157,93,0.06), transparent 34%),
+        linear-gradient(to bottom, rgba(0,0,0,0.03), rgba(0,0,0,0.10));
       opacity:0;
     }
 
@@ -576,8 +576,8 @@
       z-index:0;
       pointer-events:none;
       background:
-        radial-gradient(circle at 50% 120%, rgba(204,156,84,0.03), transparent 40%),
-        rgba(0,0,0,0.65);
+        radial-gradient(circle at 50% 120%, rgba(204,156,84,0.01), transparent 46%),
+        rgba(7,5,4,0.985);
     }
 
     .arcade-note{
@@ -608,7 +608,7 @@
       cursor:grab;
       user-select:none;
       touch-action:pan-y;
-      background:rgba(13, 9, 6, 0.78);
+      background:rgba(8, 6, 5, 0.985);
     }
 
     .arcade-shell.dragging{ cursor:grabbing; }
@@ -616,13 +616,19 @@
     .arcade-track{
       display:flex;
       gap:clamp(16px, 2vw, 24px);
-      padding:0 8vw 0 4vw;
+      padding-left:calc((100vw - min(76vw, 840px)) / 2 + 120px);
+      padding-right:calc((100vw - min(76vw, 840px)) / 2 - 60px);
       will-change:transform;
       transform:translate3d(0,0,0);
       align-items:center;
     }
 
-    .arcade-card{
+    
+    .arcade-card:first-child{
+      transform:translateX(0) scale(1.02);
+    }
+
+.arcade-card{
       flex:0 0 min(76vw, 840px);
       width:min(76vw, 840px);
       min-width:min(76vw, 840px);
@@ -632,7 +638,7 @@
       grid-template-columns:0.94fr 1.06fr;
       border-radius:28px;
       overflow:hidden;
-      background:linear-gradient(180deg, #2a1b12, #17100b);
+      background:linear-gradient(180deg, #2f1f15, #1c130d);
       box-shadow:0 24px 64px rgba(0,0,0,0.52), inset 0 1px 0 rgba(255,240,220,0.04);
     }
 
@@ -1279,7 +1285,8 @@
     @media (max-width: 900px){
       .arcade-track{
         gap:16px;
-        padding:0 7vw 0 8vw;
+        padding-left:calc((100vw - min(86vw, 780px)) / 2 + 72px);
+        padding-right:calc((100vw - min(86vw, 780px)) / 2 - 34px);
       }
 
       .arcade-card{
@@ -1425,7 +1432,8 @@
 
       .arcade-track{
         gap:14px;
-        padding:0 5vw 0 5vw;
+        padding-left:calc((100vw - 90vw) / 2 + 46px);
+        padding-right:calc((100vw - 90vw) / 2 - 16px);
       }
 
       .arcade-card{
@@ -1753,10 +1761,10 @@
                   <button class="media-arrow prev" type="button">‹</button>
                   <div class="media-slides">
                     <div class="media-slide active"><img src="clay.png" alt="clay"></div>
-                    <div class="media-slide active"><img src="magnet.png" alt="magnet"></div>
                     <div class="media-slide"><img src="keychain.png" alt="keychain"></div>
                     <div class="media-slide"><img src="keychain2.png" alt="keychain 2"></div>
                     <div class="media-slide"><img src="keychain3.png" alt="keychain 3"></div>
+                    <div class="media-slide"><img src="magnet.png" alt="magnet"></div>
                   </div>
                   <button class="media-arrow next" type="button">›</button>
                 </div>
@@ -2309,7 +2317,7 @@
         invalidateOnRefresh: true,
         onUpdate: self => {
           const progress = self.progress;
-          const horizontalStart = 0.28;
+          const horizontalStart = 0.38;
           const horizontalEnd = 0.86;
           const moveProgress = gsap.utils.clamp(0, 1, (progress - horizontalStart) / (horizontalEnd - horizontalStart));
           const maxX = Math.max(0, track.scrollWidth - shell.clientWidth);
