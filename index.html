@@ -616,8 +616,8 @@
     .arcade-track{
       display:flex;
       gap:clamp(16px, 2vw, 24px);
-      padding-left:calc((100vw - min(76vw, 840px)) / 2 + 120px);
-      padding-right:calc((100vw - min(76vw, 840px)) / 2 - 60px);
+      padding-left:calc((100vw - min(76vw, 840px)) / 2 + 220px);
+      padding-right:calc((100vw - min(76vw, 840px)) / 2 - 40px);
       will-change:transform;
       transform:translate3d(0,0,0);
       align-items:center;
@@ -2311,14 +2311,14 @@
       scrollTrigger: {
         trigger: "#projectArcade",
         start: "top top",
-        end: () => "+=" + (track.scrollWidth - shell.clientWidth + window.innerHeight * 4.2),
+        end: () => "+=" + (track.scrollWidth - shell.clientWidth + window.innerHeight * 7.2),
         scrub: 1,
         pin: true,
         invalidateOnRefresh: true,
         onUpdate: self => {
           const progress = self.progress;
-          const horizontalStart = 0.38;
-          const horizontalEnd = 0.86;
+          const horizontalStart = 0.50;
+          const horizontalEnd = 0.94;
           const moveProgress = gsap.utils.clamp(0, 1, (progress - horizontalStart) / (horizontalEnd - horizontalStart));
           const maxX = Math.max(0, track.scrollWidth - shell.clientWidth);
           const scrollDrivenX = clampTrackX(-(maxX * moveProgress));
@@ -2328,11 +2328,11 @@
     })
       .fromTo(bg4Base, { scale: 1, opacity: 1, xPercent: 0, yPercent: 0 }, { scale: 1.24, xPercent: -4, yPercent: -2, opacity: 1, transformOrigin: "50% 50%", ease: "none" }, 0.00)
       .fromTo(bg4Overlay, { opacity: 1 }, { opacity: 1, ease: "none" }, 0.00)
-      .fromTo(bg5Top, { opacity: 0, scale: 1.08 }, { opacity: 1, scale: 1.02, ease: "power2.out" }, 0.10)
-      .fromTo(bg5Overlay, { opacity: 0 }, { opacity: 1, ease: "power2.out" }, 0.10)
-      .to(bg4Base, { opacity: 0, ease: "power2.out" }, 0.20)
-      .to(bg4Overlay, { opacity: 1, ease: "power2.out" }, 0.20)
-      .to("#projectsJourney", { opacity: 1, ease: "power2.out" }, 0.26);
+      .fromTo(bg5Top, { opacity: 0, scale: 1.08 }, { opacity: 1, scale: 1.01, ease: "power2.out" }, 0.04)
+      .fromTo(bg5Overlay, { opacity: 0 }, { opacity: 1, ease: "power2.out" }, 0.04)
+      .to(bg4Base, { opacity: 0, ease: "power2.out" }, 0.16)
+      .to(bg4Overlay, { opacity: 1, ease: "power2.out" }, 0.16)
+      .to("#projectsJourney", { opacity: 1, ease: "power2.out" }, 0.10);
 
     document.querySelectorAll("[data-carousel]").forEach(carousel => {
       const slides = [...carousel.querySelectorAll(".media-slide")];
