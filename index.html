@@ -2,11 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1, viewport-fit=cover"
-  />
-  <title>Museumof Me</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Museum of Me</title>
 
   <script>
     if ("scrollRestoration" in history) history.scrollRestoration = "manual";
@@ -22,1649 +19,193 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@300;400;500;600&display=swap"
-    rel="stylesheet"
-  >
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 
   <style>
     :root{
-      --gold-1:#f6ead2;
-      --gold-2:#ead7ae;
-      --gold-3:#d7b675;
-      --gold-4:#9b6a32;
-      --text:#f7f1e7;
-      --bg:#050505;
-
-      --x:50%;
-      --y:50%;
-      --torchW:clamp(220px, 28vw, 320px);
-      --torchH:clamp(320px, 40vw, 480px);
-
-      --blue-1:#0f2746;
-      --blue-2:#173963;
-      --blue-3:#214d84;
-      --blue-4:#d9e8ff;
-
-      --connect-gold:#efd38f;
-      --connect-gold-2:#d7b675;
-      --connect-gold-3:#fff1c8;
-
-      --safeTop: env(safe-area-inset-top, 0px);
-      --safeBottom: env(safe-area-inset-bottom, 0px);
-
-      --navPad: clamp(12px, 2vw, 24px);
-      --radius-xl: clamp(22px, 2.4vw, 36px);
-      --radius-lg: clamp(18px, 2vw, 28px);
-      --radius-md: clamp(14px, 1.5vw, 22px);
-      --radius-sm: 14px;
+      --gold-1:#f6ead2; --gold-2:#ead7ae; --gold-3:#d7b675; --gold-4:#9b6a32;
+      --text:#f7f1e7; --bg:#050505; --x:50%; --y:50%;
+      --torchW:clamp(220px, 28vw, 320px); --torchH:clamp(320px, 40vw, 480px);
+      --blue-1:#0f2746; --blue-2:#173963; --blue-3:#214d84; --blue-4:#d9e8ff;
+      --connect-gold:#efd38f; --connect-gold-2:#d7b675; --connect-gold-3:#fff1c8;
+      --safeTop: env(safe-area-inset-top, 0px); --safeBottom: env(safe-area-inset-bottom, 0px);
+      --navPad: clamp(12px, 2vw, 24px); --radius-xl: clamp(22px, 2.4vw, 36px);
+      --radius-lg: clamp(18px, 2vw, 28px); --radius-md: clamp(14px, 1.5vw, 22px); --radius-sm: 14px;
     }
 
-    *{
-      margin:0;
-      padding:0;
-      box-sizing:border-box;
-      -webkit-tap-highlight-color:transparent;
-    }
-
-    html,body{
-      width:100%;
-      min-height:100%;
-      overflow-x:hidden;
-      background:var(--bg);
-      scroll-behavior:smooth;
-      -webkit-text-size-adjust:100%;
-    }
-
-    body{
-      font-family:"Inter",sans-serif;
-      color:var(--text);
-      background:#050505;
-      cursor:none;
-      overscroll-behavior-x:none;
-    }
-
-    @media (hover:none), (pointer:coarse){
-      body{ cursor:auto; }
-    }
-
+    *{ margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+    html,body{ width:100%; min-height:100%; overflow-x:hidden; background:var(--bg); scroll-behavior:smooth; -webkit-text-size-adjust:100%; }
+    body{ font-family:"Inter",sans-serif; color:var(--text); background:#050505; cursor:none; overscroll-behavior-x:none; }
+    @media (hover:none), (pointer:coarse){ body{ cursor:auto; } }
     body.scroll-locked{ overflow:hidden; touch-action:none; }
     body.torch-ended{ cursor:auto; }
-
     a, button { font: inherit; }
 
-    .museum-nav{
-      position:fixed;
-      top:calc(12px + var(--safeTop));
-      left:var(--navPad);
-      right:var(--navPad);
-      z-index:130;
-      display:flex;
-      justify-content:space-between;
-      align-items:flex-start;
-      gap:10px;
-      pointer-events:none;
-    }
-
-    .museum-btn{
-      pointer-events:auto;
-      position:relative;
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      gap:10px;
-      padding:12px 16px;
-      min-height:44px;
-      border-radius:999px;
-      border:1px solid rgba(234,215,174,0.22);
-      background:linear-gradient(180deg, rgba(22,18,13,0.84), rgba(10,8,6,0.74));
-      color:#f3e7cd;
-      text-decoration:none;
-      box-shadow:0 10px 30px rgba(0,0,0,0.28), inset 0 1px 0 rgba(255,245,220,0.06);
-      backdrop-filter:blur(8px);
-      -webkit-backdrop-filter:blur(8px);
-      transition:transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, color 0.3s ease;
-    }
-
-    .museum-btn:hover{
-      transform:translateY(-1px);
-      border-color:rgba(234,215,174,0.42);
-      box-shadow:0 16px 34px rgba(0,0,0,0.34), 0 0 0 1px rgba(215,182,117,0.06), inset 0 1px 0 rgba(255,245,220,0.08);
-      color:#fff5dd;
-    }
-
-    .museum-btn::before{
-      content:"";
-      position:absolute;
-      inset:1px;
-      border-radius:inherit;
-      pointer-events:none;
-      background:linear-gradient(135deg, rgba(255,245,220,0.05), rgba(255,245,220,0.01) 35%, rgba(215,182,117,0.04) 100%);
-    }
-
-    .btn-label{
-      position:relative;
-      z-index:1;
-      font-family:"Cormorant Garamond", serif;
-      font-size:1.08rem;
-      letter-spacing:0.04em;
-      font-weight:600;
-      white-space:nowrap;
-    }
-
+    .museum-nav{ position:fixed; top:calc(12px + var(--safeTop)); left:var(--navPad); right:var(--navPad); z-index:130; display:flex; justify-content:space-between; align-items:flex-start; gap:10px; pointer-events:none; }
+    .museum-btn{ pointer-events:auto; position:relative; display:inline-flex; align-items:center; justify-content:center; gap:10px; padding:12px 16px; min-height:44px; border-radius:999px; border:1px solid rgba(234,215,174,0.22); background:linear-gradient(180deg, rgba(22,18,13,0.84), rgba(10,8,6,0.74)); color:#f3e7cd; text-decoration:none; box-shadow:0 10px 30px rgba(0,0,0,0.28), inset 0 1px 0 rgba(255,245,220,0.06); backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px); transition:transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, color 0.3s ease; }
+    .museum-btn:hover{ transform:translateY(-1px); border-color:rgba(234,215,174,0.42); box-shadow:0 16px 34px rgba(0,0,0,0.34), 0 0 0 1px rgba(215,182,117,0.06), inset 0 1px 0 rgba(255,245,220,0.08); color:#fff5dd; }
+    .museum-btn::before{ content:""; position:absolute; inset:1px; border-radius:inherit; pointer-events:none; background:linear-gradient(135deg, rgba(255,245,220,0.05), rgba(255,245,220,0.01) 35%, rgba(215,182,117,0.04) 100%); }
+    .btn-label{ position:relative; z-index:1; font-family:"Cormorant Garamond", serif; font-size:1.08rem; letter-spacing:0.04em; font-weight:600; white-space:nowrap; }
     .museum-menu-btn{ position:relative; }
     .museum-work-btn{ margin-left:auto; }
+    .menu-icon{ position:relative; z-index:1; width:18px; display:flex; flex-direction:column; gap:4px; }
+    .menu-icon span{ display:block; width:18px; height:1px; border-radius:99px; background:linear-gradient(to right, rgba(246,234,210,0.95), rgba(215,182,117,0.95)); box-shadow:0 0 8px rgba(215,182,117,0.18); }
+    .gallery-dropdown{ position:absolute; top:60px; left:0; width:min(86vw, 320px); padding:10px; border-radius:20px; border:1px solid rgba(234,215,174,0.18); background:linear-gradient(180deg, rgba(16,13,10,0.96), rgba(8,7,5,0.94)); box-shadow:0 24px 60px rgba(0,0,0,0.44), inset 0 1px 0 rgba(255,245,220,0.05); backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); opacity:0; visibility:hidden; transform:translateY(10px) scale(0.98); transform-origin:top left; transition:opacity 0.28s ease, transform 0.28s ease, visibility 0.28s ease; pointer-events:none; }
+    .gallery-dropdown.open{ opacity:1; visibility:visible; transform:translateY(0) scale(1); pointer-events:auto; }
+    .gallery-link{ display:flex; flex-direction:column; gap:3px; padding:12px 14px; border-radius:16px; text-decoration:none; transition:background 0.25s ease, transform 0.25s ease; }
+    .gallery-link:hover{ background:rgba(215,182,117,0.08); transform:translateX(3px); }
+    .gallery-kicker{ font-size:0.72rem; letter-spacing:0.22em; text-transform:uppercase; color:rgba(215,182,117,0.9); font-weight:500; }
+    .gallery-name{ font-family:"Cormorant Garamond", serif; font-size:1.12rem; color:rgba(247,241,231,0.92); letter-spacing:0.03em; }
 
-    .menu-icon{
-      position:relative;
-      z-index:1;
-      width:18px;
-      display:flex;
-      flex-direction:column;
-      gap:4px;
-    }
-
-    .menu-icon span{
-      display:block;
-      width:18px;
-      height:1px;
-      border-radius:99px;
-      background:linear-gradient(to right, rgba(246,234,210,0.95), rgba(215,182,117,0.95));
-      box-shadow:0 0 8px rgba(215,182,117,0.18);
-    }
-
-    .gallery-dropdown{
-      position:absolute;
-      top:60px;
-      left:0;
-      width:min(86vw, 320px);
-      padding:10px;
-      border-radius:20px;
-      border:1px solid rgba(234,215,174,0.18);
-      background:linear-gradient(180deg, rgba(16,13,10,0.96), rgba(8,7,5,0.94));
-      box-shadow:0 24px 60px rgba(0,0,0,0.44), inset 0 1px 0 rgba(255,245,220,0.05);
-      backdrop-filter:blur(12px);
-      -webkit-backdrop-filter:blur(12px);
-      opacity:0;
-      visibility:hidden;
-      transform:translateY(10px) scale(0.98);
-      transform-origin:top left;
-      transition:opacity 0.28s ease, transform 0.28s ease, visibility 0.28s ease;
-      pointer-events:none;
-    }
-
-    .gallery-dropdown.open{
-      opacity:1;
-      visibility:visible;
-      transform:translateY(0) scale(1);
-      pointer-events:auto;
-    }
-
-    .gallery-link{
-      display:flex;
-      flex-direction:column;
-      gap:3px;
-      padding:12px 14px;
-      border-radius:16px;
-      text-decoration:none;
-      transition:background 0.25s ease, transform 0.25s ease;
-    }
-
-    .gallery-link:hover{
-      background:rgba(215,182,117,0.08);
-      transform:translateX(3px);
-    }
-
-    .gallery-kicker{
-      font-size:0.72rem;
-      letter-spacing:0.22em;
-      text-transform:uppercase;
-      color:rgba(215,182,117,0.9);
-      font-weight:500;
-    }
-
-    .gallery-name{
-      font-family:"Cormorant Garamond", serif;
-      font-size:1.12rem;
-      color:rgba(247,241,231,0.92);
-      letter-spacing:0.03em;
-    }
-
-    .scene1-wrapper,
-    .canvas-wrap,
-    .bg4-stage,
-    .directors-sticky{
-      position:relative;
-      min-height:100svh;
-      height:100svh;
-      overflow:hidden;
-    }
-
-    .scene1-wrapper{
-      background:#000;
-      isolation:isolate;
-    }
-
-    .scene1-wrapper::after{
-      content:"";
-      position:absolute;
-      left:0;
-      right:0;
-      bottom:0;
-      height:26vh;
-      z-index:12;
-      pointer-events:none;
-      background:linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,0.18), rgba(0,0,0,0.55), #000);
-    }
-
+    .scene1-wrapper,.canvas-wrap,.bg4-stage,.directors-sticky{ position:relative; min-height:100svh; height:100svh; overflow:hidden; }
+    .scene1-wrapper{ background:#000; isolation:isolate; }
+    .scene1-wrapper::after{ content:""; position:absolute; left:0; right:0; bottom:0; height:26vh; z-index:12; pointer-events:none; background:linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,0.18), rgba(0,0,0,0.55), #000); }
     .scene{ position:absolute; inset:0; }
-
-    .layer{
-      position:absolute;
-      pointer-events:none;
-      user-select:none;
-      will-change:transform, opacity, filter;
-    }
-
+    .layer{ position:absolute; pointer-events:none; user-select:none; will-change:transform, opacity, filter; }
     .sky{ z-index:1; top:-6%; left:-4%; width:108%; height:112%; object-fit:cover; }
     .mid{ z-index:2; top:-8%; left:-5%; width:112%; height:122%; object-fit:cover; }
+    .front{ z-index:3; left:0; bottom:0; width:100%; height:auto; object-fit:contain; object-position:center bottom; transform-origin:center bottom; opacity:1; }
+    .foreground{ position:absolute; z-index:4; width:min(72vw, 1280px); left:0; bottom:0; height:auto; transform-origin:left bottom; transform:scale(1.02); filter:brightness(1.02) contrast(0.98) saturate(0.94) drop-shadow(0 14px 28px rgba(0,0,0,0.32)); }
+    .bg2{ z-index:5; top:-4%; left:-3%; width:106%; height:110%; object-fit:cover; opacity:0; transform:scale(1.02); }
+    .bg2-content{ position:absolute; z-index:6; left:50%; top:44%; transform:translate(-50%, -50%); width:min(92vw, 960px); text-align:center; opacity:0; pointer-events:none; will-change:transform, opacity; padding:34px 42px 30px; }
+    .text-plate{ position:absolute; inset:0; z-index:1; background:rgba(255,255,255,0.032); border:1px solid rgba(255,255,255,0.05); border-radius:30px; opacity:1; }
+    .bg2-content h1{ position:relative; z-index:2; font-family:"Cormorant Garamond", serif; font-size:clamp(2.1rem, 5.2vw, 4.6rem); font-weight:600; line-height:1.05; letter-spacing:0.01em; white-space:nowrap; background:linear-gradient(120deg, #fffdf9 0%, #f6eddc 38%, #ead7ae 70%, #d7b675 100%); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; text-shadow:0 2px 10px rgba(0,0,0,0.32), 0 10px 28px rgba(0,0,0,0.24); }
+    .gold-line{ width:120px; height:1px; margin:1rem auto 0.95rem; background:linear-gradient(to right, transparent, rgba(236,221,184,0.95), transparent); opacity:0.95; }
+    .bg2-content p{ position:relative; z-index:2; font-size:1rem; line-height:1.6; color:rgba(250,246,239,0.92); letter-spacing:0.02em; text-shadow:0 2px 10px rgba(0,0,0,0.22); }
+    #darkness{ position:absolute; inset:0; background:black; pointer-events:none; z-index:50; mask-image:radial-gradient(var(--torchW) var(--torchH) at var(--x) var(--y), transparent 0%, rgba(0,0,0,.25) 35%, black 65%); -webkit-mask-image:radial-gradient(var(--torchW) var(--torchH) at var(--x) var(--y), transparent 0%, rgba(0,0,0,.25) 35%, black 65%); transition:opacity 2.2s ease; }
+    #torch{ position:absolute; width:clamp(54px, 6vw, 70px); pointer-events:none; transform:translate(-50%,-15%) rotate(-20deg); z-index:60; transition:opacity 2.2s ease; }
 
-    .front{
-      z-index:3;
-      left:0;
-      bottom:0;
-      width:100%;
-      height:auto;
-      object-fit:contain;
-      object-position:center bottom;
-      transform-origin:center bottom;
-      opacity:1;
-    }
-
-    .foreground{
-      position:absolute;
-      z-index:4;
-      width:min(72vw, 1280px);
-      left:0;
-      bottom:0;
-      height:auto;
-      transform-origin:left bottom;
-      transform:scale(1.02);
-      filter:brightness(1.02) contrast(0.98) saturate(0.94) drop-shadow(0 14px 28px rgba(0,0,0,0.32));
-    }
-
-    .bg2{
-      z-index:5;
-      top:-4%;
-      left:-3%;
-      width:106%;
-      height:110%;
-      object-fit:cover;
-      opacity:0;
-      transform:scale(1.02);
-    }
-
-    .bg2-content{
-      position:absolute;
-      z-index:6;
-      left:50%;
-      top:44%;
-      transform:translate(-50%, -50%);
-      width:min(92vw, 960px);
-      text-align:center;
-      opacity:0;
-      pointer-events:none;
-      will-change:transform, opacity;
-      padding:34px 42px 30px;
-    }
-
-    .text-plate{
-      position:absolute;
-      inset:0;
-      z-index:1;
-      background:rgba(255,255,255,0.032);
-      border:1px solid rgba(255,255,255,0.05);
-      border-radius:30px;
-      opacity:1;
-    }
-
-    .bg2-content h1{
-      position:relative;
-      z-index:2;
-      font-family:"Cormorant Garamond", serif;
-      font-size:clamp(2.1rem, 5.2vw, 4.6rem);
-      font-weight:600;
-      line-height:1.05;
-      letter-spacing:0.01em;
-      white-space:nowrap;
-      background:linear-gradient(120deg, #fffdf9 0%, #f6eddc 38%, #ead7ae 70%, #d7b675 100%);
-      -webkit-background-clip:text;
-      background-clip:text;
-      -webkit-text-fill-color:transparent;
-      text-shadow:0 2px 10px rgba(0,0,0,0.32), 0 10px 28px rgba(0,0,0,0.24);
-    }
-
-    .gold-line{
-      width:120px;
-      height:1px;
-      margin:1rem auto 0.95rem;
-      background:linear-gradient(to right, transparent, rgba(236,221,184,0.95), transparent);
-      opacity:0.95;
-    }
-
-    .bg2-content p{
-      position:relative;
-      z-index:2;
-      font-size:1rem;
-      line-height:1.6;
-      color:rgba(250,246,239,0.92);
-      letter-spacing:0.02em;
-      text-shadow:0 2px 10px rgba(0,0,0,0.22);
-    }
-
-    #darkness{
-      position:absolute;
-      inset:0;
-      background:black;
-      pointer-events:none;
-      z-index:50;
-      mask-image:radial-gradient(var(--torchW) var(--torchH) at var(--x) var(--y), transparent 0%, rgba(0,0,0,.25) 35%, black 65%);
-      -webkit-mask-image:radial-gradient(var(--torchW) var(--torchH) at var(--x) var(--y), transparent 0%, rgba(0,0,0,.25) 35%, black 65%);
-      transition:opacity 2.2s ease;
-    }
-
-    #torch{
-      position:absolute;
-      width:clamp(54px, 6vw, 70px);
-      pointer-events:none;
-      transform:translate(-50%,-15%) rotate(-20deg);
-      z-index:60;
-      transition:opacity 2.2s ease;
-    }
-
-    .canvas-wrap,
-    .customization-stage,
-    .directors-dome-stage{
-      position:relative;
-      min-height:100svh;
-      overflow:hidden;
-    }
-
-    .canvas-wrap{
-      background:linear-gradient(to bottom, rgba(0,0,0,0.0), rgba(0,0,0,0.22) 18%, #000 46%), #000;
-    }
-
-    .canvas-wrap::before{
-      content:"";
-      position:absolute;
-      inset:0;
-      pointer-events:none;
-      z-index:2;
-      background:linear-gradient(to bottom, rgba(245,217,166,0.03) 0%, rgba(0,0,0,0.00) 20%, rgba(0,0,0,0.00) 100%);
-    }
-
-    #freeform{
-      position:absolute;
-      inset:0;
-      background:black;
-      overflow:hidden;
-      cursor:default;
-      z-index:100;
-      opacity:1;
-      transform:scale(1.01);
-      will-change:opacity, transform;
-      touch-action:none;
-    }
-
+    .canvas-wrap,.customization-stage,.directors-dome-stage{ position:relative; min-height:100svh; overflow:hidden; }
+    .canvas-wrap{ background:linear-gradient(to bottom, rgba(0,0,0,0.0), rgba(0,0,0,0.22) 18%, #000 46%), #000; }
+    #freeform{ position:absolute; inset:0; background:black; overflow:hidden; cursor:default; z-index:100; opacity:1; transform:scale(1.01); will-change:opacity, transform; touch-action:none; }
     body.torch-ended #freeform{ cursor:grab; }
-    body.torch-ended #freeform:active,
-    body.torch-ended #freeform.is-dragging{ cursor:grabbing; }
+    body.torch-ended #freeform:active, body.torch-ended #freeform.is-dragging{ cursor:grabbing; }
+    .freeform-inner{ position:absolute; left:0; top:0; width:100%; height:100%; }
+    .freeform-inner img{ position:absolute; width:clamp(130px, 24vw, 280px); opacity:1; box-shadow:0 30px 80px rgba(0,0,0,.95); z-index:20; pointer-events:none; user-select:none; transition:opacity 0.35s ease; border-radius:10px; }
+    .freeform-title{ position:absolute; inset:0; display:flex; flex-direction:column; justify-content:center; align-items:center; pointer-events:none; z-index:5; text-align:center; opacity:0.82; transform:translateY(12px); will-change:opacity, transform; padding:0 16px; }
+    .freeform-title h1,.arcade-card-title,.customization-title,.directors-title,.sky-limit-title,.lets-connect-title{ font-family:"Cormorant Garamond", serif; text-transform:uppercase; }
+    .freeform-title h1{ font-size:clamp(2rem, 4vw, 3.4rem); letter-spacing:.22em; opacity:.45; color:#f5d9a6; }
+    .freeform-title p{ margin-top:14px; opacity:.35; letter-spacing:.18em; color:#f5d9a6; text-transform:uppercase; font-size:.9rem; }
 
-    .freeform-inner{
-      position:absolute;
-      left:0;
-      top:0;
-      width:100%;
-      height:100%;
-    }
+    .bg4-stage{ background:#000; isolation:isolate; z-index:1; }
+    .bg4-base,.bg5-top{ position:absolute; inset:0; background-repeat:no-repeat; background-size:cover; will-change:transform, opacity; }
+    .bg4-base{ background-image:url("bg4.jpeg"); background-position:center center; z-index:1; opacity:1; transform:scale(1); }
+    .bg5-top{ background-image:url("bg5.png"); background-position:center center; z-index:4; opacity:0; transform:scale(1.08); }
+    .bg4-overlay,.bg5-overlay{ position:absolute; inset:0; pointer-events:none; }
+    .bg4-overlay{ z-index:2; background:linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,0)); opacity:1; }
+    .bg5-overlay{ z-index:5; background:radial-gradient(circle at 50% 20%, rgba(212,157,93,0.06), transparent 34%), linear-gradient(to bottom, rgba(0,0,0,0.03), rgba(0,0,0,0.10)); opacity:0; }
+    .bg4-stage::before{ content:""; position:absolute; top:0; left:0; right:0; height:180px; z-index:20; pointer-events:none; background:linear-gradient(to bottom, #000 0%, rgba(0,0,0,0.88) 14%, rgba(0,0,0,0.62) 38%, rgba(0,0,0,0.26) 66%, rgba(0,0,0,0) 100%); }
+    .bg4-stage::after{ content:""; position:absolute; left:0; right:0; bottom:0; height:30vh; z-index:25; pointer-events:none; background:linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(7,5,4,0.08) 30%, rgba(11,8,6,0.18) 55%, rgba(18,12,8,0.35) 80%, rgba(5,5,5,0.6) 100%); }
 
-    .freeform-inner img{
-      position:absolute;
-      width:clamp(130px, 24vw, 280px);
-      opacity:1;
-      box-shadow:0 30px 80px rgba(0,0,0,.95);
-      z-index:20;
-      pointer-events:none;
-      user-select:none;
-      transition:opacity 0.35s ease;
-      border-radius:10px;
-    }
-
-    .freeform-title{
-      position:absolute;
-      inset:0;
-      display:flex;
-      flex-direction:column;
-      justify-content:center;
-      align-items:center;
-      pointer-events:none;
-      z-index:5;
-      text-align:center;
-      opacity:0.82;
-      transform:translateY(12px);
-      will-change:opacity, transform;
-      padding:0 16px;
-    }
-
-    .freeform-title h1,
-    .arcade-card-title,
-    .customization-title,
-    .directors-title,
-    .sky-limit-title,
-    .lets-connect-title{
-      font-family:"Cormorant Garamond", serif;
-      text-transform:uppercase;
-    }
-
-    .freeform-title h1{
-      font-size:clamp(2rem, 4vw, 3.4rem);
-      letter-spacing:.22em;
-      opacity:.45;
-      color:#f5d9a6;
-    }
-
-    .freeform-title p{
-      margin-top:14px;
-      opacity:.35;
-      letter-spacing:.18em;
-      color:#f5d9a6;
-      text-transform:uppercase;
-      font-size:.9rem;
-    }
-
-    .bg4-stage{
-      background:#000;
-      isolation:isolate;
-      z-index:1;
-    }
-
-    .bg4-base, .bg5-top{
-      position:absolute;
-      inset:0;
-      background-repeat:no-repeat;
-      background-size:cover;
-      will-change:transform, opacity;
-    }
-
-    .bg4-base{
-      background-image:url("bg4.jpeg");
-      background-position:center center;
-      z-index:1;
-      opacity:1;
-      transform:scale(1);
-    }
-
-    .bg5-top{
-      background-image:url("bg5.png");
-      background-position:center center;
-      z-index:4;
-      opacity:0;
-      transform:scale(1.08);
-    }
-
-    .bg4-overlay, .bg5-overlay{ position:absolute; inset:0; pointer-events:none; }
-
-    .bg4-overlay{
-      z-index:2;
-      background:linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,0));
-      opacity:1;
-    }
-
-    .bg5-overlay{
-      z-index:5;
-      background:
-        radial-gradient(circle at 50% 20%, rgba(212,157,93,0.06), transparent 34%),
-        linear-gradient(to bottom, rgba(0,0,0,0.03), rgba(0,0,0,0.10));
-      opacity:0;
-    }
-
-    .bg4-stage::before{
-      content:"";
-      position:absolute;
-      top:0;
-      left:0;
-      right:0;
-      height:180px;
-      z-index:20;
-      pointer-events:none;
-      background:linear-gradient(to bottom, #000 0%, rgba(0,0,0,0.88) 14%, rgba(0,0,0,0.62) 38%, rgba(0,0,0,0.26) 66%, rgba(0,0,0,0) 100%);
-    }
-
-    .bg4-stage::after{
-      content:"";
-      position:absolute;
-      left:0;
-      right:0;
-      bottom:0;
-      height:30vh;
-      z-index:25;
-      pointer-events:none;
-      background:
-        linear-gradient(to bottom,
-          rgba(0,0,0,0) 0%,
-          rgba(7,5,4,0.08) 30%,
-          rgba(11,8,6,0.18) 55%,
-          rgba(18,12,8,0.35) 80%,
-          rgba(5,5,5,0.6) 100%);
-    }
-
-    #projectsJourney{
-      position:absolute;
-      inset:0;
-      z-index:10;
-      opacity:0;
-      overflow:hidden;
-      background:#000;
-      pointer-events:auto;
-      isolation:isolate;
-    }
-
-    #projectsJourney::before{
-      content:"";
-      position:absolute;
-      inset:0;
-      z-index:0;
-      pointer-events:none;
-      background:
-        radial-gradient(circle at 50% 120%, rgba(204,156,84,0.01), transparent 46%),
-        rgba(7,5,4,0.985);
-    }
-
-    .arcade-note{
-      position:absolute;
-      top:11vh;
-      left:50%;
-      transform:translateX(-50%);
-      z-index:50;
-      font-size:0.9rem;
-      letter-spacing:0.28em;
-      text-transform:uppercase;
-      color:#fff3d4;
-      text-shadow:0 4px 18px rgba(0,0,0,0.95), 0 0 28px rgba(255,210,140,0.35);
-      white-space:nowrap;
-      pointer-events:none;
-      opacity:1;
-      text-align:center;
-      width:min(90vw, 900px);
-    }
-
-    .arcade-shell{
-      position:absolute;
-      inset:0;
-      z-index:2;
-      display:flex;
-      align-items:center;
-      overflow:hidden;
-      cursor:grab;
-      user-select:none;
-      touch-action:pan-y;
-      background:rgba(8, 6, 5, 0.985);
-    }
-
+    #projectsJourney{ position:absolute; inset:0; z-index:10; opacity:0; overflow:hidden; background:#000; pointer-events:auto; isolation:isolate; }
+    #projectsJourney::before{ content:""; position:absolute; inset:0; z-index:0; pointer-events:none; background:radial-gradient(circle at 50% 120%, rgba(204,156,84,0.01), transparent 46%), rgba(7,5,4,0.985); }
+    .arcade-note{ position:absolute; top:11vh; left:50%; transform:translateX(-50%); z-index:50; font-size:0.9rem; letter-spacing:0.28em; text-transform:uppercase; color:#fff3d4; text-shadow:0 4px 18px rgba(0,0,0,0.95), 0 0 28px rgba(255,210,140,0.35); white-space:nowrap; pointer-events:none; opacity:1; text-align:center; width:min(90vw, 900px); }
+    .arcade-shell{ position:absolute; inset:0; z-index:2; display:flex; align-items:center; overflow:hidden; cursor:grab; user-select:none; touch-action:pan-y; background:rgba(8, 6, 5, 0.985); }
     .arcade-shell.dragging{ cursor:grabbing; }
+    .arcade-track{ display:flex; gap:clamp(16px, 2vw, 24px); padding-left:calc((100vw - min(76vw, 840px)) / 2 + 220px); padding-right:calc((100vw - min(76vw, 840px)) / 2 - 40px); will-change:transform; transform:translate3d(0,0,0); align-items:center; }
+    .arcade-card:first-child{ transform:translateX(0) scale(1.02); }
+    .arcade-card{ flex:0 0 min(76vw, 840px); width:min(76vw, 840px); min-width:min(76vw, 840px); height:min(54vh, 590px); position:relative; display:grid; grid-template-columns:0.94fr 1.06fr; border-radius:28px; overflow:hidden; background:linear-gradient(180deg, #2f1f15, #1c130d); box-shadow:0 24px 64px rgba(0,0,0,0.52), inset 0 1px 0 rgba(255,240,220,0.04); }
+    .arcade-card::before{ content:""; position:absolute; inset:0; border-radius:28px; padding:1px; background:linear-gradient(135deg, rgba(96,62,31,0.95) 0%, rgba(199,154,87,0.95) 18%, rgba(125,83,43,0.92) 42%, rgba(74,48,27,0.96) 68%, rgba(199,154,87,0.82) 100%); -webkit-mask:linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); -webkit-mask-composite:xor; mask-composite:exclude; pointer-events:none; }
+    .arcade-left{ position:relative; z-index:2; padding:34px 28px 30px 34px; display:flex; flex-direction:column; justify-content:center; background:linear-gradient(180deg, #24170f, #16100b); }
+    .arcade-index{ font-family:"Cormorant Garamond", serif; font-size:0.82rem; letter-spacing:0.35em; color:rgba(215,181,120,0.78); margin-bottom:10px; }
+    .arcade-card-title{ font-size:clamp(2rem, 3vw, 3.1rem); line-height:0.92; letter-spacing:0.03em; color:#f3dfbf; margin-bottom:12px; }
+    .arcade-desc{ max-width:330px; font-size:0.9rem; line-height:1.72; color:rgba(244,234,220,0.74); margin-bottom:18px; }
+    .arcade-meta{ display:flex; flex-wrap:wrap; gap:8px; margin-bottom:16px; }
+    .arcade-pill{ padding:8px 11px; border-radius:999px; font-size:0.64rem; letter-spacing:0.08em; color:rgba(244,234,220,0.78); background:#19110c; border:1px solid rgba(199,154,87,0.20); }
+    .arcade-right{ position:relative; z-index:2; padding:14px 14px 14px 0; display:flex; align-items:stretch; justify-content:stretch; }
+    .arcade-media{ position:relative; width:100%; height:100%; border-radius:22px; overflow:hidden; background:#120d09; box-shadow:inset 0 0 0 1px rgba(199,154,87,0.12), 0 16px 34px rgba(0,0,0,0.24); }
+    .media-carousel{ position:absolute; inset:18px; border-radius:16px; overflow:hidden; z-index:2; background:#120d09; }
+    .media-slides{ position:relative; width:100%; height:100%; }
+    .media-slide{ position:absolute; inset:0; opacity:0; transition:opacity 0.28s ease; display:flex; align-items:center; justify-content:center; background:#120d09; pointer-events:none; }
+    .media-slide.active{ opacity:1; pointer-events:auto; }
+    .media-slide img,.media-slide video{ width:100%; height:100%; object-fit:contain; display:block; background:#120d09; }
+    .media-arrow{ position:absolute; top:50%; transform:translateY(-50%); z-index:4; width:38px; height:38px; border-radius:999px; border:1px solid rgba(199,154,87,0.30); background:rgba(18,13,9,0.90); color:#f2dfbf; display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:1rem; line-height:1; }
+    .media-arrow.prev{ left:12px; } .media-arrow.next{ right:12px; }
+    .arcade-badge{ position:absolute; right:16px; bottom:16px; z-index:3; padding:9px 12px; border-radius:999px; font-size:0.60rem; letter-spacing:0.18em; text-transform:uppercase; color:#f2dfbf; background:#130e0a; border:1px solid rgba(199,154,87,0.20); }
 
-    .arcade-track{
-      display:flex;
-      gap:clamp(16px, 2vw, 24px);
-      padding-left:calc((100vw - min(76vw, 840px)) / 2 + 220px);
-      padding-right:calc((100vw - min(76vw, 840px)) / 2 - 40px);
-      will-change:transform;
-      transform:translate3d(0,0,0);
-      align-items:center;
-    }
-
-    
-    .arcade-card:first-child{
-      transform:translateX(0) scale(1.02);
-    }
-
-.arcade-card{
-      flex:0 0 min(76vw, 840px);
-      width:min(76vw, 840px);
-      min-width:min(76vw, 840px);
-      height:min(54vh, 590px);
-      position:relative;
-      display:grid;
-      grid-template-columns:0.94fr 1.06fr;
-      border-radius:28px;
-      overflow:hidden;
-      background:linear-gradient(180deg, #2f1f15, #1c130d);
-      box-shadow:0 24px 64px rgba(0,0,0,0.52), inset 0 1px 0 rgba(255,240,220,0.04);
-    }
-
-    .arcade-card::before{
-      content:"";
-      position:absolute;
-      inset:0;
-      border-radius:28px;
-      padding:1px;
-      background:linear-gradient(135deg, rgba(96,62,31,0.95) 0%, rgba(199,154,87,0.95) 18%, rgba(125,83,43,0.92) 42%, rgba(74,48,27,0.96) 68%, rgba(199,154,87,0.82) 100%);
-      -webkit-mask:linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-      -webkit-mask-composite:xor;
-      mask-composite:exclude;
-      pointer-events:none;
-    }
-
-    .arcade-left{
-      position:relative;
-      z-index:2;
-      padding:34px 28px 30px 34px;
-      display:flex;
-      flex-direction:column;
-      justify-content:center;
-      background:linear-gradient(180deg, #24170f, #16100b);
-    }
-
-    .arcade-index{
-      font-family:"Cormorant Garamond", serif;
-      font-size:0.82rem;
-      letter-spacing:0.35em;
-      color:rgba(215,181,120,0.78);
-      margin-bottom:10px;
-    }
-
-    .arcade-card-title{
-      font-size:clamp(2rem, 3vw, 3.1rem);
-      line-height:0.92;
-      letter-spacing:0.03em;
-      color:#f3dfbf;
-      margin-bottom:12px;
-    }
-
-    .arcade-desc{
-      max-width:330px;
-      font-size:0.9rem;
-      line-height:1.72;
-      color:rgba(244,234,220,0.74);
-      margin-bottom:18px;
-    }
-
-    .arcade-meta{
-      display:flex;
-      flex-wrap:wrap;
-      gap:8px;
-      margin-bottom:16px;
-    }
-
-    .arcade-pill{
-      padding:8px 11px;
-      border-radius:999px;
-      font-size:0.64rem;
-      letter-spacing:0.08em;
-      color:rgba(244,234,220,0.78);
-      background:#19110c;
-      border:1px solid rgba(199,154,87,0.20);
-    }
-
-    .arcade-actions{
-      display:flex;
-      flex-wrap:wrap;
-      gap:8px;
-    }
-
-    .arcade-btn{
-      appearance:none;
-      border:none;
-      text-decoration:none;
-      cursor:pointer;
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      padding:9px 12px;
-      border-radius:999px;
-      font-size:0.60rem;
-      letter-spacing:0.14em;
-      text-transform:uppercase;
-      color:#ebdbc3;
-      background:#18100b;
-      border:1px solid rgba(199,154,87,0.26);
-      transition:transform .22s ease, border-color .22s ease, background .22s ease;
-    }
-
-    .arcade-btn:hover{
-      transform:translateY(-1px);
-      border-color:rgba(215,182,117,0.45);
-      background:#20150e;
-    }
-
-    .arcade-right{
-      position:relative;
-      z-index:2;
-      padding:14px 14px 14px 0;
-      display:flex;
-      align-items:stretch;
-      justify-content:stretch;
-    }
-
-    .arcade-media{
-      position:relative;
-      width:100%;
-      height:100%;
-      border-radius:22px;
-      overflow:hidden;
-      background:#120d09;
-      box-shadow:inset 0 0 0 1px rgba(199,154,87,0.12), 0 16px 34px rgba(0,0,0,0.24);
-    }
-
-    .media-carousel{
-      position:absolute;
-      inset:18px;
-      border-radius:16px;
-      overflow:hidden;
-      z-index:2;
-      background:#120d09;
-    }
-
-    .media-slides{
-      position:relative;
-      width:100%;
-      height:100%;
-    }
-
-    .media-slide{
-      position:absolute;
-      inset:0;
-      opacity:0;
-      transition:opacity 0.28s ease;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      background:#120d09;
-    }
-
-    .media-slide.active{ opacity:1; }
-
-    .media-slide img,
-    .media-slide video{
-      width:100%;
-      height:100%;
-      object-fit:contain;
-      display:block;
-      background:#120d09;
-    }
-
-    .media-arrow{
-      position:absolute;
-      top:50%;
-      transform:translateY(-50%);
-      z-index:4;
-      width:38px;
-      height:38px;
-      border-radius:999px;
-      border:1px solid rgba(199,154,87,0.30);
-      background:rgba(18,13,9,0.90);
-      color:#f2dfbf;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      cursor:pointer;
-      font-size:1rem;
-      line-height:1;
-    }
-
-    .media-arrow.prev{ left:12px; }
-    .media-arrow.next{ right:12px; }
-
-    .arcade-badge{
-      position:absolute;
-      right:16px;
-      bottom:16px;
-      z-index:3;
-      padding:9px 12px;
-      border-radius:999px;
-      font-size:0.60rem;
-      letter-spacing:0.18em;
-      text-transform:uppercase;
-      color:#f2dfbf;
-      background:#130e0a;
-      border:1px solid rgba(199,154,87,0.20);
-    }
-
-    .customization-stage{
-      background:#050505;
-      min-height:100svh;
-      padding:0 0 7vh;
-      isolation:isolate;
-      z-index:12;
-    }
-
-    .customization-stage::before{
-      content:"";
-      position:absolute;
-      top:0;
-      left:0;
-      right:0;
-      height:28vh;
-      z-index:1;
-      pointer-events:none;
-      background:linear-gradient(to bottom, rgba(5,5,5,0.98) 0%, rgba(5,5,5,0.84) 18%, rgba(14,10,7,0.38) 46%, rgba(14,10,7,0.0) 100%);
-    }
-
-    .customization-header-top{
-      position:relative;
-      z-index:10;
-      width:100%;
-      padding:calc(8vh + var(--safeTop)) 20px 3.4vh;
-      text-align:center;
-      background:linear-gradient(to bottom, #050505 0%, #050505 58%, rgba(5,5,5,0.82) 78%, rgba(5,5,5,0.0) 100%);
-    }
-
-    .customization-kicker{
-      display:block;
-      font-size:0.74rem;
-      letter-spacing:0.34em;
-      text-transform:uppercase;
-      color:rgba(232,207,150,0.84);
-    }
-
-    .customization-title{
-      font-size:clamp(1.95rem, 4vw, 3.2rem);
-      margin-top:12px;
-      line-height:0.96;
-      letter-spacing:0.045em;
-      color:#f4e3bc;
-      text-shadow:0 10px 24px rgba(0,0,0,0.36);
-    }
-
-    .customization-sub{
-      font-size:0.84rem;
-      letter-spacing:0.16em;
-      text-transform:uppercase;
-      color:rgba(247,241,231,0.76);
-    }
-
-    .customization-showcase-wrap{
-      position:relative;
-      width:100%;
-      overflow:hidden;
-      z-index:5;
-    }
-
-    .customization-showcase{
-      position:relative;
-      width:min(96vw, 1840px);
-      height:min(83svh, 900px);
-      min-height:540px;
-      margin:0 auto;
-      overflow:hidden;
-      background:#000;
-      border-radius:var(--radius-xl);
-      box-shadow:0 -18px 40px rgba(0,0,0,0.14), 0 30px 90px rgba(0,0,0,0.36);
-      z-index:8;
-      transform:translateY(10px);
-      will-change:transform, opacity;
-    }
-
-    .customization-bg{
-      position:absolute;
-      inset:0;
-      background:url("bg6.png") center center / cover no-repeat;
-      z-index:1;
-      transform:scale(1.03);
-      will-change:transform;
-    }
-
-    .customization-overlay{
-      position:absolute;
-      inset:0;
-      z-index:2;
-      pointer-events:none;
-      background:
-        linear-gradient(to bottom, rgba(10,7,5,0.04), rgba(0,0,0,0.10)),
-        radial-gradient(circle at 50% 0%, rgba(215,182,117,0.04), transparent 40%);
-    }
-
-    .customization-board{
-      position:relative;
-      z-index:5;
-      width:100%;
-      height:100%;
-      overflow:hidden;
-      touch-action:none;
-    }
-
-    .custom-asset{
-      position:absolute;
-      user-select:none;
-      touch-action:none;
-      cursor:grab;
-      transform-origin:center center;
-      filter:drop-shadow(0 18px 30px rgba(0,0,0,0.45));
-      will-change:transform, left, top;
-    }
-
-    .custom-asset img{
-      width:100%;
-      height:100%;
-      object-fit:contain;
-      display:block;
-      pointer-events:none;
-    }
-
+    .customization-stage{ background:#050505; min-height:100svh; padding:0 0 7vh; isolation:isolate; z-index:12; }
+    .customization-stage::before{ content:""; position:absolute; top:0; left:0; right:0; height:28vh; z-index:1; pointer-events:none; background:linear-gradient(to bottom, rgba(5,5,5,0.98) 0%, rgba(5,5,5,0.84) 18%, rgba(14,10,7,0.38) 46%, rgba(14,10,7,0.0) 100%); }
+    .customization-header-top{ position:relative; z-index:10; width:100%; padding:calc(8vh + var(--safeTop)) 20px 3.4vh; text-align:center; background:linear-gradient(to bottom, #050505 0%, #050505 58%, rgba(5,5,5,0.82) 78%, rgba(5,5,5,0.0) 100%); }
+    .customization-kicker{ display:block; font-size:0.74rem; letter-spacing:0.34em; text-transform:uppercase; color:rgba(232,207,150,0.84); }
+    .customization-title{ font-size:clamp(1.95rem, 4vw, 3.2rem); margin-top:12px; line-height:0.96; letter-spacing:0.045em; color:#f4e3bc; text-shadow:0 10px 24px rgba(0,0,0,0.36); }
+    .customization-sub{ font-size:0.84rem; letter-spacing:0.16em; text-transform:uppercase; color:rgba(247,241,231,0.76); }
+    .customization-showcase-wrap{ position:relative; width:100%; overflow:hidden; z-index:5; }
+    .customization-showcase{ position:relative; width:min(96vw, 1840px); height:min(83svh, 900px); min-height:540px; margin:0 auto; overflow:hidden; background:#000; border-radius:var(--radius-xl); box-shadow:0 -18px 40px rgba(0,0,0,0.14), 0 30px 90px rgba(0,0,0,0.36); z-index:8; transform:translateY(10px); will-change:transform, opacity; }
+    .customization-bg{ position:absolute; inset:0; background:url("bg6.png") center center / cover no-repeat; z-index:1; transform:scale(1.03); will-change:transform; }
+    .customization-overlay{ position:absolute; inset:0; z-index:2; pointer-events:none; background:linear-gradient(to bottom, rgba(10,7,5,0.04), rgba(0,0,0,0.10)), radial-gradient(circle at 50% 0%, rgba(215,182,117,0.04), transparent 40%); }
+    .customization-board{ position:relative; z-index:5; width:100%; height:100%; overflow:hidden; touch-action:none; }
+    .custom-asset{ position:absolute; user-select:none; touch-action:none; cursor:grab; transform-origin:center center; filter:drop-shadow(0 18px 30px rgba(0,0,0,0.45)); will-change:transform, left, top; }
+    .custom-asset img{ width:100%; height:100%; object-fit:contain; display:block; pointer-events:none; }
     .custom-asset.active{ cursor:grabbing; }
+    .custom-hint{ position:absolute; bottom:22px; left:50%; transform:translateX(-50%); z-index:7; padding:10px 14px; border-radius:999px; background:rgba(12,9,7,0.60); border:1px solid rgba(234,215,174,0.18); color:rgba(247,241,231,0.82); font-size:0.72rem; letter-spacing:0.14em; text-transform:uppercase; backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); pointer-events:none; white-space:nowrap; text-align:center; }
 
-    .custom-hint{
-      position:absolute;
-      bottom:22px;
-      left:50%;
-      transform:translateX(-50%);
-      z-index:7;
-      padding:10px 14px;
-      border-radius:999px;
-      background:rgba(12,9,7,0.60);
-      border:1px solid rgba(234,215,174,0.18);
-      color:rgba(247,241,231,0.82);
-      font-size:0.72rem;
-      letter-spacing:0.14em;
-      text-transform:uppercase;
-      backdrop-filter:blur(10px);
-      -webkit-backdrop-filter:blur(10px);
-      pointer-events:none;
-      white-space:nowrap;
-      text-align:center;
-    }
-
-    .directors-dome-stage{
-      min-height:100svh;
-      height:100svh;
-      background:#000;
-      position:relative;
-      isolation:isolate;
-      overflow:hidden;
-    }
-
-    .directors-sticky{
-      position:relative;
-      width:100%;
-      height:100%;
-      background:#000;
-      overflow:hidden;
-    }
-
-    .directors-top{
-      position:absolute;
-      top:0;
-      left:0;
-      right:0;
-      z-index:20;
-      height:auto;
-      background:linear-gradient(to bottom, rgba(0,0,0,0.96), rgba(0,0,0,0.72), rgba(0,0,0,0));
-      display:flex;
-      align-items:flex-start;
-      justify-content:center;
-      text-align:center;
-      padding:calc(16px + var(--safeTop)) 20px 0;
-      pointer-events:none;
-      will-change:opacity, transform;
-    }
-
-    .directors-title-block{
-      width:min(1200px, 92vw);
-    }
-
-    .directors-kicker{
-      display:block;
-      font-size:0.76rem;
-      letter-spacing:0.38em;
-      text-transform:uppercase;
-      color:rgba(232,207,150,0.9);
-      margin-bottom:10px;
-    }
-
-    .directors-title{
-      font-size:clamp(1.8rem, 3.2vw, 3.2rem);
-      line-height:0.95;
-      letter-spacing:0.02em;
-      color:#f3dfbf;
-      text-shadow:0 10px 22px rgba(0,0,0,0.36);
-    }
-
-    .directors-stage{
-      position:absolute;
-      inset:0;
-      z-index:1;
-      background:#000;
-      overflow:hidden;
-    }
-
-    .bg8-full,
-    .bg9-full,
-    .bg10-full{
-      position:absolute;
-      inset:0;
-      background-repeat:no-repeat;
-      background-position:center center;
-      background-size:cover;
-      background-color:#000;
-      will-change:transform, opacity, filter;
-    }
-
-    .bg8-full{
-      background-image:url("bg8.png");
-      z-index:1;
-      opacity:1;
-      transform:scale(1);
-    }
-
-    .bg9-full{
-      background-image:url("bg9.jpeg");
-      z-index:2;
-      opacity:0;
-      transform:scale(1.14);
-    }
-
-    .bg10-full{
-      background-image:url("bg10.jpeg");
-      z-index:3;
-      opacity:0;
-      transform:scale(1.14);
-    }
-
-    .directors-dark-overlay{
-      position:absolute;
-      inset:0;
-      z-index:6;
-      pointer-events:none;
-      background:
-        linear-gradient(to bottom, rgba(0,0,0,0.02), rgba(0,0,0,0.14)),
-        radial-gradient(circle at 50% 12%, rgba(255,220,160,0.04), transparent 26%);
-    }
-
-    .directors-media-content{
-      position:absolute;
-      inset:0;
-      z-index:10;
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      justify-content:flex-start;
-      padding:18.5vh 4vw 8vh;
-      pointer-events:none;
-      will-change:opacity, transform;
-    }
-
-    .video-carousel-wrap{
-      width:min(560px, 40vw);
-      position:relative;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      pointer-events:auto;
-      margin-top:0.6vh;
-    }
-
-    .video-arrow{ display:none; }
-
-    .video-arrow:hover{ display:none; }
-
-    .video-arrow.prev{ display:none; }
-    .video-arrow.next{ display:none; }
-
-    .video-frame-single{
-      width:100%;
-      background:transparent;
-      border:none;
-      box-shadow:none;
-      padding:0;
-    }
-
-    .video-frame-single video{
-      width:100%;
-      display:block;
-      border-radius:22px;
-      background:#000;
-      aspect-ratio:16/9;
-      object-fit:cover;
-      box-shadow:0 24px 42px rgba(0,0,0,0.36);
-      transform:scale(0.92);
-      transform-origin:center;
-    }
-
-    .video-counter{
-      display:none;
-    }
-
-    .lets-connect-panel{
-      position:absolute;
-      inset:0;
-      z-index:12;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding:12vh 6vw calc(24px + var(--safeBottom));
-      opacity:0;
-      pointer-events:none;
-      will-change:opacity, transform;
-    }
-
-    .lets-connect-content{
-      position:relative;
-      z-index:5;
-      width:min(1000px, 92vw);
-      text-align:center;
-    }
-
-    .sky-limit-title{
-      font-size:clamp(2.8rem, 5.4vw, 4.8rem);
-      letter-spacing:0.08em;
-      color:var(--connect-gold-3);
-      text-shadow:0 14px 36px rgba(0,0,0,0.5);
-    }
-
-    .lets-connect-title{
-      font-size:clamp(2rem, 4.2vw, 3.2rem);
-      letter-spacing:0.05em;
-      color:var(--connect-gold);
-      text-shadow:0 12px 30px rgba(0,0,0,0.46);
-      margin-top:12px;
-    }
-
-    .lets-connect-copy{
-      max-width:760px;
-      margin:1.35rem auto 0;
-      font-size:1rem;
-      line-height:1.8;
-      color:rgba(255,248,236,0.94);
-      text-shadow:0 6px 18px rgba(0,0,0,0.56);
-    }
-
-    .connect-links{
-      margin-top:2rem;
-      display:flex;
-      gap:14px;
-      justify-content:center;
-      flex-wrap:wrap;
-    }
-
-    .connect-btn{
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      padding:14px 22px;
-      border-radius:999px;
-      text-decoration:none;
-      font-size:0.92rem;
-      letter-spacing:0.08em;
-      text-transform:uppercase;
-      transition:transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease, background 0.25s ease, color 0.25s ease;
-      cursor:pointer;
-      border:none;
-    }
-
-    .connect-btn.primary,
-    .connect-btn.secondary{
-      color:var(--blue-4);
-      background:linear-gradient(135deg, var(--blue-1) 0%, var(--blue-2) 52%, var(--blue-3) 100%);
-      border:1px solid rgba(159,214,255,0.26);
-      box-shadow:0 14px 32px rgba(8,18,42,0.32), inset 0 1px 0 rgba(210,230,255,0.08);
-      font-weight:600;
-      pointer-events:auto;
-    }
-
-    .connect-btn.primary:hover,
-    .connect-btn.secondary:hover{
-      transform:translateY(-2px) scale(1.01);
-      background:linear-gradient(135deg, #13325a 0%, #1c4678 52%, #285d9d 100%);
-      border-color:rgba(159,214,255,0.42);
-      box-shadow:0 18px 42px rgba(8,18,42,0.42), inset 0 1px 0 rgba(210,230,255,0.12);
-    }
-
-    .mail-fallback{
-      margin-top:12px;
-      min-height:36px;
-      opacity:0;
-      transform:translateY(8px);
-      transition:opacity 0.35s ease, transform 0.35s ease;
-      pointer-events:none;
-    }
-
-    .mail-fallback.show{
-      opacity:1;
-      transform:translateY(0);
-      pointer-events:auto;
-    }
-
-    .mail-card{
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      gap:10px;
-      max-width:min(92vw, 520px);
-      padding:10px 14px;
-      border-radius:14px;
-      border:1px solid rgba(255,241,200,0.20);
-      background:rgba(8,18,42,0.22);
-      box-shadow:0 10px 24px rgba(0,0,0,0.22);
-      backdrop-filter:blur(6px);
-      -webkit-backdrop-filter:blur(6px);
-    }
-
-    #mailText{
-      color:#fff1c8;
-      letter-spacing:0.03em;
-      font-size:0.95rem;
-      user-select:text;
-      -webkit-user-select:text;
-      cursor:text;
-      white-space:nowrap;
-    }
-
-    .copy-mail-btn{
-      border:none;
-      padding:8px 12px;
-      border-radius:999px;
-      font-size:0.7rem;
-      letter-spacing:0.12em;
-      text-transform:uppercase;
-      color:var(--blue-4);
-      background:linear-gradient(135deg, var(--blue-1) 0%, var(--blue-2) 52%, var(--blue-3) 100%);
-      border:1px solid rgba(159,214,255,0.26);
-      cursor:pointer;
-      flex-shrink:0;
-    }
-
-    .copy-mail-btn:hover{ transform:translateY(-1px); }
-
-    @media (max-width: 1100px){
-      .foreground{ width:82vw; }
-      .arcade-card{
-        flex-basis:min(80vw, 780px);
-        width:min(80vw, 780px);
-        min-width:min(80vw, 780px);
-      }
-    }
+    .directors-dome-stage{ min-height:100svh; height:100svh; background:#000; position:relative; isolation:isolate; overflow:hidden; }
+    .directors-sticky{ position:relative; width:100%; height:100%; background:#000; overflow:hidden; }
+    .directors-top{ position:absolute; top:0; left:0; right:0; z-index:20; height:auto; background:linear-gradient(to bottom, rgba(0,0,0,0.96), rgba(0,0,0,0.72), rgba(0,0,0,0)); display:flex; align-items:flex-start; justify-content:center; text-align:center; padding:calc(16px + var(--safeTop)) 20px 0; pointer-events:none; will-change:opacity, transform; }
+    .directors-title-block{ width:min(1200px, 92vw); }
+    .directors-kicker{ display:block; font-size:0.76rem; letter-spacing:0.38em; text-transform:uppercase; color:rgba(232,207,150,0.9); margin-bottom:10px; }
+    .directors-title{ font-size:clamp(1.8rem, 3.2vw, 3.2rem); line-height:0.95; letter-spacing:0.02em; color:#f3dfbf; text-shadow:0 10px 22px rgba(0,0,0,0.36); }
+    .directors-stage{ position:absolute; inset:0; z-index:1; background:#000; overflow:hidden; }
+    .bg8-full,.bg9-full,.bg10-full{ position:absolute; inset:0; background-repeat:no-repeat; background-position:center center; background-size:cover; background-color:#000; will-change:transform, opacity, filter; }
+    .bg8-full{ background-image:url("bg8.png"); z-index:1; opacity:1; transform:scale(1); }
+    .bg9-full{ background-image:url("bg9.jpeg"); z-index:2; opacity:0; transform:scale(1.14); }
+    .bg10-full{ background-image:url("bg10.jpeg"); z-index:3; opacity:0; transform:scale(1.14); }
+    .directors-dark-overlay{ position:absolute; inset:0; z-index:6; pointer-events:none; background:linear-gradient(to bottom, rgba(0,0,0,0.02), rgba(0,0,0,0.14)), radial-gradient(circle at 50% 12%, rgba(255,220,160,0.04), transparent 26%); }
+    .directors-media-content{ position:absolute; inset:0; z-index:10; display:flex; flex-direction:column; align-items:center; justify-content:flex-start; padding:18.5vh 4vw 8vh; pointer-events:none; will-change:opacity, transform; }
+    .video-carousel-wrap{ width:min(560px, 40vw); position:relative; display:flex; align-items:center; justify-content:center; pointer-events:auto; margin-top:0.6vh; }
+    .video-frame-single{ width:100%; background:transparent; border:none; box-shadow:none; padding:0; }
+    .video-frame-single video{ width:100%; display:block; border-radius:22px; background:#000; aspect-ratio:16/9; object-fit:cover; box-shadow:0 24px 42px rgba(0,0,0,0.36); transform:scale(0.92); transform-origin:center; }
+    .lets-connect-panel{ position:absolute; inset:0; z-index:12; display:flex; align-items:center; justify-content:center; padding:12vh 6vw calc(24px + var(--safeBottom)); opacity:0; pointer-events:none; will-change:opacity, transform; }
+    .lets-connect-content{ position:relative; z-index:5; width:min(1000px, 92vw); text-align:center; }
+    .sky-limit-title{ font-size:clamp(2.8rem, 5.4vw, 4.8rem); letter-spacing:0.08em; color:var(--connect-gold-3); text-shadow:0 14px 36px rgba(0,0,0,0.5); }
+    .lets-connect-title{ font-size:clamp(2rem, 4.2vw, 3.2rem); letter-spacing:0.05em; color:var(--connect-gold); text-shadow:0 12px 30px rgba(0,0,0,0.46); margin-top:12px; }
+    .lets-connect-copy{ max-width:760px; margin:1.35rem auto 0; font-size:1rem; line-height:1.8; color:rgba(255,248,236,0.94); text-shadow:0 6px 18px rgba(0,0,0,0.56); }
+    .connect-links{ margin-top:2rem; display:flex; gap:14px; justify-content:center; flex-wrap:wrap; }
+    .connect-btn{ display:inline-flex; align-items:center; justify-content:center; padding:14px 22px; border-radius:999px; text-decoration:none; font-size:0.92rem; letter-spacing:0.08em; text-transform:uppercase; transition:transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease, background 0.25s ease, color 0.25s ease; cursor:pointer; border:none; }
+    .connect-btn.primary,.connect-btn.secondary{ color:var(--blue-4); background:linear-gradient(135deg, var(--blue-1) 0%, var(--blue-2) 52%, var(--blue-3) 100%); border:1px solid rgba(159,214,255,0.26); box-shadow:0 14px 32px rgba(8,18,42,0.32), inset 0 1px 0 rgba(210,230,255,0.08); font-weight:600; pointer-events:auto; }
+    .connect-btn.primary:hover,.connect-btn.secondary:hover{ transform:translateY(-2px) scale(1.01); background:linear-gradient(135deg, #13325a 0%, #1c4678 52%, #285d9d 100%); border-color:rgba(159,214,255,0.42); box-shadow:0 18px 42px rgba(8,18,42,0.42), inset 0 1px 0 rgba(210,230,255,0.12); }
+    .mail-fallback{ margin-top:12px; min-height:36px; opacity:0; transform:translateY(8px); transition:opacity 0.35s ease, transform 0.35s ease; pointer-events:none; }
+    .mail-fallback.show{ opacity:1; transform:translateY(0); pointer-events:auto; }
+    .mail-card{ display:inline-flex; align-items:center; justify-content:center; gap:10px; max-width:min(92vw, 520px); padding:10px 14px; border-radius:14px; border:1px solid rgba(255,241,200,0.20); background:rgba(8,18,42,0.22); box-shadow:0 10px 24px rgba(0,0,0,0.22); backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px); }
+    #mailText{ color:#fff1c8; letter-spacing:0.03em; font-size:0.95rem; user-select:text; -webkit-user-select:text; cursor:text; white-space:nowrap; }
 
     @media (max-width: 900px){
-      .arcade-track{
-        gap:16px;
-        padding-left:calc((100vw - min(86vw, 780px)) / 2 + 72px);
-        padding-right:calc((100vw - min(86vw, 780px)) / 2 - 34px);
-      }
-
-      .arcade-card{
-        flex:0 0 86vw;
-        width:86vw;
-        min-width:86vw;
-        height:auto;
-        min-height:unset;
-        grid-template-columns:1fr;
-        border-radius:22px;
-      }
-
-      .arcade-left{
-        padding:24px 18px 16px;
-      }
-
-      .arcade-right{
-        padding:0 12px 12px;
-      }
-
-      .arcade-card-title{
-        font-size:clamp(1.55rem, 6vw, 2.15rem);
-        line-height:0.95;
-      }
-
-      .arcade-desc{
-        max-width:none;
-        font-size:0.84rem;
-        line-height:1.62;
-      }
-
-      .arcade-meta{
-        gap:6px;
-        margin-bottom:12px;
-      }
-
-      .arcade-pill{
-        font-size:0.58rem;
-        padding:7px 10px;
-      }
-
-      .arcade-actions{ gap:6px; }
-
-      .arcade-btn{
-        font-size:0.56rem;
-        letter-spacing:0.1em;
-        padding:8px 10px;
-      }
-
-      .arcade-media{
-        min-height:240px;
-        border-radius:18px;
-      }
-
-      .media-carousel{
-        inset:12px;
-        border-radius:12px;
-      }
-
-      .customization-showcase{
-        height:74svh;
-        min-height:480px;
-      }
+      .arcade-track{ gap:16px; padding-left:calc((100vw - min(86vw, 780px)) / 2 + 72px); padding-right:calc((100vw - min(86vw, 780px)) / 2 - 34px); }
+      .arcade-card{ flex:0 0 86vw; width:86vw; min-width:86vw; height:auto; min-height:unset; grid-template-columns:1fr; border-radius:22px; }
+      .arcade-left{ padding:24px 18px 16px; }
+      .arcade-right{ padding:0 12px 12px; }
+      .arcade-media{ min-height:240px; border-radius:18px; }
+      .media-carousel{ inset:12px; border-radius:12px; }
+      .customization-showcase{ height:74svh; min-height:480px; }
     }
 
     @media (max-width: 768px){
-      .museum-nav{
-        gap:8px;
-      }
-
-      .museum-btn{
-        padding:10px 12px;
-        gap:8px;
-      }
-
-      .btn-label{
-        font-size:0.92rem;
-      }
-
-      .museum-work-btn{
-        max-width:46vw;
-      }
-
-      .museum-work-btn .btn-label{
-        overflow:hidden;
-        text-overflow:ellipsis;
-        white-space:nowrap;
-      }
-
-      .gallery-dropdown{
-        top:56px;
-        width:min(84vw, 280px);
-      }
-
-      .scene1-wrapper,
-      .canvas-wrap,
-      .bg4-stage{
-        height:100svh;
-      }
-
-      .front{
-        width:118%;
-        left:-9%;
-      }
-
-      .bg2-content{
-        top:42%;
-        padding:22px 20px 20px;
-      }
-
-      .bg2-content h1{
-        font-size:clamp(2rem, 8vw, 3rem);
-        white-space:normal;
-      }
-
-      .text-plate{ border-radius:22px; }
-
-      .bg2-content p{ font-size:0.92rem; }
-
-      .freeform-title h1{
-        font-size:clamp(1.55rem, 8vw, 2.2rem);
-        letter-spacing:.12em;
-      }
-
-      .freeform-title p{
-        font-size:.72rem;
-        letter-spacing:.12em;
-        padding:0 16px;
-      }
-
-      .freeform-inner img{
-        width:clamp(118px, 32vw, 174px);
-      }
-
-      .arcade-note{
-        top:8vh;
-        font-size:0.58rem;
-        letter-spacing:0.16em;
-        white-space:normal;
-        width:min(84vw, 260px);
-        line-height:1.45;
-      }
-
-      .arcade-track{
-        gap:14px;
-        padding-left:calc((100vw - 90vw) / 2 + 46px);
-        padding-right:calc((100vw - 90vw) / 2 - 16px);
-      }
-
-      .arcade-card{
-        flex:0 0 90vw;
-        width:90vw;
-        min-width:90vw;
-        border-radius:20px;
-      }
-
-      .arcade-left{
-        padding:20px 16px 14px;
-      }
-
-      .arcade-index{
-        font-size:0.72rem;
-        margin-bottom:8px;
-      }
-
-      .arcade-card-title{
-        font-size:clamp(1.35rem, 7vw, 1.9rem);
-      }
-
-      .arcade-desc{
-        font-size:0.8rem;
-        line-height:1.58;
-        margin-bottom:14px;
-      }
-
-      .arcade-meta{
-        gap:5px;
-      }
-
-      .arcade-pill{
-        font-size:0.54rem;
-        padding:6px 9px;
-      }
-
-      .arcade-actions{
-        gap:5px;
-      }
-
-      .arcade-btn{
-        font-size:0.52rem;
-        letter-spacing:0.08em;
-        padding:7px 9px;
-      }
-
-      .arcade-media{
-        min-height:220px;
-      }
-
-      .media-arrow{
-        width:32px;
-        height:32px;
-      }
-
-      .media-arrow.prev{ left:8px; }
-      .media-arrow.next{ right:8px; }
-
-      .arcade-badge{
-        right:12px;
-        bottom:12px;
-        font-size:0.52rem;
-        letter-spacing:0.12em;
-        padding:7px 10px;
-      }
-
-      .customization-header-top{
-        padding:calc(5.6vh + var(--safeTop)) 14px 2.2vh;
-      }
-
-      .customization-kicker{
-        font-size:0.6rem;
-        letter-spacing:0.22em;
-      }
-
-      .customization-title{
-        font-size:clamp(1.42rem, 7vw, 2.06rem);
-        letter-spacing:0.03em;
-      }
-
-      .customization-sub{
-        font-size:0.62rem;
-        letter-spacing:0.07em;
-      }
-
-      .customization-showcase{
-        width:94vw;
-        height:68svh;
-        min-height:430px;
-        border-radius:24px;
-      }
-
-      .custom-hint{
-        bottom:12px;
-        font-size:0.56rem;
-        letter-spacing:0.06em;
-        white-space:normal;
-        line-height:1.35;
-        width:min(88vw, 280px);
-        padding:8px 12px;
-      }
-
-      .directors-dome-stage{
-        min-height:100svh;
-        height:100svh;
-      }
-
-      .directors-kicker{
-        font-size:0.58rem;
-        letter-spacing:0.22em;
-      }
-
-      .directors-title{
-        font-size:clamp(1.28rem, 5.8vw, 2rem);
-      }
-
-      .directors-media-content{
-        padding:15.5vh 4vw 9vh;
-      }
-
-      .video-carousel-wrap{
-        width:min(88vw, 380px);
-        margin-top:0.8vh;
-      }
-
-      .video-arrow{ display:none; }
-
-      .video-arrow.prev{ display:none; }
-      .video-arrow.next{ display:none; }
-
-      .video-frame-single video{
-        border-radius:16px;
-      }
-
-      .video-counter{
-        margin-top:8px;
-        font-size:0.46rem;
-        letter-spacing:0.1em;
-      }
-
-      .lets-connect-panel{
-        padding:11vh 5vw calc(24px + var(--safeBottom));
-      }
-
-      .sky-limit-title{
-        font-size:clamp(1.55rem, 8vw, 2.3rem);
-        letter-spacing:0.05em;
-      }
-
-      .lets-connect-title{
-        font-size:clamp(1.18rem, 6vw, 1.8rem);
-      }
-
-      .lets-connect-copy{
-        font-size:0.88rem;
-        line-height:1.68;
-        margin-top:1rem;
-      }
-
-      .connect-links{
-        margin-top:1.4rem;
-        flex-direction:column;
-        align-items:center;
-        gap:10px;
-      }
-
-      .connect-btn{
-        width:min(320px, 92vw);
-        padding:13px 18px;
-        font-size:0.8rem;
-      }
-
-      .mail-card{
-        flex-direction:column;
-        gap:8px;
-        width:min(92vw, 360px);
-        text-align:center;
-      }
-
-      #mailText{
-        white-space:normal;
-        word-break:break-all;
-        text-align:center;
-      }
-    }
-
-    @media (max-width: 480px){
-      .museum-btn{
-        padding:9px 11px;
-      }
-
-      .btn-label{
-        font-size:0.86rem;
-      }
-
-      .gallery-name{
-        font-size:1rem;
-      }
-
-      .bg2-content{
-        width:min(94vw, 960px);
-      }
-
-      .freeform-title h1{
-        font-size:1.4rem;
-      }
-
-      .arcade-card{
-        flex-basis:92vw;
-        width:92vw;
-        min-width:92vw;
-      }
-
-      .arcade-media{
-        min-height:205px;
-      }
-
-      .customization-showcase{
-        min-height:400px;
-      }
-
-      .video-carousel-wrap{
-        width:min(90vw, 360px);
-      }
-
-      .sky-limit-title{
-        font-size:1.42rem;
-      }
+      .museum-btn{ padding:10px 12px; gap:8px; }
+      .btn-label{ font-size:0.92rem; }
+      .museum-work-btn{ max-width:46vw; }
+      .museum-work-btn .btn-label{ overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+      .scene1-wrapper,.canvas-wrap,.bg4-stage{ height:100svh; }
+      .front{ width:118%; left:-9%; }
+      .bg2-content{ top:42%; padding:22px 20px 20px; }
+      .bg2-content h1{ font-size:clamp(2rem, 8vw, 3rem); white-space:normal; }
+      .freeform-title h1{ font-size:clamp(1.55rem, 8vw, 2.2rem); letter-spacing:.12em; }
+      .freeform-title p{ font-size:.72rem; letter-spacing:.12em; padding:0 16px; }
+      .freeform-inner img{ width:clamp(118px, 32vw, 174px); }
+      .arcade-note{ top:8vh; font-size:0.58rem; letter-spacing:0.16em; white-space:normal; width:min(84vw, 260px); line-height:1.45; }
+      .arcade-track{ gap:14px; padding-left:calc((100vw - 90vw) / 2 + 46px); padding-right:calc((100vw - 90vw) / 2 - 16px); }
+      .arcade-card{ flex:0 0 90vw; width:90vw; min-width:90vw; border-radius:20px; }
+      .arcade-left{ padding:20px 16px 14px; }
+      .arcade-card-title{ font-size:clamp(1.35rem, 7vw, 1.9rem); }
+      .arcade-desc{ font-size:0.8rem; line-height:1.58; margin-bottom:14px; }
+      .arcade-media{ min-height:220px; }
+      .media-arrow{ width:32px; height:32px; }
+      .customization-header-top{ padding:calc(5.6vh + var(--safeTop)) 14px 2.2vh; }
+      .customization-showcase{ width:94vw; height:68svh; min-height:430px; border-radius:24px; }
+      .directors-media-content{ padding:15.5vh 4vw 9vh; }
+      .video-carousel-wrap{ width:min(88vw, 380px); margin-top:0.8vh; }
+      .video-frame-single video{ border-radius:16px; }
+      .connect-links{ margin-top:1.4rem; flex-direction:column; align-items:center; gap:10px; }
+      .connect-btn{ width:min(320px, 92vw); padding:13px 18px; font-size:0.8rem; }
     }
   </style>
 </head>
@@ -1672,34 +213,18 @@
 
   <div class="museum-nav" id="museumNav">
     <button class="museum-btn museum-menu-btn" id="galleryToggle" aria-label="Open galleries menu" type="button">
-      <span class="menu-icon" aria-hidden="true">
-        <span></span><span></span><span></span>
-      </span>
+      <span class="menu-icon" aria-hidden="true"><span></span><span></span><span></span></span>
       <span class="btn-label">Museum’s Galleries</span>
     </button>
 
     <div class="gallery-dropdown" id="galleryDropdown">
-      <a href="#canvasStudio" class="gallery-link">
-        <span class="gallery-kicker">Gallery I</span>
-        <span class="gallery-name">Canvas Studio</span>
-      </a>
-      <a href="#projectArcade" class="gallery-link">
-        <span class="gallery-kicker">Gallery II</span>
-        <span class="gallery-name">Project Arcade</span>
-      </a>
-      <a href="#bg6Stage" class="gallery-link">
-        <span class="gallery-kicker">Gallery III</span>
-        <span class="gallery-name">Customization Co-op</span>
-      </a>
-      <a href="#directorsDome" class="gallery-link">
-        <span class="gallery-kicker">Gallery IV</span>
-        <span class="gallery-name">Director’s Dome</span>
-      </a>
+      <a href="#canvasStudio" class="gallery-link"><span class="gallery-kicker">Gallery I</span><span class="gallery-name">Canvas Studio</span></a>
+      <a href="#projectArcade" class="gallery-link"><span class="gallery-kicker">Gallery II</span><span class="gallery-name">Project Arcade</span></a>
+      <a href="#bg6Stage" class="gallery-link"><span class="gallery-kicker">Gallery III</span><span class="gallery-name">Customization Co-op</span></a>
+      <a href="#directorsDome" class="gallery-link"><span class="gallery-kicker">Gallery IV</span><span class="gallery-name">Director’s Dome</span></a>
     </div>
 
-    <a href="#letsConnectPanel" class="museum-btn museum-work-btn">
-      <span class="btn-label">Let’s Connect!</span>
-    </a>
+    <a href="#letsConnectPanel" class="museum-btn museum-work-btn"><span class="btn-label">Let’s Connect!</span></a>
   </div>
 
   <section class="scene1-wrapper" id="scene1">
@@ -1741,117 +266,42 @@
 
     <div id="projectsJourney">
       <div class="arcade-note">Scroll through the exhibits</div>
-
       <div class="arcade-shell" id="scrollShell">
         <div class="arcade-track" id="track">
 
-          <!-- Clay Creation -->
           <article class="arcade-card">
             <div class="arcade-left">
               <div class="arcade-index">01</div>
               <h2 class="arcade-card-title">Clay Creation</h2>
               <p class="arcade-desc">A little bit of magic shaped by hands.</p>
-              <div class="arcade-meta">
-                <span class="arcade-pill">Keychains</span>
-                <span class="arcade-pill">Magnets</span>
-                <span class="arcade-pill">Many More</span>
-              </div>
+              <div class="arcade-meta"><span class="arcade-pill">Keychains</span><span class="arcade-pill">Magnets</span><span class="arcade-pill">Many More</span></div>
             </div>
-            <div class="arcade-right">
-              <div class="arcade-media">
-                <div class="media-carousel" data-carousel>
-                  <button class="media-arrow prev" type="button">‹</button>
-                  <div class="media-slides">
-                    <div class="media-slide active"><img src="clay.png" alt="clay"></div>
-                    <div class="media-slide"><img src="keychain.png" alt="keychain"></div>
-                    <div class="media-slide"><img src="keychain2.png" alt="keychain 2"></div>
-                    <div class="media-slide"><img src="keychain3.png" alt="keychain 3"></div>
-                    <div class="media-slide"><img src="magnet.png" alt="magnet"></div>
-                  </div>
-                  <button class="media-arrow next" type="button">›</button>
-                </div>
-                <div class="arcade-badge">Project Preview</div>
-              </div>
-            </div>
+            <div class="arcade-right"><div class="arcade-media"><div class="media-carousel" data-carousel><button class="media-arrow prev" type="button">‹</button><div class="media-slides"><div class="media-slide active"><img src="clay.png" alt="clay"></div><div class="media-slide"><img src="keychain.png" alt="keychain"></div><div class="media-slide"><img src="keychain2.png" alt="keychain 2"></div><div class="media-slide"><img src="keychain3.png" alt="keychain 3"></div><div class="media-slide"><img src="magnet.png" alt="magnet"></div></div><button class="media-arrow next" type="button">›</button></div><div class="arcade-badge">Project Preview</div></div></div>
           </article>
 
-          <!-- Personalized Games -->
           <article class="arcade-card">
-            <div class="arcade-left">
-              <div class="arcade-index">02</div>
-              <h2 class="arcade-card-title">Personalized Games</h2>
-              <p class="arcade-desc">Playful pieces made personal, because games are better when they feel like yours.</p>
-              <div class="arcade-meta">
-                <span class="arcade-pill">Research</span>
-                <span class="arcade-pill">Testing</span>
-                <span class="arcade-pill">Design</span>
-              </div>
-            </div>
-            <div class="arcade-right">
-              <div class="arcade-media">
-                <div class="media-carousel" data-carousel>
-                  <button class="media-arrow prev" type="button">‹</button>
-                  <div class="media-slides">
-                    <div class="media-slide active"><img src="nunnu.png" alt="preview 1"></div>
-                    <div class="media-slide"><img src="f1.png" alt="preview 2"></div>
-                    <div class="media-slide"><img src="jenga.png" alt="preview 3"></div>
-                  </div>
-                  <button class="media-arrow next" type="button">›</button>
-                </div>
-                <div class="arcade-badge">Project Preview</div>
-              </div>
-            </div>
+            <div class="arcade-left"><div class="arcade-index">02</div><h2 class="arcade-card-title">Personalized Games</h2><p class="arcade-desc">Playful pieces made personal, because games are better when they feel like yours.</p><div class="arcade-meta"><span class="arcade-pill">Research</span><span class="arcade-pill">Testing</span><span class="arcade-pill">Design</span></div></div>
+            <div class="arcade-right"><div class="arcade-media"><div class="media-carousel" data-carousel><button class="media-arrow prev" type="button">‹</button><div class="media-slides"><div class="media-slide active"><img src="nunnu.png" alt="preview 1"></div><div class="media-slide"><img src="f1.png" alt="preview 2"></div><div class="media-slide"><img src="jenga.png" alt="preview 3"></div></div><button class="media-arrow next" type="button">›</button></div><div class="arcade-badge">Project Preview</div></div></div>
           </article>
 
-          <!-- Events -->
           <article class="arcade-card">
-            <div class="arcade-left">
-              <div class="arcade-index">03</div>
-              <h2 class="arcade-card-title">Events</h2>
-              <p class="arcade-desc">Where stories, suspense, and celebration come alive</p>
-              <div class="arcade-meta">
-                <span class="arcade-pill">Treasure Hunts</span>
-                <span class="arcade-pill">Murder Mysteries</span>
-              </div>
-            </div>
-            <div class="arcade-right">
-              <div class="arcade-media">
-                <div class="media-carousel" data-carousel>
-                  <button class="media-arrow prev" type="button">‹</button>
-                  <div class="media-slides">
-                    <div class="media-slide active"><img src="event1.jpeg" alt="event 1"></div>
-                    <div class="media-slide"><img src="event2.jpeg" alt="event 2"></div>
-                    <div class="media-slide"><img src="event3.jpeg" alt="event 3"></div>
-                  </div>
-                  <button class="media-arrow next" type="button">›</button>
-                </div>
-                <div class="arcade-badge">Event Preview</div>
-              </div>
-            </div>
+            <div class="arcade-left"><div class="arcade-index">03</div><h2 class="arcade-card-title">Events</h2><p class="arcade-desc">Where stories, suspense, and celebration come alive</p><div class="arcade-meta"><span class="arcade-pill">Treasure Hunts</span><span class="arcade-pill">Murder Mysteries</span></div></div>
+            <div class="arcade-right"><div class="arcade-media"><div class="media-carousel" data-carousel><button class="media-arrow prev" type="button">‹</button><div class="media-slides"><div class="media-slide active"><img src="event1.jpeg" alt="event 1"></div><div class="media-slide"><img src="event2.jpeg" alt="event 2"></div><div class="media-slide"><img src="event3.jpeg" alt="event 3"></div></div><button class="media-arrow next" type="button">›</button></div><div class="arcade-badge">Event Preview</div></div></div>
           </article>
 
-          <!-- Interactive Work -->
           <article class="arcade-card">
             <div class="arcade-left">
               <div class="arcade-index">04</div>
               <h2 class="arcade-card-title">Interactive Work</h2>
               <p class="arcade-desc">Clicks, motion, and tiny details doing the heavy lifting behind the scenes.</p>
-              <div class="arcade-meta">
-                <span class="arcade-pill">Canva</span>
-                <span class="arcade-pill">Figma</span>
-                <span class="arcade-pill">HTML</span>
-                <span class="arcade-pill">CSS</span>
-                <span class="arcade-pill">JS</span>
-                <span class="arcade-pill">Prototyping</span>
-                <span class="arcade-pill">Vibecoding</span>
-              </div>
+              <div class="arcade-meta"><span class="arcade-pill">Canva</span><span class="arcade-pill">Figma</span><span class="arcade-pill">HTML</span><span class="arcade-pill">CSS</span><span class="arcade-pill">JS</span><span class="arcade-pill">Prototyping</span><span class="arcade-pill">Vibecoding</span></div>
             </div>
             <div class="arcade-right">
               <div class="arcade-media">
-                <div class="media-carousel" style="inset:18px;">
+                <div class="media-carousel" data-carousel style="inset:18px;">
                   <div class="media-slides">
                     <div class="media-slide active">
-                      <video src="work1.mp4" controls playsinline preload="metadata"></video>
+                      <video src="work1.mp4" controls muted playsinline preload="metadata"></video>
                     </div>
                   </div>
                 </div>
@@ -1877,25 +327,13 @@
       <div class="customization-showcase" id="customizationShowcase">
         <div class="customization-bg"></div>
         <div class="customization-overlay"></div>
-
         <div class="customization-board" id="customizationBoard">
-          <div class="custom-asset" data-asset style="width:260px; height:260px; left:12%; top:10%; transform:rotate(-8deg) scale(1);">
-            <img src="c1.png" alt="custom asset 1">
-          </div>
-          <div class="custom-asset" data-asset style="width:220px; height:220px; left:38%; top:38%; transform:rotate(6deg) scale(1);">
-            <img src="c2.png" alt="custom asset 2">
-          </div>
-          <div class="custom-asset" data-asset style="width:210px; height:210px; left:62%; top:14%; transform:rotate(-4deg) scale(1);">
-            <img src="c3.png" alt="custom asset 3">
-          </div>
-          <div class="custom-asset" data-asset style="width:230px; height:230px; left:74%; top:42%; transform:rotate(10deg) scale(1);">
-            <img src="vang.png" alt="custom asset 4">
-          </div>
-          <div class="custom-asset" data-asset style="width:220px; height:220px; left:55%; top:62%; transform:rotate(-6deg) scale(1);">
-            <img src="wed.png" alt="custom asset 5">
-          </div>
+          <div class="custom-asset" data-asset style="width:260px; height:260px; left:12%; top:10%; transform:rotate(-8deg) scale(1);"><img src="c1.png" alt="custom asset 1"></div>
+          <div class="custom-asset" data-asset style="width:220px; height:220px; left:38%; top:38%; transform:rotate(6deg) scale(1);"><img src="c2.png" alt="custom asset 2"></div>
+          <div class="custom-asset" data-asset style="width:210px; height:210px; left:62%; top:14%; transform:rotate(-4deg) scale(1);"><img src="c3.png" alt="custom asset 3"></div>
+          <div class="custom-asset" data-asset style="width:230px; height:230px; left:74%; top:42%; transform:rotate(10deg) scale(1);"><img src="vang.png" alt="custom asset 4"></div>
+          <div class="custom-asset" data-asset style="width:220px; height:220px; left:55%; top:62%; transform:rotate(-6deg) scale(1);"><img src="wed.png" alt="custom asset 5"></div>
         </div>
-
         <div class="custom-hint">Drag to move • Shift + drag to rotate • Scroll on asset to resize</div>
       </div>
     </div>
@@ -1919,46 +357,26 @@
 
         <div class="directors-media-content" id="directorsMediaContent">
           <div class="video-carousel-wrap">
-<div class="video-frame-single">
-              <video
-                id="featureVideo"
-                controls
-                autoplay
-                muted
-                loop
-                playsinline
-                preload="auto"
-              >
+            <div class="video-frame-single">
+              <video id="featureVideo" controls autoplay muted loop playsinline preload="auto">
                 <source src="work2.mp4" type="video/mp4">
               </video>
             </div>
-</div>
-</div>
+          </div>
+        </div>
 
         <div class="lets-connect-panel" id="letsConnectPanel">
           <div class="lets-connect-content">
             <h2 class="sky-limit-title">Sky Is The Limit</h2>
             <h2 class="lets-connect-title">Let’s Connect!</h2>
-            <p class="lets-connect-copy">
-              Have an idea and want to bring it to life? I’d love to hear about it.
-              Whether it’s a creative collaboration, a design project, or something still taking shape,
-              let’s start the conversation and build something thoughtful together.
-            </p>
-
+            <p class="lets-connect-copy">Have an idea and want to bring it to life? I’d love to hear about it. Whether it’s a creative collaboration, a design project, or something still taking shape, let’s start the conversation and build something thoughtful together.</p>
             <div class="connect-links">
               <button type="button" class="connect-btn primary" id="mailMeBtn">Mail Me</button>
               <a href="https://instagram.com/lill.artttt" target="_blank" rel="noopener noreferrer" class="connect-btn secondary">Instagram</a>
             </div>
-
-            <div class="mail-fallback" id="mailFallback">
-              <div class="mail-card">
-                <span id="mailText">tm.edhub@gmail.com</span>
-                
-              </div>
-            </div>
+            <div class="mail-fallback" id="mailFallback"><div class="mail-card"><span id="mailText">tm.edhub@gmail.com</span></div></div>
           </div>
         </div>
-
       </div>
     </div>
   </section>
@@ -1973,14 +391,8 @@
     let torchActive = true;
     let introComplete = false;
 
-    function unlockPageScroll() {
-      document.body.classList.remove("scroll-locked");
-    }
-
-    function preventScroll(e) {
-      if (!introComplete || torchActive) e.preventDefault();
-    }
-
+    function unlockPageScroll() { document.body.classList.remove("scroll-locked"); }
+    function preventScroll(e) { if (!introComplete || torchActive) e.preventDefault(); }
     function keyBlocker(e) {
       const blocked = ["Space","ArrowUp","ArrowDown","PageUp","PageDown","Home","End"];
       if ((!introComplete || torchActive) && blocked.includes(e.code)) e.preventDefault();
@@ -2010,9 +422,7 @@
       moveTorch(t.clientX, t.clientY);
     }, { passive:true });
 
-    window.addEventListener("load", () => {
-      moveTorch(window.innerWidth / 2, window.innerHeight / 2);
-    });
+    window.addEventListener("load", () => moveTorch(window.innerWidth / 2, window.innerHeight / 2));
 
     setTimeout(() => {
       darkness.style.opacity = 0;
@@ -2045,15 +455,7 @@
       link.addEventListener("click", () => galleryDropdown.classList.remove("open"));
     });
 
-    gsap.timeline({
-      scrollTrigger:{
-        trigger:"#scene1",
-        start:"top top",
-        end:"+=2000",
-        scrub:1.15,
-        pin:true
-      }
-    })
+    gsap.timeline({ scrollTrigger:{ trigger:"#scene1", start:"top top", end:"+=2000", scrub:1.15, pin:true } })
       .to("#sky",{ y:22, scale:1.015 },0)
       .to("#mid",{ y:36, scale:1.02 },0)
       .to("#front",{ y:42, scale:1.015 },0)
@@ -2065,190 +467,84 @@
       .to("#front",{ opacity:0 },0.60)
       .to("#sky",{ opacity:0.08 },0.66);
 
-    gsap.timeline({
-      scrollTrigger:{ trigger:"#canvasStudio", start:"top bottom", end:"top 55%", scrub:1 }
-    })
+    gsap.timeline({ scrollTrigger:{ trigger:"#canvasStudio", start:"top bottom", end:"top 55%", scrub:1 } })
       .fromTo("#freeform", { opacity:1, scale:1.012 }, { opacity:1, scale:1, ease:"none" }, 0)
       .fromTo("#freeformTitle", { opacity:0.65, y:18 }, { opacity:1, y:0, ease:"none" }, 0.08);
 
     const freeform = document.getElementById("freeform");
     const inner = document.getElementById("freeformInner");
-
-    let canvasBuilt = false;
-    let frames = [];
-    let posX = 0, posY = 0, velX = 0, velY = 0;
-    let dragging = false;
-    let lastPointerX = 0;
-    let lastPointerY = 0;
-    let mobileDragActive = false;
-
-    const VIEW_LIMIT_X = 980;
-    const VIEW_LIMIT_Y = 760;
-    const RESPAWN_LIMIT_X = 1120;
-    const RESPAWN_LIMIT_Y = 860;
+    let canvasBuilt = false, frames = [], posX = 0, posY = 0, velX = 0, velY = 0, dragging = false, lastPointerX = 0, lastPointerY = 0;
+    const VIEW_LIMIT_X = 980, VIEW_LIMIT_Y = 760, RESPAWN_LIMIT_X = 1120, RESPAWN_LIMIT_Y = 860;
 
     function getSpawnPosition(range, edgePad = 180){
       const side = Math.floor(Math.random() * 4);
       let x = 0, y = 0;
-      if (side === 0) {
-        x = -VIEW_LIMIT_X - edgePad - Math.random() * 180;
-        y = (Math.random() * range) - range / 2;
-      } else if (side === 1) {
-        x = VIEW_LIMIT_X + edgePad + Math.random() * 180;
-        y = (Math.random() * range) - range / 2;
-      } else if (side === 2) {
-        x = (Math.random() * range) - range / 2;
-        y = -VIEW_LIMIT_Y - edgePad - Math.random() * 160;
-      } else {
-        x = (Math.random() * range) - range / 2;
-        y = VIEW_LIMIT_Y + edgePad + Math.random() * 160;
-      }
+      if (side === 0) { x = -VIEW_LIMIT_X - edgePad - Math.random() * 180; y = (Math.random() * range) - range / 2; }
+      else if (side === 1) { x = VIEW_LIMIT_X + edgePad + Math.random() * 180; y = (Math.random() * range) - range / 2; }
+      else if (side === 2) { x = (Math.random() * range) - range / 2; y = -VIEW_LIMIT_Y - edgePad - Math.random() * 160; }
+      else { x = (Math.random() * range) - range / 2; y = VIEW_LIMIT_Y + edgePad + Math.random() * 160; }
       return { x, y };
     }
 
     function place(frame, range, minDist, preferEdge = false){
-      let candidate = { x: 0, y: 0 };
-      let ok = false;
-      let tries = 0;
-
+      let candidate = { x: 0, y: 0 }, ok = false, tries = 0;
       while(!ok && tries < 140){
-        candidate = preferEdge
-          ? getSpawnPosition(range)
-          : { x: Math.random() * range - range / 2, y: Math.random() * range - range / 2 };
-
-        ok = frames.every(f => {
-          if (f === frame) return true;
-          return Math.hypot(f.x - candidate.x, f.y - candidate.y) > minDist;
-        });
+        candidate = preferEdge ? getSpawnPosition(range) : { x: Math.random() * range - range / 2, y: Math.random() * range - range / 2 };
+        ok = frames.every(f => f === frame || Math.hypot(f.x - candidate.x, f.y - candidate.y) > minDist);
         tries++;
       }
-
-      frame.x = candidate.x;
-      frame.y = candidate.y;
+      frame.x = candidate.x; frame.y = candidate.y;
     }
 
     function positionCanvasForMobile() {
-      if (window.innerWidth <= 768) {
-        posX = window.innerWidth * 0.18;
-        posY = window.innerHeight * 0.10;
-      } else {
-        posX = 0;
-        posY = 0;
-      }
+      if (window.innerWidth <= 768) { posX = window.innerWidth * 0.18; posY = window.innerHeight * 0.10; }
+      else { posX = 0; posY = 0; }
     }
 
-    function startFreeformDrag(x, y){
-      dragging = true;
-      mobileDragActive = true;
-      lastPointerX = x;
-      lastPointerY = y;
-      freeform.classList.add("is-dragging");
-    }
-
+    function startFreeformDrag(x, y){ dragging = true; lastPointerX = x; lastPointerY = y; freeform.classList.add("is-dragging"); }
     function moveFreeformDrag(x, y){
       if (!dragging) return;
-      const dx = x - lastPointerX;
-      const dy = y - lastPointerY;
-
-      if (window.innerWidth <= 768) {
-        posX += dx * 1.05;
-        posY += dy * 1.05;
-        velX = 0;
-        velY = 0;
-      } else {
-        velX += dx * 0.12;
-        velY += dy * 0.12;
-      }
-
-      lastPointerX = x;
-      lastPointerY = y;
+      const dx = x - lastPointerX, dy = y - lastPointerY;
+      if (window.innerWidth <= 768) { posX += dx * 1.05; posY += dy * 1.05; velX = 0; velY = 0; }
+      else { velX += dx * 0.12; velY += dy * 0.12; }
+      lastPointerX = x; lastPointerY = y;
     }
-
-    function endFreeformDrag(){
-      dragging = false;
-      mobileDragActive = false;
-      freeform.classList.remove("is-dragging");
-    }
+    function endFreeformDrag(){ dragging = false; freeform.classList.remove("is-dragging"); }
 
     function buildFreeform(){
       if (canvasBuilt) return;
-      canvasBuilt = true;
-
-      inner.innerHTML = "";
-      frames = [];
-
-      const COUNT = 8;
-      const RANGE = window.innerWidth <= 768 ? 1600 : 2600;
-      const MIN_DIST = window.innerWidth <= 768 ? 220 : 340;
+      canvasBuilt = true; inner.innerHTML = ""; frames = [];
+      const COUNT = 8, RANGE = window.innerWidth <= 768 ? 1600 : 2600, MIN_DIST = window.innerWidth <= 768 ? 220 : 340;
       const imgs = [...Array(8)].map((_,i)=>`art${i+1}.png`);
-
       for(let i=0;i<COUNT;i++){
-        const img = document.createElement("img");
-        img.src = imgs[i];
-        img.alt = `Artwork ${i+1}`;
-        inner.appendChild(img);
-
-        const frame = { img, x:0, y:0, id:i, opacity:0 };
-        place(frame, RANGE, MIN_DIST, i > 2);
-        frames.push(frame);
+        const img = document.createElement("img"); img.src = imgs[i]; img.alt = `Artwork ${i+1}`; inner.appendChild(img);
+        const frame = { img, x:0, y:0, id:i, opacity:0 }; place(frame, RANGE, MIN_DIST, i > 2); frames.push(frame);
       }
-
       positionCanvasForMobile();
-
       freeform.addEventListener("mousedown", e => startFreeformDrag(e.clientX, e.clientY));
       window.addEventListener("mousemove", e => moveFreeformDrag(e.clientX, e.clientY));
       window.addEventListener("mouseup", endFreeformDrag);
-
-      freeform.addEventListener("touchstart", e => {
-        const t = e.touches[0];
-        if (!t) return;
-        startFreeformDrag(t.clientX, t.clientY);
-      }, { passive:true });
-
-      window.addEventListener("touchmove", e => {
-        const t = e.touches[0];
-        if (!t) return;
-        moveFreeformDrag(t.clientX, t.clientY);
-      }, { passive:true });
-
+      freeform.addEventListener("touchstart", e => { const t = e.touches[0]; if (t) startFreeformDrag(t.clientX, t.clientY); }, { passive:true });
+      window.addEventListener("touchmove", e => { const t = e.touches[0]; if (t) moveFreeformDrag(t.clientX, t.clientY); }, { passive:true });
       window.addEventListener("touchend", endFreeformDrag);
-
       (function loop(){
         if (!dragging && window.innerWidth > 768) velX += 0.028;
-
-        posX += velX;
-        posY += velY;
-        velX *= 0.92;
-        velY *= 0.92;
-
+        posX += velX; posY += velY; velX *= 0.92; velY *= 0.92;
         frames.forEach(f => {
-          const screenX = f.x + posX;
-          const screenY = f.y + posY;
-
+          const screenX = f.x + posX, screenY = f.y + posY;
           const visible = screenX > -260 && screenX < window.innerWidth + 120 && screenY > -260 && screenY < window.innerHeight + 120;
-          const target = visible ? 1 : 0;
-          f.opacity += (target - f.opacity) * 0.08;
-
+          f.opacity += ((visible ? 1 : 0) - f.opacity) * 0.08;
           const outOfRange = screenX > RESPAWN_LIMIT_X || screenX < -RESPAWN_LIMIT_X || screenY > RESPAWN_LIMIT_Y || screenY < -RESPAWN_LIMIT_Y;
-          if (outOfRange && window.innerWidth > 768) {
-            place(f, 2600, 340, true);
-            f.opacity = 0;
-          }
-
+          if (outOfRange && window.innerWidth > 768) { place(f, 2600, 340, true); f.opacity = 0; }
           f.img.style.left = (f.x + posX) + "px";
           f.img.style.top = (f.y + posY) + "px";
           f.img.style.opacity = f.opacity;
         });
-
         requestAnimationFrame(loop);
       })();
     }
 
-    ScrollTrigger.create({
-      trigger: "#canvasStudio",
-      start: "top top",
-      onEnter: () => { buildFreeform(); }
-    });
+    ScrollTrigger.create({ trigger: "#canvasStudio", start: "top top", onEnter: () => buildFreeform() });
 
     const shell = document.getElementById("scrollShell");
     const track = document.getElementById("track");
@@ -2257,73 +553,30 @@
     const bg4Overlay = document.getElementById("bg4Overlay");
     const bg5Top = document.getElementById("bg5Top");
     const bg5Overlay = document.getElementById("bg5Overlay");
+    let currentX = 0, targetX = 0, isDraggingTrack = false, dragStartX = 0, dragStartTargetX = 0;
 
-    let currentX = 0;
-    let targetX = 0;
-    let isDraggingTrack = false;
-    let dragStartX = 0;
-    let dragStartTargetX = 0;
-
-    function getMinTrackX() {
-      return Math.min(0, shell.clientWidth - track.scrollWidth - 80);
-    }
-
-    function clampTrackX(x) {
-      return Math.max(getMinTrackX(), Math.min(0, x));
-    }
-
-    function animateTrack() {
-      currentX += (targetX - currentX) * 0.065;
-      track.style.transform = `translate3d(${currentX}px,0,0)`;
-      requestAnimationFrame(animateTrack);
-    }
+    function getMinTrackX() { return Math.min(0, shell.clientWidth - track.scrollWidth - 80); }
+    function clampTrackX(x) { return Math.max(getMinTrackX(), Math.min(0, x)); }
+    function animateTrack() { currentX += (targetX - currentX) * 0.065; track.style.transform = `translate3d(${currentX}px,0,0)`; requestAnimationFrame(animateTrack); }
     animateTrack();
-
-    function projectArcadeVisibleEnough() {
-      return gsap.getProperty(projectsJourney, "opacity") > 0.6;
-    }
-
-    function beginTrackDrag(clientX) {
-      if (!projectArcadeVisibleEnough()) return;
-      isDraggingTrack = true;
-      dragStartX = clientX;
-      dragStartTargetX = targetX;
-      shell.classList.add("dragging");
-    }
-
-    function moveTrackDrag(clientX) {
-      if (!isDraggingTrack) return;
-      const dx = clientX - dragStartX;
-      targetX = clampTrackX(dragStartTargetX + dx);
-    }
-
-    function endTrackDrag() {
-      isDraggingTrack = false;
-      shell.classList.remove("dragging");
-    }
-
-    shell.addEventListener("mousedown", (e) => beginTrackDrag(e.clientX));
-    window.addEventListener("mousemove", (e) => moveTrackDrag(e.clientX));
-    window.addEventListener("mouseup", () => endTrackDrag());
-    shell.addEventListener("touchstart", (e) => beginTrackDrag(e.touches[0].clientX), { passive: true });
-    window.addEventListener("touchmove", (e) => {
-      if (!isDraggingTrack) return;
-      moveTrackDrag(e.touches[0].clientX);
-    }, { passive: true });
-    window.addEventListener("touchend", () => endTrackDrag());
+    function projectArcadeVisibleEnough() { return gsap.getProperty(projectsJourney, "opacity") > 0.6; }
+    function beginTrackDrag(clientX) { if (!projectArcadeVisibleEnough()) return; isDraggingTrack = true; dragStartX = clientX; dragStartTargetX = targetX; shell.classList.add("dragging"); }
+    function moveTrackDrag(clientX) { if (!isDraggingTrack) return; const dx = clientX - dragStartX; targetX = clampTrackX(dragStartTargetX + dx); }
+    function endTrackDrag() { isDraggingTrack = false; shell.classList.remove("dragging"); }
+    shell.addEventListener("mousedown", e => beginTrackDrag(e.clientX));
+    window.addEventListener("mousemove", e => moveTrackDrag(e.clientX));
+    window.addEventListener("mouseup", endTrackDrag);
+    shell.addEventListener("touchstart", e => beginTrackDrag(e.touches[0].clientX), { passive: true });
+    window.addEventListener("touchmove", e => { if (isDraggingTrack) moveTrackDrag(e.touches[0].clientX); }, { passive: true });
+    window.addEventListener("touchend", endTrackDrag);
 
     gsap.timeline({
       scrollTrigger: {
-        trigger: "#projectArcade",
-        start: "top top",
+        trigger: "#projectArcade", start: "top top",
         end: () => "+=" + (track.scrollWidth - shell.clientWidth + window.innerHeight * 11.1),
-        scrub: 1,
-        pin: true,
-        invalidateOnRefresh: true,
+        scrub: 1, pin: true, invalidateOnRefresh: true,
         onUpdate: self => {
-          const progress = self.progress;
-          const horizontalStart = 0.60;
-          const horizontalEnd = 0.92;
+          const progress = self.progress, horizontalStart = 0.60, horizontalEnd = 0.92;
           const moveProgress = gsap.utils.clamp(0, 1, (progress - horizontalStart) / (horizontalEnd - horizontalStart));
           const maxX = Math.max(0, track.scrollWidth - shell.clientWidth);
           const scrollDrivenX = clampTrackX(-(maxX * moveProgress));
@@ -2341,6 +594,20 @@
       .to(bg5Overlay, { opacity: 1, duration: 0.32, ease: "power3.out" }, 0.34)
       .to(bg4Overlay, { opacity: 1, ease: "power2.out" }, 0.46);
 
+    function safePlay(video) {
+      if (!video) return;
+      video.muted = true;
+      video.playsInline = true;
+      const playPromise = video.play();
+      if (playPromise !== undefined) playPromise.catch(() => {});
+    }
+
+    function pauseOtherVideos(activeVideo) {
+      document.querySelectorAll("video").forEach(video => {
+        if (video !== activeVideo && video.id !== "featureVideo") video.pause();
+      });
+    }
+
     document.querySelectorAll("[data-carousel]").forEach(carousel => {
       const slides = [...carousel.querySelectorAll(".media-slide")];
       const prev = carousel.querySelector(".prev");
@@ -2348,49 +615,44 @@
       let index = 0;
 
       function renderSlides(){
-        slides.forEach((slide, i) => slide.classList.toggle("active", i === index));
+        slides.forEach((slide, i) => {
+          const active = i === index;
+          slide.classList.toggle("active", active);
+          const video = slide.querySelector("video");
+          if (video) {
+            if (active) {
+              safePlay(video);
+              pauseOtherVideos(video);
+            } else {
+              video.pause();
+            }
+          }
+        });
       }
 
-      prev?.addEventListener("click", () => {
+      prev?.addEventListener("click", e => {
+        e.stopPropagation();
         index = (index - 1 + slides.length) % slides.length;
         renderSlides();
       });
 
-      next?.addEventListener("click", () => {
+      next?.addEventListener("click", e => {
+        e.stopPropagation();
         index = (index + 1) % slides.length;
         renderSlides();
       });
+
+      renderSlides();
     });
 
     const customizationBoard = document.getElementById("customizationBoard");
     const assets = [...document.querySelectorAll("[data-asset]")];
-    let activeAsset = null;
-    let dragOffsetX = 0;
-    let dragOffsetY = 0;
-    let touchGesture = null;
-
-    function clamp(num, min, max){
-      return Math.min(Math.max(num, min), max);
-    }
-
-    function getScale(asset){
-      return parseFloat(asset.dataset.scale || "1");
-    }
-
-    function getRotation(asset){
-      return parseFloat(asset.dataset.rotation || "0");
-    }
-
-    function applyTransform(asset){
-      asset.style.transform = `rotate(${getRotation(asset)}deg) scale(${getScale(asset)})`;
-    }
-
-    function getAssetBounds(asset){
-      const boardRect = customizationBoard.getBoundingClientRect();
-      const rect = asset.getBoundingClientRect();
-      return { boardRect, rect };
-    }
-
+    let activeAsset = null, dragOffsetX = 0, dragOffsetY = 0, touchGesture = null;
+    function clamp(num, min, max){ return Math.min(Math.max(num, min), max); }
+    function getScale(asset){ return parseFloat(asset.dataset.scale || "1"); }
+    function getRotation(asset){ return parseFloat(asset.dataset.rotation || "0"); }
+    function applyTransform(asset){ asset.style.transform = `rotate(${getRotation(asset)}deg) scale(${getScale(asset)})`; }
+    function getAssetBounds(asset){ const boardRect = customizationBoard.getBoundingClientRect(); const rect = asset.getBoundingClientRect(); return { boardRect, rect }; }
     function keepAssetInsideBoard(asset){
       const { boardRect, rect } = getAssetBounds(asset);
       const leftPx = (parseFloat(asset.style.left || "0") / 100) * boardRect.width;
@@ -2400,139 +662,54 @@
       asset.style.left = `${(clampedLeft / boardRect.width) * 100}%`;
       asset.style.top = `${(clampedTop / boardRect.height) * 100}%`;
     }
-
     function normalizeAssetsForViewport(){
       const mobile = window.innerWidth <= 768;
-
       assets.forEach((asset, index) => {
         if (!asset.dataset.rotation) asset.dataset.rotation = "0";
         if (!asset.dataset.scale) asset.dataset.scale = "1";
-
         if (!asset.dataset.initialized) {
           const presets = mobile
-            ? [
-                { w: 112, h: 112, l: 10, t: 14, r: -8 },
-                { w: 102, h: 102, l: 34, t: 50, r: 6 },
-                { w: 96, h: 96, l: 60, t: 18, r: -4 },
-                { w: 104, h: 104, l: 72, t: 54, r: 10 }
-              ]
-            : [
-                { w: 260, h: 260, l: 12, t: 10, r: -8 },
-                { w: 220, h: 220, l: 38, t: 38, r: 6 },
-                { w: 210, h: 210, l: 62, t: 14, r: -4 },
-                { w: 230, h: 230, l: 74, t: 42, r: 10 }
-              ];
+            ? [{ w:112,h:112,l:10,t:14,r:-8 },{ w:102,h:102,l:34,t:50,r:6 },{ w:96,h:96,l:60,t:18,r:-4 },{ w:104,h:104,l:72,t:54,r:10 },{ w:104,h:104,l:54,t:68,r:-6 }]
+            : [{ w:260,h:260,l:12,t:10,r:-8 },{ w:220,h:220,l:38,t:38,r:6 },{ w:210,h:210,l:62,t:14,r:-4 },{ w:230,h:230,l:74,t:42,r:10 },{ w:220,h:220,l:55,t:62,r:-6 }];
           const p = presets[index];
-          if (p) {
-            asset.style.width = p.w + "px";
-            asset.style.height = p.h + "px";
-            asset.style.left = p.l + "%";
-            asset.style.top = p.t + "%";
-            asset.dataset.rotation = p.r;
-            asset.dataset.scale = 1;
-            asset.dataset.initialized = "true";
-          }
+          if (p) { asset.style.width = p.w + "px"; asset.style.height = p.h + "px"; asset.style.left = p.l + "%"; asset.style.top = p.t + "%"; asset.dataset.rotation = p.r; asset.dataset.scale = 1; asset.dataset.initialized = "true"; }
         } else if (mobile) {
           const width = clamp(parseFloat(asset.style.width) || 100, 84, 170);
           const height = clamp(parseFloat(asset.style.height) || width, 84, 170);
           asset.style.width = width + "px";
           asset.style.height = height + "px";
         }
-
-        applyTransform(asset);
-        keepAssetInsideBoard(asset);
+        applyTransform(asset); keepAssetInsideBoard(asset);
       });
     }
-
-    function bringAssetToFront(asset){
-      asset.style.zIndex = String(Date.now() % 100000);
-    }
-
-    function activate(asset, pointerX, pointerY){
-      activeAsset = asset;
-      asset.classList.add("active");
-      bringAssetToFront(asset);
-      const assetRect = asset.getBoundingClientRect();
-      dragOffsetX = pointerX - assetRect.left;
-      dragOffsetY = pointerY - assetRect.top;
-    }
-
+    function bringAssetToFront(asset){ asset.style.zIndex = String(Date.now() % 100000); }
+    function activate(asset, pointerX, pointerY){ activeAsset = asset; asset.classList.add("active"); bringAssetToFront(asset); const assetRect = asset.getBoundingClientRect(); dragOffsetX = pointerX - assetRect.left; dragOffsetY = pointerY - assetRect.top; }
     function startTouchGesture(asset, touches){
       if (touches.length < 2) return;
       const [a, b] = [touches[0], touches[1]];
-      touchGesture = {
-        asset,
-        startAngle: Math.atan2(b.clientY - a.clientY, b.clientX - a.clientX) * 180 / Math.PI,
-        startDistance: Math.hypot(b.clientX - a.clientX, b.clientY - a.clientY),
-        startRotation: getRotation(asset),
-        startScale: getScale(asset)
-      };
-      activeAsset = asset;
-      asset.classList.add("active");
-      bringAssetToFront(asset);
+      touchGesture = { asset, startAngle: Math.atan2(b.clientY - a.clientY, b.clientX - a.clientX) * 180 / Math.PI, startDistance: Math.hypot(b.clientX - a.clientX, b.clientY - a.clientY), startRotation: getRotation(asset), startScale: getScale(asset) };
+      activeAsset = asset; asset.classList.add("active"); bringAssetToFront(asset);
     }
-
     assets.forEach((asset, idx) => {
       asset.style.zIndex = 20 + idx;
-
-      asset.addEventListener("mousedown", e => {
-        e.preventDefault();
-        activate(asset, e.clientX, e.clientY);
-      });
-
-      asset.addEventListener("touchstart", e => {
-        if (e.touches.length >= 2) {
-          startTouchGesture(asset, e.touches);
-          return;
-        }
-        const t = e.touches[0];
-        if (!t) return;
-        activate(asset, t.clientX, t.clientY);
-      }, { passive:true });
-
-      asset.addEventListener("wheel", e => {
-        e.preventDefault();
-        const current = getScale(asset);
-        const next = clamp(current + (e.deltaY < 0 ? 0.04 : -0.04), 0.55, 1.8);
-        asset.dataset.scale = next.toFixed(2);
-        applyTransform(asset);
-        keepAssetInsideBoard(asset);
-      }, { passive:false });
-
-      asset.addEventListener("dblclick", e => {
-        e.preventDefault();
-        asset.dataset.rotation = (getRotation(asset) + 20).toFixed(2);
-        applyTransform(asset);
-      });
+      asset.addEventListener("mousedown", e => { e.preventDefault(); activate(asset, e.clientX, e.clientY); });
+      asset.addEventListener("touchstart", e => { if (e.touches.length >= 2) { startTouchGesture(asset, e.touches); return; } const t = e.touches[0]; if (t) activate(asset, t.clientX, t.clientY); }, { passive:true });
+      asset.addEventListener("wheel", e => { e.preventDefault(); const next = clamp(getScale(asset) + (e.deltaY < 0 ? 0.04 : -0.04), 0.55, 1.8); asset.dataset.scale = next.toFixed(2); applyTransform(asset); keepAssetInsideBoard(asset); }, { passive:false });
+      asset.addEventListener("dblclick", e => { e.preventDefault(); asset.dataset.rotation = (getRotation(asset) + 20).toFixed(2); applyTransform(asset); });
     });
-
     function moveAsset(pointerX, pointerY, shiftRotate = false){
       if (!activeAsset) return;
-
-      if (shiftRotate) {
-        activeAsset.dataset.rotation = (getRotation(activeAsset) + 2.2).toFixed(2);
-        applyTransform(activeAsset);
-        return;
-      }
-
+      if (shiftRotate) { activeAsset.dataset.rotation = (getRotation(activeAsset) + 2.2).toFixed(2); applyTransform(activeAsset); return; }
       const boardRect = customizationBoard.getBoundingClientRect();
       const rect = activeAsset.getBoundingClientRect();
       let newLeft = pointerX - boardRect.left - dragOffsetX;
       let newTop = pointerY - boardRect.top - dragOffsetY;
-
       newLeft = clamp(newLeft, 0, Math.max(0, boardRect.width - rect.width));
       newTop = clamp(newTop, 0, Math.max(0, boardRect.height - rect.height));
-
       activeAsset.style.left = `${(newLeft / boardRect.width) * 100}%`;
       activeAsset.style.top = `${(newTop / boardRect.height) * 100}%`;
     }
-
-    function releaseAsset(){
-      if (activeAsset) activeAsset.classList.remove("active");
-      activeAsset = null;
-      touchGesture = null;
-    }
-
+    function releaseAsset(){ if (activeAsset) activeAsset.classList.remove("active"); activeAsset = null; touchGesture = null; }
     window.addEventListener("mousemove", e => moveAsset(e.clientX, e.clientY, e.shiftKey));
     window.addEventListener("mouseup", releaseAsset);
     window.addEventListener("touchmove", e => {
@@ -2544,34 +721,16 @@
         const nextScale = clamp(touchGesture.startScale * (distance / touchGesture.startDistance), 0.55, 1.8);
         touchGesture.asset.dataset.rotation = (touchGesture.startRotation + rotationDelta).toFixed(2);
         touchGesture.asset.dataset.scale = nextScale.toFixed(2);
-        applyTransform(touchGesture.asset);
-        keepAssetInsideBoard(touchGesture.asset);
-        return;
+        applyTransform(touchGesture.asset); keepAssetInsideBoard(touchGesture.asset); return;
       }
-
       if (!activeAsset) return;
-      const t = e.touches[0];
-      if (!t) return;
-      moveAsset(t.clientX, t.clientY, false);
+      const t = e.touches[0]; if (t) moveAsset(t.clientX, t.clientY, false);
     }, { passive:true });
-    window.addEventListener("touchend", e => {
-      if (e.touches.length >= 2 && touchGesture) return;
-      releaseAsset();
-    });
+    window.addEventListener("touchend", e => { if (e.touches.length >= 2 && touchGesture) return; releaseAsset(); });
 
     const featureVideo = document.getElementById("featureVideo");
 
-    gsap.timeline({
-      scrollTrigger:{
-        trigger:"#directorsDome",
-        start:"top top",
-        end:"+=2600",
-        scrub:1,
-        pin:true,
-        anticipatePin:1,
-        invalidateOnRefresh:true
-      }
-    })
+    gsap.timeline({ scrollTrigger:{ trigger:"#directorsDome", start:"top top", end:"+=2600", scrub:1, pin:true, anticipatePin:1, invalidateOnRefresh:true } })
       .to("#bg8Full", { scale:1.05, opacity:0.42, ease:"none" }, 0.00)
       .to("#bg9Full", { opacity:1, scale:1.02, ease:"none" }, 0.18)
       .to("#directorsTop", { opacity:0, y:-40, ease:"none" }, 0.18)
@@ -2581,15 +740,53 @@
       .to("#directorsTop", { opacity:0, ease:"none" }, 0.66)
       .to("#letsConnectPanel", { opacity:1, pointerEvents:"auto", ease:"none" }, 0.82);
 
-    const mailMeBtn = document.getElementById("mailMeBtn");
-    const mailFallback = document.getElementById("mailFallback");
-    const mailText = document.getElementById("mailText");
-
-    mailMeBtn.addEventListener("click", () => {
-      mailFallback.classList.toggle("show");
+    ScrollTrigger.create({
+      trigger: "#directorsDome",
+      start: "top 85%",
+      onEnter: () => safePlay(featureVideo),
+      onEnterBack: () => safePlay(featureVideo)
     });
 
+    ScrollTrigger.create({
+      trigger: "#projectArcade",
+      start: "top 85%",
+      onEnter: () => {
+        document.querySelectorAll("#projectArcade video").forEach(video => {
+          const slide = video.closest(".media-slide");
+          if (slide && slide.classList.contains("active")) safePlay(video);
+        });
+      },
+      onEnterBack: () => {
+        document.querySelectorAll("#projectArcade video").forEach(video => {
+          const slide = video.closest(".media-slide");
+          if (slide && slide.classList.contains("active")) safePlay(video);
+        });
+      }
+    });
+
+    document.addEventListener("click", () => {
+      document.querySelectorAll("video").forEach(video => {
+        const slide = video.closest(".media-slide");
+        if (!slide || slide.classList.contains("active")) safePlay(video);
+      });
+    }, { once: true });
+
+    document.addEventListener("touchstart", () => {
+      document.querySelectorAll("video").forEach(video => {
+        const slide = video.closest(".media-slide");
+        if (!slide || slide.classList.contains("active")) safePlay(video);
+      });
+    }, { once: true, passive: true });
+
+    const mailMeBtn = document.getElementById("mailMeBtn");
+    const mailFallback = document.getElementById("mailFallback");
+    mailMeBtn.addEventListener("click", () => mailFallback.classList.toggle("show"));
+
     normalizeAssetsForViewport();
+    window.addEventListener("load", () => {
+      safePlay(featureVideo);
+      setTimeout(() => ScrollTrigger.refresh(), 250);
+    });
 
     let resizeTimer;
     window.addEventListener("resize", () => {
